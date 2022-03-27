@@ -2,9 +2,21 @@ const mongoose = require('mongoose');
 
 // create a new schema
 const userSchema = new mongoose.Schema({
-    name: {
+    firstName: {
         type: String,
         required: true
+    },
+    lastName: {
+        type: String,
+        required: true
+    },
+    phoneNumber: {
+        type: String,
+        required: false
+    },
+    profilePicture: {
+        type: String,
+        required: false
     },
     email: {
         type: String,

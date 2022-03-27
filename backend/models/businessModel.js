@@ -1,24 +1,52 @@
-const mongoose = require('mongoose');
+const mognoose = require('mongoose');
 
-const businessSchema = new mongoose.Schema({
+const businessSchema = new mognoose.Schema({
     name: {
         type: String,
         required: true
     },
-    owner: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+    address: {
+        type: String,
         required: true
     },
-    email: {
+    city: {
         type: String,
-        required: false
+        required: true
     },
-    logo: {
+    state: {
         type: String,
-        required: false
+        required: true
     },
+    zip: {
+        type: String,
+        required: true
+    },
+    phone: {
+        type: String,
+        required: true
+    },
+    isActive: {
+        type: Boolean,
+        default: true
+    },
+    company: {
+        type: mognoose.Schema.Types.ObjectId,
+        ref: 'Company',
+        required: true
+    },
+    employees: [{
+        type: mognoose.Schema.Types.ObjectId,
+        ref: 'Employee'
+    }],
+    schedules: [{
+        type: mognoose.Schema.Types.ObjectId,
+        ref: 'Schedule'
+    }],
+    shifts: [{
+        type: mognoose.Schema.Types.ObjectId,
+        ref: 'Shift'
+    }],
 }, { timestamps: true });
 
 
-module.exports = mongoose.model('Business', businessSchema);
+module.exports = mognoose.model('Business', businessSchema);
