@@ -20,6 +20,15 @@ const scheduleSchema = new mongoose.Schema({
         ref: 'Shift',
         required: true
     }],
+    business: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Business',
+        required: true
+    },
+    isArchived: {
+        type: Boolean,
+        default: false
+    }
 }, { timestamps: true });
 
 

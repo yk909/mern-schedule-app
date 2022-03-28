@@ -64,7 +64,7 @@ const createBusiness = async (req, res) => {
 // @desc   Update business
 // @route  PUT /api/businesses/:id
 // @access Private
-const updateBusiness = async (req, res) => {
+const editBusiness = async (req, res) => {
     const { id } = req.params;
     const { name, address, city, state, zip, phone } = req.body;
 
@@ -114,6 +114,6 @@ const deleteBusiness = async (req, res) => {
 module.exports = {
     getBusiness,
     createBusiness,
-    updateBusiness,
+    editBusiness,
     deleteBusiness
 }
