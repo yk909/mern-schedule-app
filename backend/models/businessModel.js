@@ -1,4 +1,5 @@
 const mognoose = require('mongoose');
+const Company = require('./companyModel');
 
 const businessSchema = new mognoose.Schema({
     name: {
@@ -21,7 +22,7 @@ const businessSchema = new mognoose.Schema({
         type: String,
         required: true
     },
-    phone: {
+    phoneNumber: {
         type: String,
         required: true
     },
@@ -32,6 +33,11 @@ const businessSchema = new mognoose.Schema({
     company: {
         type: mognoose.Schema.Types.ObjectId,
         ref: 'Company',
+        required: true
+    },
+    owner: {
+        type: mognoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     employees: [{
@@ -47,6 +53,33 @@ const businessSchema = new mognoose.Schema({
         ref: 'Shift'
     }],
 }, { timestamps: true });
+
+
+// remove business from company when is deleted
+businessSchema.pre('remove', async function (next) {
+    try {
+        const company = await Company.findById(this.company);
+
+        if (!company) {
+            return next(new Error('Business not found'));
+        }
+
+        company.businesses.pull(this._id);
+        await company.save();
+        
+        next();
+    } catch (err) {
+        next(err);
+    }
+});
+
+
+// add business to company on create
+businessSchema.post('save', async function () {
+    const company = await Company.findById(this.company);
+    company.businesses.push(this._id);
+    company.save();
+})
 
 
 module.exports = mognoose.model('Business', businessSchema);

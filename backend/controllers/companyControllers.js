@@ -73,7 +73,6 @@ const editCompany = async (req, res) => {
 
     try {
         const company = await Company.findById(id);
-        const user = await User.findById(req.user);
 
         if (!company) {
             return res.status(400).json({
@@ -81,7 +80,7 @@ const editCompany = async (req, res) => {
             });
         }
 
-        if(!company.owners.includes(user._id)) {
+        if(!company.owners.includes(req.user._id)) {
             return res.status(400).json({
                 msg: 'You are not authorized to edit this company'
             });
@@ -112,6 +111,12 @@ const deleteCompany = async (req, res) => {
             });
         }
 
+        if(!company.owners.includes(req.user._id)) {
+            return res.status(400).json({
+                msg: 'You are not authorized to delete this company'
+            });
+        }
+
         return res.status(200).json(company);
     } catch (err) {
         console.error(err.message);
@@ -129,7 +134,6 @@ const addRemoveOwner = async (req, res) => {
 
     try {
         const company = await Company.findById(id);
-        const user = await User.findById(req.user);
 
         if(!company) {
             return res.status(400).json({
@@ -137,26 +141,26 @@ const addRemoveOwner = async (req, res) => {
             });
         }
 
-        if(!company.owners.includes(user._id)) {
+        if(!company.owners.includes(req.user._id)) {
             return res.status(400).json({
                 msg: 'You are not authorized for this action'
             });
         }
 
         // Check if user exists
-        const toggleUser = await User.findById(userId);
+        const user = await User.findById(userId);
 
-        if(!toggleUser) {
+        if(!user) {
             return res.status(400).json({
                 msg: 'User not found'
             });
         }
 
         // Add user to company as its owner
-        if(!company.owners.includes(toggleUser._id)) {
-            company.owners.push(toggleUser);
+        if(!company.owners.includes(user._id)) {
+            company.owners.push(user);
         } else {
-            company.owners.pull(toggleUser);
+            company.owners.pull(user);
         }
 
         await company.save();

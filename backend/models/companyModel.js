@@ -22,7 +22,7 @@ const companySchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
-    business: [{
+    businesses: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Business'
     }],

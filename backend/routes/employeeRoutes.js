@@ -11,8 +11,8 @@ const {
 } = require('../controllers/employeeControllers');
 
 
-router.route('/company/:id').get(protect, getCompanyEmployees).post(protect, createEmployee);
-router.route('/business/:id').get(protect, getBusinessEmployees);
+router.route('/company/:id').get(protect, getCompanyEmployees);
+router.route('/business/:id').get(protect, getBusinessEmployees).post(protect, createEmployee);
 router.route('/:id').get(protect, getEmployeeById).put(protect, updateEmployee).delete(protect, deleteEmployee);
 
 

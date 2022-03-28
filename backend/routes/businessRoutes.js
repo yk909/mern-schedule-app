@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { protect } = require('../middleware/authMiddleware');
 const {
+    getAllBusinesses,
     getBusiness,
     createBusiness,
     editBusiness,
@@ -9,7 +10,7 @@ const {
 } = require('../controllers/businessControllers');
 
 
-router.route('/').get(protect, getBusiness).post(protect, createBusiness).put(protect, editBusiness).delete(protect, deleteBusiness);
-
+router.route('/company/:id').get(protect, getAllBusinesses).post(protect, createBusiness)
+router.route('/:id').get(protect, getBusiness).put(protect, editBusiness).delete(protect, deleteBusiness);
 
 module.exports = router;

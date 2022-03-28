@@ -3,61 +3,100 @@ const Company = require('../models/companyModel');
 const User = require('../models/userModel');
 
 
+// @desc   Get all businesses of a company
+// @route  GET /api/businesses/company/:id
+// @access Private
+const getAllBusinesses = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const businesses = await Business.find({ company: id });
+
+        if (!businesses) {
+            return res.status(400).json({
+                msg: 'Businesses not found'
+            });
+        }
+
+        return res.status(200).json(businesses);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({msg: 'Server Error'});
+    }
+}
+
+
 // @desc   Get businesses
 // @route  GET /api/businesses/:id
 // @access Private
 const getBusiness = async (req, res) => {
     const { id } = req.params;
-    const business = await Business.findById(id);
 
-    if (!business) {
-        return res.status(400).json({
-            msg: 'Business not found'
-        });
+    try {
+        const business = await Business.findById(id);
+        
+        if (!business) {
+            return res.status(400).json({
+                msg: 'Business not found'
+            });
+        }
+        
+        return res.status(200).json(business);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({msg: 'Server Error'});
     }
-
-    return res.status(200).json(business);
 }
 
 
 // @desc   Create business
-// @route  POST /api/businesses/:id
+// @route  POST /api/businesses/company/:id
 // @access Private
 const createBusiness = async (req, res) => {
     const { id } = req.params; // id of the company
-    const { name, address, city, state, zip, phone } = req.body;
+    const { name, address, city, state, zip, phoneNumber } = req.body;
 
-    if(!name || !address || !city || !state || !zip || !phone) {
+    if (!name || !address || !city || !state || !zip || !phoneNumber) {
         return res.status(400).json({
             msg: 'Please enter all fields'
         });
     }
 
-    // Check if company exists
-    const company = await Company.findById(id);
+    try {
+        // Check if company exists
+        const company = await Company.findById(id);
 
-    if(!company) {
-        return res.status(400).json({
-            msg: 'Company not found'
+        if(!company) {
+            return res.status(400).json({
+                msg: 'Company not found'
+            });
+        }
+
+        // Check if user is owner of company
+        if (!company.owners.includes(req.user._id)) {
+            return res.status(400).json({
+                msg: 'You are not an owner of this company'
+            });
+        }
+
+        const business = new Business({
+            owner: req.user._id,
+            company: company._id,
+            name,
+            address,
+            city,
+            state,
+            zip,
+            phoneNumber
         });
+
+        await business.save();
+
+        return res.status(200).json(business);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({msg: 'Server Error'});
     }
-
-    const business = new Business({
-        name,
-        address,
-        city,
-        state,
-        zip,
-        phone
-    });
-
-    await business.save();
-
-    // Add business to company
-    company.business.push(business);
-    await company.save();
-
-    return res.status(200).json(business);
 }
 
 
@@ -65,31 +104,28 @@ const createBusiness = async (req, res) => {
 // @route  PUT /api/businesses/:id
 // @access Private
 const editBusiness = async (req, res) => {
-    const { id } = req.params;
-    const { name, address, city, state, zip, phone } = req.body;
+    try {
+        const business = await Business.findById(req.params.id).populate('company').exec();
 
-    if(!name || !address || !city || !state || !zip || !phone) {
-        return res.status(400).json({
-            msg: 'Please enter all fields'
-        });
+        if (!business) {
+            return res.status(400).json({
+                msg: 'Business not found'
+            });
+        }
+
+        if (!business.company.owners.includes(req.user._id)) {
+            return res.status(400).json({
+                msg: 'You are not authorized to edit this business'
+            });
+        }
+
+        const editBusiness = await Business.findByIdAndUpdate(req.params.id, req.body, {new: true});
+
+        return res.status(200).json(editBusiness);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({msg: 'Server Error'});
     }
-
-    const business = await Business.findByIdAndUpdate(id, {
-        name,
-        address,
-        city,
-        state,
-        zip,
-        phone
-    });
-
-    if (!business) {
-        return res.status(400).json({
-            msg: 'Business not found'
-        });
-    }
-
-    return res.status(200).json(business);
 }
 
 
@@ -97,21 +133,35 @@ const editBusiness = async (req, res) => {
 // @route  DELETE /api/businesses/:id
 // @access Private
 const deleteBusiness = async (req, res) => {
-    const { id } = req.params;
+    try {
+        const business = await Business.findById(req.params.id).populate('company').exec();
 
-    const business = await Business.findByIdAndDelete(id);
+        if (!business) {
+            return res.status(400).json({
+                msg: 'Business not found'
+            });
+        }
 
-    if (!business) {
-        return res.status(400).json({
-            msg: 'Business not found'
-        });
+        if (!business.company.owners.includes(req.user._id)) {
+            return res.status(400).json({
+                msg: 'You are not authorized to delete this business'
+            });
+        }
+
+        const deletedBusiness = await Business.findById(req.params.id);
+
+        await deletedBusiness.remove();
+
+        return res.status(200).json(deletedBusiness);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({msg: 'Server Error'});
     }
-
-    return res.status(200).json(business);
 }
 
 
 module.exports = {
+    getAllBusinesses,
     getBusiness,
     createBusiness,
     editBusiness,
