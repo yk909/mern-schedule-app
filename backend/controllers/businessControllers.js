@@ -54,7 +54,7 @@ const createBusiness = async (req, res) => {
     await business.save();
 
     // Add business to company
-    company.locations.push(business);
+    company.business.push(business);
     await company.save();
 
     return res.status(200).json(business);

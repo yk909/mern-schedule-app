@@ -115,7 +115,7 @@ const deleteShift = async (req, res) => {
         });
     }
 
-    res.status(200).json({msg: 'Shift deleted'});
+    res.status(200).json(shift);
 }
 
 

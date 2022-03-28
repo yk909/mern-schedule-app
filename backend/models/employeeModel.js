@@ -6,6 +6,15 @@ const employeeSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    position: {
+        type: String,
+        default: 'Employee'
+    },
+    company: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Company',
+        required: true
+    },
     business: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Business',

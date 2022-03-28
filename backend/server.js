@@ -16,6 +16,11 @@ app.use(express.urlencoded({ limit: '2mb', extended: false }));
 
 // Router
 app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/companies', require('./routes/companyRoutes'));
+app.use('/api/businesses', require('./routes/businessRoutes'));
+app.use('/api/employees', require('./routes/employeeRoutes'));
+app.use('/api/schedules', require('./routes/scheduleRoutes'));
+app.use('/api/shifts', require('./routes/shiftRoutes'));
 
 // server connection
 app.listen(port, () => {

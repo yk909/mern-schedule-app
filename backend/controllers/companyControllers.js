@@ -7,15 +7,21 @@ const User = require('../models/userModel');
 // @access Private
 const getCompany = async (req, res) => {
     const { id } = req.params;
-    const company = await Company.findById(id);
 
-    if (!company) {
-        return res.status(400).json({
-            msg: 'Company not found'
-        });
+    try {
+        const company = await Company.findById(id);
+
+        if (!company) {
+            return res.status(400).json({
+                msg: 'Company not found'
+            });
+        }
+    
+        return res.status(200).json(company);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({msg: 'Server Error'});
     }
-
-    return res.status(200).json(company);
 }
 
 
@@ -25,7 +31,7 @@ const getCompany = async (req, res) => {
 const createCompany = async (req, res) => {
     const { name, email, logo } = req.body;
 
-    if(!name || !email || !logo ) {
+    if(!name || !email ) {
         return res.status(400).json({
             msg: 'Please enter all fields'
         });
@@ -42,16 +48,18 @@ const createCompany = async (req, res) => {
 
     const company = new Company({
         name,
-        owners,
         email,
         logo,
-        locations
     });
 
     // Add user to company as its owner
     company.owners.push(user);
 
     await company.save();
+
+    // Make user an owner of the company
+    user.isOwner = true;
+    await user.save();
 
     return res.status(200).json(company);
 }
@@ -61,17 +69,31 @@ const createCompany = async (req, res) => {
 // @route  PUT /api/companies/:id
 // @access Private
 const editCompany = async (req, res) => {
-    const  { id } = req.params;
+    const { id } = req.params;
 
-    const company = await Company.findByIdAndUpdate(id, req.body)
+    try {
+        const company = await Company.findById(id);
+        const user = await User.findById(req.user);
 
-    if (!company) {
-        return res.status(400).json({
-            msg: 'Company not found'
-        });
+        if (!company) {
+            return res.status(400).json({
+                msg: 'Company not found'
+            });
+        }
+
+        if(!company.owners.includes(user._id)) {
+            return res.status(400).json({
+                msg: 'You are not authorized to edit this company'
+            });
+        }
+
+        const updatedCompany = await Company.findByIdAndUpdate(id, req.body, {new: true});
+
+        return res.status(200).json(updatedCompany);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({msg: 'Server Error'});
     }
-
-    return res.status(200).json(company);
 }
 
 
@@ -81,15 +103,69 @@ const editCompany = async (req, res) => {
 const deleteCompany = async (req, res) => {
     const { id } = req.params;
 
-    const company = await Company.findByIdAndDelete(id);
+    try {
+        const company = await Company.findByIdAndDelete(id);
 
-    if (!company) {
-        return res.status(400).json({
-            msg: 'Company not found'
-        });
+        if (!company) {
+            return res.status(400).json({
+                msg: 'Company not found'
+            });
+        }
+
+        return res.status(200).json(company);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({msg: 'Server Error'});
     }
+}
 
-    return res.status(200).json(company);
+
+// @desc   Add or Remove owner from company
+// @route  POST /api/companies/:id/owners
+// @access Private
+const addRemoveOwner = async (req, res) => {
+    const { id } = req.params;
+    const { userId } = req.body;
+
+    try {
+        const company = await Company.findById(id);
+        const user = await User.findById(req.user);
+
+        if(!company) {
+            return res.status(400).json({
+                msg: 'Company not found'
+            });
+        }
+
+        if(!company.owners.includes(user._id)) {
+            return res.status(400).json({
+                msg: 'You are not authorized for this action'
+            });
+        }
+
+        // Check if user exists
+        const toggleUser = await User.findById(userId);
+
+        if(!toggleUser) {
+            return res.status(400).json({
+                msg: 'User not found'
+            });
+        }
+
+        // Add user to company as its owner
+        if(!company.owners.includes(toggleUser._id)) {
+            company.owners.push(toggleUser);
+        } else {
+            company.owners.pull(toggleUser);
+        }
+
+        await company.save();
+
+        return res.status(200).json(company);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({msg: 'Server Error'});
+    }
 }
 
 
@@ -97,5 +173,6 @@ module.exports = {
     getCompany,
     createCompany,
     editCompany,
-    deleteCompany
+    deleteCompany,
+    addRemoveOwner
 }
