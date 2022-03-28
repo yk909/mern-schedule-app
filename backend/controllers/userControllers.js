@@ -2,6 +2,29 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/userModel');
 
+
+// @desc    Get user data
+// @route   GET /api/users
+// @access  Private
+const getUser = async (req, res) => {
+    const user = await User.findById(req.user)
+
+    if(user) {
+        return res.status(200).json({
+            _id: user.id,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            token: req.headers.authorization.split(' ')[1]
+        })
+    } else {
+        return res.status(400).json({
+            msg: 'Not authorized'
+        })
+    }
+}
+
+
 // @desc   Register user
 // @route  POST /api/users
 // @access Public
@@ -51,6 +74,7 @@ const registerUser = async (req, res) => {
     }
 }
 
+
 // @desc   Login user
 // @route  POST /api/users/login
 // @access Public
@@ -75,6 +99,7 @@ const loginUser = async (req, res) => {
     }
 }
 
+
 // @desc    Update user profile
 // @route   PUT /api/users
 // @access  Private
@@ -89,20 +114,21 @@ const editUser = async (req, res) => {
     await User.findByIdAndUpdate(req.user, req.body)
     const user = await User.findById(req.user)
 
-    try {
-        return res.status(200).json({
-            _id: user.id,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            token: req.headers.authorization.split(' ')[1]
-        })
-    } catch (error) {
+    if(!user) {
         return res.status(400).json({
-            msg: 'Somthing wend wrong'
+            msg: 'User not found'
         })
     }
+
+    return res.status(200).json({
+        _id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        token: req.headers.authorization.split(' ')[1]
+    })
 }
+
 
 // Generate JWT
 const generateToken = (id) => {
@@ -111,31 +137,10 @@ const generateToken = (id) => {
     })
 }
 
-// @desc    Get user data
-// @route   GET /api/users
-// @access  Private
-const getUser = async (req, res) => {
-    const user = await User.findById(req.user)
-
-    if(user) {
-        return res.status(200).json({
-            _id: user.id,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            token: req.headers.authorization.split(' ')[1]
-        })
-    } else {
-        return res.status(400).json({
-            msg: 'Not authorized'
-        })
-    }
-}
-
 
 module.exports = {
-    loginUser,
+    getUser,
     registerUser,
+    loginUser,
     editUser,
-    getUser
 }
