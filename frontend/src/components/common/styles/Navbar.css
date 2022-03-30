@@ -1,0 +1,40 @@
+nav {
+    height: 80px;
+    box-shadow: var(--box-shadow);
+    position: relative;
+}
+
+nav .nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    height: inherit;
+    overflow-x: hidden;
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+}
+
+nav ul li {
+    list-style: none;
+}
+
+nav ul a {
+    text-decoration: none;
+}
+
+nav .nav-left li {
+    margin-right: 20px;
+}
+
+nav .nav-left li:nth-of-type(1) {
+    font-size: 2rem;
+}
+
+nav .nav-right li {
+    font-size: 1.2rem;
+    margin-left: 20px;
+}

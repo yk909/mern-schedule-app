@@ -43,7 +43,7 @@ const registerUser = async (req, res) => {
 
     if (userExist) {
         return res.status(400).json({
-            msg: 'This email already taken'
+            msg: 'Email already exists'
         });
     }
 
@@ -81,22 +81,28 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
-    // Check if user exists
-    const user = await User.findOne({ email });
 
-    if(user && (await bcrypt.compare(password, user.password))) {
-        res.json({
-            _id: user.id,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            isOwner: user.isOwner,
-            token: generateToken(user._id)
-        });
-    } else {
-        return res.status(400).json({
-            msg: 'Invalid user data'
-        });
+    try {
+        // Check if user exists
+        const user = await User.findOne({ email });
+    
+        if(user && (await bcrypt.compare(password, user.password))) {
+            return res.json({
+                _id: user.id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                isOwner: user.isOwner,
+                token: generateToken(user._id)
+            });
+        } else {
+            return res.status(400).json({
+                msg: 'Invalid user data'
+            });
+        }
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({ msg: 'Server error' });
     }
 }
 
@@ -112,22 +118,26 @@ const editUser = async (req, res) => {
         })
     }
 
-    await User.findByIdAndUpdate(req.user, req.body)
-    const user = await User.findById(req.user)
-
-    if(!user) {
-        return res.status(400).json({
-            msg: 'User not found'
+    try {
+        const user = await User.findByIdAndUpdate(req.user, req.body, { new: true });
+    
+        if(!user) {
+            return res.status(400).json({
+                msg: 'User not found'
+            })
+        }
+    
+        return res.status(200).json({
+            _id: user.id,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            token: req.headers.authorization.split(' ')[1]
         })
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({ msg: 'Server error' });
     }
-
-    return res.status(200).json({
-        _id: user.id,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        token: req.headers.authorization.split(' ')[1]
-    })
 }
 
 

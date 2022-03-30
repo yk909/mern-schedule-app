@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node backend/server.js",
-    "server": "nodemon backend/server.js"
+    "server": "nodemon backend/server.js",
+    "client": "cd frontend && npm start"
   },
   "author": "Bohdan Khvorostovskyi",
   "license": "ISC",
