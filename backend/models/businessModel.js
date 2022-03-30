@@ -48,10 +48,6 @@ const businessSchema = new mognoose.Schema({
         type: mognoose.Schema.Types.ObjectId,
         ref: 'Schedule'
     }],
-    shifts: [{
-        type: mognoose.Schema.Types.ObjectId,
-        ref: 'Shift'
-    }],
 }, { timestamps: true });
 
 
@@ -61,7 +57,7 @@ businessSchema.pre('remove', async function (next) {
         const company = await Company.findById(this.company);
 
         if (!company) {
-            return next(new Error('Business not found'));
+            return next(new Error('Company not found'));
         }
 
         company.businesses.pull(this._id);

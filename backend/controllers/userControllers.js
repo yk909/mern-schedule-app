@@ -90,6 +90,7 @@ const loginUser = async (req, res) => {
             email: user.email,
             firstName: user.firstName,
             lastName: user.lastName,
+            isOwner: user.isOwner,
             token: generateToken(user._id)
         });
     } else {

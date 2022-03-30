@@ -7,16 +7,20 @@ const Business = require('../models/businessModel');
 // @access Private
 const getAllSchedules = async (req, res) => {
     const { id } = req.params;  // id is the business id
+    const { isArchived } = req.query; // isArchived is a boolean
 
-    const schedule = await Schedule.find({ business: id });
+    try {
+        const schadules = await Schedule.find({business: id, isArchived: isArchived ? isArchived : false});
 
-    if (!schedule) {
-        return res.status(400).json({
-            msg: 'No schedule found'
-        });
+        if (!schadules) {
+            return res.status(400).json({ msg: 'No schedules found' });
+        }
+
+        return res.status(200).json({ schadules });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ msg: 'Server Error' });
     }
-
-    res.status(200).json({schedule});
 };
 
 
@@ -26,15 +30,20 @@ const getAllSchedules = async (req, res) => {
 const getScheduleById = async (req, res) => {
     const { id } = req.params;  // id is the schedule id
 
-    const schedule = await Schedule.findById(id);
+    try {
+        const schedule = await Schedule.findById(id);
+    
+        if (!schedule) {
+            return res.status(400).json({
+                msg: 'No schedule found'
+            });
+        }
 
-    if (!schedule) {
-        return res.status(400).json({
-            msg: 'No schedule found'
-        });
+        return res.status(200).json({schedule});
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ msg: 'Server Error' });
     }
-
-    res.status(200).json({schedule});
 };
 
 
@@ -51,26 +60,39 @@ const createSchedule = async (req, res) => {
         });
     }
 
-    const business = await Business.findById(id);
+    try {
+        const business = await Business.findById(id).populate('employees').exec();
 
-    if (!business) {
-        return res.status(400).json({
-            msg: 'No business found'
-        });
+        if (!business) {
+            return res.status(400).json({
+                msg: 'No business found'
+            });
+        }
+
+        // get user instance from the employee array
+        const userEmployee = business.employees.find(employee => employee.user.toString() === req.user._id.toString());
+
+        // Check if logged in user is a manager  !company owner can't create schedule
+        if ( userEmployee && userEmployee.isManager ) {
+            const schedule = new Schedule({
+                user: req.user._id,
+                business: id,
+                startDate,
+                endDate
+            });
+
+            await schedule.save();
+
+            return res.status(200).json({schedule});
+        } else {
+            return res.status(400).json({
+                msg: 'You are not a manager'
+            });
+        }
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ msg: 'Server Error' });
     }
-
-    const schedule = await Schedule.create({
-        startDate,
-        endDate,
-        business: id
-    });
-
-    await schedule.save();
-
-    business.schedules.push(schedule._id);
-    await business.save();
-
-    res.status(200).json({schedule});
 };
 
 
@@ -79,25 +101,42 @@ const createSchedule = async (req, res) => {
 // @access Private
 const editSchedule = async (req, res) => {
     const { id } = req.params;  // id is the schedule id
-    const { startDate, endDate } = req.body;
 
-    if(!startDate || !endDate) {
-        return res.status(400).json({
-            msg: 'Please enter all fields'
-        });
+    try {
+        const schedule = await Schedule.findById(id).populate('business').exec();
+
+        if (!schedule) {
+            return res.status(400).json({
+                msg: 'No schedule found'
+            });
+        }
+
+        const business = await Business.findById(schedule.business._id).populate('employees').exec();
+
+        if (!business) {
+            return res.status(400).json({
+                msg: 'No business found'
+            });
+        }
+
+        // get user instance from the employee array
+        const userEmployee = business.employees.find(employee => employee.user.toString() === req.user._id.toString());
+
+        // Check if logged in user is an employee and a manager  !company owner can't create schedule
+        if ( userEmployee && userEmployee.isManager ) {
+            const updatedSchedule = await Schedule.findByIdAndUpdate(id, req.body, {new: true});
+
+            return res.status(200).json({updatedSchedule});
+        } else {
+            return res.status(400).json({
+                msg: 'You are not a manager'
+            });
+        }
+
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ msg: 'Server Error' });
     }
-
-    const schedule = await Schedule.findByIdAndUpdate(id, req.body, { new: true });
-
-    if (!schedule) {
-        return res.status(400).json({
-            msg: 'No schedule found'
-        });
-    }
-
-    await schedule.save();
-
-    res.status(200).json({schedule});
 };
 
 
@@ -107,17 +146,40 @@ const editSchedule = async (req, res) => {
 const deleteSchedule = async (req, res) => {
     const { id } = req.params;  // id is the schedule id
 
-    const schedule = await Schedule.findById(id);
+    try {
+        const schedule = await Schedule.findById(id).populate('business').exec();
 
-    if (!schedule) {
-        return res.status(400).json({
-            msg: 'No schedule found'
-        });
+        if (!schedule) {
+            return res.status(400).json({
+                msg: 'No schedule found'
+            });
+        }
+
+        const business = await Business.findById(schedule.business._id).populate('employees').exec();
+
+        if (!business) {
+            return res.status(400).json({
+                msg: 'No business found'
+            });
+        }
+
+        // get user instance from the employee array
+        const userEmployee = business.employees.find(employee => employee.user.toString() === req.user._id.toString());
+
+        // Check if logged in user is an employee and a manager  !company owner can't create schedule
+        if ( userEmployee && userEmployee.isManager ) {
+            await schedule.remove();
+
+            res.status(200).json({msg: 'Schedule deleted'});
+        } else {
+            return res.status(400).json({
+                msg: 'You are not a manager'
+            });
+        }
+    } catch (err){
+        console.log(err)
+        return res.status(500).json({ msg: 'Server Error' });
     }
-
-    await Schedule.findByIdAndDelete(id);
-
-    res.status(200).json({msg: 'Schedule deleted'});
 }
 
 

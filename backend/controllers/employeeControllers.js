@@ -114,9 +114,9 @@ const createEmployee = async (req, res) => {
         }
 
         // Check if user is a manager
-        const employee = business.employees.find(employee => employee.user.toString() === req.user._id.toString());
+        const userEmployee = business.employees.find(employee => employee.user.toString() === req.user._id.toString());
         if (
-            (employee && employee.isManager) || // If user is a manager
+            (userEmployee && userEmployee.isManager) || // If user is a manager
             business.company.owners.includes(req.user._id) && // Check if user is a company owner
             business.employees.filter(employee => employee.user._id.toString() === user._id.toString()).length === 0 // Check if user is not already an employee
         ) {
@@ -169,7 +169,7 @@ const updateEmployee = async (req, res) => {
         // Check if logged in user is a manager or company owner
         if (
             business.company.owners.includes(req.user._id) || 
-            userEmployee.isManager
+            ( userEmployee && userEmployee.isManager )
         ) {
             const updatedEmployee = await Employee.findByIdAndUpdate(id, req.body, {new: true});
             return res.status(200).json(updatedEmployee);
@@ -213,7 +213,7 @@ const deleteEmployee = async (req, res) => {
         // Check if logged in user is a manager or company owner
         if (
             business.company.owners.includes(req.user._id) || 
-            userEmployee.isManager
+            ( userEmployee && userEmployee.isManager )
         ) {
             const deleteEmployee = await Employee.findById(id);
             await deleteEmployee.remove();

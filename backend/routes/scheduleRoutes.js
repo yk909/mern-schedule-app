@@ -10,8 +10,8 @@ const {
 } = require('../controllers/scheduleControllers');
 
 
-router.route('/').get(protect, getScheduleById).post(protect, createSchedule).put(protect, editSchedule).delete(protect, deleteSchedule);
-router.route('/business/:id').get(protect, getAllSchedules);
+router.route('/business/:id').get(protect, getAllSchedules).post(protect, createSchedule);
+router.route('/:id').get(protect, getScheduleById).put(protect, editSchedule).delete(protect, deleteSchedule);
 
 
 module.exports = router;
