@@ -4,16 +4,16 @@
   --success: #A3F7BF;
   --info: #05DFD7;
   --primary: #42C2FF;
-  --extra-extra-light: #FCF8EC;
-  --extra-light: #D0E8F2;
-  --light: #79A3B1;
-  --dark: #456268;
-  --extra-dark: #182325;
-  --pure-black: #000000;
-  --text-light: #FFFFFF;
-  --text-dark: #000000;
+  --extra-extra-light: #f7f7f7;
+  --extra-light: #EEEEEE;
+  --light: #E9E9E9;
+  --dark: #707070;
+  --extra-dark: #505050;
+  --extra-extra-dark: #292929;
+  --text-light: #f7f7f7;
+  --text-dark: #292929;
   --border-radius: 10px;
-  --box-shadow: 3px 3px 10px 0 #18232575;
+  --box-shadow: 3px 3px 10px 0 #29292975;
   --transition-duration: .3s;
 }
 
@@ -30,7 +30,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
   font-size: 16px;
-  background-color: var(--extra-extra-light);
+  background-color: var(--light);
   color: var(--text-dark);
   overflow-x: hidden;
 }
@@ -42,7 +42,7 @@ main {
 .container {
   padding: 0 50px;
   margin: 0 auto;
-  max-width: 1680px;
+  /* max-width: 1680px; */
 }
 
 .bg-danger {
@@ -121,7 +121,7 @@ main {
   cursor: pointer;
   user-select: none;
   transition: var(--transition-duration);
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 1px;
   box-shadow: var(--box-shadow);
 }
@@ -163,6 +163,19 @@ main {
   background-color: var(--primary);
   border: 2px solid var(--primary);
   color: var(--text-dark);
+}
+
+.btn.btn-outline {
+  background-color: transparent;
+  border: 2px solid var(--dark);
+  border-radius: var(--border-radius);
+  color: var(--text-dark);
+  box-shadow: none;
+}
+
+.btn.btn-outline:hover {
+  background-color: var(--dark);
+  color: var(--text-light);
 }
 
 .btn.btn-outline-danger {
@@ -214,7 +227,6 @@ main {
 
 .btn.btn-outline-info:hover {
   background-color: var(--info);
-  color: var(--text-light);
 }
 
 .btn.btn-outline-primary {
@@ -227,12 +239,11 @@ main {
 
 .btn.btn-outline-primary:hover {
   background-color: var(--primary);
-  color: var(--text-light);
 }
 
 input {
   outline: none;
-  border: 2px solid var(--extra-dark);
+  border: 2px solid var(--dark);
   border-radius: var(--border-radius);
   padding: 8px 12px;
   transition: var(--transition-duration);
@@ -243,6 +254,17 @@ input:hover,
 input:focus {
   outline: none;
   border-color: var(--primary);
+}
+
+.form-group-row {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 10px;
+  margin: 16px 0;
+}
+
+.form-group-row .form-group {
+  margin: 0;
 }
 
 .form-group {

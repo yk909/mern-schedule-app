@@ -1,0 +1,84 @@
+.calender .calender-header {
+    display: flex;
+    justify-content: space-between;
+    height: 45px;
+}
+
+.calender .calender-header .calender-header-right {
+    display: flex;
+    position: relative;
+    align-items: center;
+}
+
+.calender .today-control,
+.calender .select-control,
+.calender .print-control {
+    margin-left: 15px;
+}
+
+.calender .date-control {
+    display: flex;
+}
+
+.calender .print,
+.calender .prev-date,
+.calender .next-date,
+.calender .date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 10px;
+    height: 21px;
+    max-height: 21px;
+}
+
+.calender .btn:hover svg {
+    fill: var(--text-light);
+} 
+
+.calender svg {
+    height: inherit;
+    width: 20px;
+    transition: var(--transition-duration);
+    fill: var(--dark);
+}
+
+.calender .date-control .prev-date {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+}
+
+.calender .date-control .date {
+    border-radius: 0;
+}
+
+.calender .date-control .next-date {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: none;
+}
+
+.calender .calender-header-left {
+    font-size: 2rem;
+}
+
+/* override default style of a DayPicker */
+.react-datepicker__day--keyboard-selected, .react-datepicker__month-text--keyboard-selected, .react-datepicker__quarter-text--keyboard-selected, .react-datepicker__year-text--keyboard-selected {
+    background-color: var(--primary)!important;
+    color: var(--text-dark)!important;
+}
+
+.react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range, .react-datepicker__month-text--selected, .react-datepicker__month-text--in-selecting-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--selected, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--selected, .react-datepicker__year-text--in-selecting-range, .react-datepicker__year-text--in-range {
+    background-color: var(--primary)!important;
+    color: var(--text-dark)!important;
+}
+
+.react-datepicker__month-container {
+    background-color: var(--extra-extra-light)!important;
+    color: var(--text-dark)!important;
+}
+
+.react-datepicker__day--outside-month {
+    opacity: 0.5!important;
+}

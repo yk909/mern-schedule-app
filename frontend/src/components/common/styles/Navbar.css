@@ -2,6 +2,10 @@ nav {
     height: 80px;
     box-shadow: var(--box-shadow);
     position: relative;
+    z-index: 1000;
+    margin-bottom: 40px;
+    background: var(--extra-extra-light);
+    border-bottom: 1px solid var(--dark);
 }
 
 nav .nav-wrapper {
@@ -10,31 +14,90 @@ nav .nav-wrapper {
     align-items: center;
     position: relative;
     height: inherit;
-    overflow-x: hidden;
 }
 
-nav ul {
+nav ul.nav-links {
     display: flex;
     align-items: center;
+    height: inherit;
+    align-items: center;
+}
+
+
+nav ul.nav-links li {
+    /* overflow: hidden; */
 }
 
 nav ul li {
     list-style: none;
+    position: relative;
+    text-transform: uppercase;
 }
 
 nav ul a {
     text-decoration: none;
 }
 
-nav .nav-left li {
-    margin-right: 20px;
-}
-
-nav .nav-left li:nth-of-type(1) {
-    font-size: 2rem;
-}
-
-nav .nav-right li {
+nav li a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 1.2rem;
-    margin-left: 20px;
+    padding: 0 25px;
+    height: 80px;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: var(--transition-duration);
+    background: var(--extra-extra-light);
+    border-bottom: 1px solid var(--dark);
+}
+
+nav li a svg {
+    width: 30px;
+    height: 30px;
+    transition: var(--transition-duration);
+    fill: var(--text-dark);
+    margin-right: 8px;
+}
+
+nav li a:hover {
+    background-color: var(--dark);
+    color: var(--text-light);
+}
+
+nav li a:hover svg {
+    fill: var(--text-light);
+}
+
+nav li a:active {
+    background-color: var(--extra-dark);
+}
+
+nav .nav-left li a {
+    border-right: 1px solid var(--dark);
+}
+
+nav .nav-right li a {
+    border-left: 1px solid var(--dark);
+}
+
+nav .nav-links .user-menu:hover .nav-menu-links {
+    opacity: 1;
+    height: auto;
+}
+
+nav .nav-menu-links {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 969;
+    min-width: 140px;
+    transition: var(--transition-duration);
+    opacity: 0;
+    height: 0;
+}
+
+nav .nav-menu-links a {
+    justify-content: left;
 }
