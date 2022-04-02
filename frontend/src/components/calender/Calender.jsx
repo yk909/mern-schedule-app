@@ -1,15 +1,15 @@
-import { useState, forwardRef } from 'react';
+import { useState, forwardRef, useEffect } from 'react';
 import Select from 'react-select';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import './styles/Calender.css';
 
 
-const options = [
+const timeframeOptions = [
   { value: 'day', label: 'Day' },
   { value: 'week', label: 'Week' },
   { value: '2week', label: '2 Week' },
-  { value: 'month', label: 'Month' },
+  { value: '4week', label: '4 Week' },
 ];
 
 const customSelectStyles = {
@@ -44,8 +44,10 @@ const customSelectStyles = {
 
 
 const Calender = () => {
-  const [dateControl, setDateControl] = useState(options[0]);
+  const [dateControl, setDateControl] = useState(timeframeOptions[0]);
   const [startDate, setStartDate] = useState(new Date());
+  const [fromDate, setfromDate] = useState(new Date());
+  const [toDate, setToDate] = useState(new Date());
 
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
     <div className="date btn btn-outline example-custom-input" onClick={onClick} ref={ref}>
@@ -56,57 +58,122 @@ const Calender = () => {
     </div>
   ));
 
+
+  useEffect(() => {
+    setfromDate(getPreviousMonday(startDate))
+    setToDate(getRange(startDate))
+  }, [startDate]);
+
+
+  function getPreviousMonday(date = new Date()) {
+    const previousMonday = new Date();
+  
+    previousMonday.setMonth(startDate.getMonth(), date.getDate() - date.getDay() + 1)
+  
+    return previousMonday;
+  }
+
+  // get rande of dates from previous monday to sunday
+  function getRange(date = new Date()) {
+    const previousMonday = new Date();
+    
+    if(dateControl.value === 'week') {
+      previousMonday.setMonth(startDate.getMonth(), date.getDate() - date.getDay() + 7)
+    } else if(dateControl.value === '2week') {
+      previousMonday.setMonth(startDate.getMonth(), date.getDate() - date.getDay() + 14)
+    } else if(dateControl.value === '4week') {
+      previousMonday.setMonth(startDate.getMonth(), date.getDate() - date.getDay() + 28)
+    }
+  
+    return previousMonday;
+  }
+
+  // handle click on button for next or previous day, week, 2 week or month
+  function handleNextPrev(value) {
+    if(value === 'next') {
+
+      if(dateControl.value === 'day') {
+        setStartDate(new Date(startDate.setDate(startDate.getDate() + 1)));
+      } else if(dateControl.value === 'week') {
+        setStartDate(new Date(startDate.setDate(startDate.getDate() + 7)));
+      } else if(dateControl.value === '2week') {
+        setStartDate(new Date(startDate.setDate(startDate.getDate() + 14)));
+      } else if(dateControl.value === '4week') {
+        setStartDate(new Date(startDate.setMonth(startDate.getMonth() + 1)));
+      }
+
+    } else if(value === 'prev') {
+
+      if(dateControl.value === 'day') {
+        setStartDate(new Date(startDate.setDate(startDate.getDate() - 1)));
+      } else if(dateControl.value === 'week') {
+        setStartDate(new Date(startDate.setDate(startDate.getDate() - 7)));
+      } else if(dateControl.value === '2week') {
+        setStartDate(new Date(startDate.setDate(startDate.getDate() - 14)));
+      } else if(dateControl.value === '4week') {
+        setStartDate(new Date(startDate.setMonth(startDate.getMonth() - 1)));
+      }
+
+    }
+  }
+
+
   return (
     <section>
       <div className="calender">
         <div className="calender-header">
           <div className="calender-header-left">
             <div className="date">
-              {dateControl.label === 'Day' ? (
-                new Date(startDate.setDate(startDate.getDate() - (startDate.getDay() + 7) % 7)).toLocaleString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })
-              ) : dateControl.label === 'Week' ? (
-                new Date(startDate.setDate(startDate.getDate() - (startDate.getDay() + 7) % 7)).toLocaleString("en-US", { month: 'short', day: 'numeric' }) + ' - ' +
-                new Date(startDate.setDate((startDate.getDate() - (startDate.getDay() + 7) % 7) + 7 )).toLocaleString("en-US", {   month: 'short', day: 'numeric' }) + ', ' +
-                new Date(startDate.setDate(startDate.getDate() - (startDate.getDay() + 7) % 7)).toLocaleString("en-US", { year: 'numeric' })
-              ) : dateControl.label === '2 Week' ? (
-                new Date(startDate.setDate(startDate.getDate() - (startDate.getDay() + 7) % 7)).toLocaleString("en-US", { month: 'short', day: 'numeric' }) + ' - ' +
-                new Date(startDate.setDate((startDate.getDate() - (startDate.getDay() + 7) % 7) + 14 )).toLocaleString("en-US", {   month: 'short', day: 'numeric' }) + ', ' +
-                new Date(startDate.setDate(startDate.getDate() - (startDate.getDay() + 7) % 7)).toLocaleString("en-US", { year: 'numeric' })
-              ) : (
-                new Date(startDate.setDate(startDate.getDate() - (startDate.getDay() + 7) % 7)).toLocaleString("en-US", { month: 'short', year: 'numeric' })
-              )
-              }
+              {dateControl.label === 'Day' ?
+                startDate.toLocaleString("en-US", { month: 'short', day: 'numeric', year: 'numeric' }) 
+              :(
+                fromDate.toLocaleString("en-US", { month: 'short', day: 'numeric' }) + ' - ' +
+                toDate.toLocaleString("en-US", { month: 'short', day: 'numeric' }) + ', ' +
+                fromDate.toLocaleString("en-US", { year: 'numeric' }) 
+              )}
             </div>
           </div>
           <div className="calender-header-right">
             <div className="date-control">
-              <div className="prev-date btn btn-outline">
+              <div 
+                className="prev-date btn btn-outline" 
+                onClick={() => { handleNextPrev('prev') }}
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                   <path d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
                 </svg>
               </div>
               <DatePicker
                 selected={startDate}
-                onChange={(date) => setStartDate(date)}
+                onChange={(date) => {setStartDate(date)}}
                 customInput={<ExampleCustomInput />}
+                calendarStartDay={1}
+                startDate={fromDate}
+                endDate={toDate}
               />
-              <div className="next-date btn btn-outline">
+              <div 
+                className="next-date btn btn-outline" 
+                onClick={() => { handleNextPrev('next') }}
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                   <path d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
                 </svg>
               </div>
             </div>
             <div className="today-control">
-              <div className="today btn btn-outline">
+              <div 
+                className="today btn btn-outline" 
+                onClick={() => { setStartDate(new Date) }}
+              >
                 TODAY
               </div>
             </div>
             <div className="select-control">
               <Select
                 value={dateControl}
-                onChange={(e) => setDateControl(e)}
+                onChange={(e) => {setDateControl(e); setStartDate(new Date);}}
                 isSearchable={false}
-                options={options}
+                options={timeframeOptions}
                 styles={customSelectStyles}
                 
               />
