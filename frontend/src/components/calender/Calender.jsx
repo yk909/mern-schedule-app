@@ -1,6 +1,7 @@
 import { useState, forwardRef, useEffect } from 'react';
 import Select from 'react-select';
 import DatePicker from "react-datepicker";
+import { Scheduler } from "../";
 import "react-datepicker/dist/react-datepicker.css";
 import './styles/Calender.css';
 
@@ -21,12 +22,12 @@ const customSelectStyles = {
     fontWeight: state.isSelected ? '600' : 'normal',
   }),
   control: () => ({
-    border: '2px solid #707070',
-    color: '#707070',
+    border: '2px solid var(--dark)',
+    color: 'var(--text-dark)',
     fontWeight: '600',
     display: 'flex',
     height: '41px',
-    borderRadius: '10px',
+    borderRadius: 'var(--border-radius)',
     width: 200,
   }),
   indicatorSeparator: () => ({
@@ -44,7 +45,7 @@ const customSelectStyles = {
 
 
 const Calender = () => {
-  const [dateControl, setDateControl] = useState(timeframeOptions[0]);
+  const [dateControl, setDateControl] = useState(timeframeOptions[1]);
   const [startDate, setStartDate] = useState(new Date());
   const [fromDate, setfromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
@@ -188,8 +189,7 @@ const Calender = () => {
             </div>
           </div>
         </div>
-        <div className="calender-body">
-        </div>
+        <Scheduler />
       </div>
     </section>
   )
