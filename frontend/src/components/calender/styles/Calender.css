@@ -1,7 +1,13 @@
+.calender {
+    padding-bottom: 100px;
+}
+
 .calender .calender-header {
     display: flex;
     justify-content: space-between;
     height: 45px;
+    max-width: 1900px;
+    margin: 0 auto;
 }
 
 .calender .calender-header .calender-header-right {
@@ -38,15 +44,9 @@
     max-height: 21px;
 }
 
-.calender .btn:hover svg {
-    fill: var(--text-light);
-} 
-
 .calender svg {
     height: inherit;
     width: 20px;
-    transition: var(--transition-duration);
-    fill: var(--dark);
 }
 
 .calender .date-control .prev-date {

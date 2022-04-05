@@ -4,8 +4,8 @@ nav {
     position: relative;
     z-index: 1000;
     margin-bottom: 40px;
-    background: var(--extra-extra-light);
-    border-bottom: 1px solid var(--dark);
+    /* background: var(--extra-extra-light);
+    border-bottom: 1px solid var(--extra-dark); */
 }
 
 nav .nav-wrapper {
@@ -49,7 +49,7 @@ nav li a {
     cursor: pointer;
     transition: var(--transition-duration);
     background: var(--extra-extra-light);
-    border-bottom: 1px solid var(--dark);
+    /* border-bottom: 1px solid var(--extra-dark); */
 }
 
 nav li a svg {
@@ -61,7 +61,7 @@ nav li a svg {
 }
 
 nav li a:hover {
-    background-color: var(--dark);
+    background-color: var(--extra-dark);
     color: var(--text-light);
 }
 
@@ -74,11 +74,11 @@ nav li a:active {
 }
 
 nav .nav-left li a {
-    border-right: 1px solid var(--dark);
+    /* border-right: 1px solid var(--extra-dark); */
 }
 
 nav .nav-right li a {
-    border-left: 1px solid var(--dark);
+    /* border-left: 1px solid var(--extra-dark); */
 }
 
 nav .nav-links .user-menu:hover .nav-menu-links {

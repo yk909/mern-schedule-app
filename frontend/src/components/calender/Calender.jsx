@@ -45,7 +45,7 @@ const customSelectStyles = {
 
 
 const Calender = () => {
-  const [dateControl, setDateControl] = useState(timeframeOptions[1]);
+  const [dateControl, setDateControl] = useState(timeframeOptions[0]);
   const [startDate, setStartDate] = useState(new Date());
   const [fromDate, setfromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
@@ -145,12 +145,12 @@ const Calender = () => {
                 </svg>
               </div>
               <DatePicker
-                selected={startDate}
+                selected={dateControl.label === "Day" ? startDate : fromDate}
                 onChange={(date) => {setStartDate(date)}}
                 customInput={<ExampleCustomInput />}
                 calendarStartDay={1}
-                startDate={fromDate}
-                endDate={toDate}
+                startDate={dateControl.label === "Day" ? startDate : fromDate}
+                endDate={dateControl.label === "Day" ? startDate : toDate}
               />
               <div 
                 className="next-date btn btn-outline" 
@@ -189,7 +189,10 @@ const Calender = () => {
             </div>
           </div>
         </div>
-        <Scheduler />
+        <Scheduler 
+          fromDate={fromDate}
+          dateControl={dateControl}
+        />
       </div>
     </section>
   )

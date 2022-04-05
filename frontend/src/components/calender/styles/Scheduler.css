@@ -7,88 +7,91 @@
     border: 1px solid var(--light);
 }
 
+.calender-body.day-view {
+    max-width: 1900px;
+    margin: 20px auto;
+}
+
 .scheduler-wrapper {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     overflow-x: scroll;
+    overscroll-behavior: contain;
     border-radius: var(--border-radius);
-    width: 100%;
+    padding: 10px 0;
     background: var(--extra-extra-light);
 }
 
-.week-view .scheduler-header {
-    display: flex;
-    flex-direction: row;
-    background: var(--extra-extra-light);
-    border-bottom: 1px solid var(--light);
-    font-weight: 600;
-    min-height: 30px;
-    align-items: center;
-    line-height: 30px;
-    font-size: 0.8rem;
+.section-container {
+    min-width: fit-content;
 }
 
-.scheduler-header .col {
-    flex-basis: 0;
-    padding: 0 10px;
-    flex-grow: 1;
-    padding: 10px;
-    /* max-width: 160px; */
-    min-width: 130px;
-    border-right: 1px solid var(--light);
-    border-bottom: 1px solid var(--light);
-}
-
-.scheduler-header .col:last-child,
-.user-row .col:last-child {
-    border-right: none;
-}
-
-.user-row:last-child .col {
-    border-bottom: none;
-}
-
-.week-view .scheduler-header .user-info,
-.week-view .user-row .user {
-    /* max-width: 180px; */
-    min-width: 180px;
-}
-
-.week-view .scheduler-header .header-col {
-    background: var(--light);
-    border-radius: var(--border-radius);
-    padding: 0 10px;
-}
-
-.week-view .user-row {
+.section-row {
+    min-width: fit-content;
     transition: var(--transition-duration);
 }
 
-.week-view .user-row:hover {
+.section-row.bg-xx-light:hover {
     background: var(--dark);
+    box-shadow: var(--box-shadow-sm);
 }
 
-.week-view .user-row .user,
-.week-view .user-row .shift-holder { 
-    height: 50px;
+.section-row .section-title {
+    min-width: 220px;
 }
 
-.user-row .col {
-    flex-basis: 0;
-    padding: 10px;
-    flex-grow: 1;
-    /* max-width: 160px; */
-    min-width: 130px;
-    border-right: 1px solid var(--light);
-    border-bottom: 1px solid var(--light);
+.section-row .section-title .section-name {
+    font-weight: 600;
 }
 
-.user-row .col .user-col {
+.section-row .section-title .section-content,
+.section-row .col .section-content {
     border-radius: var(--border-radius);
+    margin: 10px;
+    height: 50px;
+    padding: 0 10px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    font-size: 1rem;
+    align-items: center;
+    box-shadow: var(--box-shadow-sm);
 }
 
-.user-row .user img {
+.section-row .section-title,
+.section-row .section-holder { 
+    min-height: 70px;
+    outline: 1px solid var(--light);
+    transition: var(--transition-duration);
+}
+
+.section-row .section-holder:hover {
+    background: var(--extra-dark);
+}
+
+.section-row .section-holder .create-shift div {
+    width: 0;
+    height: 50px;
+    margin: 10px;
+    border-radius: var(--border-radius);
+    transition: var(--transition-duration);
+}
+
+.section-row .section-holder:hover .create-shift div {
+    width: 100%;
+    cursor: pointer;
+    box-shadow: var(--box-shadow-sm);
+}
+
+.section-row .section-holder .create-shift:active {
+    opacity: 75%;
+}
+
+.section-row .section-holder .create-shift:active {
+    opacity: 75%;
+}
+
+.section-row .section-title img {
     width: 30px;
     height: 30px;
     object-fit: cover;
@@ -97,94 +100,114 @@
     margin-right: 5px;
 }
 
-.user-row .user-col {
-    padding: 0 10px;
-    background-color: var(--light);
-    border-radius: var(--border-radius);
-    font-weight: 600;
-    font-size: 1rem;
-    align-items: center;
-}
-
-.user-row .user .user-name {
-    font-weight: 600;
-}
-
-.user-row .user .user-hours svg {
+.section-row .section-title .section-hours svg {
     height: 15px;
     width: 15px;
     margin-right: 5px;
-    fill: var(--text-dark);
 }
 
-.user-row .user .user-hours {
+.section-row .section-title .section-hours {
     display: flex;
     opacity: 75%;
     align-items: center;
 }
 
-.open-shift .shift-holder .shift {
-    background-color: var(--info);
-}
-
-.open-shift .user-img {
-    background: var(--primary);
+.open-shift .section-img {
+    background: var(--info);
     width: 30px;
     height: 30px;
     border-radius: 50%;
     margin-right: 5px;
 }
 
-.user-row .shift {
+.section-row .col {
+    flex-basis: 0;
+    padding: 0;
+    flex-grow: 1;
+    min-width: 180px;
+}
+
+.day-view .section-row .col {
+    flex-basis: 0;
+    padding: 0;
+    flex-grow: 1;
+    max-width: 70px;
+    min-width: 70px;
+}
+
+.section-row .shift {
+    margin: 10px 10px;
+    height: 50px;
+    position: relative;
     padding: 0 10px;
-    background-color: var(--primary);
+}
+
+.section-row .shift {
+    padding: 0 10px;
     border-radius: var(--border-radius);
     font-weight: 600;
     font-size: 1rem;
     overflow: hidden;
     cursor: pointer;
+    box-shadow: var(--box-shadow-sm);
 }
 
-.user-row .shift:active {
+.section-row .shift:active {
     cursor: grabbing;
 }
 
-.user-row .shift .position {
+.section-row .shift .position {
     background-color: var(--extra-dark);
     padding: 2px 3px;
     color: var(--text-light);
     border-radius: 5px;
 }
 
-.user-row .shift .time {
+.section-row .shift .time {
     transition: var(--transition-duration);
 }
 
-.user-row .shift:hover .time {
+.section-row .shift:hover .time {
     opacity: 0;
     height: 0;
 }
 
-.user-row .shift .edit {
+.section-row .shift .edit {
     transition: var(--transition-duration);
     opacity: 0;
     height: 0;
 }
 
-.user-row .shift .edit .btn {
+.section-row .shift .edit .btn {
     padding: 5px;
     flex-grow: 1;
 }
 
-.user-row .shift .edit .btn:nth-of-type(2) {
+.section-row .shift .edit .btn:nth-of-type(2) {
     margin: 0 5px;
 }
 
-.user-row .shift .edit svg {
+.section-row .shift .edit svg {
     height: 100%;
 }
 
-.user-row .shift:hover .edit {
+.section-row .shift:hover .edit {
     opacity: 1;
     height: 100%;
+}
+
+.section-row .shift .stretch {
+    width: 10px;
+    height: 100%;
+    background-color: transparent;
+    position: absolute;
+    cursor: w-resize;
+    z-index: 10;
+    right: 0;
+}
+
+@media (max-width: 768px) {
+    .scheduler-wrapper {
+        overscroll-behavior: initial;
+    }
 }
