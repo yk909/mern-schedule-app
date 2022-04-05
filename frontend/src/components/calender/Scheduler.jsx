@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import Draggable, {DraggableCore} from 'react-draggable'; // Both at the same time
 import './styles/Scheduler.css';
 
 const hours = [ '12am', '1am', '2am', '3am', '4am', '5am', '6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm', '9pm', '10pm', '11pm' ];
@@ -6,7 +7,6 @@ const hours = [ '12am', '1am', '2am', '3am', '4am', '5am', '6am', '7am', '8am', 
 const Scheduler = ({fromDate, dateControl}) => {
     const calenderRef = useRef(null);
     const date = fromDate;
-    const shiftRef = useRef(null);
 
     const onWheel = (e) => {
         // scroll left on wheel up and right on wheel down only if not on mobile view
@@ -42,6 +42,24 @@ const Scheduler = ({fromDate, dateControl}) => {
             window.addEventListener("mouseup", onMouseUp);
         }
     };
+
+    const onDropAreaMouseEnter = (e) => {
+        // e.target.classList.add("bg-dark")
+        // console.log(e)
+    }
+
+    const onDropAreaMouseLeave = (e) => {
+        // e.target.classList.remove("bg-dark")
+    }
+
+    const onDragStop = (e) => {
+        console.dir(e)
+        console.log(e.target.parentElement)
+        if (e.target.classList.contains("drop-target")) {
+            alert("Dropped!");
+            // e.target.classList.remove('hovered');
+        }
+    }
 
     return (
         <div className={`calender-body${dateControl.value === 'day' ? ' day-view' : ''}`}>
@@ -107,8 +125,8 @@ const Scheduler = ({fromDate, dateControl}) => {
                 </div>
                 <div className="section-container">
                     <div className="section-row bg-xx-light flex open-shift">
-                        <div className="section-title">
-                            <div className="section-content h-100 flex align-between bg-xx-light">
+                        <div className="section-title flex align-center">
+                            <div className="section-content h-100 w-100 flex align-between bg-xx-light">
                                 <div className="flex align-center">
                                     <div className="section-img">
                                     </div>
@@ -127,80 +145,189 @@ const Scheduler = ({fromDate, dateControl}) => {
                                 </div>
                             </div>
                         </div>
-                        {[...Array(
-                            dateControl.value === "week" ?
-                                7 
-                            : dateControl.value === "2week" ?
-                                14
-                            : dateControl.value === "4week" ?
-                                28
-                            : 24
-                        ).keys()].map((i) => {
-                            return (
-                            <div key={i} className="col section-holder">
-                                { i === 2 || i === 5 ?
-                                <div 
-                                    className="flex align-between w-100 h-100"
-                                    ref={shiftRef}
-                                >
-                                    <div className="shift w-100 h-100 bg-info">
-                                    {dateControl.value === "day" ?
-                                        <>
-                                            <div 
-                                                onMouseDown={(e) => onMouseDownResize(e)}
-                                                className="stretch"
-                                            ></div>
-                                        </>
-                                    :
-                                        ''
-                                    }
-                                        <div className="time flex align-between w-100 h-100">
-                                            <div>
-                                                {i+5}a-{i}p
-                                            </div>
-                                            <div className="position">
-                                                Barista
+                        <div className="draggable-parent pos-relative">
+                            <div className="flex">
+                                {[...Array(
+                                    dateControl.value === "week" ?
+                                        7 
+                                    : dateControl.value === "2week" ?
+                                        14
+                                    : dateControl.value === "4week" ?
+                                        28
+                                    : 24
+                                ).keys()].map((i) => {
+                                    return (
+                                    <div 
+                                        key={i}
+                                        id={`date-${i}`}
+                                        className="col section-holder drop-target"
+                                        onMouseEnter={onDropAreaMouseEnter}
+                                        onMouseLeave={onDropAreaMouseLeave}
+                                    >
+                                        { i === 2 || i === 5 ?
+                                        <Draggable
+                                            // axis="x"
+                                            handle=".drag-handle"
+                                            scale={1}
+                                            bounds=".draggable-parent"
+                                            onStop={onDragStop}
+                                        >
+                                        <div 
+                                            className="shift-parent flex align-between w-100 h-100"
+                                            style={{
+                                                width: `${
+                                                    dateControl.value === "day" ?
+                                                        `${100*(i+1)}`
+                                                    : 
+                                                        '100'
+                                                }%`
+                                            }}
+                                        >
+                                            <div className="shift w-100 h-100 bg-info">
+                                                {dateControl.value === "day" ?
+                                                    <>
+                                                        <div 
+                                                            onMouseDown={(e) => onMouseDownResize(e)}
+                                                            className="stretch"
+                                                        ></div>
+                                                    </>
+                                                :
+                                                    ''
+                                                }
+                                                <div className="time flex align-between w-100 h-100">
+                                                    <div>
+                                                        {i+5}a-{i}p
+                                                    </div>
+                                                    <div className="position">
+                                                        Barista
+                                                    </div>
+                                                </div>
+                                                <div className="edit flex align-between w-100 h-100">
+                                                    <div className="btn btn-outline">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                                        </svg>
+                                                    </div>
+                                                    <div 
+                                                        className="btn btn-outline drag-handle"
+                                                    >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                                            <path d="M7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708l2-2zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10zM.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L1.707 7.5H5.5a.5.5 0 0 1 0 1H1.707l1.147 1.146a.5.5 0 0 1-.708.708l-2-2zM10 8a.5.5 0 0 1 .5-.5h3.793l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L14.293 8.5H10.5A.5.5 0 0 1 10 8z"/>
+                                                        </svg>
+                                                    </div>
+                                                    <div className="btn btn-outline">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                                            <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                                        </svg>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="edit flex align-between w-100 h-100">
-                                            <div className="btn btn-outline">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                                                </svg>
+                                        </Draggable>
+                                        : 
+                                            <div className="create-shift flex align-between h-100" title="Create Shift">
+                                                <div className="flex align-center w-100 h-100 bg-light">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                                        <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                                                    </svg>
+                                                </div>
                                             </div>
-                                            <div 
-                                                className="btn btn-outline"
-                                            >
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                                    <path d="M7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708l2-2zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10zM.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L1.707 7.5H5.5a.5.5 0 0 1 0 1H1.707l1.147 1.146a.5.5 0 0 1-.708.708l-2-2zM10 8a.5.5 0 0 1 .5-.5h3.793l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L14.293 8.5H10.5A.5.5 0 0 1 10 8z"/>
-                                                </svg>
-                                            </div>
-                                            <div className="btn btn-outline">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                                                </svg>
-                                            </div>
-                                        </div>
+                                        }
                                     </div>
-                                </div>
-                                : 
-                                    <div className="create-shift flex align-between h-100" title="Create Shift">
-                                        <div className="flex align-center w-100 h-100 bg-light">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                                <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                }
+                                    )
+                                })}
                             </div>
-                            )
-                        })}
+                            <div className="flex">
+                                {[...Array(
+                                    dateControl.value === "week" ?
+                                        7 
+                                    : dateControl.value === "2week" ?
+                                        14
+                                    : dateControl.value === "4week" ?
+                                        28
+                                    : 24
+                                ).keys()].map((i) => {
+                                    return (
+                                    <div key={i} className="col section-holder">
+                                        { i === 1 || i === 8 ?
+                                        <Draggable
+                                            // axis="x"
+                                            handle=".drag-handle"
+                                            scale={1}
+                                            bounds=".draggable-parent"
+                                        >
+                                            <div 
+                                                className="shift-parent flex align-between w-100 h-100"
+                                                style={{
+                                                    width: `${
+                                                        dateControl.value === "day" ?
+                                                            `${100*(i+1)}`
+                                                        : 
+                                                            '100'
+                                                    }%`
+                                                }}
+                                            >
+                                                <div className="shift w-100 h-100 bg-info">
+                                                    {dateControl.value === "day" ?
+                                                        <>
+                                                            <div 
+                                                                onMouseDown={(e) => onMouseDownResize(e)}
+                                                                className="stretch"
+                                                            ></div>
+                                                        </>
+                                                    :
+                                                        ''
+                                                    }
+                                                    <div className="time flex align-between w-100 h-100">
+                                                        <div>
+                                                            {i+5}a-{i}p
+                                                        </div>
+                                                        <div className="position">
+                                                            Barista
+                                                        </div>
+                                                    </div>
+                                                    <div className="edit flex align-between w-100 h-100">
+                                                        <div className="btn btn-outline">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                                            </svg>
+                                                        </div>
+                                                        <div 
+                                                            className="btn btn-outline"
+                                                        >
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                                                <path d="M7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708l2-2zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10zM.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L1.707 7.5H5.5a.5.5 0 0 1 0 1H1.707l1.147 1.146a.5.5 0 0 1-.708.708l-2-2zM10 8a.5.5 0 0 1 .5-.5h3.793l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L14.293 8.5H10.5A.5.5 0 0 1 10 8z"/>
+                                                            </svg>
+                                                        </div>
+                                                        <div className="btn btn-outline">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                                                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Draggable>
+                                        : 
+                                            <div className="create-shift flex align-between h-100" title="Create Shift">
+                                                <div className="flex align-center w-100 h-100 bg-light">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                                        <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
                     </div>
                     {[...Array(5).keys()].map((e) => {
                         return (
-                        <div key={`uid-${e}`} id={`uid-${e}`} className="section-row bg-xx-light flex">
-                            <div className="section-title">
-                                <div className="section-content h-100 flex align-between bg-xx-light">
+                        <div key={`uid-${e}`} id={`uid-${e}`} className="section-row flex bg-xx-light flex">
+                            <div className="section-title flex align-center">
+                                <div className="section-content h-100 w-100 flex align-between bg-xx-light">
                                     <div className="flex align-center h-100">
                                         <div className="section-img flex align-center">
                                             <img src="https://via.placeholder.com/150" alt=""/>
@@ -225,92 +352,103 @@ const Scheduler = ({fromDate, dateControl}) => {
                                     </div>
                                 </div>
                             </div>
-                            {[...Array(
-                                dateControl.value === "week" ?
-                                    7 
-                                : dateControl.value === "2week" ?
-                                    14
-                                : dateControl.value === "4week" ?
-                                    28
-                                : 24
-                            ).keys()].map((i) => {
-                                return (
-                                <div 
-                                    key={`shift-${i}`} 
-                                    id={`uid-${e}-date-${i}`} 
-                                    className="col section-holder">
-                                    { ( e+2===i || e === i || e+4 === i || e-2 === i || e-4 === i ) && dateControl.value != 'day' ||
-                                    dateControl.value == 'day' && e === i ?
-                                    <div 
-                                        className="flex align-between"
-                                        style={{
-                                            width: `${
-                                                dateControl.value === "day" ?
-                                                    `${100*(i+1)}`
-                                                : 
-                                                    '100'
-                                            }%`
-                                        }}
-                                    >
-                                        <div className="shift section-content w-100 bg-primary" >
-                                            {dateControl.value === "day" ?
-                                                <>
-                                                    <div 
-                                                        onMouseDown={(e) => onMouseDownResize(e)}
-                                                        className="stretch"
-                                                    ></div>
-                                                </>
-                                            :
-                                                ''
-                                            }
-                                            <div className="time flex align-between w-100 h-100">
-                                                <div>
-                                                    {e+i+5}a-{e+i}p
-                                                </div>
-                                                <div className="position">
-                                                    Barista
-                                                </div>
-                                            </div>
-                                            <div className="edit flex align-between w-100 h-100">
-                                                <div className="btn btn-outline">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                                                    </svg>
-                                                </div>
+                            <div className="draggable-parent pos-relative">
+                                <div className="flex">
+                                    {[...Array(
+                                        dateControl.value === "week" ?
+                                            7 
+                                        : dateControl.value === "2week" ?
+                                            14
+                                        : dateControl.value === "4week" ?
+                                            28
+                                        : 24
+                                    ).keys()].map((i) => {
+                                        return (
+                                        <div 
+                                            key={`shift-${i}`} 
+                                            id={`uid-${e}-date-${i}`} 
+                                            className="col section-holder">
+                                            { ( e+2===i || e === i || e+4 === i || e-2 === i || e-4 === i ) && dateControl.value != 'day' ||
+                                            dateControl.value == 'day' && e === i ?
+                                            <Draggable
+                                                axis="x"
+                                                handle=".drag-handle"
+                                                scale={1}
+                                                bounds=".draggable-parent"
+                                            >
                                                 <div 
-                                                    className="btn btn-outline"
+                                                    className="shift-parent flex align-between"
+                                                    style={{
+                                                        width: `${
+                                                            dateControl.value === "day" ?
+                                                                `${100*(i+1)}`
+                                                            : 
+                                                                '100'
+                                                        }%`
+                                                    }}
                                                 >
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                                        <path d="M7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708l2-2zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10zM.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L1.707 7.5H5.5a.5.5 0 0 1 0 1H1.707l1.147 1.146a.5.5 0 0 1-.708.708l-2-2zM10 8a.5.5 0 0 1 .5-.5h3.793l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L14.293 8.5H10.5A.5.5 0 0 1 10 8z"/>
-                                                    </svg>
+                                                    <div className="shift section-content w-100 bg-primary" >
+                                                        {dateControl.value === "day" ?
+                                                            <>
+                                                                <div 
+                                                                    onMouseDown={(e) => onMouseDownResize(e)}
+                                                                    className="stretch"
+                                                                ></div>
+                                                            </>
+                                                        :
+                                                            ''
+                                                        }
+                                                        <div className="time flex align-between w-100 h-100">
+                                                            <div>
+                                                                {e+i+5}a-{e+i}p
+                                                            </div>
+                                                            <div className="position">
+                                                                Barista
+                                                            </div>
+                                                        </div>
+                                                        <div className="edit flex align-between w-100 h-100">
+                                                            <div className="btn btn-outline">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                                                </svg>
+                                                            </div>
+                                                            <div 
+                                                                className="btn btn-outline drag-handle"
+                                                            >
+                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                                                    <path d="M7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708l2-2zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10zM.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L1.707 7.5H5.5a.5.5 0 0 1 0 1H1.707l1.147 1.146a.5.5 0 0 1-.708.708l-2-2zM10 8a.5.5 0 0 1 .5-.5h3.793l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L14.293 8.5H10.5A.5.5 0 0 1 10 8z"/>
+                                                                </svg>
+                                                            </div>
+                                                            <div className="btn btn-outline">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className="btn btn-outline">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                                        <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                                                    </svg>
+                                            </Draggable>
+                                            : 
+                                                <div className="create-shift flex align-between h-100" title="Create Shift">
+                                                    <div className="flex align-center w-100 h-100 bg-light">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                                            <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                                                        </svg>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            }
                                         </div>
-                                    </div>
-                                    : 
-                                        <div className="create-shift flex align-between h-100" title="Create Shift">
-                                            <div className="flex align-center w-100 h-100 bg-light">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                                    <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    }
+                                        )
+                                    })}
                                 </div>
-                                )
-                            })}
+                            </div>
                         </div>
                         )
                     })}
                 </div>
                 <div className="section-container">
                     <div className="section-row flex bg-x-light">
-                        <div className="section-title flex">
+                        <div className="section-title flex align-center">
                             <div className="section-content bg-xx-light w-100 flex align-between">
                                 <div>
                                     <div>

@@ -65,8 +65,18 @@
     transition: var(--transition-duration);
 }
 
+.section-row .shift-parent {
+    /* background: var(--extra-extra-light); */
+    animation-duration: var(--transition-duration);
+}
+
 .section-row .section-holder:hover {
     background: var(--extra-dark);
+}
+
+.section-row .section-holder:hover .shift-parent {
+    background: var(--extra-dark);
+    animation-name: hover;
 }
 
 .section-row .section-holder .create-shift div {
@@ -209,5 +219,14 @@
 @media (max-width: 768px) {
     .scheduler-wrapper {
         overscroll-behavior: initial;
+    }
+}
+
+@keyframes hover {
+    0% {
+        background: var(--dark);
+    }
+    100% {
+        background: var(--extra-dark);
     }
 }
