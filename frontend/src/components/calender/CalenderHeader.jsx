@@ -27,12 +27,12 @@ const CalenderHeader = ({ dateControl, date, setStartDate, setDateControl }) => 
                     : 24
                 ).keys()].map((i) => {
                     return (
-                    <div key={i} className="col section-holder">
+                    <div key={`header-row-${i}`} className="col section-holder">
                         <div className="flex align-between w-100 h-100">
                             <div 
                                 className={`shift w-100 h-100${
                                     dateControl.value !== 'day' &&
-                                    new Date().getDate() === date.getDate()+i ?
+                                    new Date().setHours(0,0,0,0) === new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).setHours(0,0,0,0) ?
                                         ' bg-success'
                                     : ' bg-light'
                                 }`}
@@ -53,7 +53,7 @@ const CalenderHeader = ({ dateControl, date, setStartDate, setDateControl }) => 
                                             { new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).toLocaleString('en-us', {  weekday: 'short' }) }
                                         </div>
                                         <div>
-                                            {new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).toLocaleString('en-us', {  month: 'short', day: 'numeric' })}
+                                            { new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).toLocaleString('en-us', {  month: 'short', day: 'numeric' })}
                                         </div>
                                     </div>
                                 }

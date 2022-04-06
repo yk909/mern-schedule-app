@@ -47,6 +47,10 @@ main {
   display: flex;
 }
 
+.flex-col {
+  flex-direction: column;
+}
+
 .d-none {
   display: none;
 }
@@ -62,6 +66,10 @@ main {
 .align-center {
   align-items: center;
   justify-content: center;
+}
+
+.align-end {
+  align-items: end;
 }
 
 .align-between {

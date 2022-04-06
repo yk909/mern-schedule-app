@@ -29,7 +29,7 @@ const CalenderFooter = ({dateControl}) => {
 				: 24
 			).keys()].map((i) => {
 				return (
-					<div key={i} className="col section-holder">
+					<div key={`footer-row-${i}`} className="col section-holder">
 						<div className="shift flex h-100 bg-light align-center">
 							{ i }
 						</div>

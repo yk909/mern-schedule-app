@@ -6,6 +6,8 @@ import UserShift from "./calender/UserShift";
 import OpenShift from "./calender/OpenShift";
 import CalenderFooter from "./calender/CalenderFooter";
 import CalenderHeader from "./calender/CalenderHeader";
+import DayShift from "./calender/DayShift";
+import WeekShift from "./calender/WeekShift";
 
 export {
     Navbar,
@@ -16,4 +18,6 @@ export {
     OpenShift,
     CalenderFooter,
     CalenderHeader,
+    DayShift,
+    WeekShift,
 }

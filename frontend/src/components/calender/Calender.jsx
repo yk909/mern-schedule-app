@@ -192,6 +192,7 @@ const Calender = () => {
         </div>
         <Scheduler 
           fromDate={fromDate}
+          startDate={startDate}
           dateControl={dateControl}
           setDateControl={setDateControl}
           setStartDate={setStartDate}
