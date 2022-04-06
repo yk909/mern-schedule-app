@@ -186,6 +186,31 @@ main {
   fill: var(--text-light);
 }
 
+.btn-group {
+  display: flex;
+}
+
+.btn-group .btn {
+  padding: 10px 10px;
+  height: 21px;
+  max-height: 21px;
+  border-radius: 0;
+  border-right: 0!important;
+  border-left: 0!important;
+}
+
+.btn-group .btn:first-child {
+  border: 2px solid var(--extra-dark)!important;
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+}
+
+.btn-group .btn:last-child {
+  border: 2px solid var(--extra-dark)!important;
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+}
+
 .btn {
   padding: 10px 20px;
   border-radius: var(--border-radius);
@@ -248,7 +273,6 @@ main {
 .btn.btn-outline {
   background-color: transparent;
   border: 2px solid var(--extra-dark);
-  border-radius: var(--border-radius);
   color: var(--text-dark);
   box-shadow: none;
 }

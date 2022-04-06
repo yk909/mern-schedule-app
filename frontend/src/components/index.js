@@ -2,10 +2,18 @@ import Navbar from "./common/Navbar";
 import RequireAuth from "./common/RequireAuth";
 import Calender from "./calender/Calender";
 import Scheduler from "./calender/Scheduler";
+import UserShift from "./calender/UserShift";
+import OpenShift from "./calender/OpenShift";
+import CalenderFooter from "./calender/CalenderFooter";
+import CalenderHeader from "./calender/CalenderHeader";
 
 export {
     Navbar,
     RequireAuth,
     Calender,
-    Scheduler
+    Scheduler,
+    UserShift,
+    OpenShift,
+    CalenderFooter,
+    CalenderHeader,
 }

@@ -6,7 +6,7 @@
     display: flex;
     justify-content: space-between;
     height: 45px;
-    max-width: 1900px;
+    max-width: 1460px;
     margin: 0 auto;
 }
 
@@ -22,14 +22,7 @@
     margin-left: 15px;
 }
 
-.calender .date-control {
-    display: flex;
-}
-
-.calender .print,
-.calender .prev-date,
-.calender .next-date,
-.calender .date {
+.calender .print {
     padding: 10px 10px;
     height: 21px;
     max-height: 21px;
@@ -39,30 +32,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 10px;
-    height: 21px;
-    max-height: 21px;
+}
+
+.btn-group .date.btn {
+    border-right: 0!important;
+    border-left: 0!important;
+    border-radius: 0!important;
 }
 
 .calender svg {
     height: inherit;
     width: 20px;
-}
-
-.calender .date-control .prev-date {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-right: none;
-}
-
-.calender .date-control .date {
-    border-radius: 0;
-}
-
-.calender .date-control .next-date {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-left: none;
 }
 
 .calender .calender-header-left {

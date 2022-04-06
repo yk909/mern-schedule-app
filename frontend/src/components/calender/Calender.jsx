@@ -126,7 +126,8 @@ const Calender = () => {
           <div className="calender-header-left">
             <div className="date">
               {dateControl.label === 'Day' ?
-                startDate.toLocaleString("en-US", { month: 'short', day: 'numeric', year: 'numeric' }) 
+              
+                startDate.toLocaleString("en-US", { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) 
               :(
                 fromDate.toLocaleString("en-US", { month: 'short', day: 'numeric' }) + ' - ' +
                 toDate.toLocaleString("en-US", { month: 'short', day: 'numeric' }) + ', ' +
@@ -135,7 +136,7 @@ const Calender = () => {
             </div>
           </div>
           <div className="calender-header-right">
-            <div className="date-control">
+            <div className="date-control btn-group">
               <div 
                 className="prev-date btn btn-outline" 
                 onClick={() => { handleNextPrev('prev') }}
@@ -192,6 +193,8 @@ const Calender = () => {
         <Scheduler 
           fromDate={fromDate}
           dateControl={dateControl}
+          setDateControl={setDateControl}
+          setStartDate={setStartDate}
         />
       </div>
     </section>

@@ -5,10 +5,7 @@
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     border: 1px solid var(--light);
-}
-
-.calender-body.day-view {
-    max-width: 1900px;
+    max-width: fit-content;
     margin: 20px auto;
 }
 
@@ -21,13 +18,20 @@
     border-radius: var(--border-radius);
     padding: 10px 0;
     background: var(--extra-extra-light);
+    max-width: fit-content;
 }
 
 .section-container {
-    min-width: fit-content;
+    max-width: fit-content;
+}
+
+.calender-timestamp .hours {
+    font-size: 0.7rem;
+    font-weight: 700;
 }
 
 .section-row {
+    max-width: fit-content;
     min-width: fit-content;
     transition: var(--transition-duration);
 }
@@ -50,7 +54,7 @@
     border-radius: var(--border-radius);
     margin: 10px;
     height: 50px;
-    padding: 0 10px;
+    padding: 0 5px;
     border-radius: var(--border-radius);
     font-weight: 600;
     font-size: 1rem;
@@ -131,13 +135,12 @@
 }
 
 .section-row .col {
-    flex-basis: 0;
     padding: 0;
-    flex-grow: 1;
     min-width: 180px;
+    max-width: 180px;
 }
 
-.day-view .section-row .col {
+.calender-body-day .section-row .col {
     flex-basis: 0;
     padding: 0;
     flex-grow: 1;
@@ -153,17 +156,18 @@
 }
 
 .section-row .shift {
-    padding: 0 10px;
+    padding: 0 5px;
     border-radius: var(--border-radius);
     font-weight: 600;
     font-size: 1rem;
     overflow: hidden;
     cursor: pointer;
     box-shadow: var(--box-shadow-sm);
+    transition: var(--transition-duration);
 }
 
 .section-row .shift:active {
-    cursor: grabbing;
+    opacity: 75%;
 }
 
 .section-row .shift .position {
@@ -189,12 +193,12 @@
 }
 
 .section-row .shift .edit .btn {
-    padding: 5px;
-    flex-grow: 1;
+    /* padding: 5px;
+    flex-grow: 1; */
 }
 
 .section-row .shift .edit .btn:nth-of-type(2) {
-    margin: 0 5px;
+    /* margin: 0 5px; */
 }
 
 .section-row .shift .edit svg {
