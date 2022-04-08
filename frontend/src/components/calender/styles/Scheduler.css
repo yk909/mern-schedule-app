@@ -39,11 +39,13 @@
 .section-container.calender-timestamp.header-row .section-title .section-content {
     margin-left: 0;
     padding-left: 15px;
+    position: relative;
 }
 
 .section-container.footer-row .section-title .section-content {
     margin-left: 0;
     padding-left: 15px;
+    position: relative;
 }
 
 .section-row {

@@ -35,6 +35,7 @@ body {
   font-size: 16px;
   background-color: var(--colo-main);
   color: var(--text-dark);
+  overflow: hidden;
 }
 
 main {
