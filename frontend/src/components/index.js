@@ -8,6 +8,7 @@ import CalenderFooter from "./calender/CalenderFooter";
 import CalenderHeader from "./calender/CalenderHeader";
 import DayShift from "./calender/DayShift";
 import WeekShift from "./calender/WeekShift";
+import Test from "./calender/Test";
 
 export {
     Navbar,
@@ -20,4 +21,5 @@ export {
     CalenderHeader,
     DayShift,
     WeekShift,
+    Test,
 }

@@ -41,8 +41,8 @@ nav li a {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.2rem;
-    padding: 0 40px;
+    font-size: 1rem;
+    padding: 0 25px;
     height: 80px;
     color: var(--text-dark);
     cursor: pointer;
@@ -89,8 +89,13 @@ nav .nav-menu-links:last-child {
     border-bottom-right-radius: var(--border-radius);
 }
 
+nav .nav-menu-links {
+    width: 100%;
+}
+
 nav .nav-menu-links a {
     justify-content: space-between;
-    padding: 20px;
+    padding: 10px;
     text-align: end;
+    font-size: .85rem;
 }

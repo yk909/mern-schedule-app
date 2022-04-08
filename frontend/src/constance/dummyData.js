@@ -21,17 +21,6 @@ const employees = [
                 startTime: '09:00AM',
                 endTime: '03:00PM'
             },
-            {
-                id: 2,
-                user: 'John',
-                scheduledBy: 'Bohdan',
-                business: 'Hungry Ghost Coffee',
-                color: 'bg-success',
-                date: '2022-4-6',
-                position: 'Barista',
-                startTime: '04:00PM',
-                endTime: '06:00PM'
-            },
         ]
     },
     {
@@ -45,7 +34,7 @@ const employees = [
         isActive: true,
         shifts: [
             {
-                id: 4,
+                id: 3,
                 user: 'Bohdan',
                 scheduledBy: 'Bohdan',
                 business: 'Hungry Ghost Coffee',
@@ -56,10 +45,10 @@ const employees = [
                 endTime: '12:00PM'
             },
             {
-                id: 5,
+                id: 4,
                 user: 'Bohdan',
                 scheduledBy: 'Bohdan',
-                color: 'bg-success',
+                color: 'bg-danger',
                 position: 'Manager',
                 business: 'Hungry Ghost Coffee',
                 date: '2022-4-6',
@@ -78,7 +67,7 @@ const employees = [
         business: 'Hungry Ghost Coffee',
         shifts: [
             {
-                id: 6,
+                id: 5,
                 user: 'Eugene',
                 scheduledBy: 'Bohdan',
                 color: 'bg-success',
@@ -88,6 +77,17 @@ const employees = [
                 startTime: '07:00AM',
                 endTime: '01:00PM'
             },
+            {
+                id: 2,
+                user: 'John',
+                scheduledBy: 'Bohdan',
+                business: 'Hungry Ghost Coffee',
+                color: 'bg-success',
+                date: '2022-4-8',
+                position: 'Barista',
+                startTime: '01:00PM',
+                endTime: '10:00PM'
+            },
         ]
     },
 ]
@@ -95,7 +95,7 @@ const employees = [
 // create dummy data for open shifts with id, scheduledBy, schedule, business, date, startTime, endTime
 const openShifts = [
     {
-        id: 1,
+        id: 6,
         scheduledBy: 'Bohdan',
         color: 'bg-info',
         position: 'Barista',
@@ -105,7 +105,7 @@ const openShifts = [
         endTime: '05:00PM'
     },
     {
-        id: 2,
+        id: 7,
         scheduledBy: 'Bohdan',
         color: 'bg-info',
         position: 'Barista',
@@ -115,7 +115,17 @@ const openShifts = [
         endTime: '12:00PM'
     },
     {
-        id: 3,
+        id: 1,
+        scheduledBy: 'Bohdan',
+        color: 'bg-info',
+        position: 'Barista',
+        business: 'Hungry Ghost Coffee',
+        date: '2022-4-8',
+        startTime: '01:30AM',
+        endTime: '06:00AM'
+    },
+    {
+        id: 10,
         scheduledBy: 'Bohdan',
         color: 'bg-info',
         position: 'Barista',
