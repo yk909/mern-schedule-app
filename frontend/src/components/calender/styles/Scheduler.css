@@ -110,13 +110,8 @@
     background: var(--color-main);
 }
 
-.section-row .shift-parent {
-    /* background: var(--color-main); */
-    animation-duration: var(--transition-duration);
-}
-
-.calender-body-day .section-row .section-holder:hover .shift-parent {
-    background: var(--color-main);
+.calender-body-day .section-row .shift-parent {
+    position: relative;
 }
 
 .section-row .section-holder .create-shift div {

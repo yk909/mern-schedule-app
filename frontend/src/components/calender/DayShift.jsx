@@ -12,7 +12,7 @@ const DayShift = ({ dateControl, startDate, date, shifts }) => {
         const minStep = 70; // min box width
 
         const onMouseMove = (e) => {
-            let newWidth = e.pageX + 15 - shiftParentRef.current.getBoundingClientRect().left; // 15 is an offset to make the width of the div to be the same as the width of the mouse pointer
+            let newWidth = e.pageX - 10 - shiftParentRef.current.getBoundingClientRect().left; // 10 is an offset to make the width of the div to be the same as the width of the mouse pointer
             let withPercent = +(Math.round(1000*(newWidth / minStep)) / 100).toFixed(0)
             const startTimeNum = +startTime.slice(0, 2);
 

@@ -19,7 +19,6 @@ const WeekShift = ({dateControl, date, shifts}) => {
                         className="col section-holder"
                     >
                         { shifts.map((shift, e) => {
-                            {console.log(shift.date, `${new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).getFullYear()}-${new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).getMonth()+1}-${new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).getDate()}`)}
                             return (
                                 shift.date === `${new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).getFullYear()}-${new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).getMonth()+1}-${new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).getDate()}` &&
                                 <div key={`open-shift-${e}`} className="shift-parent flex align-between w-100">
