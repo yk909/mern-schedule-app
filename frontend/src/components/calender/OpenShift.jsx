@@ -1,7 +1,7 @@
 import { DayShift, WeekShift } from '../';
 import { openShifts, hours } from '../../constance/dummyData'
 
-const OpenShift = ({ dateControl, startDate, date, onMouseDownResize }) => {
+const OpenShift = ({ dateControl, startDate, date }) => {
 
     return (
         <div className="section-row flex open-shift user-row">
@@ -57,7 +57,6 @@ const OpenShift = ({ dateControl, startDate, date, onMouseDownResize }) => {
                     <DayShift
                         dateControl={dateControl}
                         date={date}
-                        onMouseDownResize={onMouseDownResize}
                         shifts={openShifts}
                         startDate={startDate}
                     />

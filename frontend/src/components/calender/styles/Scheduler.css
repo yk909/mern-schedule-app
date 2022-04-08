@@ -13,7 +13,8 @@
     flex-direction: column;
     flex-wrap: nowrap;
     overflow-x: scroll;
-    overscroll-behavior: contain;
+    overscroll-behavior-x: contain;
+    overscroll-behavior-y: none;
     border-radius: var(--border-radius);
     margin: 10px 0;
     background: var(--color-main);
@@ -39,6 +40,7 @@
     max-width: fit-content;
     min-width: fit-content;
     transition: var(--transition-duration);
+    padding-right: 10px;
 }
 
 .user-row:hover {
@@ -154,6 +156,10 @@
     padding: 0 10px;
 }
 
+.calender-body-day .user-row .shift {
+    margin: 10px 0px;
+}
+
 .section-row .shift {
     padding: 0 5px;
     border-radius: var(--border-radius);
@@ -170,6 +176,26 @@
     background: var(--color-main);
 }
 
+.calender-body-day .header-row .shift,
+.calender-body-day .footer-row .shift {
+    margin: 10px 0;
+    border-radius: 0;
+    box-shadow: none;
+    outline: 1px solid var(--color-secondary-light);
+}
+
+.calender-body-day .header-row .section-holder:nth-child(2) .shift,
+.calender-body-day .footer-row .section-holder:nth-child(2) .shift {
+    border-bottom-left-radius: var(--border-radius);
+    border-top-left-radius: var(--border-radius);
+}
+
+.calender-body-day .header-row .section-holder:nth-last-child(1) .shift,
+.calender-body-day .footer-row .section-holder:nth-last-child(1) .shift {
+    border-bottom-right-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+}
+
 .header-row .today {
     background: var(--color-primary);
     color: var(--text-light);
@@ -177,6 +203,7 @@
 
 .header-row,
 .footer-row {
+    min-width: fit-content;
     background: var(--color-secondary-light);
 }
 

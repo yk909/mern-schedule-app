@@ -84,7 +84,7 @@ const employees = [
                 color: 'bg-success',
                 position: 'Barista',
                 business: 'Hungry Ghost Coffee',
-                date: '2022-4-6',
+                date: '2022-4-8',
                 startTime: '07:00AM',
                 endTime: '01:00PM'
             },

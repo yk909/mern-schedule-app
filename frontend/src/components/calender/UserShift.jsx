@@ -2,7 +2,7 @@ import { DayShift, WeekShift } from '../';
 import { employees, hours } from '../../constance/dummyData';
 
 
-const UserShift = ({dateControl, date, startDate, onMouseDownResize}) => {
+const UserShift = ({dateControl, date, startDate}) => {
     return (
         <>
         {employees.map((employee, i) => {
@@ -62,7 +62,6 @@ const UserShift = ({dateControl, date, startDate, onMouseDownResize}) => {
                         <DayShift
                             dateControl={dateControl}
                             date={date}
-                            onMouseDownResize={onMouseDownResize}
                             shifts={employee.shifts}
                             startDate={startDate}
                         />

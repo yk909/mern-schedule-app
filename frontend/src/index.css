@@ -431,11 +431,15 @@ input:focus {
 }
 
 .p-3 {
-  padding: 12px;
+  padding: 10px;
 }
 
 .p-4 {
-  padding: 16px;
+  padding: 14px;
+}
+
+.pe-3 { 
+  padding-right: 10px;
 }
 
 .text-center {

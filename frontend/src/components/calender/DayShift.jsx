@@ -1,9 +1,55 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { hours } from '../../constance/dummyData';
 
-const DayShift = ({ dateControl, startDate, date, onMouseDownResize, shifts }) => {
 
-    const useRefff = useRef(null);
+const DayShift = ({ dateControl, startDate, date, shifts }) => {
+
+    const shiftParentRef = useRef(null);
+    const [endTime, setEndTime] = useState({});
+
+    const onMouseDownResize = (e, index, startTime) => {
+        e.preventDefault();
+        const minStep = 70; // min box width
+
+        const onMouseMove = (e) => {
+            let newWidth = e.pageX + 15 - shiftParentRef.current.getBoundingClientRect().left; // 15 is an offset to make the width of the div to be the same as the width of the mouse pointer
+            let withPercent = +(Math.round(1000*(newWidth / minStep)) / 100).toFixed(0)
+            const startTimeNum = +startTime.slice(0, 2);
+
+            if ( newWidth >= minStep && newWidth <= (24-index)*70 ) { // 25 is the number of boxes in a row, 70 is the width of a box, index is current box index
+                let minutes = ((withPercent/10 % 1).toFixed(1) * 60);
+                let hour = (startTimeNum + Math.floor(withPercent/10) > 12 ? startTimeNum + Math.floor(withPercent/10) : +startTimeNum + Math.floor(withPercent/10))
+                let toAMPM = hour > 12 ? hour - 12 : hour;
+                let newEndTime =  (toAMPM < 10 ? "0" + toAMPM : toAMPM) + ":"+ 
+                    (minutes < 10 ? "0"+minutes : minutes) + (hour >= 12 ? "PM" : "AM");
+
+                setEndTime({...endTime, [index]: newEndTime});
+
+                shiftParentRef.current.style.width = withPercent * 10 + "%";
+            }
+        };
+
+        const onMouseUp = () => {
+            window.removeEventListener("mousemove", onMouseMove);
+        };
+
+        if (shiftParentRef.current) {
+            window.addEventListener("mousemove", onMouseMove);
+            window.addEventListener("mouseup", onMouseUp);
+        }
+    };
+
+    const calcTotalHours = ( startTime, endTime ) => {
+        const hours = startTime.includes("PM") && +startTime.slice(0, 2) != "12" ? ((+startTime.slice(0, 2)) + 12) : (+startTime.slice(0, 2));
+        const minutes = endTime.includes("PM") && +endTime.slice(0, 2) != "12" ? ((+endTime.slice(0, 2)) + 12) : (+endTime.slice(0, 2));
+        const timeStart = new Date().setHours(hours, startTime.slice(3,5));
+        const timeEnd = new Date().setHours(minutes, endTime.slice(3,5));
+
+        // return time difference in hours, minutes
+        const result = ((timeEnd - timeStart) / (1000 * 60 * 60)).toFixed(2) % 1 * 60;
+        return Math.trunc((timeEnd - timeStart) / (1000 * 60 * 60)) + 'h ' + (Math.round(result) != 0 ? (Math.round(result) + 'm') : '');
+
+    };
 
     return (
         <>
@@ -23,29 +69,34 @@ const DayShift = ({ dateControl, startDate, date, onMouseDownResize, shifts }) =
                                     {time === shift.startTime.slice(0,2) + shift.startTime.slice(5) &&
                                     shift.date === `${startDate.getFullYear()}-${startDate.getMonth()+1}-${startDate.getDate()}` &&
                                         <div 
-                                        ref={useRefff}
                                             className="shift-parent flex align-between"
+                                            ref={shiftParentRef}
                                             style={{
                                                 width: `${100*(
-                                                    +(hours.indexOf(shift.endTime.slice(0,2) + shift.endTime.slice(5))) - hours.indexOf(shift.startTime.slice(0,2) + shift.startTime.slice(5))+1
+                                                    +(hours.indexOf(shift.endTime.slice(0,2) + shift.endTime.slice(5))) - hours.indexOf(shift.startTime.slice(0,2) + shift.startTime.slice(5))
                                                     )}%`
                                             }}
                                         >
-                                            {console.log(useRefff.current)}
                                             <div className={`shift w-100 h-100 ${ shift.color }`}>
                                                 <div 
-                                                    onMouseDown={(e) => {onMouseDownResize(e, index)}}
+                                                    onMouseDown={(e) => {onMouseDownResize(e, index, shift.startTime)}}
                                                     className="stretch"
                                                 ></div>
                                                 <div className="time flex align-between w-100 h-100">
                                                     <div className="clock-time">
                                                         { shift.startTime }
                                                         <hr />
-                                                        { shift.endTime }
+                                                        { 
+                                                            endTime[index] ?
+                                                                endTime[index]
+                                                            :
+                                                                shift.endTime 
+                                                        }
                                                     </div>
                                                     <div className="flex align-center">
                                                         <div className="total-hours">
-                                                            { (hours.indexOf(shift.endTime.slice(0,2) + shift.endTime.slice(5))) - hours.indexOf(shift.startTime.slice(0,2) + shift.startTime.slice(5)) + 'h' }
+                                                            { calcTotalHours(shift.startTime, endTime[index] ? endTime[index] : shift.endTime) }
+                                                            {/* { (hours.indexOf(shift.endTime.slice(0,2) + shift.endTime.slice(5))) - hours.indexOf(shift.startTime.slice(0,2) + shift.startTime.slice(5)) + 'h' } */}
                                                         </div>
                                                     <div className="position">
                                                         { shift.position }

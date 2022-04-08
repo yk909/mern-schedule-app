@@ -17,29 +17,6 @@ const Scheduler = ({fromDate, startDate, dateControl, setStartDate, setDateContr
         // }
     };
 
-    const onMouseDownResize = (e, index) => {
-        e.preventDefault();
-        const parentRef = e.target.parentElement.parentElement;
-        const minStep = 70; // min box width
-
-        const onMouseMove = (e) => {
-            let newWidth = e.pageX + 15 - parentRef.getBoundingClientRect().left; // 15 is an offset to make the width of the div to be the same as the width of the mouse pointer
-            console.log(index)
-            if ( newWidth >= minStep && newWidth <= (24-index)*70 ) { // 25 is the number of boxes in a row, 70 is the width of a box, index is current box index
-                parentRef.style.width = (Math.round(100*(newWidth / minStep) * 10) / 100).toFixed(0) * 10 + "%";
-            }
-        };
-
-        const onMouseUp = () => {
-            window.removeEventListener("mousemove", onMouseMove);
-        };
-
-        if (parentRef) {
-            window.addEventListener("mousemove", onMouseMove);
-            window.addEventListener("mouseup", onMouseUp);
-        }
-    };
-
     return (
         <div className={`calender-body${
             dateControl.value === 'day' ? 
@@ -60,14 +37,12 @@ const Scheduler = ({fromDate, startDate, dateControl, setStartDate, setDateContr
                     <OpenShift
                         date={date}
                         dateControl={dateControl}
-                        onMouseDownResize={onMouseDownResize}
                         startDate={startDate}
                     />
 
                     <UserShift
                         date={date}
                         dateControl={dateControl}
-                        onMouseDownResize={onMouseDownResize}
                         startDate={startDate}
                     />
                     <CalenderFooter
