@@ -18,28 +18,32 @@ const customSelectStyles = {
     ...provided,
     color: state.isSelected ? 'var(--text-light)' : '#var(--text-dark)',
     padding: 15,
-    background: state.isSelected ? 'var(--primary)' : 'var(--extra-extra-light)',
+    background: state.isSelected ? 'var(--color-primary)' : 'var(--color-main)',
     fontWeight: state.isSelected ? '600' : 'normal',
+    cursor: 'pointer',
   }),
   control: () => ({
-    border: '2px solid var(--dark)',
-    color: 'var(--text-dark)',
+    border: '2px solid var(--color-main)',
+    background: 'var(--color-main)',
     fontWeight: '600',
     display: 'flex',
     height: '41px',
     borderRadius: 'var(--border-radius)',
+    boxShadow: 'var(--box-shadow)',
+    cursor: 'pointer',
     width: 200,
   }),
   indicatorSeparator: () => ({
-    background: 'var(--dark)',
+    background: 'var(--color-dark)',
     height: '65%',
     width: '1px',
   }),
   singleValue: (provided, state) => {
     const opacity = state.isDisabled ? 0.5 : 1;
     const transition = 'opacity 300ms';
+    const color = 'var(--text-dark)';
 
-    return { ...provided, opacity, transition };
+    return { ...provided, opacity, transition, color };
   }
 }
 
@@ -51,7 +55,7 @@ const Calender = () => {
   const [toDate, setToDate] = useState(new Date());
 
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
-    <div className="date btn btn-outline example-custom-input" onClick={onClick} ref={ref}>
+    <div className="date btn example-custom-input" onClick={onClick} ref={ref}>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
         <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
         <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
@@ -136,9 +140,9 @@ const Calender = () => {
             </div>
           </div>
           <div className="calender-header-right">
-            <div className="date-control btn-group">
+            <div className="date-control btn-group box-shadow">
               <div 
-                className="prev-date btn btn-outline" 
+                className="prev-date btn" 
                 onClick={() => { handleNextPrev('prev') }}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -154,7 +158,7 @@ const Calender = () => {
                 endDate={dateControl.label === "Day" ? startDate : toDate}
               />
               <div 
-                className="next-date btn btn-outline" 
+                className="next-date btn" 
                 onClick={() => { handleNextPrev('next') }}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -164,7 +168,7 @@ const Calender = () => {
             </div>
             <div className="today-control">
               <div 
-                className="today btn btn-outline" 
+                className="today btn" 
                 onClick={() => { setStartDate(new Date) }}
               >
                 TODAY
@@ -181,7 +185,7 @@ const Calender = () => {
               />
             </div>
             <div className="print-control">
-              <div className="print btn btn-outline">
+              <div className="print btn">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                   <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
                   <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>

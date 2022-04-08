@@ -3,10 +3,10 @@ const hours = [ '12:00AM', '1:00AM', '2:00AM', '3:00AM', '4:00AM', '5:00AM', '6:
 
 const CalenderHeader = ({ dateControl, date, setStartDate, setDateControl }) => {
     return (
-        <div className="section-container calender-timestamp">
-            <div className="section-row flex bg-x-light">
+        <div className="section-container calender-timestamp header-row">
+            <div className="section-row flex">
                 <div className="section-title flex">
-                    <div className="section-content bg-xx-light w-100 flex align-between">
+                    <div className="section-content w-100 flex align-between">
                         <div>
                             EMPLOYEE
                         </div>
@@ -33,8 +33,8 @@ const CalenderHeader = ({ dateControl, date, setStartDate, setDateControl }) => 
                                 className={`shift w-100 h-100${
                                     dateControl.value !== 'day' &&
                                     new Date().setHours(0,0,0,0) === new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).setHours(0,0,0,0) ?
-                                        ' bg-success'
-                                    : ' bg-light'
+                                        ' today'
+                                    : ''
                                 }`}
                                 onClick={() => {
                                     if(dateControl.value !== 'day') {

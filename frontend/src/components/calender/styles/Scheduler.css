@@ -1,10 +1,9 @@
 .calender-body {
-    padding-bottom: 10px;
     margin-top: 20px;
-    background: var(--extra-extra-light);
+    background: var(--color-secondary-light);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    border: 1px solid var(--light);
+    border: 1px solid var(--color-secondary-light);
     max-width: fit-content;
     margin: 20px auto;
 }
@@ -16,8 +15,8 @@
     overflow-x: scroll;
     overscroll-behavior: contain;
     border-radius: var(--border-radius);
-    padding: 10px 0;
-    background: var(--extra-extra-light);
+    margin: 10px 0;
+    background: var(--color-main);
     max-width: fit-content;
     /* max-width: 1920px; */
 }
@@ -32,15 +31,18 @@
     font-weight: 700;
 }
 
+.calender-timestamp .section-holder:hover {
+    background-color: var(--color-secondary);
+}
+
 .section-row {
     max-width: fit-content;
     min-width: fit-content;
     transition: var(--transition-duration);
 }
 
-.section-row.bg-xx-light:hover {
-    background: var(--dark);
-    box-shadow: var(--box-shadow-sm);
+.user-row:hover {
+    background: var(--color-secondary);
 }
 
 .section-row .section-title {
@@ -61,28 +63,24 @@
     font-weight: 600;
     font-size: 1rem;
     align-items: center;
-    box-shadow: var(--box-shadow-sm);
+    box-shadow: var(--box-shadow);
+    background: var(--color-main);
 }
 
 .section-row .section-title,
 .section-row .section-holder { 
     min-height: 70px;
-    outline: 1px solid var(--light);
+    outline: 1px solid var(--color-secondary-light);
     transition: var(--transition-duration);
 }
 
 .section-row .shift-parent {
-    /* background: var(--extra-extra-light); */
+    /* background: var(--color-main); */
     animation-duration: var(--transition-duration);
 }
 
-.section-row .section-holder:hover {
-    background: var(--extra-dark);
-}
-
-.section-row .section-holder:hover .shift-parent {
-    background: var(--extra-dark);
-    animation-name: hover;
+.calender-body-day .section-row .section-holder:hover .shift-parent {
+    background: var(--color-main);
 }
 
 .section-row .section-holder .create-shift div {
@@ -90,20 +88,20 @@
     height: 50px;
     margin: 10px;
     border-radius: var(--border-radius);
+    background: var(--color-main);
     transition: var(--transition-duration);
 }
 
 .section-row .section-holder:hover .create-shift div {
     width: 100%;
     cursor: pointer;
-    box-shadow: var(--box-shadow-sm);
+    box-shadow: var(--box-shadow);
+}
+.section-row .section-holder .create-shift div:hover {
+    background: var(--color-secondary-light);
 }
 
-.section-row .section-holder .create-shift:active {
-    opacity: 75%;
-}
-
-.section-row .section-holder .create-shift:active {
+.section-row .section-holder .create-shift div:active {
     opacity: 75%;
 }
 
@@ -124,7 +122,6 @@
 
 .section-row .section-title .section-hours {
     display: flex;
-    opacity: 75%;
     align-items: center;
 }
 
@@ -164,37 +161,44 @@
     font-size: 1rem;
     overflow: hidden;
     cursor: pointer;
-    box-shadow: var(--box-shadow-sm);
+    box-shadow: var(--box-shadow);
     transition: var(--transition-duration);
 }
 
-.section-row .shift:active {
-    opacity: 75%;
+.header-row .shift,
+.footer-row .shift {
+    background: var(--color-main);
 }
 
-.section-row .shift .position {
-    background-color: var(--extra-dark);
-    padding: 2px 3px;
+.header-row .today {
+    background: var(--color-primary);
     color: var(--text-light);
+}
+
+.header-row,
+.footer-row {
+    background: var(--color-secondary-light);
+}
+
+.section-row .shift .position,
+.section-row .shift .clock-time,
+.section-row .shift .total-hours {
+    background-color: var(--color-main);
+    padding: 2px 3px;
+    color: var(--text-dark);
     border-radius: 5px;
+    margin-left: 5px;
+    font-size: 0.85rem;
 }
 
 .section-row .shift hr {
-    background: var(--extra-extra-light);
+    background: var(--color-secondary);
     height: 1px;
     border: 0;
 }
 
 .section-row .shift .time {
     transition: var(--transition-duration);
-}
-
-.section-row .shift .total-hours {
-    padding: 2px 3px;
-    margin: 0 5px;
-    background: var(--extra-dark);
-    color: var(--extra-extra-light);
-    border-radius: 5px;
 }
 
 .section-row .shift:hover .time {
@@ -206,15 +210,6 @@
     transition: var(--transition-duration);
     opacity: 0;
     height: 0;
-}
-
-.section-row .shift .edit .btn {
-    /* padding: 5px;
-    flex-grow: 1; */
-}
-
-.section-row .shift .edit .btn:nth-of-type(2) {
-    /* margin: 0 5px; */
 }
 
 .section-row .shift .edit svg {
@@ -239,14 +234,5 @@
 @media (max-width: 768px) {
     .scheduler-wrapper {
         overscroll-behavior: initial;
-    }
-}
-
-@keyframes hover {
-    0% {
-        background: var(--dark);
-    }
-    100% {
-        background: var(--extra-dark);
     }
 }

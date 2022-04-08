@@ -34,12 +34,6 @@
     justify-content: center;
 }
 
-.btn-group .date.btn {
-    border-right: 0!important;
-    border-left: 0!important;
-    border-radius: 0!important;
-}
-
 .calender svg {
     height: inherit;
     width: 20px;
@@ -51,18 +45,18 @@
 
 /* override default style of a DayPicker */
 .react-datepicker__day--keyboard-selected, .react-datepicker__month-text--keyboard-selected, .react-datepicker__quarter-text--keyboard-selected, .react-datepicker__year-text--keyboard-selected {
-    background-color: var(--primary)!important;
-    color: var(--text-dark)!important;
+    background-color: var(--color-primary)!important;
+    color: var(--text-light)!important;
 }
 
 .react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range, .react-datepicker__month-text--selected, .react-datepicker__month-text--in-selecting-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--selected, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--selected, .react-datepicker__year-text--in-selecting-range, .react-datepicker__year-text--in-range {
-    background-color: var(--primary)!important;
-    color: var(--text-dark)!important;
-    border: 2px solid var(--dark);
+    background-color: var(--color-primary)!important;
+    color: var(--text-light)!important;
+    border: 2px solid var(--color-primary);
 }
 
 .react-datepicker__month-container {
-    background-color: var(--extra-extra-light)!important;
+    background-color: var(--color-main)!important;
     color: var(--text-dark)!important;
 }
 
@@ -75,13 +69,9 @@
     font-size: 1.2rem!important;
 }
 
-.react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
-    color: var(--text-dark)!important;
-}
-
 .react-datepicker {
     color: var(--text-dark)!important;
-    border: 1px solid var(--dark)!important;
+    border: 1px solid var(--color-secondary)!important;
     font-size: 1rem!important;
 }
 

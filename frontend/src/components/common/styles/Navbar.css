@@ -4,8 +4,7 @@ nav {
     position: relative;
     z-index: 1000;
     margin-bottom: 40px;
-    /* background: var(--extra-extra-light);
-    border-bottom: 1px solid var(--extra-dark); */
+    background: var(--color-main);
 }
 
 nav .nav-wrapper {
@@ -48,8 +47,8 @@ nav li a {
     color: var(--text-dark);
     cursor: pointer;
     transition: var(--transition-duration);
-    background: var(--extra-extra-light);
-    /* border-bottom: 1px solid var(--extra-dark); */
+    background: var(--color-main);
+    /* border-bottom: 1px solid var(--color-secondary); */
 }
 
 nav li a svg {
@@ -61,24 +60,11 @@ nav li a svg {
 }
 
 nav li a:hover {
-    background-color: var(--extra-dark);
-    color: var(--text-light);
-}
-
-nav li a:hover svg {
-    fill: var(--text-light);
+    background-color: var(--color-secondary);
 }
 
 nav li a:active {
-    background-color: var(--extra-dark);
-}
-
-nav .nav-left li a {
-    /* border-right: 1px solid var(--extra-dark); */
-}
-
-nav .nav-right li a {
-    /* border-left: 1px solid var(--extra-dark); */
+    background-color: var(--color-secondary);
 }
 
 nav .nav-links .user-menu:hover .nav-menu-links {
@@ -96,6 +82,11 @@ nav .nav-menu-links {
     transition: var(--transition-duration);
     opacity: 0;
     height: 0;
+}
+
+nav .nav-menu-links:last-child {
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
 }
 
 nav .nav-menu-links a {

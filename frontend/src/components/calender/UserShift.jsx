@@ -7,9 +7,9 @@ const UserShift = ({dateControl, date, startDate, onMouseDownResize}) => {
         <>
         {employees.map((employee, i) => {
             return (
-            <div key={`uid-${employee.id}`} id={`uid-${employee.id}`} className="section-row flex bg-xx-light flex">
+            <div key={`uid-${employee.id}`} id={`uid-${employee.id}`} className="section-row user-row flex">
                 <div className="section-title flex align-center">
-                    <div className="section-content w-100 flex align-between bg-xx-light">
+                    <div className="section-content w-100 flex align-between">
                         <div className="flex align-center h-100">
                             <div className="section-img flex align-center">
                                 <img src="https://via.placeholder.com/150" alt=""/>

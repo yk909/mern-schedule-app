@@ -4,9 +4,9 @@ import { openShifts, hours } from '../../constance/dummyData'
 const OpenShift = ({ dateControl, startDate, date, onMouseDownResize }) => {
 
     return (
-        <div className="section-row bg-xx-light flex open-shift">
+        <div className="section-row flex open-shift user-row">
             <div className="section-title flex align-center">
-                <div className="section-content h-100 w-100 flex align-between bg-xx-light">
+                <div className="section-content h-100 w-100 flex align-between">
                     <div className="flex align-center">
                         <div className="section-img">
                         </div>

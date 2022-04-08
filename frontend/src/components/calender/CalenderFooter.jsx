@@ -1,9 +1,9 @@
 const CalenderFooter = ({dateControl}) => {
 	return (
-	<div className="section-container">
-		<div className="section-row flex bg-x-light">
+	<div className="section-container footer-row">
+		<div className="section-row flex">
 			<div className="section-title flex align-center">
-				<div className="section-content bg-xx-light w-100 flex align-between">
+				<div className="section-content w-100 flex align-between">
 					<div>
 						<div>
 							Assigned Total
@@ -30,7 +30,7 @@ const CalenderFooter = ({dateControl}) => {
 			).keys()].map((i) => {
 				return (
 					<div key={`footer-row-${i}`} className="col section-holder">
-						<div className="shift flex h-100 bg-light align-center">
+						<div className="shift flex h-100 align-center">
 							{ i }
 						</div>
 					</div>
