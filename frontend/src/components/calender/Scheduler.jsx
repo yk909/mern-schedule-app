@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import { CalenderHeader, OpenShift, UserShift, CalenderFooter } from '../';
 import './styles/Scheduler.css';
 
@@ -56,21 +56,17 @@ const Scheduler = ({fromDate, startDate, dateControl, setStartDate, setDateContr
                     setDateControl={setDateControl}
                 />
                 <div className="section-container">
-                    <DragDropContext
-                        onDragEnd={onDragEnd}
-                    >
-                        <OpenShift
-                            date={date}
-                            dateControl={dateControl}
-                            startDate={startDate}
-                        />
+                    <OpenShift
+                        date={date}
+                        dateControl={dateControl}
+                        startDate={startDate}
+                    />
 
-                        <UserShift
-                            date={date}
-                            dateControl={dateControl}
-                            startDate={startDate}
-                        />
-                    </DragDropContext>
+                    <UserShift
+                        date={date}
+                        dateControl={dateControl}
+                        startDate={startDate}
+                    />
                     <CalenderFooter
                         dateControl={dateControl}
                     />

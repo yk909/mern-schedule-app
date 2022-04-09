@@ -39,12 +39,12 @@ const DayShift = ({ dateControl, startDate, date, shifts }) => {
     };
 
     const calcTotalHours = ( shiftId ) => {
-        const shiftParentWidth = document.getElementById(shiftId).style.width;
-        const hours = shiftParentWidth.replace('%', '') / 100;
-        const minutes = Math.floor((hours % 1) * 60);
-
-        return Math.trunc(hours) + 'h' + (minutes !== 0 ? minutes + "m" : "");
-
+        if(document.getElementById(shiftId)) {
+            const shiftParentWidth = document.getElementById(shiftId).style.width;
+            const hours = shiftParentWidth.replace('%', '') / 100;
+            const minutes = Math.floor((hours % 1) * 60);
+            return Math.trunc(hours) + 'h' + (minutes !== 0 ? minutes + "m" : "");
+        }
     };
 
     return (
@@ -56,6 +56,7 @@ const DayShift = ({ dateControl, startDate, date, shifts }) => {
                 
                 <div key={`shift-row-${e}`} className="flex">
                     { hours.map((time, index) => { // loop for each day
+                    
                         return (
                             <div 
                                 key={`shift-day-${time}`}
@@ -98,7 +99,6 @@ const DayShift = ({ dateControl, startDate, date, shifts }) => {
                                                     <div className="flex align-center">
                                                         <div className="total-hours">
                                                             { calcTotalHours(shift.id) }
-                                                            {/* { (hours.indexOf(shift.endTime.slice(0,2) + shift.endTime.slice(5))) - hours.indexOf(shift.startTime.slice(0,2) + shift.startTime.slice(5)) + 'h' } */}
                                                         </div>
                                                     <div className="position">
                                                         { shift.position }
