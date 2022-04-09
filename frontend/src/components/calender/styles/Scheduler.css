@@ -112,8 +112,9 @@
     background: var(--color-main);
 }
 
-.calender-body-day .section-row .shift-parent {
+.section-row .shift-parent {
     position: relative;
+    /* transition: var(--transition-duration); */
 }
 
 .section-row .section-holder .create-shift div {

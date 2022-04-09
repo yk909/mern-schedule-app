@@ -46,22 +46,20 @@ const OpenShift = ({ dateControl, startDate, date }) => {
                     </div>
                 </div>
             </div>
-            <div className="pos-relative">
-                { dateControl.value != "day" ?
-                    <WeekShift
-                        dateControl={dateControl}
-                        date={date}
-                        shifts={openShifts}
-                    />
-                :
-                    <DayShift
-                        dateControl={dateControl}
-                        date={date}
-                        shifts={openShifts}
-                        startDate={startDate}
-                    />
-                }
-            </div>
+            { dateControl.value != "day" ?
+                <WeekShift
+                    dateControl={dateControl}
+                    date={date}
+                    shifts={openShifts}
+                />
+            :
+                <DayShift
+                    dateControl={dateControl}
+                    date={date}
+                    shifts={openShifts}
+                    startDate={startDate}
+                />
+            }
         </div>
     )
 }

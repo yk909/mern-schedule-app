@@ -1,26 +1,75 @@
+import { useEffect, useState } from 'react';
+import { useDrag } from 'react-dnd';
+import { hours } from '../../constance/dummyData';
 
-const Test = ({setBox, shift, endTime, index, onMouseDownResize, hours, calcTotalHours}) => {
+const Shift = ({ shift, onMouseDownResize, totalTime, endTime, index }) => {
+    const [initTotalTime, setInitTotalTime] = useState('0h');
+
+    const [{ isDragging, opacity }, drag] = useDrag({
+        type: 'shift',
+        item: {
+            shift,
+            // index,
+        },
+        collect: monitor => ({
+            isDragging: !!monitor.isDragging(),
+        }),
+    });
+
+    const calcTotalHours = ( shiftId ) => {
+        if(document.getElementById(shiftId)) {
+            const shiftParentWidth = document.getElementById(shiftId).style.width;
+            const hours = shiftParentWidth.replace('%', '') / 100;
+            const minutes = Math.floor((hours % 1) * 60);
+            return setInitTotalTime(Math.trunc(hours) + 'h' + (minutes !== 0 ? minutes + "m" : ""));
+        }
+    };
+
+    useEffect(() => {
+        calcTotalHours(shift.id);
+    }, [shift]);
+
     return (
         <div 
             className="shift-parent flex align-between"
-            ref={(e) => setBox(e)}
+            id={`${shift.id}`}
+            ref={drag}
             style={{
-                width: `${100*(
-                    +(hours.indexOf(shift.endTime.slice(0,2) + shift.endTime.slice(5))) - hours.indexOf(shift.startTime.slice(0,2) + shift.startTime.slice(5))
-                    )}%`
+                marginLeft: 
+                    `${
+                        onMouseDownResize ?
+                            (+shift.startTime.slice(3, 5) / 60) * 100
+                        : 
+                            0
+                    }%`
+                ,
+                width: `${
+                    onMouseDownResize ?
+                    (
+                        (100*(+(hours.indexOf(shift.endTime.slice(0,2) + shift.endTime.slice(5))) - hours.indexOf(shift.startTime.slice(0,2) + shift.startTime.slice(5))))
+                        - (+shift.startTime.slice(3, 5) / 60) * 100
+                    ) : 100}%`
+                ,
+                background: `${
+                    isDragging ? 'var(--color-main)' : ''
+                }`,
             }}
         >
             <div className={`shift w-100 h-100 ${ shift.color }`}>
-                <div 
-                    onMouseDown={(e) => {onMouseDownResize(e, index, shift.startTime)}}
-                    className="stretch"
-                ></div>
+                {
+                    onMouseDownResize ? 
+                    <div 
+                        onMouseDown={(e) => {onMouseDownResize(e, index, shift.startTime, shift.id)}}
+                        className="stretch"
+                    ></div>
+                    : null
+                }
                 <div className="time flex align-between w-100 h-100">
                     <div className="clock-time">
                         { shift.startTime }
                         <hr />
                         { 
-                            endTime[index] ?
+                            endTime && endTime[index] ?
                                 endTime[index]
                             :
                                 shift.endTime 
@@ -28,8 +77,12 @@ const Test = ({setBox, shift, endTime, index, onMouseDownResize, hours, calcTota
                     </div>
                     <div className="flex align-center">
                         <div className="total-hours">
-                            { calcTotalHours(shift.startTime, endTime[index] ? endTime[index] : shift.endTime) }
-                            {/* { (hours.indexOf(shift.endTime.slice(0,2) + shift.endTime.slice(5))) - hours.indexOf(shift.startTime.slice(0,2) + shift.startTime.slice(5)) + 'h' } */}
+                        { 
+                            totalTime && totalTime[index] ?
+                                totalTime[index]
+                            : 
+                                initTotalTime
+                        }
                         </div>
                     <div className="position">
                         { shift.position }
@@ -58,4 +111,4 @@ const Test = ({setBox, shift, endTime, index, onMouseDownResize, hours, calcTota
     )
 }
 
-export default Test
+export default Shift

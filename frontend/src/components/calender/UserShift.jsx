@@ -51,22 +51,20 @@ const UserShift = ({dateControl, date, startDate}) => {
                         </div>
                     </div>
                 </div>
-                <div className="pos-relative">
-                    { dateControl.value != "day" ?
-                        <WeekShift
-                            dateControl={dateControl}
-                            date={date}
-                            shifts={employee.shifts}
-                        />
-                    :
-                        <DayShift
-                            dateControl={dateControl}
-                            date={date}
-                            shifts={employee.shifts}
-                            startDate={startDate}
-                        />
-                    }
-                </div>
+                { dateControl.value != "day" ?
+                    <WeekShift
+                        dateControl={dateControl}
+                        date={date}
+                        shifts={employee.shifts}
+                    />
+                :
+                    <DayShift
+                        dateControl={dateControl}
+                        date={date}
+                        shifts={employee.shifts}
+                        startDate={startDate}
+                    />
+                }
             </div>
             )
         })}

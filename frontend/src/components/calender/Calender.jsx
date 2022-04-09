@@ -1,6 +1,8 @@
 import { useState, forwardRef, useEffect } from 'react';
 import Select from 'react-select';
 import DatePicker from "react-datepicker";
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Scheduler } from "../";
 import "react-datepicker/dist/react-datepicker.css";
 import './styles/Calender.css';
@@ -49,7 +51,7 @@ const customSelectStyles = {
 
 
 const Calender = () => {
-  const [dateControl, setDateControl] = useState(timeframeOptions[0]);
+  const [dateControl, setDateControl] = useState(timeframeOptions[1]);
   const [startDate, setStartDate] = useState(new Date());
   const [fromDate, setfromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
@@ -194,13 +196,15 @@ const Calender = () => {
             </div>
           </div>
         </div>
-        <Scheduler 
-          fromDate={fromDate}
-          startDate={startDate}
-          dateControl={dateControl}
-          setDateControl={setDateControl}
-          setStartDate={setStartDate}
-        />
+        <DndProvider backend={HTML5Backend}>
+          <Scheduler 
+            fromDate={fromDate}
+            startDate={startDate}
+            dateControl={dateControl}
+            setDateControl={setDateControl}
+            setStartDate={setStartDate}
+          />
+        </DndProvider>
       </div>
     </section>
   )
