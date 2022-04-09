@@ -5,6 +5,7 @@ import { hours } from '../../constance/dummyData';
 const DayShift = ({ dateControl, startDate, date, shifts }) => {
 
     const [endTime, setEndTime] = useState({});
+    const [totalTime, setTotalTime] = useState({});
 
     const onMouseDownResize = (e, index, startTime, shiftId) => {
         e.preventDefault();
@@ -18,13 +19,17 @@ const DayShift = ({ dateControl, startDate, date, shifts }) => {
 
             if ( newWidth >= minStep && newWidth <= (24-index)*70 ) { // 25 is the number of boxes in a row, 70 is the width of a box, index is box index
                 let minutes = ((withPercent/10 % 1).toFixed(1) * 60);
-                let hour = hours[index+Math.trunc(withPercent/10)] ? hours[index+Math.trunc(withPercent/10)].slice(0, 2).replace(0, '') : 12;
-                let newEndTime =  (hour < 10 ? "0" + hour : hour) + ":" + 
+                let hour = hours[index+Math.trunc(withPercent/10)] ? hours[index+Math.trunc(withPercent/10)].slice(0, 2) : 12;
+                let newEndTime =  hour + ":" + 
                     (minutes < 10 ? "0"+minutes : minutes) +( hours[index+Math.trunc(withPercent/10)] ? hours[index+Math.trunc(withPercent/10)].slice(2) : "AM");
 
                 setEndTime({...endTime, [index]: newEndTime});
 
                 shiftParent.style.width = (withPercent * 10 -((+startTime.slice(3, 5) / 60) * 100) ) +"%";
+
+                setTotalTime({...totalTime, 
+                    [index]: Math.trunc(shiftParent.style.width.replace('%', '') / 100) + 'h' + (minutes !== 0 ? minutes + "m" : "")
+                });
             }
         };
 
@@ -98,7 +103,12 @@ const DayShift = ({ dateControl, startDate, date, shifts }) => {
                                                     </div>
                                                     <div className="flex align-center">
                                                         <div className="total-hours">
-                                                            { calcTotalHours(shift.id) }
+                                                        { 
+                                                            totalTime[index] ?
+                                                                totalTime[index]
+                                                            :
+                                                                calcTotalHours(shift.id)
+                                                        }
                                                         </div>
                                                     <div className="position">
                                                         { shift.position }

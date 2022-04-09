@@ -100,7 +100,7 @@ const openShifts = [
         color: 'bg-info',
         position: 'Barista',
         business: 'Hungry Ghost Coffee',
-        date: '2022-4-6',
+        date: '2022-4-9',
         startTime: '09:00AM',
         endTime: '05:00PM'
     },
@@ -110,7 +110,7 @@ const openShifts = [
         color: 'bg-info',
         position: 'Barista',
         business: 'Hungry Ghost Coffee',
-        date: '2022-4-6',
+        date: '2022-4-9',
         startTime: '06:00AM',
         endTime: '12:00PM'
     },

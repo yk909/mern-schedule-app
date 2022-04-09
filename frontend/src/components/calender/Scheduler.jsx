@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import { CalenderHeader, OpenShift, UserShift, CalenderFooter } from '../';
 import './styles/Scheduler.css';
 
@@ -17,27 +16,6 @@ const Scheduler = ({fromDate, startDate, dateControl, setStartDate, setDateContr
         //     }
         // }
     };
-
-    const onDragEnd = (result) => {
-      // dropped outside the list
-
-        // console.log(result)
-        if (!result.destination) {
-            return;
-        }
-
-        // const items = reorder(
-        //     this.state.items,
-        //     result.source.index,
-        //     result.destination.index
-        // );
-
-        console.log(result)
-
-        // this.setState({
-        //     items,
-        // });
-    }
 
     return (
         <div className={`calender-body${
