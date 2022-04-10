@@ -1,8 +1,9 @@
 import { hours } from '../../constance/dummyData';
 import { Shift } from '../';
+import { CreateShift } from '../';
 import { useDrop } from 'react-dnd';
 
-const ShiftsList = ({date, shiftsArr, i, setShiftsArr}) => {
+const ShiftsList = ({date, shiftsArr, i, setShiftsArr, employee}) => {
 
     const [{ isOver }, drop] = useDrop({
         accept: 'shift',
@@ -42,13 +43,10 @@ const ShiftsList = ({date, shiftsArr, i, setShiftsArr}) => {
                     />
                 )
             })}
-            <div className="create-shift flex align-end" title="Create Shift">
-                <div className="flex align-center w-100 h-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                        <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-                    </svg>
-                </div>
-            </div>
+            <CreateShift 
+                date={new Date(date.getFullYear(), date.getMonth(), date.getDate()+i)}
+                employee={employee}
+            />
         </div>
     )
 }

@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { hours } from '../../constance/dummyData';
-import { Shift } from '../';
+import { CreateShift, Shift } from '../';
 
 
-const DayShift = ({ dateControl, startDate, date, shifts }) => {
+const DayShift = ({ dateControl, startDate, date, shifts, employee }) => {
     const [endTime, setEndTime] = useState({});
     const [totalTime, setTotalTime] = useState({});
     const [shiftsArr, setShiftsArr] = useState([]);
@@ -116,18 +116,15 @@ const DayShift = ({ dateControl, startDate, date, shifts }) => {
                     className="col section-holder"
                 >
                     <div className="flex flex-col">
-                        <div className="create-shift flex align-end" title="Create Shift">
-                            <div className="flex align-center w-100 h-100">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                    <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-                                </svg>
-                            </div>
-                        </div>
+                        <CreateShift 
+                            date={startDate}
+                            employee={employee}
+                        />
                     </div>
                 </div>
             )})}
         </div>
-        </div>
+    </div>
     )
 }
 

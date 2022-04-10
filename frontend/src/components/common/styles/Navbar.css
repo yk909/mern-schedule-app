@@ -1,5 +1,5 @@
 nav {
-    height: 80px;
+    height: 70px;
     box-shadow: var(--box-shadow);
     position: relative;
     z-index: 1000;
@@ -43,7 +43,7 @@ nav li a {
     align-items: center;
     font-size: 1rem;
     padding: 0 25px;
-    height: 80px;
+    height: 70px;
     color: var(--text-dark);
     font-weight: 500;
     cursor: pointer;

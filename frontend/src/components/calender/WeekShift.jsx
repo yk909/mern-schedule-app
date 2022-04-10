@@ -4,7 +4,7 @@ import { hours } from '../../constance/dummyData';
 import { ShiftsList } from '../';
 
 
-const WeekShift = ({dateControl, date, shifts}) => {
+const WeekShift = ({dateControl, date, shifts, employee}) => {
     const [shiftsArr, setShiftsArr] = useState([]);
 
     useEffect(() => {
@@ -23,6 +23,7 @@ const WeekShift = ({dateControl, date, shifts}) => {
                 ).keys()].map((i) => { // loop for each day
                     return (
                         <ShiftsList
+                            employee={employee}
                             key={`open-shift-day-${i}`}
                             shiftsArr={shiftsArr}
                             setShiftsArr={setShiftsArr}

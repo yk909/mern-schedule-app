@@ -182,11 +182,6 @@ main {
 
 .btn-icon:hover {
   background: var(--color-secondary);
-  fill: var(--text-light);
-}
-
-.btn-icon:hover svg {
-  fill: var(--text-light);
 }
 
 .btn-group {

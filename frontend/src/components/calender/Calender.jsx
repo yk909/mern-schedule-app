@@ -6,48 +6,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Scheduler } from "../";
 import "react-datepicker/dist/react-datepicker.css";
 import './styles/Calender.css';
-
-
-const timeframeOptions = [
-  { value: 'day', label: 'Day' },
-  { value: 'week', label: 'Week' },
-  { value: '2week', label: '2 Week' },
-  { value: '4week', label: '4 Week' },
-];
-
-const customSelectStyles = {
-  option: (provided, state) => ({
-    ...provided,
-    color: state.isSelected ? 'var(--text-light)' : '#var(--text-dark)',
-    padding: 15,
-    background: state.isSelected ? 'var(--color-primary)' : 'var(--color-main)',
-    fontWeight: state.isSelected ? '600' : 'normal',
-    cursor: 'pointer',
-  }),
-  control: () => ({
-    border: '2px solid var(--color-main)',
-    background: 'var(--color-main)',
-    fontWeight: '600',
-    display: 'flex',
-    height: '41px',
-    borderRadius: 'var(--border-radius)',
-    boxShadow: 'var(--box-shadow)',
-    cursor: 'pointer',
-    width: 200,
-  }),
-  indicatorSeparator: () => ({
-    background: 'var(--color-dark)',
-    height: '65%',
-    width: '1px',
-  }),
-  singleValue: (provided, state) => {
-    const opacity = state.isDisabled ? 0.5 : 1;
-    const transition = 'opacity 300ms';
-    const color = 'var(--text-dark)';
-
-    return { ...provided, opacity, transition, color };
-  }
-}
+import { customSelectStyles, timeframeOptions } from '../../constance/dummyData';
 
 
 const Calender = () => {

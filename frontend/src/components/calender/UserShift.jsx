@@ -53,12 +53,14 @@ const UserShift = ({dateControl, date, startDate}) => {
                 </div>
                 { dateControl.value != "day" ?
                     <WeekShift
+                        employee={employee}
                         dateControl={dateControl}
                         date={date}
                         shifts={employee.shifts}
                     />
                 :
                     <DayShift
+                        employee={employee}
                         dateControl={dateControl}
                         date={date}
                         shifts={employee.shifts}
