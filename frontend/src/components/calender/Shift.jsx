@@ -17,11 +17,30 @@ const Shift = ({ shift, onMouseDownResize, totalTime, endTime, index }) => {
     });
 
     const calcTotalHours = ( shiftId ) => {
-        if(document.getElementById(shiftId)) {
+        if(document.getElementById(shiftId) && onMouseDownResize) {
             const shiftParentWidth = document.getElementById(shiftId).style.width;
             const hours = shiftParentWidth.replace('%', '') / 100;
             const minutes = Math.floor((hours % 1) * 60);
             return setInitTotalTime(Math.trunc(hours) + 'h' + (minutes !== 0 ? minutes + "m" : ""));
+        } else if (shift && !onMouseDownResize ) {
+            const today = new Date().setHours(0,0,0,0);
+            const start = new Date().setHours(
+                shift.startTime.includes("PM") ? 
+                +shift.startTime.slice(0, 2) + 12 :
+                +shift.startTime.slice(0, 2),
+                +shift.startTime.slice(3, 5),
+                0, 0
+                );
+            const end = new Date().setHours(
+                shift.endTime.includes("PM") ? 
+                +shift.endTime.slice(0, 2) + 12 :
+                +shift.endTime.slice(0, 2),
+                +shift.endTime.slice(3, 5),
+                0, 0
+                );
+
+            return setInitTotalTime(Math.trunc((end - start) / 3600000) + 'h' + (Math.floor(((end - start) / 60000) % 60) !== 0 ? Math.floor(((end - start) / 60000) % 60) + "m" : ""));
+
         }
     };
 
