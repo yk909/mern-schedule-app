@@ -29,7 +29,12 @@ const userSchema = new mongoose.Schema({
     isOwner: {
         type: Boolean,
         default: false
-    }
+    },
+    companies: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Company',
+        required: false
+    }],
 }, { timestamps: true });
 
 

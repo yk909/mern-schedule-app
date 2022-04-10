@@ -10,6 +10,7 @@ import DayShift from "./calender/DayShift";
 import WeekShift from "./calender/WeekShift";
 import Shift from "./calender/Shift";
 import ShiftsList from "./calender/ShiftsList";
+import CreateShift from "./calender/CreateShift";
 
 export {
     Navbar,
@@ -24,4 +25,5 @@ export {
     WeekShift,
     Shift,
     ShiftsList,
+    CreateShift,
 }

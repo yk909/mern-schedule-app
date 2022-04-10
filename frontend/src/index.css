@@ -36,6 +36,7 @@ body {
   background-color: var(--colo-main);
   color: var(--text-dark);
   overflow: hidden;
+  min-height: 100vh;
 }
 
 main {

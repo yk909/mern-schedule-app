@@ -75,7 +75,7 @@ const Calender = () => {
   function getPreviousMonday(date = new Date()) {
     const previousMonday = new Date();
   
-    previousMonday.setMonth(startDate.getMonth(), date.getDate() - date.getDay() + 1)
+    previousMonday.setMonth(startDate.getMonth(), date.getDate() - ((date.getDay() + 6) % 7));
   
     return previousMonday;
   }
@@ -85,11 +85,11 @@ const Calender = () => {
     const previousMonday = new Date();
     
     if(dateControl.value === 'week') {
-      previousMonday.setMonth(startDate.getMonth(), date.getDate() - date.getDay() + 7)
+      previousMonday.setMonth(startDate.getMonth(), (date.getDate() - ((date.getDay() + 6) % 7)) + 6);
     } else if(dateControl.value === '2week') {
-      previousMonday.setMonth(startDate.getMonth(), date.getDate() - date.getDay() + 14)
+      previousMonday.setMonth(startDate.getMonth(), (date.getDate() - ((date.getDay() + 6) % 7) + 13));
     } else if(dateControl.value === '4week') {
-      previousMonday.setMonth(startDate.getMonth(), date.getDate() - date.getDay() + 28)
+      previousMonday.setMonth(startDate.getMonth(), (date.getDate() - ((date.getDay() + 6) % 7) + 27));
     }
   
     return previousMonday;
@@ -99,27 +99,11 @@ const Calender = () => {
   function handleNextPrev(value) {
     if(value === 'next') {
 
-      if(dateControl.value === 'day') {
-        setStartDate(new Date(startDate.setDate(startDate.getDate() + 1)));
-      } else if(dateControl.value === 'week') {
-        setStartDate(new Date(startDate.setDate(startDate.getDate() + 7)));
-      } else if(dateControl.value === '2week') {
-        setStartDate(new Date(startDate.setDate(startDate.getDate() + 14)));
-      } else if(dateControl.value === '4week') {
-        setStartDate(new Date(startDate.setMonth(startDate.getMonth() + 1)));
-      }
+      setStartDate(new Date(startDate.setMonth(toDate.getMonth(), toDate.getDate() + 1)));
 
     } else if(value === 'prev') {
 
-      if(dateControl.value === 'day') {
-        setStartDate(new Date(startDate.setDate(startDate.getDate() - 1)));
-      } else if(dateControl.value === 'week') {
-        setStartDate(new Date(startDate.setDate(startDate.getDate() - 7)));
-      } else if(dateControl.value === '2week') {
-        setStartDate(new Date(startDate.setDate(startDate.getDate() - 14)));
-      } else if(dateControl.value === '4week') {
-        setStartDate(new Date(startDate.setMonth(startDate.getMonth() - 1)));
-      }
+      setStartDate(new Date(startDate.setMonth(toDate.getMonth(), toDate.getDate() - 1)));
 
     }
   }

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/userModel');
+const Company = require('../models/companyModel');
 
 
 // @desc    Get user data
@@ -87,14 +88,35 @@ const loginUser = async (req, res) => {
         const user = await User.findOne({ email });
     
         if(user && (await bcrypt.compare(password, user.password))) {
-            return res.json({
-                _id: user.id,
-                email: user.email,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                isOwner: user.isOwner,
-                token: generateToken(user._id)
-            });
+            if(user.companies && user.companies.length > 0) {
+                const companies = await Company.find({_id: [user.companies]});
+
+                if (companies) {
+                    return res.json({
+                        _id: user.id,
+                        email: user.email,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        isOwner: user.isOwner,
+                        companies: companies,
+                        token: generateToken(user._id)
+                    });
+                } else {
+                    return res.status(400).json({
+                        msg: 'Invalid user data'
+                    });
+                }
+
+            } else {
+                return res.json({
+                    _id: user.id,
+                    email: user.email,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    isOwner: user.isOwner,
+                    token: generateToken(user._id)
+                });
+            }
         } else {
             return res.status(400).json({
                 msg: 'Invalid user data'

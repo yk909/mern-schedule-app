@@ -45,6 +45,7 @@ nav li a {
     padding: 0 25px;
     height: 80px;
     color: var(--text-dark);
+    font-weight: 500;
     cursor: pointer;
     transition: var(--transition-duration);
     background: var(--color-main);
@@ -98,4 +99,5 @@ nav .nav-menu-links a {
     padding: 10px;
     text-align: end;
     font-size: .85rem;
+    height: 50px;
 }

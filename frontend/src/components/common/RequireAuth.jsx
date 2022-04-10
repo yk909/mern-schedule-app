@@ -10,6 +10,11 @@ const RequireAuth = ({children}) => {
         if (!user) {
             navigate("/login");
         }
+        
+        if(user && !user.companies) {
+            navigate("/find-company");
+        }
+
     }, [user, navigate]);
 
     return children;
