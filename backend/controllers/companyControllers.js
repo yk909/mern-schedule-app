@@ -2,6 +2,27 @@ const Company = require('../models/companyModel');
 const User = require('../models/userModel');
 
 
+// @desc   Get all user companies
+// @route  GET /api/companies/user/
+// @access Private
+const getUserCompany = async (req, res) => {
+    try {
+        const company = await Company.find({employees: req.user._id});
+
+        if (!company) {
+            return res.status(400).json({
+                msg: 'Company not found'
+            });
+        }
+    
+        return res.status(200).json(company);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({msg: 'Server Error'});
+    }
+}
+
+
 // @desc   Get company
 // @route  GET /api/companies/:id
 // @access Private
@@ -175,6 +196,7 @@ const addRemoveOwner = async (req, res) => {
 
 module.exports = {
     getCompany,
+    getUserCompany,
     createCompany,
     editCompany,
     deleteCompany,

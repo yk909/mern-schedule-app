@@ -1,5 +1,6 @@
 import Navbar from "./common/Navbar";
 import RequireAuth from "./common/RequireAuth";
+import RequireCompany from "./common/RequireCompany";
 import Modal from "./common/Modal";
 import Calender from "./calender/Calender";
 import Scheduler from "./calender/Scheduler";
@@ -16,6 +17,7 @@ import CreateShift from "./calender/CreateShift";
 export {
     Navbar,
     RequireAuth,
+    RequireCompany,
     Modal,
     Calender,
     Scheduler,

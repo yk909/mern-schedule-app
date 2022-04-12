@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { login, reset } from '../features/auth/authSlice';
+import * as companySlice from '../features/company/companySlice';
 import './styles/Auth.css';
 
 const Login = () => {
@@ -30,6 +31,7 @@ const Login = () => {
         }
 
         dispatch(reset());
+        dispatch(companySlice.reset());
     }, [user, isError, isSuccess, msg, navigate, dispatch]);
 
     const onChange = (e) => {

@@ -172,6 +172,30 @@ const customSelectStyles = {
     }
 }
 
+const customSelectModalStyles = {
+    option: (provided, state) => ({
+        ...provided,
+        background: state.isSelected ? 'var(--color-primary)' : 'var(--color-main)',
+    }),
+    control: (provided, state) => ({
+        ...provided,
+        background: 'var(--color-main)',
+        fontWeight: '600',
+        display: 'flex',
+        border: state.isSelected ? '2px solid var(--color-primary)' : '2px solid var(--color-secondary)',
+        height: '41px',
+        borderRadius: 'var(--border-radius)',
+        cursor: 'pointer',
+        width: '100%',
+    }),
+    singleValue: (provided, state) => {
+        const transition = 'opacity 300ms';
+        const color = 'var(--text-dark)';
+
+        return { ...provided, transition, color };
+    }
+}
+
 const timeframeOptions = [
     { value: 'day', label: 'Day' },
     { value: 'week', label: 'Week' },
@@ -179,10 +203,24 @@ const timeframeOptions = [
     { value: '4week', label: '4 Week' },
 ];
 
+const positions = [
+    'Barista',
+    'Manager',
+    'Kitchen',
+    'Cashier',
+    'Bartender',
+    'Server',
+    'Host',
+    'Busser',
+    'Cook',
+];
+
 export { 
     employees,
     openShifts, 
     hours, 
     customSelectStyles, 
-    timeframeOptions 
+    timeframeOptions,
+    positions,
+    customSelectModalStyles
 };

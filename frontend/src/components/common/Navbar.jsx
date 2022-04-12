@@ -7,6 +7,7 @@ const Navbar = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
+    const company = useSelector((state) => state.company.company);
 
     const onLogout = () => {
         dispatch(logout());
@@ -19,7 +20,7 @@ const Navbar = () => {
             <div className="nav-wrapper">
                 <div className="nav-left">
                     <ul className="nav-links">
-                        {user && user.companies ? (
+                        {user && company && company.length !== 0 ? (
                         <>
                         <li>
                             <Link to="/">
@@ -57,7 +58,7 @@ const Navbar = () => {
                                     {user.firstName}
                                 </a>
                                 <ul className="nav-menu-links">
-                                    {user.companies ? (
+                                    {company && company.length !== 0  ? (
                                     <>
                                         <li>
                                             <Link to="/companies">

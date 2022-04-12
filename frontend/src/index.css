@@ -278,13 +278,12 @@ main {
 
 .btn.btn-outline {
   background-color: transparent;
-  border: 2px solid var(--color-main);
-  color: var(--text-light);
+  border: 2px solid var(--color-secondary);
+  box-shadow: none;
 }
 
 .btn.btn-outline:hover {
-  background-color: var(--color-main);
-  color: var(--text-dark);
+  background-color: var(--color-secondary);
 }
 
 .btn.btn-outline svg {
