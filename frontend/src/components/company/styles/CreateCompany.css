@@ -1,0 +1,12 @@
+.add-company {
+    max-width: 850px;
+    background: var(--color-main);
+    border-radius: var(--border-radius);
+    margin: 0 auto;
+}
+
+.create-company svg,
+.find-company svg {
+    width: 50px;
+    height: 50px;
+}

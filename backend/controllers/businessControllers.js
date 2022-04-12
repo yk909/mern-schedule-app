@@ -10,7 +10,8 @@ const getAllBusinesses = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const businesses = await Business.find({ company: id });
+        // Populate employees object with user info to found bussinesses
+        const businesses = await Business.find({ company: id }).populate('employees').populate('managers').exec();
 
         if (!businesses) {
             return res.status(400).json({

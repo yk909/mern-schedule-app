@@ -7,12 +7,12 @@ import { getCompany, reset } from "../../features/company/companySlice";
 const RequireCompany = ({children}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { company, isLoading, isError, isSuccess, msg } = useSelector((state) => state.company);
+    const { companies, isLoading, isError, isSuccess, msg } = useSelector((state) => state.company);
     const { user } = useSelector((state) => state.auth);
 
     useEffect(() => {
 
-        if(user && !company) {
+        if(user && !companies) {
             dispatch(getCompany(user.token));
         }
 
@@ -20,11 +20,11 @@ const RequireCompany = ({children}) => {
             toast.error(msg);
         }
 
-        if(company && company.length === 0) {
+        if(companies && companies.length === 0) {
             navigate("/find-company");
         }
 
-    }, [company, isError, msg, isSuccess, navigate, dispatch]);
+    }, [companies, isError, msg, isSuccess, navigate, dispatch]);
 
     // if (isLoading) {
     //     return <div>Loading...</div>;

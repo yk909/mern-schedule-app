@@ -6,6 +6,10 @@ const businessSchema = new mognoose.Schema({
         type: String,
         required: true
     },
+    type: {
+        type: String,
+        required: true
+    },
     address: {
         type: String,
         required: true
@@ -37,16 +41,16 @@ const businessSchema = new mognoose.Schema({
     },
     owner: {
         type: mognoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Employee',
         required: true
     },
     employees: [{
         type: mognoose.Schema.Types.ObjectId,
         ref: 'Employee'
     }],
-    schedules: [{
+    managers: [{
         type: mognoose.Schema.Types.ObjectId,
-        ref: 'Schedule'
+        ref: 'Employee'
     }],
 }, { timestamps: true });
 

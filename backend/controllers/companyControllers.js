@@ -7,7 +7,19 @@ const User = require('../models/userModel');
 // @access Private
 const getUserCompany = async (req, res) => {
     try {
-        const company = await Company.find({employees: req.user._id});
+        // find companies where users employee object is in company employees array
+        const company = await Company.aggregate([
+            {
+                $unwind: {
+                    path: '$employees',
+                }
+            },
+            {
+                $match: {
+                    'employees.user': req.user_id
+                }
+            }
+        ]);
 
         if (!company) {
             return res.status(400).json({
@@ -77,10 +89,6 @@ const createCompany = async (req, res) => {
     company.owners.push(user);
 
     await company.save();
-
-    // Make user an owner of the company
-    user.isOwner = true;
-    await user.save();
 
     return res.status(200).json(company);
 }

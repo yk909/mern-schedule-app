@@ -114,18 +114,19 @@ const createEmployee = async (req, res) => {
         }
 
         // Check if user is a manager
-        const userEmployee = business.employees.find(employee => employee.user.toString() === req.user._id.toString());
+        const userEmployee = business.managers.find(manager => manager.user.toString() === req.user._id.toString());
         if (
-            (userEmployee && userEmployee.isManager) || // If user is a manager
-            business.company.owners.includes(req.user._id) && // Check if user is a company owner
+            (userEmployee) || // If user is a manager
             business.employees.filter(employee => employee.user._id.toString() === user._id.toString()).length === 0 // Check if user is not already an employee
         ) {
             const newEmployee = new Employee({
                 user: user,
+                firstName: user.firstName,
+                lastName: user.lastName,
                 company: business.company,
                 business: business
             });
-        
+
             await newEmployee.save();
 
             return res.status(200).json(newEmployee);

@@ -1,7 +1,6 @@
 const Shift = require('../models/shiftModel');
 const User = require('../models/userModel');
 const Business = require('../models/businessModel');
-const Schedule = require('../models/scheduleModel');
 
 
 // @desc   Get all shifts for a user
@@ -51,31 +50,31 @@ const getShiftById = async (req, res) => {
 // @desc   Get all shifts for a user in current schedule
 // @route  GET /api/shifts/user/:userId/schedule/:scheduleId'
 // @access Private
-const getAllUserShiftsInSchedule = async (req, res) => {
-    const { userId, scheduleId } = req.params;
+// const getAllUserShiftsInSchedule = async (req, res) => {
+//     const { userId, scheduleId } = req.params;
 
-    try {
+//     try {
 
-        const shifts = await Shift.find({ user: userId, schedule: scheduleId });
+//         const shifts = await Shift.find({ user: userId, schedule: scheduleId });
 
-        if (!shifts) {
-            return res.status(400).json({ msg: 'No shifts found' });
-        }
+//         if (!shifts) {
+//             return res.status(400).json({ msg: 'No shifts found' });
+//         }
 
-        return res.status(200).json({ shifts });
-    }
-    catch (err) {
-        console.log(err)
-        return res.status(500).json({ msg: 'Server Error' });
-    }
-}
+//         return res.status(200).json({ shifts });
+//     }
+//     catch (err) {
+//         console.log(err)
+//         return res.status(500).json({ msg: 'Server Error' });
+//     }
+// }
 
 
 // @desc   Create a shift
 // @route  POST /api/shifts/user/:userId/schedule/:scheduleId'
 // @access Private
 const createShift = async (req, res) => {
-    const { userId, scheduleId } = req.params;
+    const { userId } = req.params;
     const { date, startTime, endTime } = req.body;
 
     if(!date || !startTime || !endTime) {
@@ -93,32 +92,32 @@ const createShift = async (req, res) => {
             });
         }
 
-        console.log(scheduleId)
-        const schedule = await Schedule.findById(scheduleId);
+        // console.log(scheduleId)
+        // const schedule = await Schedule.findById(scheduleId);
         
-        if (!schedule) {
-            return res.status(400).json({
-                msg: 'No schedule found'
-            });
-        }
+        // if (!schedule) {
+        //     return res.status(400).json({
+        //         msg: 'No schedule found'
+        //     });
+        // }
 
-        const business = await Business.findById(schedule.business).populate('employees').exec();
+        // const business = await Business.findById(schedule.business).populate('employees').exec();
 
-        if (!business) {
-            return res.status(400).json({
-                msg: 'No business found'
-            });
-        }
+        // if (!business) {
+        //     return res.status(400).json({
+        //         msg: 'No business found'
+        //     });
+        // }
 
         // check if logged in user is a manager
-        const userEmployee = business.employees.find(employee => employee.user.toString() === req.user._id.toString());
+        // const userEmployee = business.employees.find(employee => employee.user.toString() === req.user._id.toString());
 
         if ( userEmployee && userEmployee.isManager ) {
             const shift = await Shift.create({
                 user: user,
                 scheduledBy: req.user,
-                schedule: schedule,
-                business: business,
+                // schedule: schedule,
+                // business: business,
                 date,
                 startTime,
                 endTime
@@ -225,7 +224,7 @@ const deleteShift = async (req, res) => {
 module.exports = {
     getAllUserShifts,
     getShiftById,
-    getAllUserShiftsInSchedule,
+    // getAllUserShiftsInSchedule,
     createShift,
     editShift,
     deleteShift

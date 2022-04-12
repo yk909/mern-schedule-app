@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import companyService from "./companyService";
 
+
 const initialState = {
-    company: null,
+    companies: null,
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -93,7 +94,7 @@ const companySlice = createSlice({
     reducers: {
         // Reset state
         reset: (state) => {
-            state.company = null;
+            state.companies = null;
             state.isError = false;
             state.isSuccess = false;
             state.isLoading = false;
@@ -108,13 +109,13 @@ const companySlice = createSlice({
         builder.addCase(createCompany.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
-            state.company = action.payload;
+            state.companies = action.payload;
         });
         builder.addCase(createCompany.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.msg = action.payload;
-            state.company = null;
+            state.companies = null;
         });
 
         // Get company
@@ -124,13 +125,13 @@ const companySlice = createSlice({
         builder.addCase(getCompany.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
-            state.company = action.payload;
+            state.companies = action.payload;
         });
         builder.addCase(getCompany.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.msg = action.payload;
-            state.company = null;
+            state.companies = null;
         });
 
         // Update company
@@ -140,13 +141,13 @@ const companySlice = createSlice({
         builder.addCase(updateCompany.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
-            state.company = action.payload;
+            state.companies = action.payload;
         });
         builder.addCase(updateCompany.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.msg = action.payload;
-            state.company = null;
+            state.companies = null;
         });
 
         // Delete company
@@ -156,13 +157,13 @@ const companySlice = createSlice({
         builder.addCase(deleteCompany.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
-            state.company = action.payload;
+            state.companies = action.payload;
         });
         builder.addCase(deleteCompany.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.msg = action.payload;
-            state.company = null;
+            state.companies = null;
         });
     }
 });

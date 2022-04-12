@@ -1,0 +1,118 @@
+.businesses {
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(300px, 750px) );
+    gap: 25px;
+    justify-content: center;
+}
+
+.business-card {
+    background: var(--color-main);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    color: var(--text-dark);
+}
+
+.business-card.blink {
+    min-height: 50vh;
+}
+
+.business-card.blink .business-card-header {
+    min-height: 50px;
+    background: var(--color-secondary);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+}
+
+.business-card.blink .business-card-body-employee {
+    height: 80px;
+}
+
+.business-card-header {
+    padding: 1rem;
+    background: var(--color-secondary-light);
+}
+
+.business-card-header-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.business-card-header-info-left,
+.business-card-header-info-right {
+    display: flex;
+    align-items: center;
+}
+
+.business-card-header-info:first-of-type p {
+    font-size: 1.5rem;
+}
+
+.business-card-header-info p {
+    font-size: 1rem;
+}
+
+.business-card-header svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--text-dark);
+    margin-right: 5px;
+}
+
+.business-card-body-employees {
+    display: grid;
+    grid-template-columns:  repeat( auto-fit, minmax(175px, 1fr) );
+    gap: 10px;
+    padding-bottom: 25px;
+}
+
+.busines-card-body-title {
+    grid-column: 1/-1;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    font-size: 1rem;
+    border-top: 1px solid var(--color-secondary);
+}
+
+.business-card-body-employee {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    border: 1px solid var(--color-secondary);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    transition: var(--transition-duration);
+    cursor: pointer;
+    margin: 5px;
+    margin: 1rem;
+    box-shadow: var(--box-shadow);
+    position: relative;
+}
+
+.business-card-body-employee .verified {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.business-card-body-employee:hover,
+.business-card-body-employee:hover .business-card-body-employee-image img {
+    box-shadow: var(--box-shadow-xl);
+}
+
+.business-card-body-employee-image img {
+    width: 80px;
+    border-radius: 50%;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition-duration);
+}
+
+.business-card-body-employee-name {
+    margin-top: 1rem;
+    font-size: 1rem;
+    text-align: center;
+}

@@ -13,6 +13,10 @@ import WeekShift from "./calender/WeekShift";
 import Shift from "./calender/Shift";
 import ShiftsList from "./calender/ShiftsList";
 import CreateShift from "./calender/CreateShift";
+import CompanyCard from "./company/CompanyCard";
+import BusinessCard from "./company/BusinessCard";
+import CreateCompany from "./company/CreateCompany";
+import EmployeeCard from "./company/EmployeeCard";
 
 export {
     Navbar,
@@ -30,4 +34,8 @@ export {
     Shift,
     ShiftsList,
     CreateShift,
+    CompanyCard,
+    BusinessCard,
+    CreateCompany,
+    EmployeeCard,
 }
