@@ -1,8 +1,26 @@
 import { useState } from 'react';
+import Select from 'react-select';
 import { Modal } from '../';
+import { customSelectModalStyles } from '../../constance/dummyData';
+import './styles/EmployeeCard.css';
 
-const EmployeeCard = ({employee}) => {
+const EmployeeCard = ({employee, isManager, positions}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [wage, setWage] = useState(employee.wage);
+
+    const positionsSelect = positions.map(position => {
+        return {
+            value: position,
+            label: position
+        }
+    });
+
+    const [position, setPosition] = useState(positionsSelect.filter(position => position.value === employee.position));
+
+    const isManagerSelect = {
+        value: isManager,
+        label: isManager.toString()
+    }
 
     return (
         <>
@@ -12,6 +30,32 @@ const EmployeeCard = ({employee}) => {
             actionBtnText="Save"
             contentLabel={`${employee.firstName} ${employee.lastName}`}
         >
+            <div className="employee-form">
+                <div className="form-group-row">
+                    <div className="form-group">
+                        <label>Is Manager</label>
+                        <Select
+                            value={isManagerSelect}
+                            onChange={(e) => { console.log(e) }}
+                            options={[{ value: true, label: 'true' }, { value: false, label: 'false' }]}
+                            styles={customSelectModalStyles}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Position</label>
+                        <Select
+                            value={position}
+                            onChange={(e) => {setPosition(e);}}
+                            options={positionsSelect}
+                            styles={customSelectModalStyles}
+                        />
+                    </div>
+                </div>
+                <div className="form-group">
+                    <label>Wage</label>
+                    <input type="number" value={wage} onChange={(e) => setWage(e.target.value)} min={0} />
+                </div>
+            </div>
         </Modal>
         <div 
             onClick={() => setIsModalOpen(true)}

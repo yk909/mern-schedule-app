@@ -34,6 +34,10 @@ const businessSchema = new mognoose.Schema({
         type: Boolean,
         default: true
     },
+    positions: [{
+        type: String,
+        required: false
+    }],
     company: {
         type: mognoose.Schema.Types.ObjectId,
         ref: 'Company',

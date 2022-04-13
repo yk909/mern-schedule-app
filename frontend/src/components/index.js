@@ -17,6 +17,7 @@ import CompanyCard from "./company/CompanyCard";
 import BusinessCard from "./company/BusinessCard";
 import CreateCompany from "./company/CreateCompany";
 import EmployeeCard from "./company/EmployeeCard";
+import CreateEmployee from "./company/CreateEmployee";
 
 export {
     Navbar,
@@ -38,4 +39,5 @@ export {
     BusinessCard,
     CreateCompany,
     EmployeeCard,
+    CreateEmployee,
 }

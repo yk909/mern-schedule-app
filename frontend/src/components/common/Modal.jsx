@@ -9,7 +9,7 @@ const Modal = ({children, modalIsOpen, contentLabel, setModalIsOpen, actionBtnTe
     }, [modalIsOpen]);
 
     const onClickOutside = (e) => {
-        if (e.target.classList.contains('modal-overlay')) {
+        if (e.target.classList.contains('modal-overlay') || e.target.classList.contains('modal-wrapper')) {
             setModalIsOpen(false);
         }
     }
@@ -22,7 +22,7 @@ const Modal = ({children, modalIsOpen, contentLabel, setModalIsOpen, actionBtnTe
                 <div className="modal-body">
                     <div className="modal-header">
                         <h3>{contentLabel}</h3>
-                        <button className="btn-icon" onClick={() => {setModalIsOpen(false)} }>
+                        <button className="btn-icon btn-icon-danger" onClick={() => {setModalIsOpen(false)} }>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                                 <path d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
                                 <path d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
@@ -33,9 +33,11 @@ const Modal = ({children, modalIsOpen, contentLabel, setModalIsOpen, actionBtnTe
                         {children}
                     </div>
                     <div className="modal-footer">
-                        <button className="btn btn-outline">
-                            {actionBtnText}
-                        </button>
+                        {actionBtnText && (
+                            <button className="btn btn-outline-primary">
+                                {actionBtnText}
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>

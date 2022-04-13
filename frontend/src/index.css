@@ -4,7 +4,7 @@
   --success: #A3F7BF;
   --info: #05DFD7;
 
-  --color-primary: #3d83dd;
+  --color-primary: #2a74d3;
   --color-main: #ffffff;
   --color-secondary-light: #f1f1f1;
   --color-secondary: #dddddd;
@@ -191,6 +191,27 @@ main {
   fill: var(--text-dark);
 }
 
+.btn-icon.btn-icon-danger {
+  border-color: var(--danger);
+}
+
+.btn-icon.btn-icon-danger:hover {
+  background: var(--danger);
+}
+
+.btn-icon.btn-icon-danger:hover svg,
+.btn-icon.btn-icon-primary:hover svg {
+  fill: var(--text-light);
+}
+
+.btn-icon.btn-icon-primary {
+  border-color: var(--color-primary);
+}
+
+.btn-icon.btn-icon-primary:hover {
+  background: var(--color-primary);
+}
+
 .btn-icon:hover {
   background: var(--color-secondary);
 }
@@ -351,7 +372,8 @@ main {
 .btn.btn-outline-primary {
   background-color: transparent;
   border: 2px solid var(--color-primary);
-  color: var(--text-dark);
+  color: var(--color-primary);
+  box-shadow: none;
 }
 
 .btn.btn-outline-primary:hover {
@@ -383,7 +405,7 @@ input:focus {
 
 .form-group-row {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: repeat( auto-fit, minmax(175px, 1fr) );
   grid-gap: 10px;
   margin: 16px 0;
 }

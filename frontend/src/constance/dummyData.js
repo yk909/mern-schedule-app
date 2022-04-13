@@ -142,6 +142,11 @@ const customSelectStyles = {
     option: (provided, state) => ({
         ...provided,
         color: state.isSelected ? 'var(--text-light)' : '#var(--text-dark)',
+        transition: 'var(--transition-duration)',
+        '&:hover': {
+            background: 'var(--color-primary)',
+            color: "var(--text-light)",
+        },
         padding: 15,
         background: state.isSelected ? 'var(--color-primary)' : 'var(--color-main)',
         fontWeight: state.isSelected ? '600' : 'normal',
@@ -158,11 +163,6 @@ const customSelectStyles = {
         cursor: 'pointer',
         width: 200,
     }),
-    indicatorSeparator: () => ({
-        background: 'var(--color-dark)',
-        height: '65%',
-        width: '1px',
-    }),
     singleValue: (provided, state) => {
         const opacity = state.isDisabled ? 0.5 : 1;
         const transition = 'opacity 300ms';
@@ -176,21 +176,42 @@ const customSelectModalStyles = {
     option: (provided, state) => ({
         ...provided,
         background: state.isSelected ? 'var(--color-primary)' : 'var(--color-main)',
+        transition: 'var(--transition-duration)',
+        '&:hover': {
+            background: 'var(--color-primary)',
+            color: "var(--text-light)",
+        },
     }),
     control: (provided, state) => ({
         ...provided,
         background: 'var(--color-main)',
         fontWeight: '600',
         display: 'flex',
-        border: state.isSelected ? '2px solid var(--color-primary)' : '2px solid var(--color-secondary)',
+        border: 'none',
+        borderBottom: state.isSelected ? '2px solid var(--color-primary)' : '2px solid var(--color-secondary)',
         height: '41px',
-        borderRadius: 'var(--border-radius)',
+        borderRadius: '0',
         cursor: 'pointer',
         width: '100%',
+        transition: 'var(--transition-duration)',
+        '&:hover': {
+            borderBottom: '2px solid var(--color-primary)',
+            color: "var(--text-light)",
+            boxShadow: 'none',
+        },
+        '&:focus': {
+            outline: 'none',
+            boxShadow: 'none',
+        },
+        '&:active': {
+            outline: 'none',
+            boxShadow: 'none',
+        },
     }),
     singleValue: (provided, state) => {
         const transition = 'opacity 300ms';
         const color = 'var(--text-dark)';
+
 
         return { ...provided, transition, color };
     }

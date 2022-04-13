@@ -1,0 +1,99 @@
+
+
+.business-card-body-employees {
+    display: grid;
+    grid-template-columns:  repeat( auto-fit, minmax(175px, 1fr) );
+    gap: 10px;
+    padding-bottom: 25px;
+}
+
+.busines-card-body-title {
+    grid-column: 1/-1;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    font-size: 1rem;
+    border-top: 1px solid var(--color-secondary);
+}
+
+.business-card-body-employee {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    border: 1px solid var(--color-secondary);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    transition: var(--transition-duration);
+    cursor: pointer;
+    margin: 5px;
+    margin: 1rem;
+    box-shadow: var(--box-shadow);
+    position: relative;
+}
+
+.business-card-body-employee .verified {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.business-card-body-employee:hover,
+.business-card-body-employee:hover .business-card-body-employee-image img {
+    box-shadow: var(--box-shadow-xl);
+}
+
+.business-card-body-employee-image img {
+    width: 80px;
+    border-radius: 50%;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition-duration);
+}
+
+.business-card-body-employee-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.business-card-body-employee-image svg {
+    width: 80%;
+    height: 80%;
+    fill: var(--text-dark);
+}
+
+.business-card-body-employee-name {
+    margin-top: 1rem;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.employee-add-select {
+    display: flex;
+    justify-content: space-between;
+}
+
+.employee-add-select p {
+    width: 50%;
+    font-size: 1.25rem;
+    text-align: center;
+    border-bottom: 2px solid var(--color-secondary);
+    padding-bottom: 10px;
+    cursor: pointer;
+    transition: var(--transition-duration);
+}
+
+.employee-form .form-group {
+    animation-name: opacity;
+    animation-duration: var(--transition-duration);
+}
+
+.employee-add-select p:hover {
+    border-bottom: 2px solid var(--color-primary);
+}
+
+.employee-add-select p.selected {
+    border-bottom: 2px solid var(--color-primary);
+}

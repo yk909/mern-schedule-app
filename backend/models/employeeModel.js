@@ -20,7 +20,7 @@ const employeeSchema = new mongoose.Schema({
         type: String,
         default: 'Employee'
     },
-    salary: {
+    wage: {
         type: Number,
         default: 0
     },

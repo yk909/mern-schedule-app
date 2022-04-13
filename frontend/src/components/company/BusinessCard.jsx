@@ -1,4 +1,4 @@
-import { EmployeeCard } from '../';
+import { EmployeeCard, CreateEmployee } from '../';
 import "./styles/BusinessCard.css";
 
 const BusinessCard = ({ businesses, isLoading }) => {
@@ -46,6 +46,8 @@ const BusinessCard = ({ businesses, isLoading }) => {
                   <EmployeeCard 
                     key={`business-card-employee-${i}`}
                     employee={manager}
+                    isManager={true}
+                    positions={business.positions}
                   />
                 )
               })}
@@ -59,9 +61,14 @@ const BusinessCard = ({ businesses, isLoading }) => {
                 <EmployeeCard 
                   key={`business-card-employee-${i}`}
                   employee={employee}
+                  isManager={false}
+                  positions={business.positions}
                 />
               )
             })}
+            <CreateEmployee
+              positions={business.positions}
+            />
           </div>
         </div>
       </div>
