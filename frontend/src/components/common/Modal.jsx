@@ -4,8 +4,8 @@ import './styles/Modal.css';
 const Modal = ({children, modalIsOpen, contentLabel, setModalIsOpen, actionBtnText, onSubmit}) => {
 
     useEffect(() => {
-        document.body.style.overflow = setModalIsOpen ? 'hidden' : 'auto';
-        document.body.style.maxHeight = setModalIsOpen ? '100vh' : 'unset';
+        document.body.style.overflow = modalIsOpen ? 'hidden' : 'auto';
+        document.body.style.maxHeight = modalIsOpen ? '100vh' : 'unset';
     }, [modalIsOpen]);
 
     const onClickOutside = (e) => {

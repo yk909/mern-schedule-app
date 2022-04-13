@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from '../';
+import { createCompany } from '../../features/company/companySlice';
 import './styles/CreateCompany.css';
 
 const CreateCompany = () => {
@@ -12,18 +14,37 @@ const CreateCompany = () => {
         website: '',
     });
 
+    const dispatch = useDispatch();
+    const { user } = useSelector(state => state.auth);
+
     const onChange = (e) => {
         const { name, value } = e.target;
         setCompany({ ...company, [name]: value });
     };
 
+    const onSubmit = (e) => {
+        if(user && isNew) {
+            dispatch(createCompany(
+                {
+                    company: company, 
+                    token: user.token
+                }
+            ));
+            setIsModalOpen(false);
+        } else if ( user && !isNew ) {
+            console.log('send email');
+            setIsModalOpen(false);
+        }
+    };
+
     return (
         <>
         <Modal
-        setModalIsOpen={setIsModalOpen}
-        modalIsOpen={isModalOpen}
-        actionBtnText={`${!isNew ? 'Apply' : 'Create'}`}
-        contentLabel={'Add Company'}
+            setModalIsOpen={setIsModalOpen}
+            modalIsOpen={isModalOpen}
+            actionBtnText={`${!isNew ? 'Apply' : 'Create'}`}
+            contentLabel={'Add Company'}
+            onSubmit={onSubmit}
         >
             <div className="nav-tab-select">
                 <p className={`${!isNew ? 'selected' : ''}`} onClick={() => setIsNew(false)}>Apply By Email</p>

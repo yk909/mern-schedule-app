@@ -10,7 +10,13 @@ const {
 } = require('../controllers/businessControllers');
 
 
-router.route('/company/:id').get(protect, getAllBusinesses).post(protect, createBusiness)
-router.route('/:id').get(protect, getBusiness).put(protect, editBusiness).delete(protect, deleteBusiness);
+router.route('/company/:id')
+    .get(protect, getAllBusinesses)
+router.route('/')
+    .post(protect, createBusiness)
+router.route('/:id')
+    .get(protect, getBusiness)
+    .put(protect, editBusiness)
+    .delete(protect, deleteBusiness);
 
 module.exports = router;

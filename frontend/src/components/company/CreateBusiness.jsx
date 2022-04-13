@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
+import { toast } from 'react-toastify';
 import { customSelectModalStyles, positions } from '../../constance/dummyData';
+import { createBusiness } from '../../features/business/businessSlice';
 import { Modal } from '../';
 
 const positionsSelect = positions.sort().map(position => {
@@ -10,7 +13,7 @@ const positionsSelect = positions.sort().map(position => {
     }
 });
 
-const CreateBusiness = () => {
+const CreateBusiness = ({ company }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [business, setBusiness] = useState({
         name: '',
@@ -21,7 +24,43 @@ const CreateBusiness = () => {
         zip: '',
         phoneNumber: '',
         positions: null,
+        companyId: company._id
     });
+
+    const dispatch = useDispatch();
+    const { user } = useSelector(state => state.auth);
+
+    const onSubmit = () => {
+        if(business.name && business.type && business.address && business.city && business.state && business.zip) {
+            if (user) {
+                dispatch(createBusiness({
+                    business,
+                    token: user.token
+                }));
+                setBusiness({
+                    name: '',
+                    type: '',
+                    address: '',
+                    city: '',
+                    state: '',
+                    zip: '',
+                    phoneNumber: '',
+                    positions: null,
+                    companyId: company._id
+                });
+                setIsModalOpen(false);
+            }
+        } else {
+            toast.error('Please fill out all fields');
+        }
+    }
+
+    const onChange = (e) => {
+        setBusiness({
+            ...business,
+            [e.target.name]: e.target.value
+        });
+    }
 
     return (
         <>
@@ -29,7 +68,8 @@ const CreateBusiness = () => {
             setModalIsOpen={setIsModalOpen}
             modalIsOpen={isModalOpen}
             actionBtnText="Create"
-            contentLabel={'Add Business'}
+            contentLabel={'Add Business to ' + company.name}
+            onSubmit={onSubmit}
         > 
             <div className="form-group-row">
                 <div className="form-group">
@@ -37,6 +77,9 @@ const CreateBusiness = () => {
                     <input
                         type="text"
                         placeholder="Name of business"
+                        name="name"
+                        value={business.name}
+                        onChange={onChange}
                     />
                 </div>
                 <div className="form-group">
@@ -44,6 +87,9 @@ const CreateBusiness = () => {
                     <input
                         type="text"
                         placeholder="Type of business"
+                        name="type"
+                        value={business.type}
+                        onChange={onChange}
                     />
                 </div>
             </div>
@@ -53,6 +99,9 @@ const CreateBusiness = () => {
                     <input
                         type="text"
                         placeholder="Address"
+                        name="address"
+                        value={business.address}
+                        onChange={onChange}
                     />
                 </div>
                 <div className="form-group">
@@ -60,6 +109,9 @@ const CreateBusiness = () => {
                     <input
                         type="text"
                         placeholder="City"
+                        name="city"
+                        value={business.city}
+                        onChange={onChange}
                     />
                 </div>
             </div>
@@ -69,6 +121,9 @@ const CreateBusiness = () => {
                     <input
                         type="text"
                         placeholder="State"
+                        name="state"
+                        value={business.state}
+                        onChange={onChange}
                     />
                 </div>
                 <div className="form-group">
@@ -76,6 +131,9 @@ const CreateBusiness = () => {
                     <input
                         type="text"
                         placeholder="Zip code"
+                        name="zip"
+                        value={business.zip}
+                        onChange={onChange}
                     />
                 </div>
             </div>
@@ -84,6 +142,9 @@ const CreateBusiness = () => {
                 <input
                     type="text"
                     placeholder="Phone number"
+                    name="phoneNumber"
+                    value={business.phoneNumber}
+                    onChange={onChange}
                 />
             </div>
             <div className="form-group">

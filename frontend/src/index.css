@@ -188,11 +188,15 @@ main {
 
 .btn-icon svg {
   padding: 3px;
-  fill: var(--text-dark);
+  margin: 0!important;
 }
 
 .btn-icon.btn-icon-danger {
   border-color: var(--danger);
+}
+
+.btn-icon.btn-icon-danger svg {
+  fill: var(--danger);
 }
 
 .btn-icon.btn-icon-danger:hover {
@@ -206,6 +210,10 @@ main {
 
 .btn-icon.btn-icon-primary {
   border-color: var(--color-primary);
+}
+
+.btn-icon.btn-icon-primary svg {
+  fill: var(--color-primary);
 }
 
 .btn-icon.btn-icon-primary:hover {
@@ -401,6 +409,7 @@ input {
   padding: 8px 12px;
   transition: var(--transition-duration);
   font-size: 1rem;
+  min-height: 23px;
 }
 
 input:hover,

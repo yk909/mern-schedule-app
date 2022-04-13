@@ -60,7 +60,7 @@ const getCompany = async (req, res) => {
 // @route  POST /api/companies
 // @access Private
 const createCompany = async (req, res) => {
-    const { name, email, logo } = req.body;
+    const { name, email, logo, website } = req.body;
 
     if(!name || !email ) {
         return res.status(400).json({
@@ -81,10 +81,12 @@ const createCompany = async (req, res) => {
         name,
         email,
         logo,
+        website,
     });
 
-    // Add user to company as its owner
+    // Add user to company as its owner and employee
     company.owners.push(user);
+    company.employees.push(user);
 
     await company.save();
 

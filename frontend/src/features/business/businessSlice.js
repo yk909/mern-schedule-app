@@ -128,7 +128,7 @@ const businessSlice = createSlice({
         builder.addCase(createBusiness.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
-            state.businesses = action.payload;
+            state.businesses.push(action.payload)
         });
         builder.addCase(createBusiness.rejected, (state, action) => {
             state.isLoading = false;

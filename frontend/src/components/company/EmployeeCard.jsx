@@ -4,9 +4,18 @@ import { Modal } from '../';
 import { customSelectModalStyles } from '../../constance/dummyData';
 import './styles/EmployeeCard.css';
 
-const EmployeeCard = ({employee, isManager, positions}) => {
+const EmployeeCard = ({employee, isManager, positions, businesses}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [wage, setWage] = useState(employee.wage);
+
+    const businessesSelect = businesses.map(business => {
+        return {
+            value: business.id,
+            label: business.name
+        }
+    });
+
+    const [business, setBusiness] = useState(businessesSelect.filter(business => business.value === employee.businessId));
 
     const positionsSelect = positions.map(position => {
         return {
@@ -51,9 +60,20 @@ const EmployeeCard = ({employee, isManager, positions}) => {
                         />
                     </div>
                 </div>
-                <div className="form-group">
-                    <label>Wage</label>
-                    <input type="number" value={wage} onChange={(e) => setWage(e.target.value)} min={0} />
+                <div className="form-group-row">
+                    <div className="form-group">
+                        <label>Business</label>
+                        <Select
+                            value={business}
+                            onChange={(e) => { setBusiness(e) }}
+                            options={businessesSelect}
+                            styles={customSelectModalStyles}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Wage</label>
+                        <input type="number" value={wage} onChange={(e) => setWage(e.target.value)} min={0} />
+                    </div>
                 </div>
             </div>
         </Modal>

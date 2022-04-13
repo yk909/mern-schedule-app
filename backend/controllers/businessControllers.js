@@ -51,11 +51,16 @@ const getBusiness = async (req, res) => {
 
 
 // @desc   Create business
-// @route  POST /api/businesses/company/:id
+// @route  POST /api/businesses/
 // @access Private
 const createBusiness = async (req, res) => {
-    const { id } = req.params; // id of the company
-    const { name, address, city, state, zip, phoneNumber } = req.body;
+    const { name, address, city, state, zip, phoneNumber, positions, type, companyId } = req.body;
+
+    if (!companyId) {
+        return res.status(400).json({
+            msg: 'Company ID is required'
+        });
+    }
 
     if (!name || !address || !city || !state || !zip || !phoneNumber) {
         return res.status(400).json({
@@ -65,7 +70,7 @@ const createBusiness = async (req, res) => {
 
     try {
         // Check if company exists
-        const company = await Company.findById(id);
+        const company = await Company.findById(companyId);
 
         if(!company) {
             return res.status(400).json({
@@ -84,6 +89,8 @@ const createBusiness = async (req, res) => {
             owner: req.user._id,
             company: company._id,
             name,
+            type,
+            positions,
             address,
             city,
             state,

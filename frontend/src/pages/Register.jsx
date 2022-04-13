@@ -74,7 +74,7 @@ const Register = () => {
                 <div className="auth-form">
                     <form onSubmit={onSubmit}>
                         <div className="form-group">
-                            <label htmlFor="email">Email</label>
+                            <label htmlFor="email">Email *</label>
                             <input
                                 type="email"
                                 name="email"
@@ -87,7 +87,7 @@ const Register = () => {
                         </div>
                         <div className="form-group-row">
                             <div className="form-group">
-                                <label htmlFor="firstName">First Name</label>
+                                <label htmlFor="firstName">First Name *</label>
                                 <input
                                     type="text"
                                     name="firstName"
@@ -99,7 +99,7 @@ const Register = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="lastName">Last Name</label>
+                                <label htmlFor="lastName">Last Name *</label>
                                 <input
                                     type="text"
                                     name="lastName"
@@ -112,7 +112,7 @@ const Register = () => {
                             </div>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="password1">Password</label>
+                            <label htmlFor="password1">Password *</label>
                             <input
                                 type="password"
                                 name="password1"
@@ -124,7 +124,7 @@ const Register = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="password2">Confirm Password</label>
+                            <label htmlFor="password2">Confirm Password *</label>
                             <input
                                 type="password"
                                 name="password2"

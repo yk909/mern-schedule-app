@@ -1,10 +1,10 @@
 .businesses {
-    /* display: grid;
-    grid-template-columns: repeat( auto-fit, minmax(300px, 750px) );
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(550px, 1fr) );
     gap: 25px;
     justify-content: center;
-    margin-bottom: 25px; */
-    max-width: 850px;
+    margin-bottom: 25px;
+    /* max-width: 850px; */
     margin: 0 auto 25px auto;
 }
 
@@ -13,6 +13,7 @@
     box-shadow: var(--box-shadow);
     border-radius: var(--border-radius);
     color: var(--text-dark);
+    /* margin-bottom: 25px; */
 }
 
 .business-card.blink {
@@ -32,7 +33,7 @@
 
 .business-card-header {
     padding: 1rem;
-    background: var(--color-secondary-light);
+    /* background: var(--color-secondary-light); */
 }
 
 .business-card-header-info {
@@ -45,6 +46,11 @@
 .business-card-header-info-right {
     display: flex;
     align-items: center;
+}
+
+.business-card .btn-icon {
+    width: 30px;
+    height: 30px;
 }
 
 .business-card-header-info:first-of-type p {

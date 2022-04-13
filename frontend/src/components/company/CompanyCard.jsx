@@ -10,9 +10,13 @@ const CompanyCard = ({companies, isLoading}) => {
         <section className="companies">
             {!isLoading && companies && (
                 companies.map(company => (
-                <Link key={`company-${company.id}`} to={`/companies/${company._id}`} className="company-card">
+                <Link key={`company-${company._id}`} to={`/companies/${company._id}`} className="company-card">
                     <div className="company-card-image">
-                        <img src={company.logo} alt={company.name}/>
+                        {company.logo ? (
+                            <img src={company.logo} alt={company.name}/>
+                        ) : (
+                            <img src="https://www.zimplaza.co.zw/wp-content/uploads/placeholdercompany5f3438282f524800f1d49cd2921bb0a56101e1aa16097ebd313b64778fc7c4bd1611448792.png" alt={company.name}/>
+                        )}
                     </div>
                     <div className="company-card-info">
                         <div className="company-card-info-name">
@@ -82,7 +86,9 @@ const CompanyCard = ({companies, isLoading}) => {
                             )}
                         </div>
                         {id && (
-                            <CreateBusiness />
+                            <CreateBusiness 
+                                company={company}
+                            />
                         )}
                     </div>
                 </Link>

@@ -109,13 +109,12 @@ const companySlice = createSlice({
         builder.addCase(createCompany.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
-            state.companies = action.payload;
+            state.companies.push(action.payload)
         });
         builder.addCase(createCompany.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.msg = action.payload;
-            state.companies = null;
         });
 
         // Get company
