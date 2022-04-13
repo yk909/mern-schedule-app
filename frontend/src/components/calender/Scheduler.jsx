@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { CalenderHeader, OpenShift, UserShift, CalenderFooter } from '../';
 import './styles/Scheduler.css';
 

@@ -48,6 +48,8 @@
 .business-card-body-employee-image img {
     width: 80px;
     border-radius: 50%;
+    min-height: 80px;
+    min-width: 80px;
     box-shadow: var(--box-shadow);
     transition: var(--transition-duration);
 }
@@ -68,32 +70,4 @@
     margin-top: 1rem;
     font-size: 1rem;
     text-align: center;
-}
-
-.employee-add-select {
-    display: flex;
-    justify-content: space-between;
-}
-
-.employee-add-select p {
-    width: 50%;
-    font-size: 1.25rem;
-    text-align: center;
-    border-bottom: 2px solid var(--color-secondary);
-    padding-bottom: 10px;
-    cursor: pointer;
-    transition: var(--transition-duration);
-}
-
-.employee-form .form-group {
-    animation-name: opacity;
-    animation-duration: var(--transition-duration);
-}
-
-.employee-add-select p:hover {
-    border-bottom: 2px solid var(--color-primary);
-}
-
-.employee-add-select p.selected {
-    border-bottom: 2px solid var(--color-primary);
 }

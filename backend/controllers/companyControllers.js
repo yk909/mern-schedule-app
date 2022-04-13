@@ -1,5 +1,6 @@
 const Company = require('../models/companyModel');
 const User = require('../models/userModel');
+const Employee = require('../models/employeeModel');
 
 
 // @desc   Get all user companies
@@ -8,18 +9,15 @@ const User = require('../models/userModel');
 const getUserCompany = async (req, res) => {
     try {
         // find companies where users employee object is in company employees array
-        const company = await Company.aggregate([
-            {
-                $unwind: {
-                    path: '$employees',
-                }
-            },
-            {
-                $match: {
-                    'employees.user': req.user_id
-                }
-            }
-        ]);
+        const employee = await Employee.find({user: req.user._id});
+
+        if (!employee) {
+            return res.status(400).json({
+                msg: 'Employee not found'
+            });
+        }
+
+        const company = await Company.find({employee: employee});
 
         if (!company) {
             return res.status(400).json({

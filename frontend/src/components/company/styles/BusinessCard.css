@@ -1,8 +1,11 @@
 .businesses {
-    display: grid;
+    /* display: grid;
     grid-template-columns: repeat( auto-fit, minmax(300px, 750px) );
     gap: 25px;
     justify-content: center;
+    margin-bottom: 25px; */
+    max-width: 850px;
+    margin: 0 auto 25px auto;
 }
 
 .business-card {

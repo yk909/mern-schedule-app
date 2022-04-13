@@ -3,13 +3,14 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getBusinesses, reset } from '../features/business/businessSlice';
-import { BusinessCard } from '../components';
+import { BusinessCard, CreateBusiness, CompanyCard } from '../components';
 
 const Businesses = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { user } = useSelector(state => state.auth);
     const { businesses, isLoading, isError, isSuccess, msg } = useSelector(state => state.business);
+    const { companies } = useSelector(state => state.company);
 
     useEffect(() => {
         if (!isError && !businesses && user) {
@@ -31,6 +32,12 @@ const Businesses = () => {
 
     return (
         <>
+            {companies && (
+                <CompanyCard 
+                    isLoading={false}
+                    companies={companies.filter(company => company._id === id)} 
+                />
+            )}
             <BusinessCard
                 businesses={businesses}
                 isLoading={isLoading}

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import './styles/Modal.css';
 
-const Modal = ({children, modalIsOpen, contentLabel, setModalIsOpen, actionBtnText}) => {
+const Modal = ({children, modalIsOpen, contentLabel, setModalIsOpen, actionBtnText, onSubmit}) => {
 
     useEffect(() => {
         document.body.style.overflow = setModalIsOpen ? 'hidden' : 'auto';
@@ -34,7 +34,7 @@ const Modal = ({children, modalIsOpen, contentLabel, setModalIsOpen, actionBtnTe
                     </div>
                     <div className="modal-footer">
                         {actionBtnText && (
-                            <button className="btn btn-outline-primary">
+                            <button className="btn btn-outline-primary" onClick={onSubmit}>
                                 {actionBtnText}
                             </button>
                         )}

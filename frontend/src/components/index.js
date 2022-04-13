@@ -16,6 +16,7 @@ import CreateShift from "./calender/CreateShift";
 import CompanyCard from "./company/CompanyCard";
 import BusinessCard from "./company/BusinessCard";
 import CreateCompany from "./company/CreateCompany";
+import CreateBusiness from "./company/CreateBusiness";
 import EmployeeCard from "./company/EmployeeCard";
 import CreateEmployee from "./company/CreateEmployee";
 
@@ -38,6 +39,7 @@ export {
     CompanyCard,
     BusinessCard,
     CreateCompany,
+    CreateBusiness,
     EmployeeCard,
     CreateEmployee,
 }

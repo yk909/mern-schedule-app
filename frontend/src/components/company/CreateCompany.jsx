@@ -5,19 +5,72 @@ import './styles/CreateCompany.css';
 const CreateCompany = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isNew, setIsNew] = useState(false);
+    const [email, setEmail] = useState('');
+    const [company, setCompany] = useState({
+        name: '',
+        email: '',
+        website: '',
+    });
+
+    const onChange = (e) => {
+        const { name, value } = e.target;
+        setCompany({ ...company, [name]: value });
+    };
 
     return (
         <>
         <Modal
         setModalIsOpen={setIsModalOpen}
         modalIsOpen={isModalOpen}
-        actionBtnText="Apply"
+        actionBtnText={`${!isNew ? 'Apply' : 'Create'}`}
         contentLabel={'Add Company'}
         >
-            <div className="employee-add-select">
-                <p className={`${!isNew ? 'selected' : ''}`} onClick={() => setIsNew(false)}>Find By Name</p>
+            <div className="nav-tab-select">
+                <p className={`${!isNew ? 'selected' : ''}`} onClick={() => setIsNew(false)}>Apply By Email</p>
                 <p className={`${isNew ? 'selected' : ''}`} onClick={() => setIsNew(true)}>Create New</p>
             </div>
+            {!isNew ? (
+                <div className="form-group">
+                    <label>Email *</label>
+                    <input 
+                        type="email" 
+                        placeholder="Company's email" 
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)} />
+                </div>
+            ) : (
+                <>
+                <div className="form-group-row">
+                    <div className="form-group">
+                        <label>Name *</label>
+                        <input 
+                            type="text" 
+                            placeholder="Company's name" 
+                            value={company.name} 
+                            name="name"
+                            onChange={onChange} />
+                    </div>
+                    <div className="form-group">
+                        <label>Email *</label>
+                        <input 
+                            type="text" 
+                            placeholder="Company's email" 
+                            value={company.email}
+                            name="email"
+                            onChange={onChange} />
+                    </div>
+                </div>
+                <div className="form-group">
+                    <label>Website</label>
+                    <input 
+                        type="text" 
+                        placeholder="Company's website" 
+                        value={company.website}
+                        name="website"
+                        onChange={onChange} />
+                </div>
+                </>
+            )}
         </Modal>
         <section className="add-company" onClick={() => { setIsModalOpen(true) }}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">

@@ -1,7 +1,11 @@
+import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { CreateBusiness } from '../';
 import './styles/CompanyCard.css';
 
 const CompanyCard = ({companies, isLoading}) => {
+    const { id } = useParams();
+
     return (
         <section className="companies">
             {!isLoading && companies && (
@@ -77,6 +81,9 @@ const CompanyCard = ({companies, isLoading}) => {
                             </div>
                             )}
                         </div>
+                        {id && (
+                            <CreateBusiness />
+                        )}
                     </div>
                 </Link>
                 ))

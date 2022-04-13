@@ -9,6 +9,8 @@ const CreateEmployee = ({positions}) => {
     const [isManager, setIsManager] = useState(false);
     const [email, setEmail] = useState('');
     const [wage, setWage] = useState(0);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
 
     const positionsSelect = positions.map(position => {
         return {
@@ -26,13 +28,23 @@ const CreateEmployee = ({positions}) => {
             actionBtnText="Add"
             contentLabel={`Create an Employee`}
         >
-            <div className="employee-add-select">
-                <p className={`${!isNew ? 'selected' : ''}`} onClick={() => setIsNew(false)}>Add By Email</p>
+            <div className="nav-tab-select">
+                <p className={`${!isNew ? 'selected' : ''}`} onClick={() => setIsNew(false)}>Invite By Email</p>
                 <p className={`${isNew ? 'selected' : ''}`} onClick={() => setIsNew(true)}>Create New</p>
             </div>
             <div className="employee-form">
                 {isNew ? (
                 <>
+                    <div className="form-group-row">
+                        <div className="form-group">
+                            <label>First Name</label>
+                            <input type="text" value={firstName} placeholder="Enter first name" onChange={e => setFirstName(e.target.value)}/>
+                        </div>
+                        <div className="form-group">
+                            <label>Last Name</label>
+                            <input type="text" value={lastName} placeholder="Enter last name" onChange={e => setLastName(e.target.value)}/>
+                        </div>
+                    </div>
                     <div className="form-group-row">
                         <div className="form-group">
                             <label>Is Manager</label>
@@ -62,7 +74,7 @@ const CreateEmployee = ({positions}) => {
                 <>
                     <div className="form-group">
                         <label>Email</label>
-                        <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Enter email" />
+                        <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Enter user's email" />
                     </div>
                 </>
                 )}
