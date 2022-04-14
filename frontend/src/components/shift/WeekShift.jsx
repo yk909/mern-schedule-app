@@ -5,11 +5,11 @@ import { ShiftsList } from '../';
 
 
 const WeekShift = ({dateControl, date, shifts, employee}) => {
-    const [shiftsArr, setShiftsArr] = useState([]);
+    // const [shiftsArr, setShiftsArr] = useState([]);
 
-    useEffect(() => {
-        setShiftsArr(shifts);
-    }, []);
+    // useEffect(() => {
+    //     setShiftsArr(shifts);
+    // }, []);
     
     return (
             <div className="flex">
@@ -25,8 +25,9 @@ const WeekShift = ({dateControl, date, shifts, employee}) => {
                         <ShiftsList
                             employee={employee}
                             key={`open-shift-day-${i}`}
-                            shiftsArr={shiftsArr}
-                            setShiftsArr={setShiftsArr}
+                            shifts={shifts}
+                            // shiftsArr={shiftsArr}
+                            // setShiftsArr={setShiftsArr}
                             date={date}
                             i={i}
                         />

@@ -42,6 +42,12 @@
     margin-bottom: 1rem;
 }
 
+.business-card-header-info a {
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: var(--text-dark);
+}
+
 .business-card-header-info-left,
 .business-card-header-info-right {
     display: flex;
@@ -51,6 +57,7 @@
 .business-card .btn-icon {
     width: 30px;
     height: 30px;
+    margin-left: 15px;
 }
 
 .business-card-header-info:first-of-type p {

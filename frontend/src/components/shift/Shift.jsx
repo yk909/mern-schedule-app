@@ -16,37 +16,44 @@ const Shift = ({ shift, onMouseDownResize, totalTime, endTime, index }) => {
         }),
     });
 
-    const calcTotalHours = ( shiftId ) => {
-        if(document.getElementById(shiftId) && onMouseDownResize) {
-            const shiftParentWidth = document.getElementById(shiftId).style.width;
-            const hours = shiftParentWidth.replace('%', '') / 100;
-            const minutes = Math.floor((hours % 1) * 60);
-            return setInitTotalTime(Math.trunc(hours) + 'h' + (minutes !== 0 ? minutes + "m" : ""));
-        } else if (shift && !onMouseDownResize ) {
-            const today = new Date().setHours(0,0,0,0);
-            const start = new Date().setHours(
-                shift.startTime.includes("PM") ? 
-                +shift.startTime.slice(0, 2) + 12 :
-                +shift.startTime.slice(0, 2),
-                +shift.startTime.slice(3, 5),
-                0, 0
-                );
-            const end = new Date().setHours(
-                shift.endTime.includes("PM") ? 
-                +shift.endTime.slice(0, 2) + 12 :
-                +shift.endTime.slice(0, 2),
-                +shift.endTime.slice(3, 5),
-                0, 0
-                );
+    // const calcTotalHours = ( shiftId ) => {
+    //     if(document.getElementById(shiftId) && onMouseDownResize) {
+    //         const shiftParentWidth = document.getElementById(shiftId).style.width;
+    //         const hours = shiftParentWidth.replace('%', '') / 100;
+    //         const minutes = Math.floor((hours % 1) * 60);
+    //         return setInitTotalTime(Math.trunc(hours) + 'h' + (minutes !== 0 ? minutes + "m" : ""));
+    //     } else if (shift && !onMouseDownResize ) {
+    //         const today = new Date().setHours(0,0,0,0);
+    //         const start = new Date().setHours(
+    //             shift.startTime.includes("PM") ? 
+    //             +shift.startTime.slice(0, 2) + 12 :
+    //             +shift.startTime.slice(0, 2),
+    //             +shift.startTime.slice(3, 5),
+    //             0, 0
+    //             );
+    //         const end = new Date().setHours(
+    //             shift.endTime.includes("PM") ? 
+    //             +shift.endTime.slice(0, 2) + 12 :
+    //             +shift.endTime.slice(0, 2),
+    //             +shift.endTime.slice(3, 5),
+    //             0, 0
+    //             );
 
-            return setInitTotalTime(Math.trunc((end - start) / 3600000) + 'h' + (Math.floor(((end - start) / 60000) % 60) !== 0 ? Math.floor(((end - start) / 60000) % 60) + "m" : ""));
+    //         return setInitTotalTime(Math.trunc((end - start) / 3600000) + 'h' + (Math.floor(((end - start) / 60000) % 60) !== 0 ? Math.floor(((end - start) / 60000) % 60) + "m" : ""));
 
-        }
-    };
+    //     }
+    // };
 
-    useEffect(() => {
-        calcTotalHours(shift.id);
-    }, [shift]);
+    // useEffect(() => {
+    //     calcTotalHours(shift.id);
+    // }, [shift]);
+
+
+    const newCalcTotalHours = ( a, b ) => {
+        let start = new Date().setHours(a.slice(0, 2), a.slice(3, 5), 0, 0);
+        let end = new Date().setHours(b.slice(0, 2), b.slice(3, 5), 0, 0);
+        return Math.trunc((end - start) / 3600000) + 'h' + (Math.floor(((end - start) / 60000) % 60) !== 0 ? Math.floor(((end - start) / 60000) % 60) + "m" : "");
+    }
 
     return (
         <div 
@@ -87,25 +94,33 @@ const Shift = ({ shift, onMouseDownResize, totalTime, endTime, index }) => {
                     <div className="clock-time">
                         { shift.startTime }
                         <hr />
-                        { 
+                        { shift.endTime }
+                        {/* { 
                             endTime && endTime[index] ?
                                 endTime[index]
                             :
                                 shift.endTime 
-                        }
+                        } */}
                     </div>
                     <div className="flex align-center">
                         <div className="total-hours">
-                        { 
+                        {   
+                            shift && (
+                                newCalcTotalHours(shift.startTime, shift.endTime)
+                            )
+                        }
+                        {/* { 
                             totalTime && totalTime[index] ?
                                 totalTime[index]
                             : 
                                 initTotalTime
-                        }
+                        } */}
                         </div>
-                    <div className="position">
-                        { shift.position }
-                    </div>
+                        {shift.position && 
+                            <div className="position">
+                                { shift.position }
+                            </div>
+                        }
                     </div>
                 </div>
                 <div className="edit btn-group flex align-between w-100 h-100">

@@ -12,8 +12,8 @@ import { customSelectStyles, timeframeOptions } from '../../constance/dummyData'
 const Calender = () => {
   const [dateControl, setDateControl] = useState(timeframeOptions[1]);
   const [startDate, setStartDate] = useState(new Date());
-  const [fromDate, setfromDate] = useState(new Date());
-  const [toDate, setToDate] = useState(new Date());
+  const [fromDate, setfromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
 
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
     <div className="date btn example-custom-input" onClick={onClick} ref={ref}>
@@ -62,13 +62,15 @@ const Calender = () => {
 
     } else if(value === 'prev') {
 
-      setStartDate(new Date(startDate.setMonth(toDate.getMonth(), toDate.getDate() - 1)));
+      setStartDate(new Date(startDate.setMonth(fromDate.getMonth(), fromDate.getDate() - 1)));
 
     }
   }
 
 
   return (
+    <>
+    {fromDate && (
     <section>
       <div className="calender">
         <div className="calender-header">
@@ -142,6 +144,7 @@ const Calender = () => {
         <DndProvider backend={HTML5Backend}>
           <Scheduler 
             fromDate={fromDate}
+            toDate={toDate}
             startDate={startDate}
             dateControl={dateControl}
             setDateControl={setDateControl}
@@ -150,6 +153,8 @@ const Calender = () => {
         </DndProvider>
       </div>
     </section>
+    )}
+    </>
   )
 }
 

@@ -557,6 +557,11 @@ input:focus {
   animation-delay: calc(var(--order) * 100ms);
 }
 
+.Toastify {
+  z-index: 99999;
+  position: relative;
+}
+
 @keyframes blink {
   0% {
     opacity: 100%;

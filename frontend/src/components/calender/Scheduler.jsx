@@ -1,10 +1,36 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { getAllBusinessShifts } from '../../features/shift/shiftSlice';
 import { CalenderHeader, OpenShift, UserShift, CalenderFooter } from '../';
 import './styles/Scheduler.css';
 
-const Scheduler = ({fromDate, startDate, dateControl, setStartDate, setDateControl}) => {
+const Scheduler = ({fromDate, toDate, startDate, dateControl, setStartDate, setDateControl}) => {
     const calenderRef = useRef(null);
     const date = fromDate;
+    const { id } = useParams();
+    const dispatch = useDispatch();
+    const { shifts, employees, isLoading, isError, msg } = useSelector(state => state.shift);
+
+
+    useEffect(() => {
+        if(id, toDate, fromDate) {
+            const data = {
+                business: id,
+                fromDate: `${fromDate.getFullYear()}-${fromDate.getMonth()}-${fromDate.getDate()}`,
+                toDate: `${toDate.getFullYear()}-${toDate.getMonth()}-${toDate.getDate()}`,
+            }
+            dispatch(getAllBusinessShifts(data));
+        }
+    }, [id]);
+
+    useEffect(() => {
+        if(isError) {
+            toast.error(msg);
+        }
+    }, [isError]);
+
 
     const onWheel = (e) => {
         // scroll left on wheel up and right on wheel down only if not on mobile view
@@ -36,14 +62,18 @@ const Scheduler = ({fromDate, startDate, dateControl, setStartDate, setDateContr
                 <div className="section-container">
                     <OpenShift
                         date={date}
+                        toDate={toDate}
+                        fromDate={fromDate}
                         dateControl={dateControl}
-                        startDate={startDate}
+                        shifts={shifts}
                     />
-
                     <UserShift
                         date={date}
+                        toDate={toDate}
+                        fromDate={fromDate}
                         dateControl={dateControl}
-                        startDate={startDate}
+                        employees={employees}
+                        shifts={shifts}
                     />
                     <CalenderFooter
                         dateControl={dateControl}

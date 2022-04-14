@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 
 const shiftSchema = new mongoose.Schema({
-    user: {
+    employee: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+        ref: 'Employee',
+        required: false
     },
     scheduledBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Employee',
         required: true
     },
     business: {
@@ -24,9 +24,21 @@ const shiftSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    position: {
+        type: String,
+        required: false
+    },
     endTime: {
         type: String,
         required: true
+    },
+    color: {
+        type: String,
+        default: 'bg-primary'
+    },
+    isConfirmed: {
+        type: Boolean,
+        default: true
     },
 }, { timestamps: true });
 
