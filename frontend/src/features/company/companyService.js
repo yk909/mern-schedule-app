@@ -5,14 +5,14 @@ const API_URL = '/api/companies/';
 
 
 // Create company
-const createCompany = async (data) => {
+const createCompany = async (data, token) => {
     const config = {
         headers: {
-            Authorization: `Bearer ${data.token}`,
+            Authorization: `Bearer ${token}`,
         }
     };
 
-    const response = await axios.post(API_URL, data.company, config);
+    const response = await axios.post(API_URL, data, config);
 
     // if (response.data) {
     //     localStorage.setItem('company', JSON.stringify(response.data)); // Set user in localStorage

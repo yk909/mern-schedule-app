@@ -90,14 +90,13 @@ const getEmployeeById = async (req, res) => {
 
 
 // @desc   Create employee
-// @route  POST /api/employees/business/:id
+// @route  POST /api/employees
 // @access Private
 const createEmployee = async (req, res) => {
-    const { id } = req.params; // business id
-    const { userId } = req.body; // user id
+    const { firstName, lastName, wage, position } = req.body;
 
     try {
-        const business = await Business.findById(id).populate('company').populate('employees').exec();
+        const business = await Business.findById(req.body.business).populate('company').populate('managers').exec();
 
         if (!business) {
             return res.status(400).json({
@@ -105,26 +104,18 @@ const createEmployee = async (req, res) => {
             });
         }
 
-        const user = await User.findById(userId);
-
-        if (!user) {
-            return res.status(400).json({
-                msg: 'User not found'
-            });
-        }
-
         // Check if user is a manager
-        const userEmployee = business.managers.find(manager => manager.user.toString() === req.user._id.toString());
-        if (
-            (userEmployee) || // If user is a manager
-            business.employees.filter(employee => employee.user._id.toString() === user._id.toString()).length === 0 // Check if user is not already an employee
-        ) {
+        const isManager = business.managers.find(manager => manager.user.toString() === req.user._id.toString());
+        const isOwner = business.company.owners.find(owner => owner.toString() === req.user._id.toString());
+        if (isManager || isOwner) // If user is a manager
+        {
             const newEmployee = new Employee({
-                user: user,
-                firstName: user.firstName,
-                lastName: user.lastName,
+                firstName,
+                lastName,
                 company: business.company,
-                business: business
+                business,
+                wage,
+                position
             });
 
             await newEmployee.save();
@@ -158,8 +149,7 @@ const updateEmployee = async (req, res) => {
             });
         }
 
-        const business = await Business.findById(employee.business).populate('company').populate('employees').exec();
-        const userEmployee = business.employees.find(employee => employee.user.toString() === req.user._id.toString());
+        const business = await Business.findById(employee.business).populate('company').populate('employees').populate('managers').exec();
 
         if (!business) {
             return res.status(400).json({
@@ -168,12 +158,29 @@ const updateEmployee = async (req, res) => {
         }
 
         // Check if logged in user is a manager or company owner
-        if (
-            business.company.owners.includes(req.user._id) || 
-            ( userEmployee && userEmployee.isManager )
-        ) {
-            const updatedEmployee = await Employee.findByIdAndUpdate(id, req.body, {new: true});
-            return res.status(200).json(updatedEmployee);
+        const isManager = business.managers.find(manager => manager.user.toString() === req.user._id.toString());
+        const isOwner = business.company.owners.find(owner => owner.toString() === req.user._id.toString());
+        if (isManager || isOwner) // If user is a manager
+        {
+            if (req.body.business !== employee.business.toString()) {
+                const newBusiness = await Business.findById(req.body.business).populate('employees').populate('managers').exec();
+                if (!newBusiness) {
+                    return res.status(400).json({
+                        msg: 'Business not found'
+                    });
+                }
+
+                business.employees.pull(employee);
+                newBusiness.employees.push(employee);
+                const a = await business.save();
+                const b = await newBusiness.save();
+
+                await Employee.findByIdAndUpdate(id, req.body, {new: true});
+                return res.status(200).json([a, b]);
+            } else {
+                await Employee.findByIdAndUpdate(id, req.body, {new: true});
+                return res.status(200).json([business]);
+            }
         } else {
             return res.status(400).json({
                 msg: 'You are not authorized to update an employee'
@@ -202,8 +209,7 @@ const deleteEmployee = async (req, res) => {
             });
         }
 
-        const business = await Business.findById(employee.business).populate('company').populate('employees').exec();
-        const userEmployee = business.employees.find(employee => employee.user.toString() === req.user._id.toString());
+        const business = await Business.findById(employee.business).populate('company').populate('managers').exec();
 
         if (!business) {
             return res.status(400).json({
@@ -212,13 +218,14 @@ const deleteEmployee = async (req, res) => {
         }
 
         // Check if logged in user is a manager or company owner
-        if (
-            business.company.owners.includes(req.user._id) || 
-            ( userEmployee && userEmployee.isManager )
-        ) {
-            const deleteEmployee = await Employee.findById(id);
-            await deleteEmployee.remove();
-            return res.status(200).json(deleteEmployee);
+        const isManager = business.managers.find(manager => manager.user.toString() === req.user._id.toString());
+        const isOwner = business.company.owners.find(owner => owner.toString() === req.user._id.toString());
+        if (isManager || isOwner) // If user is a manager
+        {
+            const deletedEmployee = employee;
+            await employee.remove();
+            
+            return res.status(200).json(deletedEmployee);
         } else {
             return res.status(400).json({
                 msg: 'You are not authorized to update an employee'

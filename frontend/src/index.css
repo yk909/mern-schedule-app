@@ -1,5 +1,5 @@
 :root {
-  --danger: #F35588;
+  --danger: #b9505a;
   --warning: #FFF591;
   --success: #A3F7BF;
   --info: #05DFD7;
@@ -342,7 +342,8 @@ main {
 .btn.btn-outline-danger {
   background-color: transparent;
   border: 2px solid var(--danger);
-  color: var(--text-dark);
+  color: var(--danger);
+  box-shadow: none;
 }
 
 .btn.btn-outline-danger:hover {
@@ -405,7 +406,7 @@ input {
   border-top: none;
   border-right: none;
   border-left: none;
-  border-bottom: 2px solid var(--color-secondary-light);
+  border-bottom: 2px solid var(--color-secondary);
   padding: 8px 12px;
   transition: var(--transition-duration);
   font-size: 1rem;

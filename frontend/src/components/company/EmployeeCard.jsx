@@ -1,35 +1,59 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Select from 'react-select';
+import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from '../';
+import { editEmployee, deleteEmployee } from '../../features/business/businessSlice';
 import { customSelectModalStyles } from '../../constance/dummyData';
 import './styles/EmployeeCard.css';
 
 const EmployeeCard = ({employee, isManager, positions, businesses}) => {
+    const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [wage, setWage] = useState(employee.wage);
-
     const businessesSelect = businesses.map(business => {
         return {
-            value: business.id,
+            value: business._id,
             label: business.name
         }
     });
-
-    const [business, setBusiness] = useState(businessesSelect.filter(business => business.value === employee.businessId));
-
     const positionsSelect = positions.map(position => {
         return {
             value: position,
             label: position
         }
+    } );
+
+    const { isLoadingEmployee } = useSelector(state => state.business);
+
+    const [editUser, setEditUser] = useState({
+        _id: employee._id,
+        isManager: {value: isManager, label: isManager.toString()},
+        position: positionsSelect.filter(position => position.value === employee.position)[0],
+        business: businessesSelect.filter(business => business.value === employee.business || business.value === employee.business._id)[0],
+        wage: employee.wage
     });
 
-    const [position, setPosition] = useState(positionsSelect.filter(position => position.value === employee.position));
+    useEffect(() => {
+        if (!isLoadingEmployee) {
+            setIsModalOpen(false);
+        }
+    }, [isLoadingEmployee])
 
-    const isManagerSelect = {
-        value: isManager,
-        label: isManager.toString()
+
+    const onSubmit = () => {
+        const user = {
+            ...editUser,
+            isManager: editUser.isManager.value,
+            position: editUser.position?.value,
+            business: editUser.business?.value
+        }
+        dispatch(editEmployee(user));
     }
+
+    const onSubmitDanger = () => {
+        dispatch(deleteEmployee(employee._id));
+        setIsModalOpen(false);
+    }
+
 
     return (
         <>
@@ -38,14 +62,17 @@ const EmployeeCard = ({employee, isManager, positions, businesses}) => {
             modalIsOpen={isModalOpen}
             actionBtnText="Save"
             contentLabel={`${employee.firstName} ${employee.lastName}`}
+            actionDangerBtnText="Delete Employee"
+            onSubmit={onSubmit}
+            onSubmitDanger={onSubmitDanger}
         >
             <div className="employee-form">
                 <div className="form-group-row">
                     <div className="form-group">
                         <label>Is Manager</label>
                         <Select
-                            value={isManagerSelect}
-                            onChange={(e) => { console.log(e) }}
+                            value={editUser.isManager}
+                            onChange={(e) => { setEditUser({...editUser, isManager: e}) }}
                             options={[{ value: true, label: 'true' }, { value: false, label: 'false' }]}
                             styles={customSelectModalStyles}
                         />
@@ -53,8 +80,9 @@ const EmployeeCard = ({employee, isManager, positions, businesses}) => {
                     <div className="form-group">
                         <label>Position</label>
                         <Select
-                            value={position}
-                            onChange={(e) => {setPosition(e);}}
+                            value={editUser.position}
+                            name="position"
+                            onChange={(e) => { setEditUser({...editUser, position: e}) }}
                             options={positionsSelect}
                             styles={customSelectModalStyles}
                         />
@@ -64,15 +92,20 @@ const EmployeeCard = ({employee, isManager, positions, businesses}) => {
                     <div className="form-group">
                         <label>Business</label>
                         <Select
-                            value={business}
-                            onChange={(e) => { setBusiness(e) }}
+                            value={editUser.business}
+                            onChange={(e) => { setEditUser({...editUser, business: e}) }}
                             options={businessesSelect}
                             styles={customSelectModalStyles}
                         />
                     </div>
                     <div className="form-group">
                         <label>Wage</label>
-                        <input type="number" value={wage} onChange={(e) => setWage(e.target.value)} min={0} />
+                        <input 
+                            type="number" 
+                            value={editUser.wage}
+                            onChange={(e) => { setEditUser({...editUser, wage: e.target.value}) }}
+                            min={0}
+                        />
                     </div>
                 </div>
             </div>
@@ -80,19 +113,7 @@ const EmployeeCard = ({employee, isManager, positions, businesses}) => {
         <div 
             onClick={() => setIsModalOpen(true)}
             className="business-card-body-employee">
-            <div className={`${employee.user ? 'verified' : 'not-verified'}`}>
-            {employee.user ? (
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                    <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
-                    <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
-                </svg>
-            ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                </svg>
-            )}
-            </div>
+            <div className="user-bg" />
             <div className="business-card-body-employee-image">
                 { employee.profilePicture ? 
                     <img src={employee.profilePicture} alt={employee.name} /> 
@@ -101,7 +122,21 @@ const EmployeeCard = ({employee, isManager, positions, businesses}) => {
                 }
             </div>
             <div className="business-card-body-employee-name">
-                {employee.firstName} {employee.lastName}
+                
+                <p>
+                    {employee.user && (
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                                <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                            </svg>
+                        </span>
+                    )}
+                    {employee.position}
+                </p>
+                <p>
+                    {employee.firstName} {employee.lastName}
+                </p>
             </div>
         </div>
         </>

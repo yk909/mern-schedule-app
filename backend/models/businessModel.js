@@ -1,7 +1,12 @@
-const mognoose = require('mongoose');
+const mongoose = require('mongoose');
 const Company = require('./companyModel');
 
-const businessSchema = new mognoose.Schema({
+const businessSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
     name: {
         type: String,
         required: true
@@ -39,22 +44,22 @@ const businessSchema = new mognoose.Schema({
         required: false
     }],
     company: {
-        type: mognoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Company',
         required: true
     },
-    owner: {
-        type: mognoose.Schema.Types.ObjectId,
-        ref: 'Employee',
-        required: true
-    },
     employees: [{
-        type: mognoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Employee'
     }],
     managers: [{
-        type: mognoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Employee'
+    }],
+    owners: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }],
 }, { timestamps: true });
 
@@ -86,4 +91,4 @@ businessSchema.post('save', async function () {
 })
 
 
-module.exports = mognoose.model('Business', businessSchema);
+module.exports = mongoose.model('Business', businessSchema);

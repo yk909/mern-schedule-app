@@ -13,7 +13,7 @@ const RequireCompany = ({children}) => {
     useEffect(() => {
 
         if(user && !companies) {
-            dispatch(getCompany(user.token));
+            dispatch(getCompany());
         }
 
         if (isError) {

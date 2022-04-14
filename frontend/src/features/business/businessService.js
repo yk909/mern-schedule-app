@@ -5,63 +5,63 @@ const API_URL = '/api/businesses/';
 
 
 // Create business
-const createBusiness = async (data) => {
-    data.business.positions = data.business.positions ? await data.business.positions.map(position => { return position.value }) : [];
+const createBusiness = async (business, token) => {
+    business.positions = business.positions ? await business.positions.map(position => { return position.value }) : [];
     const config = {
         headers: {
-            Authorization: `Bearer ${data.token}`,
+            Authorization: `Bearer ${token}`,
         }
     };
-    const response = await axios.post(API_URL, data.business, config);
+    const response = await axios.post(API_URL, business, config);
 
     return response.data;
 }
 
 
 // Get business
-const getBusiness = async (data) => {
+const getBusiness = async (businessId, token) => {
     const config = {
         headers: {
-            Authorization: `Bearer ${data.token}`,
+            Authorization: `Bearer ${token}`,
         }
     };
-    const response = await axios.get(`${API_URL}${data.businessId}`, config);
+    const response = await axios.get(`${API_URL}${businessId}`, config);
     return response.data;
 }
 
 
 // Update business
-const updateBusiness = async (data) => {
+const updateBusiness = async (business, token) => {
     const config = {
         headers: {
-            Authorization: `Bearer ${data.token}`,
+            Authorization: `Bearer ${token}`,
         }
     };
-    const response = await axios.put(`${API_URL}${data.businessId}`, data.businessData, config);
+    const response = await axios.put(`${API_URL}${business._id}`, business, config);
     return response.data;
 }
 
 
 // Delete business
-const deleteBusiness = async (data) => {
+const deleteBusiness = async (business, token) => {
     const config = {
         headers: {
-            Authorization: `Bearer ${data.token}`,
+            Authorization: `Bearer ${token}`,
         }
     };
-    const response = await axios.delete(`${API_URL}${data.businessId}`, config);
+    const response = await axios.delete(`${API_URL}${business}`, config);
     return response.data;
 }
 
 
 // Get all businesses
-const getBusinesses = async (data) => {
+const getBusinesses = async (id, token) => {
     const config = {
         headers: {
-            Authorization: `Bearer ${data.token}`,
+            Authorization: `Bearer ${token}`,
         }
     };
-    const response = await axios.get(`${API_URL}company/${data.id}`, config);
+    const response = await axios.get(`${API_URL}company/${id}`, config);
     return response.data;
 }
 

@@ -24,12 +24,7 @@ const CreateCompany = () => {
 
     const onSubmit = (e) => {
         if(user && isNew) {
-            dispatch(createCompany(
-                {
-                    company: company, 
-                    token: user.token
-                }
-            ));
+            dispatch(createCompany(company));
             setIsModalOpen(false);
         } else if ( user && !isNew ) {
             console.log('send email');

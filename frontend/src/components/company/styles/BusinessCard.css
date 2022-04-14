@@ -1,10 +1,10 @@
 .businesses {
-    display: grid;
+    /* display: grid;
     grid-template-columns: repeat( auto-fit, minmax(550px, 1fr) );
-    gap: 25px;
-    justify-content: center;
+    gap: 25px; */
+    /* justify-content: center; */
     margin-bottom: 25px;
-    /* max-width: 850px; */
+    max-width: 1050px;
     margin: 0 auto 25px auto;
 }
 
@@ -13,7 +13,7 @@
     box-shadow: var(--box-shadow);
     border-radius: var(--border-radius);
     color: var(--text-dark);
-    /* margin-bottom: 25px; */
+    margin-bottom: 25px;
 }
 
 .business-card.blink {

@@ -86,7 +86,7 @@ const createBusiness = async (req, res) => {
         }
 
         const business = new Business({
-            owner: req.user._id,
+            user: req.user._id,
             company: company._id,
             name,
             type,
@@ -97,6 +97,8 @@ const createBusiness = async (req, res) => {
             zip,
             phoneNumber
         });
+
+        business.owners.push(req.user._id);
 
         await business.save();
 

@@ -16,7 +16,8 @@ export const createCompany = createAsyncThunk(
     'company/create',
     async (company, thunkAPI) => {
         try {
-            return await companyService.createCompany(company);
+            const token = thunkAPI.getState().auth.user.token;
+            return await companyService.createCompany(company, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -35,7 +36,8 @@ export const getCompany = createAsyncThunk(
     'company/get',
     async (company, thunkAPI) => {
         try {
-            return await companyService.getCompany(company);
+            const token = thunkAPI.getState().auth.user.token;
+            return await companyService.getCompany(token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -54,7 +56,8 @@ export const updateCompany = createAsyncThunk(
     'company/update',
     async (company, thunkAPI) => {
         try {
-            return await companyService.updateCompany(company);
+            const token = thunkAPI.getState().auth.user.token;
+            return await companyService.updateCompany(company, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -73,7 +76,8 @@ export const deleteCompany = createAsyncThunk(
     'company/delete',
     async (company, thunkAPI) => {
         try {
-            return await companyService.deleteCompany(company);
+            const token = thunkAPI.getState().auth.user.token;
+            return await companyService.deleteCompany(company, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -105,10 +109,13 @@ const companySlice = createSlice({
         // Create company
         builder.addCase(createCompany.pending, (state) => {
             state.isLoading = true;
+            state.msg = '';
         });
         builder.addCase(createCompany.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
+            state.isError = false;
+            state.msg = '';
             state.companies.push(action.payload)
         });
         builder.addCase(createCompany.rejected, (state, action) => {
@@ -120,10 +127,13 @@ const companySlice = createSlice({
         // Get company
         builder.addCase(getCompany.pending, (state) => {
             state.isLoading = true;
+            state.msg = '';
         });
         builder.addCase(getCompany.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
+            state.isError = false;
+            state.msg = '';
             state.companies = action.payload;
         });
         builder.addCase(getCompany.rejected, (state, action) => {
@@ -136,10 +146,13 @@ const companySlice = createSlice({
         // Update company
         builder.addCase(updateCompany.pending, (state) => {
             state.isLoading = true;
+            state.msg = '';
         });
         builder.addCase(updateCompany.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
+            state.isError = false;
+            state.msg = '';
             state.companies = action.payload;
         });
         builder.addCase(updateCompany.rejected, (state, action) => {
@@ -152,10 +165,13 @@ const companySlice = createSlice({
         // Delete company
         builder.addCase(deleteCompany.pending, (state) => {
             state.isLoading = true;
+            state.msg = '';
         });
         builder.addCase(deleteCompany.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
+            state.isError = false;
+            state.msg = '';
             state.companies = action.payload;
         });
         builder.addCase(deleteCompany.rejected, (state, action) => {

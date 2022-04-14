@@ -11,9 +11,16 @@ const {
 } = require('../controllers/employeeControllers');
 
 
-router.route('/company/:id').get(protect, getCompanyEmployees);
-router.route('/business/:id').get(protect, getBusinessEmployees).post(protect, createEmployee);
-router.route('/:id').get(protect, getEmployeeById).put(protect, updateEmployee).delete(protect, deleteEmployee);
+router.route('/')
+    .post(protect, createEmployee);
+router.route('/company/:id')
+    .get(protect, getCompanyEmployees);
+router.route('/business/:id')
+    .get(protect, getBusinessEmployees);
+router.route('/:id')
+    .get(protect, getEmployeeById)
+    .put(protect, updateEmployee)
+    .delete(protect, deleteEmployee);
 
 
 module.exports = router;

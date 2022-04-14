@@ -33,10 +33,7 @@ const CreateBusiness = ({ company }) => {
     const onSubmit = () => {
         if(business.name && business.type && business.address && business.city && business.state && business.zip) {
             if (user) {
-                dispatch(createBusiness({
-                    business,
-                    token: user.token
-                }));
+                dispatch(createBusiness(business));
                 setBusiness({
                     name: '',
                     type: '',

@@ -3,7 +3,7 @@
 .business-card-body-employees {
     display: grid;
     grid-template-columns:  repeat( auto-fit, minmax(175px, 1fr) );
-    gap: 10px;
+    /* gap: 10px; */
     padding-bottom: 25px;
 }
 
@@ -16,12 +16,7 @@
 }
 
 .business-card-body-employee {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     margin-top: 20px;
-    border: 1px solid var(--color-secondary);
     padding: 1rem;
     border-radius: var(--border-radius);
     transition: var(--transition-duration);
@@ -32,12 +27,22 @@
     position: relative;
 }
 
-.business-card-body-employee .verified {
-    width: 20px;
-    height: 20px;
+.business-card-body-employee.create-employee-btn {
+    display: flex;
+    justify-content: center;
+}
+
+.business-card-body-employee .user-bg {
+    background: var(--color-primary);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
     position: absolute;
-    right: 10px;
-    top: 10px;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 60px;
+    width: 100%;
+    box-shadow: var(--box-shadow);
 }
 
 .business-card-body-employee:hover,
@@ -46,12 +51,14 @@
 }
 
 .business-card-body-employee-image img {
+    position: relative;
     width: 80px;
     border-radius: 50%;
     min-height: 80px;
     min-width: 80px;
     box-shadow: var(--box-shadow);
     transition: var(--transition-duration);
+    background: var(--color-secondary);
 }
 
 .business-card-body-employee-image {
@@ -70,4 +77,28 @@
     margin-top: 1rem;
     font-size: 1rem;
     text-align: center;
+}
+
+.business-card-body-employee-name p:first-child {
+    font-size: 1.25rem;
+    font-weight: 600;
+    opacity: 0.8;
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.business-card-body-employee-name p {
+    margin-top: 15px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.business-card-body-employee-name svg {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    fill: var(--color-primary);
 }

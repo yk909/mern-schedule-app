@@ -9,26 +9,20 @@ const Businesses = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { user } = useSelector(state => state.auth);
-    const { businesses, isLoading, isError, isSuccess, msg } = useSelector(state => state.business);
+    const { businesses, isLoading, isError, isSuccess, msg, isErrorEmployee } = useSelector(state => state.business);
     const { companies } = useSelector(state => state.company);
 
     useEffect(() => {
-        if (!isError && !businesses && user) {
-            dispatch(getBusinesses({
-                id: id, 
-                token: user.token
-            }));
+        if (id) {
+            dispatch(getBusinesses(id));
         }
+    }, [id]);
 
-        if (isError) {
+    useEffect(() => {
+        if(isError) {
             toast.error(msg);
-            // dispatch(reset());
         }
-
-        // return () => {
-            // dispatch(reset());
-        // }
-    }, [id, businesses, isError, isSuccess, dispatch]);
+    }, [isError]);
 
     return (
         <>

@@ -83,6 +83,7 @@ const BusinessCard = ({ businesses, isLoading }) => {
             })}
             <CreateEmployee
               positions={business.positions}
+              business={business}
             />
           </div>
         </div>

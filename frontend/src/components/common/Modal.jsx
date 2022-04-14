@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import './styles/Modal.css';
 
-const Modal = ({children, modalIsOpen, contentLabel, setModalIsOpen, actionBtnText, onSubmit}) => {
+const Modal = ({children, modalIsOpen, contentLabel, setModalIsOpen, actionBtnText, onSubmit, actionDangerBtnText, onSubmitDanger}) => {
 
-    useEffect(() => {
-        document.body.style.overflow = modalIsOpen ? 'hidden' : 'auto';
-        document.body.style.maxHeight = modalIsOpen ? '100vh' : 'unset';
-    }, [modalIsOpen]);
+    // useEffect(() => {
+    //     document.body.style.overflow = modalIsOpen ? 'hidden' : 'auto';
+    //     document.body.style.maxHeight = modalIsOpen ? '100vh' : 'unset';
+    // }, [modalIsOpen]);
 
     const onClickOutside = (e) => {
         if (e.target.classList.contains('modal-overlay') || e.target.classList.contains('modal-wrapper')) {
@@ -33,6 +33,11 @@ const Modal = ({children, modalIsOpen, contentLabel, setModalIsOpen, actionBtnTe
                         {children}
                     </div>
                     <div className="modal-footer">
+                        {actionDangerBtnText && (
+                            <button className="btn btn-outline-danger" onClick={onSubmitDanger}>
+                                {actionDangerBtnText}
+                            </button>
+                        )}
                         {actionBtnText && (
                             <button className="btn btn-outline-primary" onClick={onSubmit}>
                                 {actionBtnText}

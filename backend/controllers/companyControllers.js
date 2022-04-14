@@ -78,6 +78,7 @@ const createCompany = async (req, res) => {
     }
 
     const company = new Company({
+        user: req.user._id,
         name,
         email,
         logo,
