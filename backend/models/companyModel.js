@@ -27,15 +27,6 @@ const companySchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Business'
     }],
-    owners: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    }],
-    employees: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }],
 }, { timestamps: true });
 
 

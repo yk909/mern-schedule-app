@@ -48,19 +48,6 @@ const businessSchema = new mongoose.Schema({
         ref: 'Company',
         required: true
     },
-    employees: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employee'
-    }],
-    managers: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employee'
-    }],
-    owners: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    }],
 }, { timestamps: true });
 
 
@@ -86,8 +73,10 @@ businessSchema.pre('remove', async function (next) {
 // add business to company on create
 businessSchema.post('save', async function () {
     const company = await Company.findById(this.company);
-    company.businesses.push(this._id);
-    company.save();
+    if(company && !company.businesses.includes(this._id)) {
+        company.businesses.push(this._id);
+        company.save();
+    }
 })
 
 

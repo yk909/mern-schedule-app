@@ -1,4 +1,4 @@
-import { EmployeeCard, CreateEmployee } from '../';
+import { Employees, CreateEmployee } from '../';
 import "./styles/BusinessCard.css";
 
 const BusinessCard = ({ businesses, isLoading }) => {
@@ -49,38 +49,14 @@ const BusinessCard = ({ businesses, isLoading }) => {
         </div>
         <div className="business-card-body">
           <div className="business-card-body-employees">
-            {business.managers.length > 0 && (
-            <>
-              <div className="busines-card-body-title">
-                <p>Manager</p>
-              </div>
-              {business.managers.map((manager, i) => {
-                return (
-                  <EmployeeCard 
-                    key={`business-card-employee-${i}`}
-                    employee={manager}
-                    isManager={true}
-                    positions={business.positions}
-                    businesses={businesses}
-                  />
-                )
-              })}
-            </>
-            )}
             <div className="busines-card-body-title">
               <p>Employees</p>
             </div>
-            {business.employees.map((employee, i) => {
-              return (
-                <EmployeeCard 
-                  key={`business-card-employee-${i}`}
-                  employee={employee}
-                  isManager={false}
-                  positions={business.positions}
-                  businesses={businesses}
-                />
-              )
-            })}
+            <Employees 
+              positions={business.positions}
+              businesses={businesses}
+              businessId={business._id}
+            />
             <CreateEmployee
               positions={business.positions}
               business={business}

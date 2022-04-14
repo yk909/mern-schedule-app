@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from '../';
 import { customSelectModalStyles } from '../../constance/dummyData';
 import { toast } from 'react-toastify';
-import { createEmployee } from '../../features/business/businessSlice';
+import { createEmployee } from '../../features/employee/employeeSlice';
 
 const CreateEmployee = ({positions, business}) => {
     const [isNew, setIsNew] = useState(false);
@@ -29,7 +29,6 @@ const CreateEmployee = ({positions, business}) => {
     });
 
     const dispatch = useDispatch();
-    const { isErrorEmployee, msg } = useSelector(state => state.business);
 
     const onChange = (e) => {
         setNewEmployee({
@@ -55,7 +54,6 @@ const CreateEmployee = ({positions, business}) => {
                     ...newEmployee,
                     position: newEmployee.position?.value,
                 }
-                console.log(employee);
                 dispatch(createEmployee(employee));
                 setIsModalOpen(false);
                 setNewEmployee({
@@ -81,12 +79,6 @@ const CreateEmployee = ({positions, business}) => {
             }
         }
     };
-
-    useEffect(() => {
-        if(isErrorEmployee && msg) {
-            toast.error(msg);
-        }
-    }, [msg, dispatch]);
 
 
     return (

@@ -100,17 +100,17 @@ main {
 }
 
 .bg-warning {
-  background-color: var(--warning);
+  background-color: var(--warning)!important;
   color: var(--text-dark);
 }
 
 .bg-success {
-  background-color: var(--success);
+  background-color: var(--success)!important;
   color: var(--text-dark);
 }
 
 .bg-info {
-  background-color: var(--info);
+  background-color: var(--info)!important;
   color: var(--text-dark);
 }
 

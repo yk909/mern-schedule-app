@@ -14,11 +14,12 @@ import Shift from "./calender/Shift";
 import ShiftsList from "./calender/ShiftsList";
 import CreateShift from "./calender/CreateShift";
 import CompanyCard from "./company/CompanyCard";
-import BusinessCard from "./company/BusinessCard";
 import CreateCompany from "./company/CreateCompany";
-import CreateBusiness from "./company/CreateBusiness";
-import EmployeeCard from "./company/EmployeeCard";
-import CreateEmployee from "./company/CreateEmployee";
+import BusinessCard from "./business/BusinessCard";
+import CreateBusiness from "./business/CreateBusiness";
+import CreateEmployee from "./employee/CreateEmployee";
+import EmployeeCard from "./employee/EmployeeCard";
+import Employees from "./employee/Employees";
 
 export {
     Navbar,
@@ -37,9 +38,10 @@ export {
     ShiftsList,
     CreateShift,
     CompanyCard,
-    BusinessCard,
     CreateCompany,
+    BusinessCard,
     CreateBusiness,
-    EmployeeCard,
     CreateEmployee,
+    EmployeeCard,
+    Employees,
 }

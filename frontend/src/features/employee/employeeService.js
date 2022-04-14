@@ -18,13 +18,13 @@ const createEmployee = async (employee, token) => {
 
 
 // Get employee
-const getEmployee = async (employee, token) => {
+const getEmployees = async (id, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         }
     };
-    const response = await axios.get(`${API_URL}${employee}`, config);
+    const response = await axios.get(`${API_URL}company/${id}`, config);
     return response.data;
 }
 
@@ -56,7 +56,7 @@ const deleteEmployee = async (employee, token) => {
 
 const employeeService = {
     createEmployee,
-    getEmployee,
+    getEmployees,
     editEmployee,
     deleteEmployee,
 };

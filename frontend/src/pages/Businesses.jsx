@@ -1,28 +1,36 @@
-import { useParams, Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { getBusinesses, reset } from '../features/business/businessSlice';
-import { BusinessCard, CreateBusiness, CompanyCard } from '../components';
+import { getBusinesses } from '../features/business/businessSlice';
+import { getEmployees } from '../features/employee/employeeSlice';
+import { BusinessCard, CompanyCard } from '../components';
 
 const Businesses = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const { user } = useSelector(state => state.auth);
-    const { businesses, isLoading, isError, isSuccess, msg, isErrorEmployee } = useSelector(state => state.business);
+    const business = useSelector(state => state.business);
+    const employee = useSelector(state => state.employee);
     const { companies } = useSelector(state => state.company);
 
     useEffect(() => {
         if (id) {
             dispatch(getBusinesses(id));
+            dispatch(getEmployees(id));
         }
     }, [id]);
 
     useEffect(() => {
-        if(isError) {
-            toast.error(msg);
+        if(business.msg) {
+            toast.error(business.msg);
         }
-    }, [isError]);
+    }, [business.msg]);
+
+    useEffect(() => {
+        if(employee.msg) {
+            toast.error(employee.msg);
+        }
+    }, [employee.msg]);
 
     return (
         <>
@@ -33,8 +41,8 @@ const Businesses = () => {
                 />
             )}
             <BusinessCard
-                businesses={businesses}
-                isLoading={isLoading}
+                businesses={business.businesses}
+                isLoading={business.isLoading}
             />
         </>
     )

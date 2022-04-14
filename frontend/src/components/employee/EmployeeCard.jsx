@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Select from 'react-select';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Modal } from '../';
-import { editEmployee, deleteEmployee } from '../../features/business/businessSlice';
+import { editEmployee, deleteEmployee } from '../../features/employee/employeeSlice';
 import { customSelectModalStyles } from '../../constance/dummyData';
 import './styles/EmployeeCard.css';
 
-const EmployeeCard = ({employee, isManager, positions, businesses}) => {
+const EmployeeCard = ({employee, positions, businesses, businessId}) => {
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const businessesSelect = businesses.map(business => {
@@ -22,21 +22,13 @@ const EmployeeCard = ({employee, isManager, positions, businesses}) => {
         }
     } );
 
-    const { isLoadingEmployee } = useSelector(state => state.business);
-
     const [editUser, setEditUser] = useState({
         _id: employee._id,
-        isManager: {value: isManager, label: isManager.toString()},
+        isManager: {value: employee.isManager, label: employee.isManager.toString()},
         position: positionsSelect.filter(position => position.value === employee.position)[0],
         business: businessesSelect.filter(business => business.value === employee.business || business.value === employee.business._id)[0],
         wage: employee.wage
     });
-
-    useEffect(() => {
-        if (!isLoadingEmployee) {
-            setIsModalOpen(false);
-        }
-    }, [isLoadingEmployee])
 
 
     const onSubmit = () => {
@@ -47,6 +39,7 @@ const EmployeeCard = ({employee, isManager, positions, businesses}) => {
             business: editUser.business?.value
         }
         dispatch(editEmployee(user));
+        setIsModalOpen(false);
     }
 
     const onSubmitDanger = () => {
@@ -113,7 +106,7 @@ const EmployeeCard = ({employee, isManager, positions, businesses}) => {
         <div 
             onClick={() => setIsModalOpen(true)}
             className="business-card-body-employee">
-            <div className="user-bg" />
+            <div className={`user-bg ${employee.isManager ? 'bg-success' : ''}`} />
             <div className="business-card-body-employee-image">
                 { employee.profilePicture ? 
                     <img src={employee.profilePicture} alt={employee.name} /> 

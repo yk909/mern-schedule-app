@@ -1,6 +1,7 @@
 const Business = require('../models/businessModel');
 const Company = require('../models/companyModel');
 const User = require('../models/userModel');
+const Employee = require('../models/employeeModel');
 
 
 // @desc   Get all businesses of a company
@@ -11,7 +12,7 @@ const getAllBusinesses = async (req, res) => {
 
     try {
         // Populate employees object with user info to found bussinesses
-        const businesses = await Business.find({ company: id }).populate('employees').populate('managers').exec();
+        const businesses = await Business.find({ company: id });
 
         if (!businesses) {
             return res.status(400).json({
@@ -98,9 +99,18 @@ const createBusiness = async (req, res) => {
             phoneNumber
         });
 
-        business.owners.push(req.user._id);
-
         await business.save();
+
+        const employee = new Employee({
+            user: req.user._id,
+            company: company._id,
+            business: business._id,
+            firstName: req.user.firstName,
+            lastName: req.user.lastName,
+            isOwner: true,
+        });
+
+        await employee.save();
 
         return res.status(200).json(business);
     } catch (err) {

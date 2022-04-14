@@ -20,6 +20,14 @@ const employeeSchema = new mongoose.Schema({
         type: String,
         default: 'Employee'
     },
+    isManager: {
+        type: Boolean,
+        default: false
+    },
+    isOwner: {
+        type: Boolean,
+        default: false
+    },
     wage: {
         type: Number,
         default: 0
@@ -42,53 +50,42 @@ const employeeSchema = new mongoose.Schema({
 
 
 // remove employee from business when employee is deleted
-employeeSchema.pre('remove', async function (next) {
-    try {
-        const business = await Business.findById(this.business);
-        const company = await Company.findById(this.company);
+// employeeSchema.pre('remove', async function (next) {
+//     try {
+//         const company = await Company.findById(this.company);
 
-        if (!business) {
-            return next(new Error('Business not found'));
-        }
+//         if (!company) {
+//             return next(new Error('Company not found'));
+//         }
 
-        if (!company) {
-            return next(new Error('Company not found'));
-        }
-
-        business.employees.pull(this._id);
-        company.employees.pull(this._id);
-        await business.save();
-        await company.save();
+//         company.employees.pull(this._id);
+//         await company.save();
         
-        next();
-    } catch (err) {
-        next(err);
-    }
-});
+//         next();
+//     } catch (err) {
+//         next(err);
+//     }
+// });
 
 
 // add employee to business on create
-employeeSchema.post('save', async function () {
-    try {
-        const business = await Business.findById(this.business);
-        const company = await Company.findById(this.company);
+// employeeSchema.post('save', async function ( doc, next ) {
+//     try {
+//         const company = await Company.findById(this.company);
 
-        if (!business) {
-            return next(new Error('Business not found'));
-        }
-
-        if (!company) {
-            return next(new Error('Company not found'));
-        }
-
-        business.employees.push(this._id);
-        company.employees.push(this._id);
-        business.save();
-        company.save();
-    } catch (err) {
-        next(err);
-    }
-})
+//         if (!company) {
+//             return next(new Error('Company not found'));
+//         }
+        
+//         if(!company.employees.includes(this._id)) {
+//             company.employees.push(this._id);
+//             await company.save();
+//         }
+//         next();
+//     } catch (err) {
+//         next(err);
+//     }
+// })
 
 
 module.exports = mongoose.model('Employee', employeeSchema);

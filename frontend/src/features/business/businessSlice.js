@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import businessService from "./businessService";
-import employeeService from "../employee/employeeService";
 
 
 const initialState = {
@@ -8,8 +7,6 @@ const initialState = {
     isError: false,
     isSuccess: false,
     isLoading: false,
-    isLoadingEmployee: false,
-    isErrorEmployee: false,
     msg: '',
 };
 
@@ -101,66 +98,6 @@ export const getBusinesses = createAsyncThunk(
         try {
             const token = thunkAPI.getState().auth.user.token;
             return await businessService.getBusinesses(business, token);
-        } catch (error) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.msg) ||
-                error.message ||
-                error.toString();
-            return thunkAPI.rejectWithValue(message);
-        }
-    }
-);
-
-
-// Create employee
-export const createEmployee = createAsyncThunk(
-    'business/createEmployee',
-    async (employee, thunkAPI) => {
-        try {
-            const token = thunkAPI.getState().auth.user.token;
-            return await employeeService.createEmployee(employee, token);
-        } catch (error) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.msg) ||
-                error.message ||
-                error.toString();
-            return thunkAPI.rejectWithValue(message);
-        }
-    }
-);
-
-
-// Update employee
-export const editEmployee = createAsyncThunk(
-    'business/editEmployee',
-    async (employee, thunkAPI) => {
-        try {
-            const token = thunkAPI.getState().auth.user.token;
-            return await employeeService.editEmployee(employee, token);
-        } catch (error) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.msg) ||
-                error.message ||
-                error.toString();
-            return thunkAPI.rejectWithValue(message);
-        }
-    }
-);
-
-
-// Delete employee
-export const deleteEmployee = createAsyncThunk(
-    'business/deleteEmployee',
-    async (employee, thunkAPI) => {
-        try {
-            const token = thunkAPI.getState().auth.user.token;
-            return await employeeService.deleteEmployee(employee, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -267,77 +204,6 @@ const businessSlice = createSlice({
             state.isError = true;
             state.msg = action.payload;
             state.businesses = null;
-        });
-
-        // Create employee
-        builder.addCase(createEmployee.pending, (state, action) => {
-            state.isLoadingEmployee = true;
-            state.msg = '';
-        });
-        builder.addCase(createEmployee.fulfilled, (state, action) => {
-            state.isLoadingEmployee = false;
-            state.isErrorEmployee = false;
-            state.businesses.map(business => 
-                {
-                    if(business._id === action.payload.business._id) {
-                        business.employees.push(action.payload);
-                    }
-                }
-            )
-        });
-        builder.addCase(createEmployee.rejected, (state, action) => {
-            state.isLoadingEmployee = false;
-            state.isErrorEmployee = true;
-            state.msg = action.payload;
-        });
-
-        // Update employee
-        builder.addCase(editEmployee.pending, (state, action) => {
-            state.isLoadingEmployee = true;
-            state.msg = '';
-        });
-        builder.addCase(editEmployee.fulfilled, (state, action) => {
-            state.isLoadingEmployee = false;
-            state.isErrorEmployee = false;
-            console.log(action.payload);
-            state.businesses.map((business, index) => 
-                {
-                    if(business._id === action.payload[0]._id) {
-                        state.businesses[index] = action.payload[0];
-                    }
-
-                    if(action.payload[1] && business._id === action.payload[1]._id){
-                        state.businesses[index] = action.payload[1];
-                    }
-                }
-            )
-        });
-        builder.addCase(editEmployee.rejected, (state, action) => {
-            state.isLoadingEmployee = false;
-            state.isErrorEmployee = true;
-            state.msg = action.payload;
-        });
-
-        // Delete employee
-        builder.addCase(deleteEmployee.pending, (state, action) => {
-            state.isLoadingEmployee = true;
-            state.msg = '';
-        });
-        builder.addCase(deleteEmployee.fulfilled, (state, action) => {
-            state.isLoadingEmployee = false;
-            state.isErrorEmployee = false;
-            state.businesses.map(business => 
-                {
-                    if(business._id === action.payload.business) {
-                        business.employees = business.employees.filter(employee => employee._id !== action.payload._id)
-                    }
-                }
-            )
-        });
-        builder.addCase(deleteEmployee.rejected, (state, action) => {
-            state.isLoadingEmployee = false;
-            state.isErrorEmployee = true;
-            state.msg = action.payload;
         });
     }
 });

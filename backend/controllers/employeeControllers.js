@@ -96,7 +96,7 @@ const createEmployee = async (req, res) => {
     const { firstName, lastName, wage, position } = req.body;
 
     try {
-        const business = await Business.findById(req.body.business).populate('company').populate('managers').exec();
+        const business = await Business.findById(req.body.business);
 
         if (!business) {
             return res.status(400).json({
@@ -105,9 +105,16 @@ const createEmployee = async (req, res) => {
         }
 
         // Check if user is a manager
-        const isManager = business.managers.find(manager => manager.user.toString() === req.user._id.toString());
-        const isOwner = business.company.owners.find(owner => owner.toString() === req.user._id.toString());
-        if (isManager || isOwner) // If user is a manager
+        const userEmployee = await Employee.findOne({ user: req.user._id, business: business._id });
+
+        if(!userEmployee) {
+            return res.status(400).json({
+                msg: 'You are not authorized to update this employee'
+            });
+        }
+
+        // Check if logged in user is a manager or company owner
+        if (userEmployee.isManager || userEmployee.isOwner)
         {
             const newEmployee = new Employee({
                 firstName,
@@ -149,7 +156,7 @@ const updateEmployee = async (req, res) => {
             });
         }
 
-        const business = await Business.findById(employee.business).populate('company').populate('employees').populate('managers').exec();
+        const business = await Business.findById(employee.business);
 
         if (!business) {
             return res.status(400).json({
@@ -157,30 +164,20 @@ const updateEmployee = async (req, res) => {
             });
         }
 
+        // Check if user is a manager
+        const userEmployee = await Employee.findOne({ user: req.user._id, business: business._id });
+
+        if(!userEmployee) {
+            return res.status(400).json({
+                msg: 'You are not authorized to update this employee'
+            });
+        }
+
         // Check if logged in user is a manager or company owner
-        const isManager = business.managers.find(manager => manager.user.toString() === req.user._id.toString());
-        const isOwner = business.company.owners.find(owner => owner.toString() === req.user._id.toString());
-        if (isManager || isOwner) // If user is a manager
+        if (userEmployee.isManager || userEmployee.isOwner) // If user is a manager
         {
-            if (req.body.business !== employee.business.toString()) {
-                const newBusiness = await Business.findById(req.body.business).populate('employees').populate('managers').exec();
-                if (!newBusiness) {
-                    return res.status(400).json({
-                        msg: 'Business not found'
-                    });
-                }
-
-                business.employees.pull(employee);
-                newBusiness.employees.push(employee);
-                const a = await business.save();
-                const b = await newBusiness.save();
-
-                await Employee.findByIdAndUpdate(id, req.body, {new: true});
-                return res.status(200).json([a, b]);
-            } else {
-                await Employee.findByIdAndUpdate(id, req.body, {new: true});
-                return res.status(200).json([business]);
-            }
+            const editEmployee = await Employee.findByIdAndUpdate(id, req.body, {new: true});
+            return res.status(200).json(editEmployee);
         } else {
             return res.status(400).json({
                 msg: 'You are not authorized to update an employee'
@@ -209,7 +206,7 @@ const deleteEmployee = async (req, res) => {
             });
         }
 
-        const business = await Business.findById(employee.business).populate('company').populate('managers').exec();
+        const business = await Business.findById(employee.business);
 
         if (!business) {
             return res.status(400).json({
@@ -217,10 +214,17 @@ const deleteEmployee = async (req, res) => {
             });
         }
 
+        // Check if user is a manager
+        const userEmployee = await Employee.findOne({ user: req.user._id, business: business._id });
+
+        if(!userEmployee) {
+            return res.status(400).json({
+                msg: 'You are not authorized to update this employee'
+            });
+        }
+
         // Check if logged in user is a manager or company owner
-        const isManager = business.managers.find(manager => manager.user.toString() === req.user._id.toString());
-        const isOwner = business.company.owners.find(owner => owner.toString() === req.user._id.toString());
-        if (isManager || isOwner) // If user is a manager
+        if (userEmployee.isManager || userEmployee.isOwner) // If user is a manager
         {
             const deletedEmployee = employee;
             await employee.remove();
