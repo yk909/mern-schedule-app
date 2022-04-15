@@ -532,17 +532,18 @@ input:focus {
 }
 
 .nav-tab-select p {
-    width: 50%;
-    font-size: 1.25rem;
-    text-align: center;
-    border-bottom: 2px solid var(--color-secondary);
-    padding-bottom: 10px;
-    cursor: pointer;
-    transition: var(--transition-duration);
+  width: 50%;
+  font-size: 1.25rem;
+  text-align: center;
+  border-bottom: 2px solid var(--color-secondary);
+  padding-bottom: 10px;
+  cursor: pointer;
+  transition: var(--transition-duration);
 }
 
 .nav-tab-select p.selected {
-    border-bottom: 2px solid var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
+  color: var(--color-primary);
 }
 
 .nav-tab-select p:hover {

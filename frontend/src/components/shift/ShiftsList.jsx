@@ -1,11 +1,13 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { hours } from '../../constance/dummyData';
 import { Shift } from '../';
 import { CreateShift } from '../';
 import { useDrop } from 'react-dnd';
+import { editShift } from '../../features/shift/shiftSlice';
 
 const ShiftsList = ({date, shiftsArr, i, setShiftsArr, shifts, employee}) => {
     // const { shifts } = useSelector(state => state.shift);
+    const dispatch = useDispatch();
 
     const [{ isOver }, drop] = useDrop({
         accept: 'shift',
@@ -13,24 +15,31 @@ const ShiftsList = ({date, shiftsArr, i, setShiftsArr, shifts, employee}) => {
             // get element of box where shift is dropped
             const element = document.getElementsByClassName('over')[0];
             console.log(element)
-            moveShift(item)
+            console.log(item)
+            moveShift(item, element)
         },
         collect: monitor => ({
             isOver: !!monitor.isOver()
         }),
     });
 
-    const moveShift = (item) => {
-        // console.log(shiftsArr);
-        console.log('move shift');
-
-        // return setShiftsArr([...shiftsArr, item.shift]);
+    const moveShift = (item, element) => {
+        const newDate = element.id.split('-id-')[0];
+        const id = element.id.split('-id-')[1];
+        const data = {
+            id: item.shift._id,
+            date: new Date (newDate),
+            employee: id === 'openShift' ? null : id,
+        }
+        dispatch(editShift(data))
     }
 
     return (
         <div 
             key={`open-shift-day-${i}`}
-            id={ `${new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).getFullYear()}-${new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).getMonth()+1}-${new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).getDate()}` }
+            id={ 
+                `${new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).getFullYear()}-${new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).getMonth()+1}-${new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).getDate()}-id-${employee ? employee._id : 'openShift'}`
+                }
             className={`col section-holder ${isOver ? 'over' : ''}`}
             ref={drop}
             style={{
@@ -44,6 +53,7 @@ const ShiftsList = ({date, shiftsArr, i, setShiftsArr, shifts, employee}) => {
                     <Shift
                         key={`shift-row-${e}`}
                         shift={shift}
+                        employee={employee}
                     />
                 )
             })}

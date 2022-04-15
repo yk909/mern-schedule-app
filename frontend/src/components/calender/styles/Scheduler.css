@@ -84,10 +84,15 @@
 
 .section-row .section-title .section-name {
     font-weight: 600;
+    max-width: 130px;
+    overflow: hidden;
 }
 
 .section-row .section-title .section-content,
 .section-row .col .section-content {
+    max-width: 190px;
+    width: 190px;
+    overflow: wrap;
     border-radius: var(--border-radius);
     margin: 10px;
     height: 50px;
@@ -149,14 +154,17 @@
 }
 
 .section-row .section-title .section-hours svg {
-    height: 15px;
-    width: 15px;
+    height: 12px;
+    width: 12px;
     margin-right: 5px;
 }
 
 .section-row .section-title .section-hours {
     display: flex;
+    font-size: .75rem;
     align-items: center;
+    justify-content: space-between;
+    width: 125px
 }
 
 .open-shift .section-img {
@@ -289,6 +297,17 @@
     cursor: w-resize;
     z-index: 10;
     right: 0;
+}
+
+.shift .shift-note {
+    position: absolute;
+    background-color: var(--color-main);
+    padding: 4px 5px;
+    color: var(--text-dark);
+    border-radius: var(--border-radius);
+    right: 0;
+    bottom: -20px;
+    z-index: 10;
 }
 
 @media (max-width: 768px) {

@@ -30,10 +30,38 @@ const createShift = async (data, token) => {
 }
 
 
+// Edit Shift
+const editShift = async (data, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    };
+    const response = await axios.put(`${API_URL}${data.id}`, data, config);
+
+    return response.data;
+}
+
+
+// Delete Shift
+const deleteShift = async (id, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    };
+    const response = await axios.delete(`${API_URL}${id}`, config);
+
+    return response.data;
+}
+
+
 // export service
 const shiftService = {
     getAllBusinessShifts,
-    createShift
+    createShift,
+    editShift,
+    deleteShift,
 };
 
 export default shiftService;

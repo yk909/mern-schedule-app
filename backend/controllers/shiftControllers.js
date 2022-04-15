@@ -55,7 +55,7 @@ const getAllBusinessShifts = async (req, res) => {
     const { fromDate, toDate, business } = req.query;
 
     try {
-        const employees = await Employee.find({business: business, isOwner: false});
+        const employees = await Employee.find({business: business});
 
         if (!employees) {
             return res.status(400).json({
@@ -135,96 +135,94 @@ const createShift = async (req, res) => {
 }
 
 
-// @desc   Update a shift
+// @desc   Edit a shift
 // @route  PUT /api/shifts/:id
 // @access Private
-// const editShift = async (req, res) => {
-//     const { id } = req.params;  // id is the shift id
-    
-//     try {
-//         const shift = await Shift.findById(id);
+const editShift = async (req, res) => {
+    const { id } = req.params;  // id is the shift id
 
-//         if (!shift) {
-//             return res.status(400).json({
-//                 msg: 'No shift found'
-//             });
-//         }
+    try {
+        const shift = await Shift.findById(id);
 
-//         const business = await Business.findById(shift.business).populate('employees').exec();
+        if (!shift) {
+            return res.status(400).json({
+                msg: 'No shift found'
+            });
+        }
+        // Check if user is a manager
+        const userEmployee = await Employee.findOne({ user: req.user._id, business: shift.business });
 
-//         if(!business) {
-//             return res.status(400).json({
-//                 msg: 'No business found'
-//             });
-//         }
+        if(!userEmployee) {
+            return res.status(400).json({
+                msg: 'You are not authorized to update this employee'
+            });
+        }
 
-//         // check if logged in user is a manager
-//         const userEmployee = business.employees.find(employee => employee.user.toString() === req.user._id.toString());
+        // Check if logged in user is a manager or company owner
+        if (userEmployee.isManager || userEmployee.isOwner)
+        {
+            const editedShift = await Shift.findByIdAndUpdate(id, req.body, { new: true });
 
-//         if ( userEmployee && userEmployee.isManager ) {
-//             const updatedShift = await Shift.findByIdAndUpdate(id, req.body, { new: true });
-
-//             return res.status(200).json({updatedShift});
-//         } else {
-//             return res.status(400).json({
-//                 msg: 'You are not authorized to edit shift'
-//             });
-//         }
-//     } catch (err) {
-//         console.log(err)
-//         return res.status(500).json({ msg: 'Server Error' });
-//     }
-// }
+            return res.status(200).json(editedShift);
+        } else {
+            return res.status(400).json({
+                msg: 'You are not authorized to create shift'
+            });
+        }
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ msg: 'Server Error' });
+    }
+}
 
 
 // @desc   Delete a shift
 // @route  DELETE /api/shifts/:id
 // @access Private
-// const deleteShift = async (req, res) => {
-//     const { id } = req.params;  // id is the shift id
-    
-//     try {
-//         const shift = await Shift.findById(id);
+const deleteShift = async (req, res) => {
+    const { id } = req.params;  // id is the shift id
 
-//         if (!shift) {
-//             return res.status(400).json({
-//                 msg: 'No shift found'
-//             });
-//         }
+    try {
+        const shift = await Shift.findById(id);
 
-//         const business = await Business.findById(shift.business).populate('employees').exec();
+        if (!shift) {
+            return res.status(400).json({
+                msg: 'No shift found'
+            });
+        }
+        // Check if user is a manager
+        const userEmployee = await Employee.findOne({ user: req.user._id, business: shift.business });
 
-//         if(!business) {
-//             return res.status(400).json({
-//                 msg: 'No business found'
-//             });
-//         }
+        if(!userEmployee) {
+            return res.status(400).json({
+                msg: 'You are not authorized to update this employee'
+            });
+        }
 
-//         // check if logged in user is a manager
-//         const userEmployee = business.employees.find(employee => employee.user.toString() === req.user._id.toString());
+        // Check if logged in user is a manager or company owner
+        if (userEmployee.isManager || userEmployee.isOwner)
+        {
+            const deletedShift = await shift.remove();
 
-//         if ( userEmployee && userEmployee.isManager ) {
-//             await shift.remove();
-
-//             return res.status(200).json({msg: 'Shift deleted'});
-//         } else {
-//             return res.status(400).json({
-//                 msg: 'You are not authorized to delete shift'
-//             });
-//         }
-//     } catch (err) {
-//         console.log(err)
-//         return res.status(500).json({ msg: 'Server Error' });
-//     }
-// }
+            return res.status(200).json(deletedShift);
+        } else {
+            return res.status(400).json({
+                msg: 'You are not authorized to create shift'
+            });
+        }
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ msg: 'Server Error' });
+    }
+}
 
 
 module.exports = {
+    getAllBusinessShifts,
+    createShift,
+    editShift,
+    deleteShift,
     // getAllUserShifts,
     // getShiftById,
-    getAllBusinessShifts,
     // getAllUserShiftsInSchedule,
-    createShift,
-    // editShift,
-    // deleteShift
 };

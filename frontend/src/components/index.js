@@ -13,6 +13,7 @@ import WeekShift from "./shift/WeekShift";
 import Shift from "./shift/Shift";
 import ShiftsList from "./shift/ShiftsList";
 import CreateShift from "./shift/CreateShift";
+import EditShift from "./shift/EditShift";
 import CompanyCard from "./company/CompanyCard";
 import CreateCompany from "./company/CreateCompany";
 import BusinessCard from "./business/BusinessCard";
@@ -37,6 +38,7 @@ export {
     Shift,
     ShiftsList,
     CreateShift,
+    EditShift,
     CompanyCard,
     CreateCompany,
     BusinessCard,

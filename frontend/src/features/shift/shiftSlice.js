@@ -52,6 +52,46 @@ export const createShift = createAsyncThunk(
 );
 
 
+// Update Shift
+export const editShift = createAsyncThunk(
+    'shift/editShift',
+    async (data, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token;
+            return await shiftService.editShift(data, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
+// Delete Shift
+export const deleteShift = createAsyncThunk(
+    'shift/deleteShift',
+    async (id, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token;
+            return await shiftService.deleteShift(id, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
 // Create Slice
 const shiftSlice = createSlice({
     name: 'shift',
@@ -96,6 +136,45 @@ const shiftSlice = createSlice({
             // state.isLoading = false;
         });
         builder.addCase(createShift.rejected, (state, action) => {
+            // state.isLoading = false;
+            state.isError = true;
+            state.msg = action.payload;
+        });
+
+        // Edit Shift
+        builder.addCase(editShift.pending, (state, action) => {
+            // state.isLoading = true;
+        });
+        builder.addCase(editShift.fulfilled, (state, action) => {
+            state.shifts = state.shifts.map((shift) => {
+                if (shift._id === action.payload._id) {
+                    return action.payload;
+                }
+                return shift;
+            });
+            state.isSuccess = true;
+            state.isError = false;
+            // state.isLoading = false;
+        });
+        builder.addCase(editShift.rejected, (state, action) => {
+            // state.isLoading = false;
+            state.isError = true;
+            state.msg = action.payload;
+        });
+
+        // Delete Shift
+        builder.addCase(deleteShift.pending, (state, action) => {
+            // state.isLoading = true;
+        });
+        builder.addCase(deleteShift.fulfilled, (state, action) => {
+            state.shifts = state.shifts.filter((shift) => {
+                return shift._id !== action.payload._id;
+            });
+            state.isSuccess = true;
+            state.isError = false;
+            // state.isLoading = false;
+        });
+        builder.addCase(deleteShift.rejected, (state, action) => {
             // state.isLoading = false;
             state.isError = true;
             state.msg = action.payload;
