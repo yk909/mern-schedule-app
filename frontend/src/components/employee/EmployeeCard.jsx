@@ -106,7 +106,7 @@ const EmployeeCard = ({employee, positions, businesses, businessId}) => {
         <div 
             onClick={() => setIsModalOpen(true)}
             className="business-card-body-employee">
-            <div className={`user-bg ${employee.isManager ? 'bg-success' : ''}`} />
+            <div className={`user-bg ${employee.isManager ? 'bg-info' : ''}`} />
             <div className="business-card-body-employee-image">
                 { employee.profilePicture ? 
                     <img src={employee.profilePicture} alt={employee.name} /> 

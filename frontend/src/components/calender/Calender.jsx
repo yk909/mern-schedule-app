@@ -10,7 +10,7 @@ import { customSelectStyles, timeframeOptions } from '../../constance/localData'
 
 
 const Calender = () => {
-  const [dateControl, setDateControl] = useState(timeframeOptions[0]);
+  const [dateControl, setDateControl] = useState(timeframeOptions[1]);
   const [startDate, setStartDate] = useState(new Date());
   const [fromDate, setfromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
