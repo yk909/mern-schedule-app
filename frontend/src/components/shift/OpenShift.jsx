@@ -1,7 +1,7 @@
 import { DayShift, WeekShift } from '../';
 import { hours } from '../../constance/dummyData'
 
-const OpenShift = ({ dateControl, shifts, fromDate, toDate, date }) => {
+const OpenShift = ({ dateControl, shifts, fromDate, toDate, startDate }) => {
 
     return (
         <div className="section-row flex open-shift user-row">
@@ -50,15 +50,15 @@ const OpenShift = ({ dateControl, shifts, fromDate, toDate, date }) => {
                 </div>
             </div>
             { dateControl.value != "day" ?
-                    <WeekShift
-                        dateControl={dateControl}
-                        date={date}
-                        shifts={shifts ? shifts.filter(shift => !shift.employee) : []}
-                    />
+                <WeekShift
+                    dateControl={dateControl}
+                    fromDate={fromDate}
+                    shifts={shifts ? shifts.filter(shift => !shift.employee) : []}
+                />
             :
                 <DayShift
                     dateControl={dateControl}
-                    date={date}
+                    startDate={startDate}
                     shifts={shifts}
                     fromDate={fromDate}
                 />

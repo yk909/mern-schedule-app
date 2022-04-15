@@ -3,7 +3,7 @@ import { DayShift, WeekShift } from '../';
 
 import { employees, hours } from '../../constance/dummyData';
 
-const UserShift = ({dateControl, employees, shifts, date, toDate, fromDate}) => {
+const UserShift = ({dateControl, employees, shifts, startDate, toDate, fromDate}) => {
 
     return (
         <>
@@ -63,14 +63,14 @@ const UserShift = ({dateControl, employees, shifts, date, toDate, fromDate}) => 
                     <WeekShift
                         employee={employee}
                         dateControl={dateControl}
-                        date={date}
+                        fromDate={fromDate}
                         shifts={shifts && shifts.filter(shift => shift.employee === employee._id)}
                     />
                 :
                     <DayShift
                         employee={employee}
                         dateControl={dateControl}
-                        date={date}
+                        startDate={startDate}
                         shifts={shifts}
                         fromDate={fromDate}
                     />

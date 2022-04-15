@@ -1,7 +1,6 @@
+import { hours } from "../../constance/dummyData";
 
-const hours = [ '12:00AM', '1:00AM', '2:00AM', '3:00AM', '4:00AM', '5:00AM', '6:00AM', '7:00AM', '8:00AM', '9:00AM', '10:00AM', '11:00AM', '12:00PM', '1:00PM', '2:00PM', '3:00PM', '4:00PM', '5:00PM', '6:00PM', '7:00PM', '8:00PM', '9:00PM', '10:00PM', '11:00PM' ];
-
-const CalenderHeader = ({ dateControl, date, setStartDate, setDateControl }) => {
+const CalenderHeader = ({ dateControl, fromDate, setStartDate, setDateControl }) => {
     return (
         <div className="section-container calender-timestamp header-row">
             <div className="section-row flex">
@@ -32,13 +31,13 @@ const CalenderHeader = ({ dateControl, date, setStartDate, setDateControl }) => 
                             <div 
                                 className={`shift w-100 h-100${
                                     dateControl.value !== 'day' &&
-                                    new Date().setHours(0,0,0,0) === new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).setHours(0,0,0,0) ?
+                                    new Date().setHours(0,0,0,0) === new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()+i).setHours(0,0,0,0) ?
                                         ' today'
                                     : ''
                                 }`}
                                 onClick={() => {
                                     if(dateControl.value !== 'day') {
-                                        setStartDate(new Date(date.getFullYear(), date.getMonth(), date.getDate()+i));
+                                        setStartDate(new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()+i));
                                         setDateControl({ value: 'day', label: 'Day' });
                                     }
                                 }}
@@ -50,10 +49,10 @@ const CalenderHeader = ({ dateControl, date, setStartDate, setDateControl }) => 
                                 :
                                     <div className="flex align-between w-100 h-100">
                                         <div>
-                                            { new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).toLocaleString('en-us', {  weekday: 'short' }) }
+                                            { new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()+i).toLocaleString('en-us', {  weekday: 'short' }) }
                                         </div>
                                         <div>
-                                            { new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).toLocaleString('en-us', {  month: 'short', day: 'numeric' })}
+                                            { new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()+i).toLocaleString('en-us', {  month: 'short', day: 'numeric' })}
                                         </div>
                                     </div>
                                 }

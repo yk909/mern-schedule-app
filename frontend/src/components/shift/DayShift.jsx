@@ -5,9 +5,11 @@ import { CreateShift, Shift } from '../';
 
 
 const DayShift = ({ dateControl, startDate, date, shifts, employee }) => {
-    const [endTime, setEndTime] = useState({});
+    const [endTimeOnResize, setEndTimeOnResize] = useState({});
     const [totalTime, setTotalTime] = useState({});
-    const [shiftsArr, setShiftsArr] = useState([]);
+    // const [shiftsArr, setShiftsArr] = useState([]);
+    const [width, SetWidth] = useState(0);
+    const [margin, setMargin] = useState(0);
 
     const [{ isOver, canDrop }, drop] = useDrop({
         accept: 'shift',
@@ -20,14 +22,14 @@ const DayShift = ({ dateControl, startDate, date, shifts, employee }) => {
         }),
     });
 
-    useEffect(() => {
-        setShiftsArr(shifts);
-    }, []);
+    // useEffect(() => {
+    //     setShiftsArr(shifts);
+    // }, []);
 
     const moveShift = (item) => {
         // console.log(shiftsArr);
 
-        return setShiftsArr([...shiftsArr, item.shift]);
+        // return setShiftsArr([...shiftsArr, item.shift]);
     }
 
     const onMouseDownResize = (e, index, startTime, shiftId) => {
@@ -36,23 +38,17 @@ const DayShift = ({ dateControl, startDate, date, shifts, employee }) => {
 
         const onMouseMove = (e) => {
             const shiftParent = document.getElementById(shiftId);
-            let newWidth = e.pageX + 25 - shiftParent.getBoundingClientRect().left; // 25 is an offset to make the width of the div to be the same as the width of the mouse pointer
+            let newWidth = e.pageX - 15 - shiftParent.getBoundingClientRect().left; // 25 is an offset to make the width of the div to be the same as the width of the mouse pointer
             let withPercent = +(Math.round(1000*(newWidth / minStep)) / 100).toFixed(0)
-            const startTimeNum = +startTime.slice(0, 2);
 
             if ( newWidth >= minStep && newWidth <= (24-index)*70 ) { // 25 is the number of boxes in a row, 70 is the width of a box, index is box index
+                
                 let minutes = ((withPercent/10 % 1).toFixed(1) * 60);
-                let hour = hours[index+Math.trunc(withPercent/10)] ? hours[index+Math.trunc(withPercent/10)].slice(0, 2) : 12;
-                let newEndTime =  hour + ":" + 
-                    (minutes < 10 ? "0"+minutes : minutes) +( hours[index+Math.trunc(withPercent/10)] ? hours[index+Math.trunc(withPercent/10)].slice(2) : "AM");
+                let hour = hours[index+Math.trunc(withPercent/10)] ? hours[index+Math.trunc(withPercent/10)].slice(0, 2) : '24';
+                let newEndTime =  hour + ":" + (minutes < 10 ? "0"+minutes : minutes);
 
-                setEndTime({...endTime, [index]: newEndTime});
-
+                setEndTimeOnResize({...endTimeOnResize, [index]: newEndTime});
                 shiftParent.style.width = (withPercent * 10 -((+startTime.slice(3, 5) / 60) * 100) ) +"%";
-
-                setTotalTime({...totalTime, 
-                    [index]: Math.trunc(shiftParent.style.width.replace('%', '') / 100) + 'h' + (minutes !== 0 ? minutes + "m" : "")
-                });
             }
         };
 
@@ -74,33 +70,32 @@ const DayShift = ({ dateControl, startDate, date, shifts, employee }) => {
                 opacity: isOver ? 0.5 : 1,
             }}
         >
-        { shiftsArr?.map((shift, e) => {
+        { shifts && employee && shifts.map((shift, e) => {
             return (
-                hours.includes(shift.startTime.slice(0,2) + shift.startTime.slice(5)) &&
-                shift.date === `${startDate.getFullYear()}-${startDate.getMonth()+1}-${startDate.getDate()}` &&
+                new Date(shift.date).toLocaleString('en-us', { year: 'numeric', day: 'numeric', month: 'numeric' }) === 
+                new Date(startDate).toLocaleString('en-us', { year: 'numeric', day: 'numeric', month: 'numeric' }) &&
+                employee._id === shift.employee &&
                 
                 <div 
                     key={`shift-row-${e}`} 
                     className="flex"
                 >
-                    { hours.map((time, index) => { // loop for each day
-                    
+                    { hours.map((time, index) => { // loop for each hour
                         return (
                             <div 
                                 key={`shift-day-${time}`}
                                 id={ `${time}` }
                                 className="col section-holder"
                             >
-                                    {time === shift.startTime.slice(0,2) + shift.startTime.slice(5) &&
-                                    shift.date === `${startDate.getFullYear()}-${startDate.getMonth()+1}-${startDate.getDate()}` &&
-                                        <Shift
-                                            shift={shift}
-                                            onMouseDownResize={onMouseDownResize}
-                                            totalTime={totalTime}
-                                            endTime={endTime}
-                                            index={index}
-                                        />
-                                    }
+                                {time === (shift.startTime.slice(0,2) + ":00") &&
+                                    <Shift
+                                        shift={shift}
+                                        employee={employee}
+                                        index={index}
+                                        onMouseDownResize={onMouseDownResize}
+                                        endTimeOnResize={endTimeOnResize}
+                                    />
+                                }
                             </div>
                         )
                     })}

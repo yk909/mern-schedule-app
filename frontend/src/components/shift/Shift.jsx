@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDrag } from 'react-dnd';
 import { toast } from 'react-toastify';
-import { hours } from '../../constance/dummyData';
 import { EditShift } from '../';
 
-const Shift = ({ shift, employee, onMouseDownResize, totalTime, endTime, index }) => {
-    const [initTotalTime, setInitTotalTime] = useState('0h');
+const Shift = ({ shift, employee, index, endTimeOnResize, onMouseDownResize }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [width, setWidth] = useState(0);
+    const [totalHours, setTotalHours] = useState(0);
 
     const [{ isDragging, opacity }, drag] = useDrag({
         type: 'shift',
@@ -19,38 +19,6 @@ const Shift = ({ shift, employee, onMouseDownResize, totalTime, endTime, index }
         }),
     });
 
-    // const calcTotalHours = ( shiftId ) => {
-    //     if(document.getElementById(shiftId) && onMouseDownResize) {
-    //         const shiftParentWidth = document.getElementById(shiftId).style.width;
-    //         const hours = shiftParentWidth.replace('%', '') / 100;
-    //         const minutes = Math.floor((hours % 1) * 60);
-    //         return setInitTotalTime(Math.trunc(hours) + 'h' + (minutes !== 0 ? minutes + "m" : ""));
-    //     } else if (shift && !onMouseDownResize ) {
-    //         const today = new Date().setHours(0,0,0,0);
-    //         const start = new Date().setHours(
-    //             shift.startTime.includes("PM") ? 
-    //             +shift.startTime.slice(0, 2) + 12 :
-    //             +shift.startTime.slice(0, 2),
-    //             +shift.startTime.slice(3, 5),
-    //             0, 0
-    //             );
-    //         const end = new Date().setHours(
-    //             shift.endTime.includes("PM") ? 
-    //             +shift.endTime.slice(0, 2) + 12 :
-    //             +shift.endTime.slice(0, 2),
-    //             +shift.endTime.slice(3, 5),
-    //             0, 0
-    //             );
-
-    //         return setInitTotalTime(Math.trunc((end - start) / 3600000) + 'h' + (Math.floor(((end - start) / 60000) % 60) !== 0 ? Math.floor(((end - start) / 60000) % 60) + "m" : ""));
-
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     calcTotalHours(shift.id);
-    // }, [shift]);
-
 
     const newCalcTotalHours = ( a, b ) => {
         let start = new Date().setHours(a.slice(0, 2), a.slice(3, 5), 0, 0);
@@ -58,26 +26,34 @@ const Shift = ({ shift, employee, onMouseDownResize, totalTime, endTime, index }
         return Math.trunc((end - start) / 3600000) + 'h' + (Math.floor(((end - start) / 60000) % 60) !== 0 ? Math.floor(((end - start) / 60000) % 60) + "m" : "");
     }
 
+    useEffect(() => {
+        setTotalHours(newCalcTotalHours(shift.startTime, endTimeOnResize && endTimeOnResize[index] ? endTimeOnResize[index] : shift.endTime));
+        if (endTimeOnResize && endTimeOnResize.length > 0 ) {
+            setWidth(((+endTimeOnResize[index].slice(0, 2) )+ (+endTimeOnResize[index].slice(3, 5))) * 100);
+        } else {
+            setWidth(((+shift.endTime.slice(0, 2)) + (+shift.endTime.slice(3, 5)) - (+shift.startTime.slice(3, 5) / 60)) * 100);
+        }
+    }, [endTimeOnResize, shift]);
+
     return (
         <>
         <div 
             className="shift-parent flex align-between"
-            id={`${shift.id}`}
+            id={`${shift._id}`}
             ref={drag}
             style={{
                 marginLeft: 
                     `${
-                        onMouseDownResize ?
+                        endTimeOnResize ?
                             (+shift.startTime.slice(3, 5) / 60) * 100
                         : 
                             0
                     }%`
                 ,
                 width: `${
-                    onMouseDownResize ?
+                    endTimeOnResize ?
                     (
-                        (100*(+(hours.indexOf(shift.endTime.slice(0,2) + shift.endTime.slice(5))) - hours.indexOf(shift.startTime.slice(0,2) + shift.startTime.slice(5))))
-                        - (+shift.startTime.slice(3, 5) / 60) * 100
+                        width
                     ) : 100}%`
                 ,
                 background: `${
@@ -89,7 +65,7 @@ const Shift = ({ shift, employee, onMouseDownResize, totalTime, endTime, index }
                 {
                     onMouseDownResize ? 
                     <div 
-                        onMouseDown={(e) => {onMouseDownResize(e, index, shift.startTime, shift.id)}}
+                        onMouseDown={(e) => {onMouseDownResize(e, index, shift.startTime, shift._id)}}
                         className="stretch"
                     ></div>
                     : null
@@ -98,27 +74,20 @@ const Shift = ({ shift, employee, onMouseDownResize, totalTime, endTime, index }
                     <div className="clock-time">
                         { shift.startTime }
                         <hr />
-                        { shift.endTime }
-                        {/* { 
-                            endTime && endTime[index] ?
-                                endTime[index]
+                        { 
+                            endTimeOnResize && endTimeOnResize[index] ?
+                            endTimeOnResize[index]
                             :
                                 shift.endTime 
-                        } */}
+                        }
                     </div>
                     <div className="flex align-center">
                         <div className="total-hours">
                         {   
                             shift && (
-                                newCalcTotalHours(shift.startTime, shift.endTime)
+                                totalHours
                             )
                         }
-                        {/* { 
-                            totalTime && totalTime[index] ?
-                                totalTime[index]
-                            : 
-                                initTotalTime
-                        } */}
                         </div>
                         {shift.position && 
                             <div className="position">

@@ -10,7 +10,7 @@ import { customSelectStyles, timeframeOptions } from '../../constance/dummyData'
 
 
 const Calender = () => {
-  const [dateControl, setDateControl] = useState(timeframeOptions[1]);
+  const [dateControl, setDateControl] = useState(timeframeOptions[0]);
   const [startDate, setStartDate] = useState(new Date());
   const [fromDate, setfromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
@@ -58,11 +58,19 @@ const Calender = () => {
   function handleNextPrev(value) {
     if(value === 'next') {
 
-      setStartDate(new Date(startDate.setMonth(toDate.getMonth(), toDate.getDate() + 1)));
+      if(dateControl.value === 'day') {
+        setStartDate(new Date(startDate.setDate(startDate.getDate() + 1)));
+      } else {
+        setStartDate(new Date(startDate.setMonth(toDate.getMonth(), toDate.getDate() + 1)));
+      }
 
     } else if(value === 'prev') {
 
-      setStartDate(new Date(startDate.setMonth(fromDate.getMonth(), fromDate.getDate() - 1)));
+      if(dateControl.value === 'day') {
+        setStartDate(new Date(startDate.setDate(startDate.getDate() - 1)));
+      } else {
+        setStartDate(new Date(startDate.setMonth(fromDate.getMonth(), fromDate.getDate() - 1)));
+      }
 
     }
   }

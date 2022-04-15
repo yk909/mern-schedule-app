@@ -5,7 +5,7 @@ import { CreateShift } from '../';
 import { useDrop } from 'react-dnd';
 import { editShift } from '../../features/shift/shiftSlice';
 
-const ShiftsList = ({date, shiftsArr, i, setShiftsArr, shifts, employee}) => {
+const ShiftsList = ({fromDate, shiftsArr, i, setShiftsArr, shifts, employee}) => {
     // const { shifts } = useSelector(state => state.shift);
     const dispatch = useDispatch();
 
@@ -38,7 +38,7 @@ const ShiftsList = ({date, shiftsArr, i, setShiftsArr, shifts, employee}) => {
         <div 
             key={`open-shift-day-${i}`}
             id={ 
-                `${new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).getFullYear()}-${new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).getMonth()+1}-${new Date(date.getFullYear(), date.getMonth(), date.getDate()+i).getDate()}-id-${employee ? employee._id : 'openShift'}`
+                `${new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()+i).getFullYear()}-${new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()+i).getMonth()+1}-${new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()+i).getDate()}-id-${employee ? employee._id : 'openShift'}`
                 }
             className={`col section-holder ${isOver ? 'over' : ''}`}
             ref={drop}
@@ -49,7 +49,7 @@ const ShiftsList = ({date, shiftsArr, i, setShiftsArr, shifts, employee}) => {
             { shifts && shifts.map((shift, e) => {
                 return (
                     (new Date(shift.date).toLocaleString('en-us', { year: 'numeric', day: 'numeric', month: 'numeric' })) === 
-                    (new Date(date.getFullYear(), date.getMonth(), date.getDate()+i)).toLocaleString('en-us', { year: 'numeric', day: 'numeric', month: 'numeric' }) &&
+                    (new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()+i)).toLocaleString('en-us', { year: 'numeric', day: 'numeric', month: 'numeric' }) &&
                     <Shift
                         key={`shift-row-${e}`}
                         shift={shift}
@@ -58,7 +58,7 @@ const ShiftsList = ({date, shiftsArr, i, setShiftsArr, shifts, employee}) => {
                 )
             })}
             <CreateShift 
-                date={new Date(date.getFullYear(), date.getMonth(), date.getDate()+i)}
+                date={new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()+i)}
                 employee={employee}
             />
         </div>

@@ -8,7 +8,6 @@ import './styles/Scheduler.css';
 
 const Scheduler = ({fromDate, toDate, startDate, dateControl, setStartDate, setDateControl}) => {
     const calenderRef = useRef(null);
-    const date = fromDate;
     const { id } = useParams();
     const dispatch = useDispatch();
     const { shifts, employees, isLoading, isError, msg } = useSelector(state => state.shift);
@@ -54,21 +53,21 @@ const Scheduler = ({fromDate, toDate, startDate, dateControl, setStartDate, setD
                 className="scheduler-wrapper"
             >
                 <CalenderHeader
-                    date={date}
+                    fromDate={fromDate}
                     dateControl={dateControl}
                     setStartDate={setStartDate}
                     setDateControl={setDateControl}
                 />
                 <div className="section-container">
                     <OpenShift
-                        date={date}
+                        startDate={startDate}
                         toDate={toDate}
                         fromDate={fromDate}
                         dateControl={dateControl}
                         shifts={shifts}
                     />
                     <UserShift
-                        date={date}
+                        startDate={startDate}
                         toDate={toDate}
                         fromDate={fromDate}
                         dateControl={dateControl}
