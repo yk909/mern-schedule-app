@@ -6,7 +6,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Scheduler } from "../";
 import "react-datepicker/dist/react-datepicker.css";
 import './styles/Calender.css';
-import { customSelectStyles, timeframeOptions } from '../../constance/dummyData';
+import { customSelectStyles, timeframeOptions } from '../../constance/localData';
 
 
 const Calender = () => {

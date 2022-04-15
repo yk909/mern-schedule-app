@@ -3,7 +3,7 @@ import Select from 'react-select';
 import { useDispatch } from 'react-redux';
 import { Modal } from '../';
 import { editEmployee, deleteEmployee } from '../../features/employee/employeeSlice';
-import { customSelectModalStyles } from '../../constance/dummyData';
+import { customSelectModalStyles } from '../../constance/localData';
 import './styles/EmployeeCard.css';
 
 const EmployeeCard = ({employee, positions, businesses, businessId}) => {

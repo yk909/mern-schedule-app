@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from '../';
-import { customSelectModalStyles } from '../../constance/dummyData';
+import { customSelectModalStyles } from '../../constance/localData';
 import { toast } from 'react-toastify';
 import { createEmployee } from '../../features/employee/employeeSlice';
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
-import { customSelectModalStyles, positions } from '../../constance/dummyData';
+import { customSelectModalStyles, positions } from '../../constance/localData';
 import { createBusiness } from '../../features/business/businessSlice';
 import { Modal } from '../';
 

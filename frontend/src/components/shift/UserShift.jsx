@@ -1,3 +1,4 @@
+import { countTotalHours } from '../../constance/helpers';
 import { DayShift, WeekShift } from '../';
 
 const UserShift = ({dateControl, employees, shifts, startDate, toDate, fromDate}) => {
@@ -26,25 +27,7 @@ const UserShift = ({dateControl, employees, shifts, startDate, toDate, fromDate}
                                             <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
                                             <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
                                         </svg>
-                                        23
-                                        {/* {
-                                            dateControl.value === "day" ?
-                                                shifts.reduce((a, b) => {
-                                                    return (
-                                                        hours.includes(b.startTime.slice(0,2) + b.startTime.slice(5)) &&
-                                                        (b.date === `${fromDate.getFullYear()}-${fromDate.getMonth()+1}-${fromDate.getDate()}`) ?
-                                                        a +(hours.indexOf(b.endTime.slice(0,2) + b.endTime.slice(5))) - hours.indexOf(b.startTime.slice(0,2) + b.startTime.slice(5))
-                                                    : a)
-                                                }, 0)
-                                            :
-                                            shifts.reduce((a, b) => {
-                                                return (
-                                                    hours.includes(b.startTime.slice(0,2) + b.startTime.slice(5)) ?
-                                                    a +(hours.indexOf(b.endTime.slice(0,2) + b.endTime.slice(5))) - hours.indexOf(b.startTime.slice(0,2) + b.startTime.slice(5))
-                                                : a)
-                                            }, 0)
-                                        } */}
-                                        /40
+                                        {countTotalHours(employee, shifts, dateControl.value === 'day' ? startDate : null)}
                                     </div>
                                 </div>
                             </div>
@@ -56,22 +39,23 @@ const UserShift = ({dateControl, employees, shifts, startDate, toDate, fromDate}
                         </div>
                     </div>
                 </div>
-                { dateControl.value != "day" ?
-                    <WeekShift
-                        employee={employee}
-                        dateControl={dateControl}
-                        fromDate={fromDate}
-                        shifts={shifts && shifts.filter(shift => shift.employee === employee._id)}
-                    />
-                :
-                    <DayShift
-                        employee={employee}
-                        dateControl={dateControl}
-                        startDate={startDate}
-                        shifts={shifts}
-                        fromDate={fromDate}
-                    />
-                }
+                {shifts && (
+                    dateControl.value != "day" ?
+                        <WeekShift
+                            employee={employee}
+                            dateControl={dateControl}
+                            fromDate={fromDate}
+                            shifts={shifts.filter(shift => shift.employee === employee._id)}
+                        />
+                    :
+                        <DayShift
+                            employee={employee}
+                            dateControl={dateControl}
+                            startDate={startDate}
+                            shifts={shifts}
+                            fromDate={fromDate}
+                        />
+                )}
             </div>
             )
         })}

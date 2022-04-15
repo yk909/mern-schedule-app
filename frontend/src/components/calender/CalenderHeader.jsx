@@ -1,4 +1,4 @@
-import { hours } from "../../constance/dummyData";
+import { hours } from "../../constance/localData";
 
 const CalenderHeader = ({ dateControl, fromDate, setStartDate, setDateControl }) => {
     return (

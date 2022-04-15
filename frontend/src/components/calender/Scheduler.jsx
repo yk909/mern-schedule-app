@@ -75,6 +75,7 @@ const Scheduler = ({fromDate, toDate, startDate, dateControl, setStartDate, setD
                         shifts={shifts}
                     />
                     <CalenderFooter
+                        startDate={startDate}
                         dateControl={dateControl}
                     />
                 </div>

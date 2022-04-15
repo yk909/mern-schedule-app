@@ -112,6 +112,10 @@
     transition: var(--transition-duration);
 }
 
+.open-shift .user-row .section-holder:last-of-type {
+    border-top-right-radius: var(--border-radius);
+}
+
 .user-row .section-title,
 .user-row .section-holder {
     background: var(--color-main);

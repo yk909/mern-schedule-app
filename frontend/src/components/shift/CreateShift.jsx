@@ -5,8 +5,7 @@ import Select from 'react-select';
 import { toast } from 'react-toastify';
 import { Modal } from '../';
 import { createShift } from '../../features/shift/shiftSlice';
-
-import { customSelectModalStyles, hoursArray, positions } from '../../constance/dummyData';
+import { customSelectModalStyles, hoursArray, positions } from '../../constance/localData';
 
 const positionsSelect = positions.map(position => {
     return {
@@ -15,40 +14,39 @@ const positionsSelect = positions.map(position => {
     }
 })
 
-const CreateShift = ({ date, employee }) => {
+const CreateShift = ({ date, employee, startTime }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const dispatch = useDispatch();
     const { id } = useParams();
-    
 
     const [shift, setShift] = useState({
-        startTime: null,
+        startTime: startTime ? {value: startTime, label: startTime} : null,
         endTime: null,
         position: null,
     });
 
+
     const hoursSelectStart = hoursArray
-        .filter((hour, index) => {
-            return shift.endTime ? index < hoursArray.indexOf(shift.endTime.value) : true;
-        })
-        .map(hour => {
-            return {
-                value: hour,
-                label: hour
-            }
-        })
+    .filter((hour, index) => {
+        return shift.endTime ? index < hoursArray.indexOf(shift.endTime.value) : true;
+    })
+    .map(hour => {
+        return {
+            value: hour,
+            label: hour
+        }
+    })
 
     const hoursSelectEnd = hoursArray
-        .filter((hour, index) => {
-            return shift.startTime ? index > hoursArray.indexOf(shift.startTime.value) : true;
-        })
-        .map(hour => {
-            return {
-                value: hour,
-                label: hour
-            }
-        })
-
+    .filter((hour, index) => {
+        return shift.startTime ? index > hoursArray.indexOf(shift.startTime.value) : true;
+    })
+    .map(hour => {
+        return {
+            value: hour,
+            label: hour
+        }
+    })
 
     const onSubmit = () => {
         if(shift.startTime && shift.endTime) {

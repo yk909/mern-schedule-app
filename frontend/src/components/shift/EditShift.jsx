@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { Modal } from '../';
 import { deleteShift, editShift } from '../../features/shift/shiftSlice';
 
-import { customSelectModalStyles, hoursArray, positions } from '../../constance/dummyData';
+import { customSelectModalStyles, hoursArray, positions } from '../../constance/localData';
 
 const positionsSelect = positions.map(position => {
     return {

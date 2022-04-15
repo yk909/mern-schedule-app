@@ -11,7 +11,6 @@ import OpenShift from "./shift/OpenShift";
 import DayShift from "./shift/DayShift";
 import WeekShift from "./shift/WeekShift";
 import Shift from "./shift/Shift";
-import ShiftsList from "./shift/ShiftsList";
 import CreateShift from "./shift/CreateShift";
 import EditShift from "./shift/EditShift";
 import CompanyCard from "./company/CompanyCard";
@@ -36,7 +35,6 @@ export {
     DayShift,
     WeekShift,
     Shift,
-    ShiftsList,
     CreateShift,
     EditShift,
     CompanyCard,

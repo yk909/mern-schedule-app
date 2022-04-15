@@ -2,19 +2,24 @@ import { useEffect, useRef, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { useDispatch } from 'react-redux';
 import { editShift } from '../../features/shift/shiftSlice';
-import { hours } from '../../constance/dummyData';
+import { hours } from '../../constance/localData';
 import { CreateShift, Shift } from '../';
 
 
-const DayShift = ({ dateControl, startDate, date, shifts, employee }) => {
+const DayShift = ({ dateControl, startDate, shifts, employee }) => {
     const [endTimeOnResize, setEndTimeOnResize] = useState({});
     const dispatch = useDispatch();
+    const todayShifts = shifts.filter(shift => 
+        new Date(shift.date).toLocaleString('en-us', { year: 'numeric', day: 'numeric', month: 'numeric' }) === 
+        new Date(startDate).toLocaleString('en-us', { year: 'numeric', day: 'numeric', month: 'numeric' }) &&
+        ((employee && employee._id === shift.employee) || !employee )
+    );
 
     const [{ isOver, canDrop }, drop] = useDrop({
         accept: 'shift',
         drop: (item) => {
-            const element = document.getElementsByClassName('over')[0];
-            moveShift(item)
+            const element = document.getElementsByClassName('day-shift-over')[0];
+            moveShift(item, element)
         },
         collect: monitor => ({
             isOver: !!monitor.isOver(),
@@ -22,10 +27,16 @@ const DayShift = ({ dateControl, startDate, date, shifts, employee }) => {
         }),
     });
 
-    const moveShift = (item) => {
-        console.log(item);
+    const moveShift = (item, element) => {
+        const employee = element.id.replace('employee-day-shift-', '');
+        const data = {
+            id: item.shift._id,
+            employee: employee === 'null' ? null : employee,
+        }
 
-        // return setShiftsArr([...shiftsArr, item.shift]);
+        if(item.shift.employee !== employee) {
+            dispatch(editShift(data));
+        }
     }
 
     const onMouseDownResize = (e, index, startTime, shiftId) => {
@@ -66,20 +77,17 @@ const DayShift = ({ dateControl, startDate, date, shifts, employee }) => {
     return (
         <div
             ref={drop}
-            className={`pos-relative ${isOver ? 'day-shift-over' : ''}`}
+            className="pos-relative"
             style={{
                 opacity: isOver ? 0.5 : 1,
             }}
         >
-        { shifts && employee && shifts.map((shift, e) => {
+        { todayShifts && todayShifts.map((shift, e) => {
             return (
-                new Date(shift.date).toLocaleString('en-us', { year: 'numeric', day: 'numeric', month: 'numeric' }) === 
-                new Date(startDate).toLocaleString('en-us', { year: 'numeric', day: 'numeric', month: 'numeric' }) &&
-                employee._id === shift.employee &&
-                
                 <div 
                     key={`shift-row-${e}`} 
-                    className="flex"
+                    id={`employee-day-shift-${employee ? employee._id : null}`}
+                    className={`flex ${isOver ? 'day-shift-over' : ''}`}
                 >
                     { hours.map((time, index) => { // loop for each hour
                         return (
@@ -88,13 +96,19 @@ const DayShift = ({ dateControl, startDate, date, shifts, employee }) => {
                                 id={ `${time}` }
                                 className="col section-holder"
                             >
-                                {time === (shift.startTime.slice(0,2) + ":00") &&
+                                {time === (shift.startTime.slice(0,2) + ":00") ?
                                     <Shift
                                         shift={shift}
                                         employee={employee}
                                         index={index}
                                         onMouseDownResize={onMouseDownResize}
                                         endTimeOnResize={endTimeOnResize}
+                                    />
+                                    :
+                                    <CreateShift 
+                                        date={startDate}
+                                        startTime={time}
+                                        employee={employee}
                                     />
                                 }
                             </div>
@@ -103,23 +117,25 @@ const DayShift = ({ dateControl, startDate, date, shifts, employee }) => {
                 </div>
             )
         })}
-        <div className="flex">
-            {hours.map((time, index) => { // loop for each hour
-            return (
-                <div 
-                    key={`openshift-day-${time}`}
-                    id={ `${time}` }
-                    className="col section-holder"
-                >
-                    <div className="flex flex-col">
-                        <CreateShift 
-                            date={startDate}
-                            employee={employee}
-                        />
+        {todayShifts.length === 0 &&
+            <div className="flex">
+                {hours.map((time, index) => { // loop for each hour
+                return (
+                    <div 
+                        key={`openshift-day-${time}`}
+                        id={ `${time}` }
+                        className="col section-holder"
+                    >
+                        <div className="flex flex-col">
+                            <CreateShift 
+                                date={startDate}
+                                employee={employee}
+                            />
+                        </div>
                     </div>
-                </div>
-            )})}
-        </div>
+                )})}
+            </div>
+        }
     </div>
     )
 }
