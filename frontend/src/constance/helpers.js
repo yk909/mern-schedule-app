@@ -1,4 +1,4 @@
-const countTotalHours = (employee, shifts, startDate) => {
+const countTotalHours = (employee, shifts, startDate, fromDate, toDate) => {
     let hours = 0;
     let minuts = 0;
     if(startDate) {
@@ -19,8 +19,13 @@ const countTotalHours = (employee, shifts, startDate) => {
                 (employee && shift.employee === employee._id) || 
                 (!employee && !shift.employee)
             ) {
-                hours += shift.endTime.slice(0,2) - shift.startTime.slice(0,2);
-                minuts += shift.endTime.slice(3,5) - shift.startTime.slice(3,5);
+                let sTime = new Date(shift.date).getTime();
+                let fTime = new Date(fromDate).getTime();
+                let tTime = new Date(toDate).getTime();
+                if (sTime >= fTime && sTime <= tTime) {
+                    hours += shift.endTime.slice(0,2) - shift.startTime.slice(0,2);
+                    minuts += shift.endTime.slice(3,5) - shift.startTime.slice(3,5);
+                }
             }
         });
     }
@@ -31,7 +36,7 @@ const countTotalHours = (employee, shifts, startDate) => {
     return resultHours + resultMinuts;
 }
 
-const countAsignedTotalHours = (shifts, startDate) => {
+const countAsignedTotalHours = (shifts, startDate, fromDate, toDate) => {
     let hours = 0;
     let minuts = 0;
     if(startDate) {
@@ -46,8 +51,13 @@ const countAsignedTotalHours = (shifts, startDate) => {
         });
     } else {
         shifts && shifts.forEach(shift => {
-            hours += shift.endTime.slice(0,2) - shift.startTime.slice(0,2);
-            minuts += shift.endTime.slice(3,5) - shift.startTime.slice(3,5);
+            let sTime = new Date(shift.date).getTime();
+            let fTime = new Date(fromDate).getTime();
+            let tTime = new Date(toDate).getTime();
+            if (sTime >= fTime && sTime <= tTime) {
+                hours += shift.endTime.slice(0,2) - shift.startTime.slice(0,2);
+                minuts += shift.endTime.slice(3,5) - shift.startTime.slice(3,5);
+            }
         });
     }
 

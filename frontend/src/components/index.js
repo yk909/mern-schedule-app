@@ -3,9 +3,9 @@ import RequireAuth from "./common/RequireAuth";
 import RequireCompany from "./common/RequireCompany";
 import Modal from "./common/Modal";
 import Calender from "./calender/Calender";
-import Scheduler from "./calender/Scheduler";
 import CalenderFooter from "./calender/CalenderFooter";
 import CalenderHeader from "./calender/CalenderHeader";
+import Nav from "./calender/Nav";
 import UserShift from "./shift/UserShift";
 import OpenShift from "./shift/OpenShift";
 import DayShift from "./shift/DayShift";
@@ -27,11 +27,11 @@ export {
     RequireCompany,
     Modal,
     Calender,
-    Scheduler,
     UserShift,
     OpenShift,
     CalenderFooter,
     CalenderHeader,
+    Nav,
     DayShift,
     WeekShift,
     Shift,
