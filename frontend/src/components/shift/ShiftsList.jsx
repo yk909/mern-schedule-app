@@ -1,5 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { hours } from '../../constance/dummyData';
+import { useDispatch } from 'react-redux';
 import { Shift } from '../';
 import { CreateShift } from '../';
 import { useDrop } from 'react-dnd';
@@ -14,8 +13,6 @@ const ShiftsList = ({fromDate, shiftsArr, i, setShiftsArr, shifts, employee}) =>
         drop: (item) => {
             // get element of box where shift is dropped
             const element = document.getElementsByClassName('over')[0];
-            console.log(element)
-            console.log(item)
             moveShift(item, element)
         },
         collect: monitor => ({

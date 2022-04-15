@@ -1,19 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDrop } from 'react-dnd';
+import { useDispatch } from 'react-redux';
+import { editShift } from '../../features/shift/shiftSlice';
 import { hours } from '../../constance/dummyData';
 import { CreateShift, Shift } from '../';
 
 
 const DayShift = ({ dateControl, startDate, date, shifts, employee }) => {
     const [endTimeOnResize, setEndTimeOnResize] = useState({});
-    const [totalTime, setTotalTime] = useState({});
-    // const [shiftsArr, setShiftsArr] = useState([]);
-    const [width, SetWidth] = useState(0);
-    const [margin, setMargin] = useState(0);
+    const dispatch = useDispatch();
 
     const [{ isOver, canDrop }, drop] = useDrop({
         accept: 'shift',
         drop: (item) => {
+            const element = document.getElementsByClassName('over')[0];
             moveShift(item)
         },
         collect: monitor => ({
@@ -22,12 +22,8 @@ const DayShift = ({ dateControl, startDate, date, shifts, employee }) => {
         }),
     });
 
-    // useEffect(() => {
-    //     setShiftsArr(shifts);
-    // }, []);
-
     const moveShift = (item) => {
-        // console.log(shiftsArr);
+        console.log(item);
 
         // return setShiftsArr([...shiftsArr, item.shift]);
     }
@@ -42,18 +38,23 @@ const DayShift = ({ dateControl, startDate, date, shifts, employee }) => {
             let withPercent = +(Math.round(1000*(newWidth / minStep)) / 100).toFixed(0)
 
             if ( newWidth >= minStep && newWidth <= (24-index)*70 ) { // 25 is the number of boxes in a row, 70 is the width of a box, index is box index
-                
-                let minutes = ((withPercent/10 % 1).toFixed(1) * 60);
-                let hour = hours[index+Math.trunc(withPercent/10)] ? hours[index+Math.trunc(withPercent/10)].slice(0, 2) : '24';
-                let newEndTime =  hour + ":" + (minutes < 10 ? "0"+minutes : minutes);
+                if (shiftParent.style.width !== ((withPercent * 10 -((+startTime.slice(3, 5) / 60) * 100) ) +"%")) {
+                    let minutes = ((withPercent/10 % 1).toFixed(1) * 60);
+                    let hour = hours[index+Math.trunc(withPercent/10)] ? hours[index+Math.trunc(withPercent/10)].slice(0, 2) : '24';
+                    let newEndTime =  hour + ":" + (minutes < 10 ? "0"+minutes : minutes);
 
-                setEndTimeOnResize({...endTimeOnResize, [index]: newEndTime});
-                shiftParent.style.width = (withPercent * 10 -((+startTime.slice(3, 5) / 60) * 100) ) +"%";
+                    setEndTimeOnResize({...endTimeOnResize, [index]: newEndTime});
+                    shiftParent.style.width = (withPercent * 10 -((+startTime.slice(3, 5) / 60) * 100) ) +"%";
+                }
             }
         };
 
         const onMouseUp = () => {
+            const endTime = document.getElementById(shiftId).getElementsByClassName('clock-time')[0].innerHTML.split('<hr>')[1];
+
+            dispatch(editShift({id: shiftId, endTime: endTime}))
             window.removeEventListener("mousemove", onMouseMove);
+            window.removeEventListener("mouseup", onMouseUp);
         };
 
         if (document.getElementById(shiftId)) {
@@ -64,8 +65,8 @@ const DayShift = ({ dateControl, startDate, date, shifts, employee }) => {
 
     return (
         <div
-            className="pos-relative"
             ref={drop}
+            className={`pos-relative ${isOver ? 'day-shift-over' : ''}`}
             style={{
                 opacity: isOver ? 0.5 : 1,
             }}

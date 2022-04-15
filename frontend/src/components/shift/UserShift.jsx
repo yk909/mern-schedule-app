@@ -1,8 +1,5 @@
 import { DayShift, WeekShift } from '../';
 
-
-import { employees, hours } from '../../constance/dummyData';
-
 const UserShift = ({dateControl, employees, shifts, startDate, toDate, fromDate}) => {
 
     return (

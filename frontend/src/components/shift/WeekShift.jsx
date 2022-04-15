@@ -1,15 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useDrop } from 'react-dnd';
-import { hours } from '../../constance/dummyData';
 import { ShiftsList } from '../';
 
-
 const WeekShift = ({dateControl, fromDate, shifts, employee}) => {
-    // const [shiftsArr, setShiftsArr] = useState([]);
-
-    // useEffect(() => {
-    //     setShiftsArr(shifts);
-    // }, []);
     
     return (
             <div className="flex">
@@ -26,8 +17,6 @@ const WeekShift = ({dateControl, fromDate, shifts, employee}) => {
                             employee={employee}
                             key={`open-shift-day-${i}`}
                             shifts={shifts}
-                            // shiftsArr={shiftsArr}
-                            // setShiftsArr={setShiftsArr}
                             fromDate={fromDate}
                             i={i}
                         />

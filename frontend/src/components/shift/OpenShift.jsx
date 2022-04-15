@@ -1,5 +1,4 @@
 import { DayShift, WeekShift } from '../';
-import { hours } from '../../constance/dummyData'
 
 const OpenShift = ({ dateControl, shifts, fromDate, toDate, startDate }) => {
 

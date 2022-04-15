@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDrag } from 'react-dnd';
 import { toast } from 'react-toastify';
 import { EditShift } from '../';
@@ -19,21 +19,22 @@ const Shift = ({ shift, employee, index, endTimeOnResize, onMouseDownResize }) =
         }),
     });
 
-
     const newCalcTotalHours = ( a, b ) => {
         let start = new Date().setHours(a.slice(0, 2), a.slice(3, 5), 0, 0);
         let end = new Date().setHours(b.slice(0, 2), b.slice(3, 5), 0, 0);
-        return Math.trunc((end - start) / 3600000) + 'h' + (Math.floor(((end - start) / 60000) % 60) !== 0 ? Math.floor(((end - start) / 60000) % 60) + "m" : "");
+        return setTotalHours(Math.trunc((end - start) / 3600000) + 'h' + (Math.floor(((end - start) / 60000) % 60) !== 0 ? Math.floor(((end - start) / 60000) % 60) + "m" : ""));
     }
 
     useEffect(() => {
-        setTotalHours(newCalcTotalHours(shift.startTime, endTimeOnResize && endTimeOnResize[index] ? endTimeOnResize[index] : shift.endTime));
-        if (endTimeOnResize && endTimeOnResize.length > 0 ) {
-            setWidth(((+endTimeOnResize[index].slice(0, 2) )+ (+endTimeOnResize[index].slice(3, 5))) * 100);
-        } else {
-            setWidth(((+shift.endTime.slice(0, 2)) + (+shift.endTime.slice(3, 5)) - (+shift.startTime.slice(3, 5) / 60)) * 100);
-        }
-    }, [endTimeOnResize, shift]);
+        let time = (+shift.endTime.slice(0, 2) + (+shift.endTime.slice(3, 5)/60) - +shift.startTime.slice(0, 2) + (+shift.startTime.slice(3, 5)/60))
+        let hours = ((+shift.endTime.slice(0, 2))  - (+shift.startTime.slice(0, 2)))
+        let minutes = ((+shift.endTime.slice(3, 5)) - (+shift.startTime.slice(3, 5)))/60
+        setWidth(((hours+minutes) * 100));
+    }, []);
+
+    useMemo(() => {
+        newCalcTotalHours(shift.startTime, endTimeOnResize && endTimeOnResize[index] ? endTimeOnResize[index] : shift.endTime);
+    }, [endTimeOnResize && endTimeOnResize[index]]);
 
     return (
         <>
