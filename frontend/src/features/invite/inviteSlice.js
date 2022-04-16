@@ -58,7 +58,7 @@ export const updateInvite = createAsyncThunk(
     async (invite, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token;
-            return await inviteService.editInvite(invite, token);
+            return await inviteService.updateInvite(invite, token);
         } catch (error) {
             const message =
                 (error.response &&

@@ -21,6 +21,7 @@ import CreateBusiness from "./business/CreateBusiness";
 import CreateEmployee from "./employee/CreateEmployee";
 import EmployeeCard from "./employee/EmployeeCard";
 import Employees from "./employee/Employees";
+import Invites from "./invite/Invites";
 
 export {
     Navbar,
@@ -46,4 +47,5 @@ export {
     CreateEmployee,
     EmployeeCard,
     Employees,
+    Invites,
 }

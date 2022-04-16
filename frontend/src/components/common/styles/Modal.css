@@ -22,7 +22,7 @@
 .modal-overlay .modal-wrapper .modal-body {
     border-radius: var(--border-radius);
     background-color: var(--color-main);
-    min-width: 60vw;
+    min-width: 650px;
     /* max-height: 50vh; */
 }
 

@@ -39,7 +39,7 @@ const createInvite = async (invite, token) => {
 
 
 // Update invite
-const editInvite = async (invite, token) => {
+const updateInvite = async (invite, token) => {
     try {
         const config = {
             headers: {
@@ -75,7 +75,7 @@ const deleteInvite = async (invite, token) => {
 const inviteService = {
     getInvites,
     createInvite,
-    editInvite,
+    updateInvite,
     deleteInvite
 };
 

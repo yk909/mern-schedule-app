@@ -1,9 +1,9 @@
-import './styles/Main.css';
+import { Invites } from '../components'; 
 
 const Main = () => {
     return (
-        <main>
-            <h1>main</h1>
+        <main className="dashboard">
+            <Invites />
         </main>
     )
 }
