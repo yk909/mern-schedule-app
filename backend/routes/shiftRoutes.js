@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { protect } = require('../middleware/authMiddleware');
 const {
-    // getShiftById,
     createShift,
     editShift,
     getAllBusinessShifts,
@@ -17,7 +16,6 @@ router.route('/')
 router.route('/:id')
     .put(protect, editShift)
     .delete(protect, deleteShift);
-//     .get(protect, getShiftById)
 
 
 module.exports = router;

@@ -28,29 +28,6 @@ const getAllBusinesses = async (req, res) => {
 }
 
 
-// @desc   Get businesses
-// @route  GET /api/businesses/:id
-// @access Private
-const getBusiness = async (req, res) => {
-    const { id } = req.params;
-
-    try {
-        const business = await Business.findById(id);
-        
-        if (!business) {
-            return res.status(400).json({
-                msg: 'Business not found'
-            });
-        }
-        
-        return res.status(200).json(business);
-    } catch (err) {
-        console.error(err.message);
-        return res.status(500).json({msg: 'Server Error'});
-    }
-}
-
-
 // @desc   Create business
 // @route  POST /api/businesses/
 // @access Private
@@ -182,7 +159,6 @@ const deleteBusiness = async (req, res) => {
 
 module.exports = {
     getAllBusinesses,
-    getBusiness,
     createBusiness,
     editBusiness,
     deleteBusiness

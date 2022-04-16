@@ -35,60 +35,6 @@ const getCompanyEmployees = async (req, res) => {
 }
 
 
-// @desc   Get all employee for a business
-// @route  GET /api/employees/business/:id
-// @access Private
-const getBusinessEmployees = async (req, res) => {
-    const { id } = req.params; // business id
-
-    try {
-        const business = await Business.findById(id);
-
-        if (!business) {
-            return res.status(400).json({
-                msg: 'Business not found'
-            });
-        }
-
-        const employees = await Employee.find({ business: business._id });
-
-        if (!employees) {
-            return res.status(400).json({
-                msg: 'Employees not found'
-            });
-        }
-
-        return res.status(200).json(employees);
-    } catch (err) {
-        console.error(err.message);
-        return res.status(500).json({msg: 'Server Error'});
-    }
-}
-
-
-// @desc   Get employee
-// @route  GET /api/employees/:id
-// @access Private
-const getEmployeeById = async (req, res) => {
-    const { id } = req.params; // employee id
-
-    try {
-        const employee = await Employee.findById(id);
-
-        if (!employee) {
-            return res.status(400).json({
-                msg: 'Employee not found'
-            });
-        }
-
-        return res.status(200).json(employee);
-    } catch (err) {
-        console.error(err.message);
-        return res.status(500).json({msg: 'Server Error'});
-    }
-}
-
-
 // @desc   Create employee
 // @route  POST /api/employees
 // @access Private
@@ -246,8 +192,6 @@ const deleteEmployee = async (req, res) => {
 
 module.exports = {
     getCompanyEmployees,
-    getBusinessEmployees,
-    getEmployeeById,
     createEmployee,
     updateEmployee,
     deleteEmployee

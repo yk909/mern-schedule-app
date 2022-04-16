@@ -24,29 +24,6 @@ const getUserCompany = async (req, res) => {
 }
 
 
-// @desc   Get company
-// @route  GET /api/companies/:id
-// @access Private
-const getCompany = async (req, res) => {
-    const { id } = req.params;
-
-    try {
-        const company = await Company.findById(id);
-
-        if (!company) {
-            return res.status(400).json({
-                msg: 'Company not found'
-            });
-        }
-    
-        return res.status(200).json(company);
-    } catch (err) {
-        console.error(err.message);
-        return res.status(500).json({msg: 'Server Error'});
-    }
-}
-
-
 // @desc   Create company
 // @route  POST /api/companies
 // @access Private
@@ -153,59 +130,9 @@ const deleteCompany = async (req, res) => {
 }
 
 
-// @desc   Add or Remove owner from company
-// @route  POST /api/companies/:id/owners
-// @access Private
-const addRemoveOwner = async (req, res) => {
-    const { id } = req.params;
-    const { userId } = req.body;
-
-    try {
-        const company = await Company.findById(id);
-
-        if(!company) {
-            return res.status(400).json({
-                msg: 'Company not found'
-            });
-        }
-
-        if(!company.owners.includes(req.user._id)) {
-            return res.status(400).json({
-                msg: 'You are not authorized for this action'
-            });
-        }
-
-        // Check if user exists
-        const user = await User.findById(userId);
-
-        if(!user) {
-            return res.status(400).json({
-                msg: 'User not found'
-            });
-        }
-
-        // Add user to company as its owner
-        if(!company.owners.includes(user._id)) {
-            company.owners.push(user);
-        } else {
-            company.owners.pull(user);
-        }
-
-        await company.save();
-
-        return res.status(200).json(company);
-    } catch (err) {
-        console.error(err.message);
-        return res.status(500).json({msg: 'Server Error'});
-    }
-}
-
-
 module.exports = {
-    getCompany,
     getUserCompany,
     createCompany,
     editCompany,
     deleteCompany,
-    addRemoveOwner
 }

@@ -3,7 +3,6 @@ const router = express.Router();
 const { protect } = require('../middleware/authMiddleware');
 const {
     getAllBusinesses,
-    getBusiness,
     createBusiness,
     editBusiness,
     deleteBusiness
@@ -15,7 +14,6 @@ router.route('/company/:id')
 router.route('/')
     .post(protect, createBusiness)
 router.route('/:id')
-    .get(protect, getBusiness)
     .put(protect, editBusiness)
     .delete(protect, deleteBusiness);
 

@@ -4,50 +4,6 @@ const Employee = require('../models/employeeModel');
 const Business = require('../models/businessModel');
 
 
-// @desc   Get all shifts for a user
-// @route  GET /api/shifts/user/:id
-// @access Private
-// const getAllUserShifts = async (req, res) => {
-//     const { id } = req.params;  // id is the user id
-
-//     try {
-//         const shifts = await Shift.find({user: id});
-
-//         if (!shifts) {
-//             return res.status(400).json({ msg: 'No shifts found' });
-//         }
-
-//         return res.status(200).json({ shifts });
-//     } catch (err) {
-//         console.log(err)
-//         return res.status(500).json({ msg: 'Server Error' });
-//     }
-// };
-
-
-// @desc   Get a shift by id
-// @route  GET /api/shifts/:id
-// @access Private
-// const getShiftById = async (req, res) => {
-//     const { id } = req.params;  // id is the shift id
-
-//     try {
-//         const shift = await Shift.findById(id);
-    
-//         if (!shift) {
-//             return res.status(400).json({
-//                 msg: 'No shift found'
-//             });
-//         }
-    
-//         return res.status(200).json({shift});
-//     } catch (err) {
-//         console.log(err)
-//         return res.status(500).json({ msg: 'Server Error' });
-//     }
-// }
-
-
 // @desc   GET all shifts for a business
 // @route  GET /api/shifts/?business=:business&fromDate=:fromDate&toDate=:toDate
 // @access Private
@@ -222,7 +178,4 @@ module.exports = {
     createShift,
     editShift,
     deleteShift,
-    // getAllUserShifts,
-    // getShiftById,
-    // getAllUserShiftsInSchedule,
 };
