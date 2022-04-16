@@ -4,7 +4,8 @@ const companySchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: true,
+        unique: true
     },
     name: {
         type: String,
@@ -26,6 +27,10 @@ const companySchema = new mongoose.Schema({
     businesses: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Business'
+    }],
+    employees: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }],
 }, { timestamps: true });
 

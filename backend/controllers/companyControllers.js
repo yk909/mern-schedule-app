@@ -8,16 +8,7 @@ const Employee = require('../models/employeeModel');
 // @access Private
 const getUserCompany = async (req, res) => {
     try {
-        // find companies where users employee object is in company employees array
-        const employee = await Employee.find({user: req.user._id});
-
-        if (!employee) {
-            return res.status(400).json({
-                msg: 'Employee not found'
-            });
-        }
-
-        const company = await Company.find({employee: employee});
+        const company = await Company.find({employee: req.user._id}).populate('businesses').exec();
 
         if (!company) {
             return res.status(400).json({
@@ -77,7 +68,15 @@ const createCompany = async (req, res) => {
         });
     }
 
-    const company = new Company({
+    const company = await Company.findOne({user: user._id});
+
+    if(company) {
+        return res.status(400).json({
+            msg: 'User already has a company'
+        });
+    }
+
+    const newCompany = new Company({
         user: req.user._id,
         name,
         email,
@@ -86,12 +85,11 @@ const createCompany = async (req, res) => {
     });
 
     // Add user to company as its owner and employee
-    company.owners.push(user);
-    company.employees.push(user);
+    newCompany.employees.push(user);
 
-    await company.save();
+    await newCompany.save();
 
-    return res.status(200).json(company);
+    return res.status(200).json(newCompany);
 }
 
 

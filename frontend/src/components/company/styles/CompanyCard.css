@@ -11,7 +11,7 @@
     padding: 1rem;
     transition: var(--transition-duration);
     border: 2px solid var(--color-main);
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin-bottom: 25px;
     text-decoration: none;
     color: var(--text-dark);
@@ -19,11 +19,6 @@
 
 .company-card.blink {
     min-height: 25vh;
-}
-
-.company-card:hover {
-    box-shadow: var(--box-shadow-xl);
-    cursor: pointer;
 }
 
 .company-card-info {
@@ -86,9 +81,13 @@
     .company-card {
         justify-content: center;
         text-align: center;
+        flex-direction: column;
     }
     .company-card .company-card-image {
         padding: 0;
+        width: 100%;
+        justify-self: center;
+        align-self: center;
     }
     .company-card-detail {
         flex-direction: column;

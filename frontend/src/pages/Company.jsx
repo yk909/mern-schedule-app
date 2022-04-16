@@ -4,21 +4,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getBusinesses } from '../features/business/businessSlice';
 import { getEmployees } from '../features/employee/employeeSlice';
-import { BusinessCard, CompanyCard } from '../components';
+import { BusinessCard, CompanyCard, CreateCompany } from '../components';
 
 const Businesses = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const business = useSelector(state => state.business);
     const employee = useSelector(state => state.employee);
-    const { companies } = useSelector(state => state.company);
+    const { companies, isLoading } = useSelector(state => state.company);
+    const business = useSelector(state => state.business);
 
     useEffect(() => {
-        if (id) {
-            dispatch(getBusinesses(id));
-            dispatch(getEmployees(id));
+        if (companies && companies.length != 0) {
+            dispatch(getBusinesses(companies[0]._id));
+            dispatch(getEmployees(companies[0]._id));
         }
-    }, [id]);
+    }, [companies]);
 
     useEffect(() => {
         if(business.msg) {
@@ -35,15 +35,20 @@ const Businesses = () => {
     return (
         <>
             {companies && (
+                <>
                 <CompanyCard 
-                    isLoading={false}
-                    companies={companies.filter(company => company._id === id)} 
+                    isLoading={isLoading}
+                    companies={companies} 
                 />
+                <BusinessCard
+                    businesses={business.businesses}
+                    isLoading={business.isLoading}
+                />
+                </>
             )}
-            <BusinessCard
-                businesses={business.businesses}
-                isLoading={business.isLoading}
-            />
+            {!isLoading && companies && companies.length === 0 && (
+                <CreateCompany />
+            )}
         </>
     )
 }

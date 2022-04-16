@@ -39,12 +39,14 @@ const Scheduler = ({fromDate, toDate, startDate, dateControl, setStartDate, setD
                 ref={calenderRef}
                 className="scheduler-wrapper"
             >
+                {fromDate && (
                 <CalenderHeader
                     fromDate={fromDate}
                     dateControl={dateControl}
                     setStartDate={setStartDate}
                     setDateControl={setDateControl}
                 />
+                )}
                 <div className="section-container">
                     <OpenShift
                         startDate={startDate}

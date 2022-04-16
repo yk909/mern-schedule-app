@@ -15,15 +15,15 @@ const DayShift = ({ dateControl, startDate, shifts, employee }) => {
         ((employee && employee._id === shift.employee) || !employee )
     );
 
-    const [{ isOver, canDrop }, drop] = useDrop({
+    const [{ isOver }, drop] = useDrop({
         accept: 'shift',
         drop: (item) => {
             const element = document.getElementsByClassName('day-shift-over')[0];
+            console.log(element)
             moveShift(item, element)
         },
         collect: monitor => ({
             isOver: !!monitor.isOver(),
-            canDrop: !!monitor.canDrop(),
         }),
     });
 
@@ -118,7 +118,10 @@ const DayShift = ({ dateControl, startDate, shifts, employee }) => {
             )
         })}
         {todayShifts.length === 0 &&
-            <div className="flex">
+            <div
+                id={`employee-day-shift-${employee ? employee._id : null}`}
+                className={`flex ${isOver ? 'day-shift-over' : ''}`}
+            >
                 {hours.map((time, index) => { // loop for each hour
                 return (
                     <div 

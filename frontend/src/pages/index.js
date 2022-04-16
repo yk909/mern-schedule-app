@@ -2,14 +2,12 @@ import Login from "./Login";
 import Register from "./Register";
 import Main from "./Main";
 import Scheduler from "./Scheduler";
-import Companies from "./Companies";
-import Businesses from "./Businesses";
+import Company from "./Company";
 
 export {
     Login,
     Register,
     Main,
     Scheduler,
-    Companies,
-    Businesses,
+    Company,
 }

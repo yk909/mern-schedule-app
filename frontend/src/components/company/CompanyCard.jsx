@@ -1,5 +1,4 @@
 import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { CreateBusiness } from '../';
 import './styles/CompanyCard.css';
 
@@ -10,7 +9,7 @@ const CompanyCard = ({companies, isLoading}) => {
         <section className="companies">
             {!isLoading && companies && (
                 companies.map(company => (
-                <Link key={`company-${company._id}`} to={`/companies/${company._id}`} className="company-card">
+                <div key={`company-${company._id}`} className="company-card">
                     <div className="company-card-image">
                         {company.logo ? (
                             <img src={company.logo} alt={company.name}/>
@@ -67,7 +66,7 @@ const CompanyCard = ({companies, isLoading}) => {
                             />
                         )}
                     </div>
-                </Link>
+                </div>
                 ))
             )}
             {isLoading && (

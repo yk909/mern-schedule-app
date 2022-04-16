@@ -27,7 +27,12 @@ const customSelectStyles = {
         borderRadius: 'var(--border-radius)',
         boxShadow: 'var(--box-shadow)',
         cursor: 'pointer',
-        width: 200,
+        transition: 'var(--transition-duration)',
+        // width: 200,
+        width: '100%',
+        '&:hover': {
+            background: 'var(--color-secondary)',
+        },
     }),
     singleValue: (provided, state) => {
         const opacity = state.isDisabled ? 0.5 : 1;

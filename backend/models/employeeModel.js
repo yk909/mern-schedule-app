@@ -50,42 +50,50 @@ const employeeSchema = new mongoose.Schema({
 
 
 // remove employee from business when employee is deleted
-// employeeSchema.pre('remove', async function (next) {
-//     try {
-//         const company = await Company.findById(this.company);
+employeeSchema.pre('remove', async function (next) {
+    try {
+        if(this.user) {
+            const company = await Company.findById(this.company);
 
-//         if (!company) {
-//             return next(new Error('Company not found'));
-//         }
+            if (!company) {
+                return next(new Error('Company not found'));
+            }
 
-//         company.employees.pull(this._id);
-//         await company.save();
-        
-//         next();
-//     } catch (err) {
-//         next(err);
-//     }
-// });
+            company.employees.pull(this.user);
+            await company.save();
+
+            next();
+        } else {
+            next();
+        }
+    } catch (err) {
+        next(err);
+    }
+});
 
 
 // add employee to business on create
-// employeeSchema.post('save', async function ( doc, next ) {
-//     try {
-//         const company = await Company.findById(this.company);
+employeeSchema.post('save', async function ( doc, next ) {
+    try {
+        if(this.user) {
+            const company = await Company.findById(this.company);
 
-//         if (!company) {
-//             return next(new Error('Company not found'));
-//         }
-        
-//         if(!company.employees.includes(this._id)) {
-//             company.employees.push(this._id);
-//             await company.save();
-//         }
-//         next();
-//     } catch (err) {
-//         next(err);
-//     }
-// })
+            if (!company) {
+                return next(new Error('Company not found'));
+            }
+
+            if(!company.employees.includes(this.user)) {
+                company.employees.push(this.user);
+                await company.save();
+            }
+            next();
+        } else {
+            next();
+        }
+    } catch (err) {
+        next(err);
+    }
+})
 
 
 module.exports = mongoose.model('Employee', employeeSchema);
