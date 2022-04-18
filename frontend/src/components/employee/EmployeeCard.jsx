@@ -9,6 +9,7 @@ import './styles/EmployeeCard.css';
 const EmployeeCard = ({employee, positions, businesses, businessId}) => {
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const businessesSelect = businesses.map(business => {
         return {
             value: business._id,
@@ -55,9 +56,9 @@ const EmployeeCard = ({employee, positions, businesses, businessId}) => {
             modalIsOpen={isModalOpen}
             actionBtnText="Save"
             contentLabel={`${employee.firstName} ${employee.lastName}`}
-            actionDangerBtnText="Delete Employee"
             onSubmit={onSubmit}
-            onSubmitDanger={onSubmitDanger}
+            onSubmitDanger={() => setIsDeleteModalOpen(true)}
+            actionDangerBtnText="Delete"
         >
             <div className="employee-form">
                 <div className="form-group-row">
@@ -132,6 +133,26 @@ const EmployeeCard = ({employee, positions, businesses, businessId}) => {
                 </p>
             </div>
         </div>
+        <Modal
+            setModalIsOpen={setIsDeleteModalOpen}
+            modalIsOpen={isDeleteModalOpen}
+            contentLabel={`Are you sure, you want to delete ${employee.firstName}?`}
+        >
+            <div className="form-group-row">
+                <div className="form-group">
+                    <div
+                        className="btn btn-primary"
+                        onClick={() => setIsDeleteModalOpen(false)}
+                    >Cancel</div>
+                </div>
+                <div className="form-group">
+                    <div 
+                        className="btn btn-danger"
+                        onClick={onSubmitDanger}
+                    >Delete</div>
+                </div>
+            </div>
+        </Modal>
         </>
     )
 }
