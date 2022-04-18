@@ -19,7 +19,6 @@ const inviteSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        required: true,
         default: 'pending',
         enum: status,
     }

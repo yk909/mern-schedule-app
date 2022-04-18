@@ -8,7 +8,7 @@ const Employee = require('../models/employeeModel');
 // @access Private
 const getUserCompany = async (req, res) => {
     try {
-        const company = await Company.find({employee: req.user._id}).populate('businesses').exec();
+        const company = await Company.find({employees: req.user._id}).populate('businesses').exec();
 
         if (!company) {
             return res.status(400).json({

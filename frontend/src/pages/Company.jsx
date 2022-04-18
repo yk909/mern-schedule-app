@@ -11,6 +11,7 @@ const Businesses = () => {
     const dispatch = useDispatch();
     const employee = useSelector(state => state.employee);
     const { companies, isLoading } = useSelector(state => state.company);
+    const invite = useSelector(state => state.invite);
     const business = useSelector(state => state.business);
 
     useEffect(() => {
@@ -24,13 +25,17 @@ const Businesses = () => {
         if(business.msg) {
             toast.error(business.msg);
         }
-    }, [business.msg]);
-
-    useEffect(() => {
         if(employee.msg) {
             toast.error(employee.msg);
         }
-    }, [employee.msg]);
+        if(invite.isError) {
+            toast.error(invite.msg);
+        }
+        if(invite.isSuccess && invite?.msg !== '') {
+            toast.success(invite.msg);
+        }
+    }, [business.msg, employee.msg, invite.isError, invite.isSuccess]);
+
 
     return (
         <>

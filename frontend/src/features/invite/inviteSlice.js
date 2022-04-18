@@ -3,8 +3,8 @@ import inviteService from './inviteService';
 
 
 const initialState = {
-    invites: null,
-    invitesSent: null,
+    invites: [],
+    invitesSent: [],
     isLoading: false,
     isError: false,
     isSuccess: false,
@@ -15,7 +15,7 @@ const initialState = {
 // Get all user invites
 export const getInvites = createAsyncThunk(
     'invite/getInvites',
-    async (thunkAPI) => {
+    async (_, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token;
             return await inviteService.getInvites(token);
@@ -109,9 +109,6 @@ const inviteSlice = createSlice({
         // Get all user invites
         builder.addCase(getInvites.pending, (state) => {
             state.isLoading = true;
-            state.isError = false;
-            state.isSuccess = false;
-            state.msg = '';
         });
         builder.addCase(getInvites.fulfilled, (state, action) => {
             state.invites = action.payload.invites;
@@ -188,3 +185,7 @@ const inviteSlice = createSlice({
         });
     }
 });
+
+
+export const { reset } = inviteSlice.actions;
+export default inviteSlice.reducer;

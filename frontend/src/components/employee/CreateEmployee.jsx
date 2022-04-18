@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from '../';
 import { customSelectModalStyles } from '../../constance/localData';
 import { toast } from 'react-toastify';
 import { createEmployee } from '../../features/employee/employeeSlice';
+import { createInvite } from '../../features/invite/inviteSlice';
 
 const CreateEmployee = ({positions, business}) => {
     const [isNew, setIsNew] = useState(false);
@@ -39,7 +40,7 @@ const CreateEmployee = ({positions, business}) => {
 
     const onChangeInvite = (e) => {
         setInviteEmployee({
-            ...newEmployee,
+            ...inviteEmployee,
             [e.target.name]: e.target.value
         });
     }
@@ -67,15 +68,17 @@ const CreateEmployee = ({positions, business}) => {
         }
 
         if(!isNew) {
-            if(!inviteEmployee.email || !inviteEmployee.position) {
+            if(!inviteEmployee.email) {
                 toast.error('Please fill all fields');
                 return;
             } else {
                 const employee = {
-                    ...inviteEmployee,
-                    position: inviteEmployee.position.value
+                    receiver: inviteEmployee.email,
+                    business: inviteEmployee.business,
+                    // position: inviteEmployee.position ? inviteEmployee.position.value : undefined
                 }
-                console.log('inviteEmployee', employee);
+                dispatch(createInvite(employee));
+                setIsModalOpen(false);
             }
         }
     };
@@ -153,7 +156,7 @@ const CreateEmployee = ({positions, business}) => {
                                 onChange={onChangeInvite} 
                                 placeholder="Enter user's email" />
                         </div>
-                        <div className="form-group">
+                        {/* <div className="form-group">
                             <label>Position *</label>
                             <Select
                                 value={inviteEmployee.position}
@@ -162,7 +165,7 @@ const CreateEmployee = ({positions, business}) => {
                                 options={positionsSelect}
                                 styles={customSelectModalStyles}
                             />
-                        </div>
+                        </div> */}
                     </div>
                 </>
                 )}

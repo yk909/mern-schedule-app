@@ -16,3 +16,6 @@ router.route('/')
 router.route('/:id')
     .put(protect, updateInvite)
     .delete(protect, deleteInvite);
+
+
+module.exports = router;

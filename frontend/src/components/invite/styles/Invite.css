@@ -17,8 +17,12 @@
     box-shadow: var(--box-shadow);
     transition: var(--transition-duration);
     display: flex;
-    width: 100%;
     justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.invite-right {
+    display: flex;
 }
 
 .invite:hover {

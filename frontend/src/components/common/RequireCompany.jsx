@@ -21,7 +21,7 @@ const RequireCompany = ({children}) => {
         }
 
         if(companies && companies.length === 0) {
-            navigate("/find-company");
+            navigate("/");
         }
 
     }, [companies, isError, msg, isSuccess, navigate, dispatch]);

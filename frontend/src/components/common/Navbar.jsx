@@ -20,9 +20,8 @@ const Navbar = () => {
             <div className="nav-wrapper">
                 <div className="nav-left">
                     <ul className="nav-links">
-                        {user && companies && companies.length !== 0 && (
-                        <>
-                        <li>
+                        {user && (
+                            <li>
                             <NavLink to="/">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                                     <path d="M13 6.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5zm0 3a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5zm-.5 2.5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1h5z"/>
@@ -31,6 +30,9 @@ const Navbar = () => {
                                 Dashboad
                             </NavLink>
                         </li>
+                        )}
+                        {user && companies && companies.length !== 0 && (
+                        <>
                         { user && (
                         <li>
                             <NavLink to="/company">

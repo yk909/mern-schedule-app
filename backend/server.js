@@ -20,6 +20,7 @@ app.use('/api/companies', require('./routes/companyRoutes'));
 app.use('/api/businesses', require('./routes/businessRoutes'));
 app.use('/api/employees', require('./routes/employeeRoutes'));
 app.use('/api/shifts', require('./routes/shiftRoutes'));
+app.use('/api/invites', require('./routes/inviteRoutes'));
 
 // server connection
 app.listen(port, () => {

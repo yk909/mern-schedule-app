@@ -1,18 +1,20 @@
-const User = require('../models/userModel');
+const Employee = require('../models/employeeModel');
 const Business = require('../models/businessModel');
 const Invite = require('../models/inviteModel');
+const Company = require('../models/companyModel');
 
 
 // @desc   Get all users invites
 // @route  GET /api/invites/
 // @access Private
-const getUserInvites = async (req, res, next) => {
+const getUserInvites = async (req, res) => {
     try {
         const invites = await Invite.find({
             receiver: req.user.email,
             status: 'pending'
         })
         .populate('business')
+
 
         const invitesSent = await Invite.find({
             sender: req.user._id,
@@ -22,6 +24,7 @@ const getUserInvites = async (req, res, next) => {
 
         res.status(200).json({invites, invitesSent});
     } catch (err) {
+        console.log(err)
         res.status(500).json({
             msg: 'Server Error'
         });
@@ -33,16 +36,8 @@ const getUserInvites = async (req, res, next) => {
 // @route  POST /api/invites/
 // @access Private
 const createInvite = async (req, res) => {
-    const { receiver, business } = req.body;
-
-    if (!receiver || !business) {
-        return res.status(400).json({
-            msg: 'Please enter receiver and business'
-        });
-    }
-
     try {
-        const business = await Business.findById(business);
+        const business = await Business.findById(req.body.business);
 
         if (!business) {
             return res.status(400).json({
@@ -50,11 +45,11 @@ const createInvite = async (req, res) => {
             });
         }
 
-        const employee = await User.findOne({user: req.user._id, business: business._id});
-        
+        const employee = await Employee.findOne({user: req.user._id, business: business});
+
         if (!employee) {
             return res.status(400).json({
-                msg: 'Employee does not exist'
+                msg: 'User employee does not exist'
             });
         }
 
@@ -64,7 +59,7 @@ const createInvite = async (req, res) => {
             });
         }
 
-        const invite = await Invite.findOne({ email: receiver, status: 'pending', business: business._id });
+        const invite = await Invite.findOne({ receiver: req.body.receiver, status: 'pending', business: business });
 
         if (invite) {
             return res.status(400).json({
@@ -72,10 +67,11 @@ const createInvite = async (req, res) => {
             });
         }
 
+
         const newInvite = new Invite({
             sender: req.user._id,
-            receiver,
-            business: business._id,
+            receiver: req.body.receiver,
+            business: business,
         });
 
         await newInvite.save();
@@ -85,6 +81,7 @@ const createInvite = async (req, res) => {
             invite: newInvite
         });
     } catch (err) {
+        console.log(err)
         res.status(500).json({
             msg: 'Server Error'
         });
@@ -123,11 +120,40 @@ const updateInvite = async (req, res) => {
 
         await invite.save();
 
+        if(invite.status === 'accepted') {
+            const business = await Business.findById(invite.business);
+
+            if(!business) {
+                return res.status(400).json({
+                    msg: 'Business does not exist'
+                });
+            }
+
+            const employee = await Employee.findOne({user: req.user._id, business: business});
+
+            if(employee) {
+                return res.status(400).json({
+                    msg: 'You are already an employee of this business'
+                });
+            }
+
+            const newEmployee = new Employee({
+                user: req.user._id,
+                company: business.company,
+                business: business._id,
+                firstName: req.user.firstName,
+                lastName: req.user.lastName,
+            });
+
+            await newEmployee.save();
+        }
+
         res.status(200).json({
             msg: `Invite ${invite.status} successfully`,
             invite
         });
     } catch (err) {
+        console.log(err)
         res.status(500).json({
             msg: 'Server Error'
         });
@@ -148,7 +174,7 @@ const deleteInvite = async (req, res) => {
             });
         }
 
-        if (invite.sender !== req.user._id) {
+        if (invite.sender.toString() !== req.user._id.toString()) {
             return res.status(400).json({
                 msg: 'You are not allowed to delete this invite'
             });
@@ -158,6 +184,7 @@ const deleteInvite = async (req, res) => {
 
         res.status(200).json(invite);
     } catch (err) {
+        console.log(err)
         res.status(500).json({
             msg: 'Server Error'
         });
