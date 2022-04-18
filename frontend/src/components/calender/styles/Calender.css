@@ -18,6 +18,15 @@
     margin: 10px 0;
 }
 
+.date-control .btn:hover {
+    box-shadow: none;
+}
+
+.today-control .btn:hover {
+    box-shadow: var(--box-shadow);
+}
+
+
 .calender .today-control,
 .calender .select-control,
 .calender .print-control,

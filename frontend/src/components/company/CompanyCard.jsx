@@ -70,16 +70,18 @@ const CompanyCard = ({company, isLoading}) => {
                             </div>
                             )}
                         </div>
-                        {company.user === user._id && (
-                            <>
-                                <CreateBusiness 
-                                    company={company}
-                                />
-                                <InviteUser
-                                    company={company}
-                                />
-                            </>
-                        )}
+                        <div className="flex align-between">
+                            {company.user === user._id && (
+                                <>
+                                    <CreateBusiness 
+                                        company={company}
+                                    />
+                                    <InviteUser
+                                        company={company}
+                                    />
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
             )}

@@ -14,6 +14,7 @@
     border-radius: var(--border-radius);
     color: var(--text-dark);
     margin-bottom: 25px;
+    overflow: hidden;
 }
 
 .business-card.blink {
@@ -33,6 +34,8 @@
 
 .business-card-header {
     padding: 1rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
     /* background: var(--color-secondary-light); */
 }
 
@@ -57,11 +60,19 @@
 .business-card .btn-icon {
     width: 30px;
     height: 30px;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition-duration);
     margin-left: 15px;
 }
 
 .business-card-header-info:first-of-type p {
-    font-size: 1.5rem;
+    font-size: 0.75rem;
+    background: var(--color-secondary);
+    color: var(--text-dark);
+    box-shadow: var(--box-shadow);
+    font-weight: 600;
+    padding: 3px 5px;
+    border-radius: var(--border-radius);
 }
 
 .business-card-header-info p {

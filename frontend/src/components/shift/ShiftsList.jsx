@@ -28,7 +28,9 @@ const ShiftsList = ({fromDate, i, shifts, employee}) => {
             date: new Date (newDate),
             employee: id === 'openShift' ? null : id,
         }
-        dispatch(editShift(data))
+        if(new Date(newDate).setHours(0,0,0,0) !== new Date(item.shift.date).setHours(0,0,0,0)){
+            dispatch(editShift(data))
+        }
     }
 
     return (
