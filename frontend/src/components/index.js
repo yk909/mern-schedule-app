@@ -2,6 +2,7 @@ import Navbar from "./common/Navbar";
 import RequireAuth from "./common/RequireAuth";
 import RequireCompany from "./common/RequireCompany";
 import Modal from "./common/Modal";
+import Alerts from "./common/Alerts";
 import Calender from "./calender/Calender";
 import CalenderFooter from "./calender/CalenderFooter";
 import CalenderHeader from "./calender/CalenderHeader";
@@ -29,6 +30,7 @@ export {
     RequireAuth,
     RequireCompany,
     Modal,
+    Alerts,
     Calender,
     UserShift,
     OpenShift,

@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
-import { Navbar, RequireAuth, RequireCompany } from './components';
+import { Alerts, Navbar, RequireAuth, RequireCompany } from './components';
 import { Login, Register, Dashboard, Scheduler, Company } from './pages';
 
 function App() {
@@ -10,6 +10,7 @@ function App() {
       <Router>
         <Navbar/>
         <div className="container">
+          <Alerts />
           <Routes>
             <Route path="/" element={<RequireAuth> <RequireCompany> <Dashboard/> </RequireCompany> </RequireAuth>} />
             <Route path="/scheduler" element={<RequireAuth> <RequireCompany> <Scheduler/> </RequireCompany> </RequireAuth>} />

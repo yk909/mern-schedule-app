@@ -20,19 +20,17 @@ const Login = () => {
     const { user, isLoading, isError, isSuccess, msg } = useSelector((state) => state.auth);
 
     useEffect(() => {
-        console.log('user', user);
-        if (isError) {
-            toast.error(msg);
-        }
-
         if (isSuccess || user) {
             console.log('user', user);
             navigate('/');
         }
 
-        dispatch(reset());
-        dispatch(companySlice.reset());
-    }, [user, isError, isSuccess, msg, navigate, dispatch]);
+        if(isError) {
+            console.count()
+            dispatch(reset());
+            dispatch(companySlice.reset());
+        }
+    }, [user, isSuccess, msg, navigate, dispatch]);
 
     const onChange = (e) => {
         setFormData((prevState) => ({

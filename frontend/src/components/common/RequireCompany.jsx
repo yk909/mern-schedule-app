@@ -16,15 +16,11 @@ const RequireCompany = ({children}) => {
             dispatch(getCompany());
         }
 
-        if (isError) {
-            toast.error(msg);
-        }
-
         if(companies && companies.length === 0) {
             navigate("/company");
         }
 
-    }, [companies, isError, msg, isSuccess, navigate, dispatch]);
+    }, [companies, msg, isSuccess, navigate, dispatch]);
 
     // if (isLoading) {
     //     return <div>Loading...</div>;

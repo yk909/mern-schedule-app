@@ -14,13 +14,10 @@ const Invites = () => {
         if(isSuccess && msg !== '') {
             toast.success(msg);
         }
-        if(isError) {
-            toast.error(msg);
-        }
         if(msg === 'Invite accepted successfully') {
             navigate(0);
         }
-    }, [isError, isSuccess]);
+    }, [isSuccess]);
 
     useEffect(() => {
         dispatch(getInvites());

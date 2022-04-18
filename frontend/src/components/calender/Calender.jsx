@@ -24,12 +24,6 @@ const Scheduler = ({fromDate, toDate, startDate, dateControl, setStartDate, setD
         }
     }, [startDate]);
 
-    useEffect(() => {
-        if(isError) {
-            toast.error(msg);
-        }
-    }, [isError]);
-
     return (
         <div className={`calender-body${
             dateControl.value === 'day' ? 
