@@ -3,12 +3,12 @@ const User = require('../models/userModel');
 const Employee = require('../models/employeeModel');
 
 
-// @desc   Get all user companies
+// @desc   Get all user company
 // @route  GET /api/companies/user/
 // @access Private
 const getUserCompany = async (req, res) => {
     try {
-        const company = await Company.find({employees: req.user._id}).populate('businesses').populate('employees').exec();
+        const company = await Company.findOne({employees: req.user._id}).populate('businesses').populate('employees').exec();
 
         if (!company) {
             return res.status(400).json({
@@ -63,6 +63,7 @@ const createCompany = async (req, res) => {
 
     // Add user to company as its owner and employee
     newCompany.employees.push(user);
+    newCompany.owners.push(user);
 
     await newCompany.save();
 

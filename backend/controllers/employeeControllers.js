@@ -59,6 +59,17 @@ const createEmployee = async (req, res) => {
             });
         }
 
+        // Check if user is already an employee
+        if(user) {
+            const checkIsEmployee = await Employee.findOne({ user: user, business: business._id });
+
+            if(checkIsEmployee) {
+                return res.status(400).json({
+                    msg: 'User is already an employee'
+                });
+            }
+        }
+
         // Check if logged in user is a manager or company owner
         if (userEmployee.isManager || userEmployee.isOwner)
         {

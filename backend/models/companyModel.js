@@ -28,6 +28,10 @@ const companySchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Business'
     }],
+    owners: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     employees: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

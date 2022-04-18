@@ -25,6 +25,8 @@ const Scheduler = ({fromDate, toDate, startDate, dateControl, setStartDate, setD
     }, [startDate]);
 
     return (
+        <>
+        {!isLoading && fromDate ? (
         <div className={`calender-body${
             dateControl.value === 'day' ? 
                 ' calender-body-day'
@@ -66,6 +68,11 @@ const Scheduler = ({fromDate, toDate, startDate, dateControl, setStartDate, setD
                 </div>
             </div>
         </div>
+        ) : (
+            <div className="calender-body blink">
+            </div>
+        )}
+        </>
     )
 }
 

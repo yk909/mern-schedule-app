@@ -10,35 +10,35 @@ const Businesses = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const employee = useSelector(state => state.employee);
-    const { companies, isLoading } = useSelector(state => state.company);
+    const { company, isLoading } = useSelector(state => state.company);
     const invite = useSelector(state => state.invite);
     const business = useSelector(state => state.business);
 
     useEffect(() => {
-        if (companies && companies.length != 0) {
-            dispatch(getBusinesses(companies[0]._id));
-            dispatch(getEmployees(companies[0]._id));
+        if (company) {
+            dispatch(getBusinesses(company._id));
+            dispatch(getEmployees(company._id));
         }
-    }, [companies]);
+    }, [company]);
 
-    useEffect(() => {
-        if(business.msg) {
-            toast.error(business.msg);
-        }
-        if(employee.msg) {
-            toast.error(employee.msg);
-        }
-    }, [business.msg, employee.msg]);
+    // useEffect(() => {
+    //     if(business.msg) {
+    //         toast.error(business.msg);
+    //     }
+    //     if(employee.msg) {
+    //         toast.error(employee.msg);
+    //     }
+    // }, [business.msg, employee.msg]);
 
 
     return (
         <>
             <Invites />
-            {companies && companies.length != 0 && (
+            {company && (
                 <>
                 <CompanyCard 
                     isLoading={isLoading}
-                    companies={companies} 
+                    company={company} 
                 />
                 <BusinessCard
                     businesses={business.businesses}
@@ -46,7 +46,7 @@ const Businesses = () => {
                 />
                 </>
             )}
-            {!isLoading && companies && companies.length === 0 && (
+            {!isLoading && !company && (
                 <CreateCompany />
             )}
         </>

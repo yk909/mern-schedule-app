@@ -282,6 +282,7 @@ main {
 
 .btn:hover {
   background-color: var(--color-secondary);
+  box-shadow: var(--box-shadow-xl);
   border-color: var(--color-secondary);
 }
 
@@ -293,7 +294,7 @@ main {
 .btn.btn-danger {
   background-color: var(--danger);
   border: 2px solid var(--danger);
-  color: var(--text-dark);
+  color: var(--text-light);
 }
 
 .btn.btn-warning {

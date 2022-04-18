@@ -82,6 +82,20 @@ const createInvite = async (req, res) => {
                 });
             }
 
+            const company = await Company.findById(req.body.company);
+
+            if (!company) {
+                return res.status(400).json({
+                    msg: 'Company does not exist'
+                });
+            }
+
+            if(!company.owners.includes(req.user._id)) {
+                return res.status(400).json({
+                    msg: 'You are not an owner of this company'
+                });
+            }
+
             const invite = await Invite.findOne({ sender: req.user._id, receiver: req.body.receiver, status: 'pending' });
 
             if (invite) {
@@ -142,7 +156,7 @@ const updateInvite = async (req, res) => {
         }
         
         if(invite.to === 'company') {
-            if (company.user.toString() !== req.user._id.toString()) {
+            if (company.owners.includes(req.user._id)) {
                 return res.status(400).json({
                     msg: 'You are not allowed to update this invite'
                 });

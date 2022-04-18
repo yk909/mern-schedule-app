@@ -7,7 +7,7 @@ const Navbar = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
-    const companies = useSelector((state) => state.company.companies);
+    const company = useSelector((state) => state.company.company);
 
     const onLogout = () => {
         dispatch(logout());
@@ -20,7 +20,7 @@ const Navbar = () => {
             <div className="nav-wrapper">
                 <div className="nav-left">
                     <ul className="nav-links">
-                        {user && companies && companies.length !== 0 && (
+                        {user && company && (
                         <li>
                             <NavLink to="/">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -42,7 +42,7 @@ const Navbar = () => {
                             </NavLink>
                         </li>
                         )}
-                        {user && companies && companies.length !== 0 && (
+                        {user && company && (
                         <li>
                             <NavLink to="/scheduler">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -67,7 +67,7 @@ const Navbar = () => {
                                     {user.firstName}
                                 </a>
                                 <ul className="nav-menu-links">
-                                    {companies && companies.length !== 0  ? (
+                                    {company ? (
                                     <>
                                         <li>
                                             <NavLink to="/">

@@ -165,7 +165,13 @@ const businessSlice = createSlice({
         builder.addCase(updateBusiness.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
-            state.businesses = action.payload;
+            state.businesses = state.businesses.map((business, index) => {
+                if (business._id === action.payload._id) {
+                    return state.businesses[index] = action.payload;
+                } else {
+                    return business;
+                }
+            });
         });
         builder.addCase(updateBusiness.rejected, (state, action) => {
             state.isLoading = false;
@@ -181,7 +187,7 @@ const businessSlice = createSlice({
         builder.addCase(deleteBusiness.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
-            state.businesses = action.payload;
+            state.businesses = state.businesses.filter((business) => business._id !== action.payload._id);
         });
         builder.addCase(deleteBusiness.rejected, (state, action) => {         
             state.isLoading = false;

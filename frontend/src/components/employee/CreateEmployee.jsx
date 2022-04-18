@@ -11,7 +11,7 @@ const CreateEmployee = ({positions, business}) => {
     const [isNew, setIsNew] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [addUser, setAddUser] = useState(null);
-    const { companies } = useSelector(state => state.company);
+    const { company } = useSelector(state => state.company);
     const dispatch = useDispatch();
 
     const positionsSelect = positions.length > 0 ? positions.map(position => {
@@ -20,7 +20,7 @@ const CreateEmployee = ({positions, business}) => {
             label: position
         }
     }) : [];
-    const userSelect = companies.length !== 0 && companies[0].employees.map(employee => {
+    const userSelect = company && company.employees.map(employee => {
         return {
             value: employee,
             label: employee.firstName + ' ' + employee.lastName

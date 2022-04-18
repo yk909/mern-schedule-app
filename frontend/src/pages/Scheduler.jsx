@@ -13,14 +13,14 @@ const Scheduler = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [fromDate, setfromDate] = useState();
     const [toDate, setToDate] = useState(new Date());
-    const { companies } = useSelector(state => state.company);
+    const { company } = useSelector(state => state.company);
 
 
     return (
         <>
         <section>
             <div className="calender">
-                {companies && companies[0] && (
+                {company && (
                     <Nav
                         dateControl={dateControl}
                         setDateControl={setDateControl}

@@ -145,9 +145,7 @@ const deleteBusiness = async (req, res) => {
             });
         }
 
-        const deletedBusiness = await Business.findById(req.params.id);
-
-        await deletedBusiness.remove();
+        const deletedBusiness = await business.remove();
 
         return res.status(200).json(deletedBusiness);
     } catch (err) {

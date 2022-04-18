@@ -2,13 +2,12 @@ import { useSelector } from 'react-redux';
 import { CreateBusiness, InviteUser } from '../';
 import './styles/CompanyCard.css';
 
-const CompanyCard = ({companies, isLoading}) => {
+const CompanyCard = ({company, isLoading}) => {
     const { user } = useSelector(state => state.auth);
 
     return (
         <section className="companies">
-            {!isLoading && companies && (
-                companies.map(company => (
+            {!isLoading && company && (
                 <div key={`company-${company._id}`} className="company-card">
                     <div className="company-card-image">
                         {company.logo ? (
@@ -83,7 +82,6 @@ const CompanyCard = ({companies, isLoading}) => {
                         )}
                     </div>
                 </div>
-                ))
             )}
             {isLoading && (
                 <div className="company-card blink"></div>

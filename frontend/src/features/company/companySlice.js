@@ -3,7 +3,7 @@ import companyService from "./companyService";
 
 
 const initialState = {
-    companies: null,
+    company: null,
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -98,7 +98,7 @@ const companySlice = createSlice({
     reducers: {
         // Reset state
         reset: (state) => {
-            state.companies = null;
+            state.company = null;
             state.isError = false;
             state.isSuccess = false;
             state.isLoading = false;
@@ -116,7 +116,7 @@ const companySlice = createSlice({
             state.isSuccess = true;
             state.isError = false;
             state.msg = '';
-            state.companies.push(action.payload)
+            state.company.push(action.payload)
         });
         builder.addCase(createCompany.rejected, (state, action) => {
             state.isLoading = false;
@@ -134,13 +134,13 @@ const companySlice = createSlice({
             state.isSuccess = true;
             state.isError = false;
             state.msg = '';
-            state.companies = action.payload;
+            state.company = action.payload;
         });
         builder.addCase(getCompany.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.msg = action.payload;
-            state.companies = null;
+            state.company = null;
         });
 
         // Update company
@@ -153,13 +153,13 @@ const companySlice = createSlice({
             state.isSuccess = true;
             state.isError = false;
             state.msg = '';
-            state.companies = action.payload;
+            state.company = action.payload;
         });
         builder.addCase(updateCompany.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.msg = action.payload;
-            state.companies = null;
+            state.company = null;
         });
 
         // Delete company
@@ -172,13 +172,13 @@ const companySlice = createSlice({
             state.isSuccess = true;
             state.isError = false;
             state.msg = '';
-            state.companies = action.payload;
+            state.company = action.payload;
         });
         builder.addCase(deleteCompany.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.msg = action.payload;
-            state.companies = null;
+            state.company = null;
         });
     }
 });

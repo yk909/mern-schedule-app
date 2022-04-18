@@ -7,20 +7,20 @@ import { getCompany, reset } from "../../features/company/companySlice";
 const RequireCompany = ({children}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { companies, isLoading, isError, isSuccess, msg } = useSelector((state) => state.company);
-    const { user } = useSelector((state) => state.auth);
+    const { company, isLoading, isError, isSuccess, msg } = useSelector((state) => state.company);
+    const auth = useSelector((state) => state.auth);
 
     useEffect(() => {
 
-        if(user && !companies) {
+        if(auth.user && !company) {
             dispatch(getCompany());
         }
 
-        if(companies && companies.length === 0) {
+        if(auth.user && !company && !isLoading && isSuccess) {
             navigate("/company");
         }
 
-    }, [companies, msg, isSuccess, navigate, dispatch]);
+    }, [company]);
 
     // if (isLoading) {
     //     return <div>Loading...</div>;

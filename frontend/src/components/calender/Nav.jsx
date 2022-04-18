@@ -8,11 +8,11 @@ import { customSelectStyles, timeframeOptions } from '../../constance/localData'
 
 
 const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, toDate, setfromDate, setToDate}) => {
-    const { companies } = useSelector(state => state.company);
-    const [ business, setBusiness ] = useState({ value: companies[0].businesses[0]._id, label: companies[0].businesses[0].name });
+    const { company } = useSelector(state => state.company);
+    const [ business, setBusiness ] = useState({ value: company.businesses[0]._id, label: company.businesses[0].name });
     const dispatch = useDispatch();
 
-    const businessesSelect = companies[0].businesses.map(business => {
+    const businessesSelect = company.businesses.map(business => {
         return {
             value: business._id,
             label: business.name

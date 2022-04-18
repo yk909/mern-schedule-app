@@ -8,6 +8,11 @@
     margin: 20px auto;
 }
 
+.calender-body.blink {
+    min-height: 500px;
+    min-width: 100%;
+}
+
 .scheduler-wrapper {
     display: flex;
     flex-direction: column;

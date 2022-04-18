@@ -43,13 +43,13 @@ const updateBusiness = async (business, token) => {
 
 
 // Delete business
-const deleteBusiness = async (business, token) => {
+const deleteBusiness = async (id, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         }
     };
-    const response = await axios.delete(`${API_URL}${business}`, config);
+    const response = await axios.delete(`${API_URL}${id}`, config);
     return response.data;
 }
 
