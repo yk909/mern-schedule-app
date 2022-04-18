@@ -52,20 +52,20 @@ const employeeSchema = new mongoose.Schema({
 // remove employee from business when employee is deleted
 employeeSchema.pre('remove', async function (next) {
     try {
-        if(this.user) {
-            const company = await Company.findById(this.company);
+        // if(this.user) {
+        //     const company = await Company.findById(this.company);
 
-            if (!company) {
-                return next(new Error('Company not found'));
-            }
+        //     if (!company) {
+        //         return next(new Error('Company not found'));
+        //     }
 
-            company.employees.pull(this.user);
-            await company.save();
+        //     company.employees.pull(this.user);
+        //     await company.save();
 
             next();
-        } else {
-            next();
-        }
+        // } else {
+        //     next();
+        // }
     } catch (err) {
         next(err);
     }
@@ -75,21 +75,21 @@ employeeSchema.pre('remove', async function (next) {
 // add employee to business on create
 employeeSchema.post('save', async function ( doc, next ) {
     try {
-        if(this.user) {
-            const company = await Company.findById(this.company);
+        // if(this.user) {
+        //     const company = await Company.findById(this.company);
 
-            if (!company) {
-                return next(new Error('Company not found'));
-            }
+        //     if (!company) {
+        //         return next(new Error('Company not found'));
+        //     }
 
-            if(!company.employees.includes(this.user)) {
-                company.employees.push(this.user);
-                await company.save();
-            }
+        //     if(!company.employees.includes(this.user)) {
+        //         company.employees.push(this.user);
+        //         await company.save();
+        //     }
+        //     next();
+        // } else {
             next();
-        } else {
-            next();
-        }
+        // }
     } catch (err) {
         next(err);
     }

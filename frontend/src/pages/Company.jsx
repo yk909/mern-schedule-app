@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getBusinesses } from '../features/business/businessSlice';
 import { getEmployees } from '../features/employee/employeeSlice';
-import { BusinessCard, CompanyCard, CreateCompany } from '../components';
+import { BusinessCard, CompanyCard, CreateCompany, Invites } from '../components';
 
 const Businesses = () => {
     const { id } = useParams();
@@ -28,18 +28,13 @@ const Businesses = () => {
         if(employee.msg) {
             toast.error(employee.msg);
         }
-        if(invite.isError) {
-            toast.error(invite.msg);
-        }
-        if(invite.isSuccess && invite?.msg !== '') {
-            toast.success(invite.msg);
-        }
-    }, [business.msg, employee.msg, invite.isError, invite.isSuccess]);
+    }, [business.msg, employee.msg]);
 
 
     return (
         <>
-            {companies && (
+            <Invites />
+            {companies && companies.length != 0 && (
                 <>
                 <CompanyCard 
                     isLoading={isLoading}

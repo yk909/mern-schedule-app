@@ -1,11 +1,11 @@
 import { Invites } from '../components'; 
 
-const Main = () => {
+const Dashboard = () => {
     return (
         <main className="dashboard">
-            <Invites />
+            Your dashboard in here
         </main>
     )
 }
 
-export default Main
+export default Dashboard;

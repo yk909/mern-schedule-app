@@ -12,10 +12,15 @@ const inviteSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    business: {
+    company: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Business',
+        ref: 'Company',
         required: true,
+    },
+    to: {
+        type: String,
+        required: true,
+        enum: ['company', 'user'],
     },
     status: {
         type: String,

@@ -96,7 +96,7 @@ const BusinessCard = ({ businesses, isLoading }) => {
           <p>Employees</p>
         </div>
         <div className="business-card-body-employees">
-          {[...Array(8)].map((_, index) => {
+          {[...Array(5)].map((_, index) => {
             return (
               <div key={`loading-employee-card-${index}`} className="business-card-body-employee"></div>
               )

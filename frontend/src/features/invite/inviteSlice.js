@@ -5,6 +5,7 @@ import inviteService from './inviteService';
 const initialState = {
     invites: [],
     invitesSent: [],
+    invitesCompany: [],
     isLoading: false,
     isError: false,
     isSuccess: false,
@@ -113,6 +114,7 @@ const inviteSlice = createSlice({
         builder.addCase(getInvites.fulfilled, (state, action) => {
             state.invites = action.payload.invites;
             state.invitesSent = action.payload.invitesSent;
+            state.invitesCompany = action.payload.invitesCompany;
             state.isLoading = false;
             state.isSuccess = true;
             state.msg = '';
@@ -153,6 +155,8 @@ const inviteSlice = createSlice({
         });
         builder.addCase(updateInvite.fulfilled, (state, action) => {
             state.invites = state.invites.filter(invite => invite._id !== action.payload.invite._id);
+            state.invitesCompany = state.invitesCompany.filter(invite => invite._id !== action.payload.invite._id);
+            state.invitesSent = state.invitesSent.filter(invite => invite._id !== action.payload.invite._id);
             state.isLoading = false;
             state.isSuccess = true;
             state.msg = action.payload.msg;

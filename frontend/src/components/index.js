@@ -16,6 +16,7 @@ import EditShift from "./shift/EditShift";
 import ShiftsList from "./shift/ShiftsList";
 import CompanyCard from "./company/CompanyCard";
 import CreateCompany from "./company/CreateCompany";
+import InviteUser from "./company/InviteUser";
 import BusinessCard from "./business/BusinessCard";
 import CreateBusiness from "./business/CreateBusiness";
 import CreateEmployee from "./employee/CreateEmployee";
@@ -42,6 +43,7 @@ export {
     ShiftsList,
     CompanyCard,
     CreateCompany,
+    InviteUser,
     BusinessCard,
     CreateBusiness,
     CreateEmployee,

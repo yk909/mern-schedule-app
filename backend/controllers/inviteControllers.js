@@ -1,5 +1,6 @@
 const Employee = require('../models/employeeModel');
 const Business = require('../models/businessModel');
+const User = require('../models/userModel');
 const Invite = require('../models/inviteModel');
 const Company = require('../models/companyModel');
 
@@ -13,16 +14,21 @@ const getUserInvites = async (req, res) => {
             receiver: req.user.email,
             status: 'pending'
         })
-        .populate('business')
-
+        .populate('company')
 
         const invitesSent = await Invite.find({
             sender: req.user._id,
             status: 'pending'
         })
-        .populate('business')
 
-        res.status(200).json({invites, invitesSent});
+        const company = await Company.findOne({user: req.user});
+        const invitesCompany = await Invite.find({
+            receiver: company?.email,
+            status: 'pending'
+        })
+        .populate('sender')
+
+        res.status(200).json({invites, invitesCompany, invitesSent});
     } catch (err) {
         console.log(err)
         res.status(500).json({
@@ -37,49 +43,67 @@ const getUserInvites = async (req, res) => {
 // @access Private
 const createInvite = async (req, res) => {
     try {
-        const business = await Business.findById(req.body.business);
+        if(req.body.to === 'company') {
+            const company = await Company.findOne({email: req.body.receiver});
 
-        if (!business) {
-            return res.status(400).json({
-                msg: 'Business does not exist'
+            if (!company) {
+                return res.status(400).json({
+                    msg: 'Company does not exist'
+                });
+            }
+
+            const invite = await Invite.findOne({ sender: req.user._id, status: 'pending', company: company });
+
+            if (invite) {
+                return res.status(400).json({
+                    msg: 'You have already sent an invite to this company'
+                });
+            }
+
+            const newInvite = new Invite({
+                sender: req.user._id,
+                receiver: req.body.receiver,
+                company: company,
+                to: req.body.to
+            });
+
+            await newInvite.save();
+
+            res.status(200).json({
+                msg: 'Invite sent successfully',
+                invite: newInvite
+            });
+        } else if(req.body.to === 'user') {
+            const user = await User.findOne({email: req.body.receiver});
+
+            if (!user) {
+                return res.status(400).json({
+                    msg: 'User does not exist'
+                });
+            }
+
+            const invite = await Invite.findOne({ sender: req.user._id, receiver: req.body.receiver, status: 'pending' });
+
+            if (invite) {
+                return res.status(400).json({
+                    msg: 'You have already sent an invite to this user'
+                });
+            }
+
+            const newInvite = new Invite({
+                sender: req.user._id,
+                receiver: req.body.receiver,
+                to: req.body.to,
+                company: req.body.company
+            });
+
+            await newInvite.save();
+
+            res.status(200).json({
+                msg: 'Invite sent successfully',
+                invite: newInvite
             });
         }
-
-        const employee = await Employee.findOne({user: req.user._id, business: business});
-
-        if (!employee) {
-            return res.status(400).json({
-                msg: 'User employee does not exist'
-            });
-        }
-
-        if (!employee.isOwner || employee.isManager) {
-            return res.status(400).json({
-                msg: 'You are not allowed to invite employees'
-            });
-        }
-
-        const invite = await Invite.findOne({ receiver: req.body.receiver, status: 'pending', business: business });
-
-        if (invite) {
-            return res.status(400).json({
-                msg: 'You have already sent an invite to this user'
-            });
-        }
-
-
-        const newInvite = new Invite({
-            sender: req.user._id,
-            receiver: req.body.receiver,
-            business: business,
-        });
-
-        await newInvite.save();
-
-        res.status(200).json({
-            msg: 'Invite sent successfully',
-            invite: newInvite
-        });
     } catch (err) {
         console.log(err)
         res.status(500).json({
@@ -109,49 +133,56 @@ const updateInvite = async (req, res) => {
                 msg: 'Invite does not exist'
             });
         }
+        const company = await Company.findOne(invite.company);
 
-        if (invite.receiver !== req.user.email) {
+        if(!company) {
             return res.status(400).json({
-                msg: 'You are not allowed to update this invite'
+                msg: 'Company does not exist'
             });
         }
-
-        invite.status = status;
-
-        await invite.save();
-
-        if(invite.status === 'accepted') {
-            const business = await Business.findById(invite.business);
-
-            if(!business) {
+        
+        if(invite.to === 'company') {
+            if (company.user.toString() !== req.user._id.toString()) {
                 return res.status(400).json({
-                    msg: 'Business does not exist'
+                    msg: 'You are not allowed to update this invite'
+                });
+            }
+    
+            invite.status = status;
+    
+            await invite.save();
+
+            if(invite.status === 'accepted') {
+                company.employees.push(invite.sender);
+                await company.save();
+            }
+    
+            res.status(200).json({
+                msg: `Invite ${invite.status} successfully`,
+                invite
+            });
+
+        } else if (invite.to === 'user') {
+            if (invite.receiver !== req.user.email) {
+                return res.status(400).json({
+                    msg: 'You are not allowed to update this invite'
                 });
             }
 
-            const employee = await Employee.findOne({user: req.user._id, business: business});
+            invite.status = status;
 
-            if(employee) {
-                return res.status(400).json({
-                    msg: 'You are already an employee of this business'
-                });
+            await invite.save();
+
+            if(invite.status === 'accepted') {
+                company.employees.push(req.user);
+                await company.save();
             }
 
-            const newEmployee = new Employee({
-                user: req.user._id,
-                company: business.company,
-                business: business._id,
-                firstName: req.user.firstName,
-                lastName: req.user.lastName,
+            res.status(200).json({
+                msg: `Invite ${invite.status} successfully`,
+                invite
             });
-
-            await newEmployee.save();
         }
-
-        res.status(200).json({
-            msg: `Invite ${invite.status} successfully`,
-            invite
-        });
     } catch (err) {
         console.log(err)
         res.status(500).json({

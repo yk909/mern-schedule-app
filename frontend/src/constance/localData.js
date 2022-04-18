@@ -30,6 +30,7 @@ const customSelectStyles = {
         transition: 'var(--transition-duration)',
         // width: 200,
         width: '100%',
+        minWidth: '110px',
         '&:hover': {
             background: 'var(--color-secondary)',
         },

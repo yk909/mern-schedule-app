@@ -22,13 +22,11 @@ const getAllBusinessShifts = async (req, res) => {
             {
                 business: business, 
                 date: {
-                    $gte: new Date(fromDate)
-                    // $lte: new Date(toDate)
+                    $gte: new Date(fromDate).setHours(0,0,0,0),
+                    $lte: new Date(toDate).setHours(0,0,0,0)
                 }
             }
         );
-
-        // console.log(shifts)
 
         if (!shifts) {
             return res.status(400).json({ msg: 'No shifts found' });

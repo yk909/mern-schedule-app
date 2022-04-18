@@ -21,7 +21,7 @@
 }
 
 .business-card.blink .business-card-header {
-    min-height: 50px;
+    min-height: 120px;
     background: var(--color-secondary);
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);

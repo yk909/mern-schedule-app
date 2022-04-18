@@ -10,12 +10,23 @@ import { createInvite } from '../../features/invite/inviteSlice';
 const CreateEmployee = ({positions, business}) => {
     const [isNew, setIsNew] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [addUser, setAddUser] = useState(null);
+    const { companies } = useSelector(state => state.company);
+    const dispatch = useDispatch();
+
     const positionsSelect = positions.length > 0 ? positions.map(position => {
         return {
             value: position,
             label: position
         }
     }) : [];
+    const userSelect = companies.length !== 0 && companies[0].employees.map(employee => {
+        return {
+            value: employee,
+            label: employee.firstName + ' ' + employee.lastName
+        }
+    }) || [];
+
     const [newEmployee, setNewEmployee] = useState({
         firstName: '',
         lastName: '',
@@ -23,24 +34,10 @@ const CreateEmployee = ({positions, business}) => {
         wage: 0,
         business: business._id
     });
-    const [inviteEmployee, setInviteEmployee] = useState({
-        email: '',
-        position: positions.length > 0 ? positionsSelect[0] : '',
-        business: business._id
-    });
-
-    const dispatch = useDispatch();
 
     const onChange = (e) => {
         setNewEmployee({
             ...newEmployee,
-            [e.target.name]: e.target.value
-        });
-    }
-
-    const onChangeInvite = (e) => {
-        setInviteEmployee({
-            ...inviteEmployee,
             [e.target.name]: e.target.value
         });
     }
@@ -68,16 +65,16 @@ const CreateEmployee = ({positions, business}) => {
         }
 
         if(!isNew) {
-            if(!inviteEmployee.email) {
+            if(!addUser) {
                 toast.error('Please fill all fields');
                 return;
             } else {
-                const employee = {
-                    receiver: inviteEmployee.email,
-                    business: inviteEmployee.business,
-                    // position: inviteEmployee.position ? inviteEmployee.position.value : undefined
-                }
-                dispatch(createInvite(employee));
+                dispatch(createEmployee({
+                    user: addUser.value._id,
+                    firstName: addUser.value.firstName,
+                    lastName: addUser.value.lastName,
+                    business: business._id
+                }));
                 setIsModalOpen(false);
             }
         }
@@ -94,7 +91,7 @@ const CreateEmployee = ({positions, business}) => {
             onSubmit={onSubmit}
         >
             <div className="nav-tab-select">
-                <p className={`${!isNew ? 'selected' : ''}`} onClick={() => setIsNew(false)}>Invite By Email</p>
+                <p className={`${!isNew ? 'selected' : ''}`} onClick={() => setIsNew(false)}>Company's Employee</p>
                 <p className={`${isNew ? 'selected' : ''}`} onClick={() => setIsNew(true)}>Create New</p>
             </div>
             <div className="employee-form">
@@ -148,24 +145,14 @@ const CreateEmployee = ({positions, business}) => {
                 <>
                     <div className="form-group-row">
                         <div className="form-group">
-                            <label>Email *</label>
-                            <input 
-                                type="email" 
-                                name="email"
-                                value={inviteEmployee.email} 
-                                onChange={onChangeInvite} 
-                                placeholder="Enter user's email" />
-                        </div>
-                        {/* <div className="form-group">
-                            <label>Position *</label>
+                            <label>User *</label>
                             <Select
-                                value={inviteEmployee.position}
-                                name="position"
-                                onChange={(e) => setInviteEmployee({...inviteEmployee, position: e})}
-                                options={positionsSelect}
+                                value={addUser}
+                                onChange={(e) => setAddUser(e)}
+                                options={userSelect}
                                 styles={customSelectModalStyles}
                             />
-                        </div> */}
+                        </div>
                     </div>
                 </>
                 )}

@@ -39,7 +39,7 @@ const getCompanyEmployees = async (req, res) => {
 // @route  POST /api/employees
 // @access Private
 const createEmployee = async (req, res) => {
-    const { firstName, lastName, wage, position } = req.body;
+    const { firstName, lastName, wage, position, user } = req.body;
 
     try {
         const business = await Business.findById(req.body.business);
@@ -55,7 +55,7 @@ const createEmployee = async (req, res) => {
 
         if(!userEmployee) {
             return res.status(400).json({
-                msg: 'You are not authorized to update this employee'
+                msg: 'You are not authorized to create an employee'
             });
         }
 
@@ -63,6 +63,7 @@ const createEmployee = async (req, res) => {
         if (userEmployee.isManager || userEmployee.isOwner)
         {
             const newEmployee = new Employee({
+                user: user,
                 firstName,
                 lastName,
                 company: business.company,
