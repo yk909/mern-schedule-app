@@ -7,7 +7,7 @@ const EmployeeList = ({businesses, positions, businessId}) => {
     return (
         <>
             {employees && [...employees].sort((a, b) => Number(b.isManager) - Number(a.isManager)).map(employee => (
-                (businessId === employee.business || businessId === employee.business._id ) && !employee.isOwner && (
+                (businessId === employee.business || businessId === employee.business._id ) && (
                     <EmployeeCard 
                         key={employee._id} 
                         positions={positions}

@@ -24,10 +24,6 @@ const employeeSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    isOwner: {
-        type: Boolean,
-        default: false
-    },
     wage: {
         type: Number,
         default: 0

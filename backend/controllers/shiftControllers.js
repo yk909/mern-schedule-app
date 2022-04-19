@@ -2,6 +2,7 @@ const Shift = require('../models/shiftModel');
 const User = require('../models/userModel');
 const Employee = require('../models/employeeModel');
 const Business = require('../models/businessModel');
+const Company = require('../models/companyModel');
 
 
 // @desc   GET all shifts for a business
@@ -53,6 +54,14 @@ const createShift = async (req, res) => {
     }
 
     try {
+        const businessObj = await Business.findById(business).populate('company');
+
+        if (!businessObj) {
+            return res.status(400).json({
+                msg: 'Business not found'
+            });
+        }
+
         // Check if user is a manager
         const userEmployee = await Employee.findOne({ user: req.user._id, business: business });
 
@@ -62,8 +71,9 @@ const createShift = async (req, res) => {
             });
         }
 
+
         // Check if logged in user is a manager or company owner
-        if (userEmployee.isManager || userEmployee.isOwner)
+        if (userEmployee.isManager || businessObj.company.owners.includes(req.user._id))
         {
             const shift = await Shift.create({
                 employee,
@@ -103,6 +113,15 @@ const editShift = async (req, res) => {
                 msg: 'No shift found'
             });
         }
+
+        const business = await Business.findById(shift.business).populate('company');
+
+        if (!business) {
+            return res.status(400).json({
+                msg: 'Business not found'
+            });
+        }
+
         // Check if user is a manager
         const userEmployee = await Employee.findOne({ user: req.user._id, business: shift.business });
 
@@ -113,7 +132,7 @@ const editShift = async (req, res) => {
         }
 
         // Check if logged in user is a manager or company owner
-        if (userEmployee.isManager || userEmployee.isOwner)
+        if (userEmployee.isManager || business.company.owners.includes(req.user._id))
         {
             const editedShift = await Shift.findByIdAndUpdate(id, req.body, { new: true });
 
@@ -144,6 +163,15 @@ const deleteShift = async (req, res) => {
                 msg: 'No shift found'
             });
         }
+
+        const business = await Business.findById(shift.business).populate('company');
+
+        if (!business) {
+            return res.status(400).json({
+                msg: 'Business not found'
+            });
+        }
+
         // Check if user is a manager
         const userEmployee = await Employee.findOne({ user: req.user._id, business: shift.business });
 
@@ -154,7 +182,7 @@ const deleteShift = async (req, res) => {
         }
 
         // Check if logged in user is a manager or company owner
-        if (userEmployee.isManager || userEmployee.isOwner)
+        if (userEmployee.isManager || business.company.owners.includes(req.user._id))
         {
             const deletedShift = await shift.remove();
 

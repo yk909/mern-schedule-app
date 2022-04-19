@@ -111,6 +111,7 @@ const shiftSlice = createSlice({
         // Get all employees
         builder.addCase(getAllBusinessShifts.pending, (state, action) => {
             state.isLoading = true;
+            state.isError = false;
         });
         builder.addCase(getAllBusinessShifts.fulfilled, (state, action) => {
             state.employees = action.payload.employees;
@@ -128,6 +129,7 @@ const shiftSlice = createSlice({
         // Create Shift
         builder.addCase(createShift.pending, (state, action) => {
             // state.isLoading = true;
+            state.isError = false;
         });
         builder.addCase(createShift.fulfilled, (state, action) => {
             state.shifts.push(action.payload);
@@ -144,6 +146,7 @@ const shiftSlice = createSlice({
         // Edit Shift
         builder.addCase(editShift.pending, (state, action) => {
             // state.isLoading = true;
+            state.isError = false;
         });
         builder.addCase(editShift.fulfilled, (state, action) => {
             state.shifts = state.shifts.map((shift) => {
@@ -165,6 +168,7 @@ const shiftSlice = createSlice({
         // Delete Shift
         builder.addCase(deleteShift.pending, (state, action) => {
             // state.isLoading = true;
+            state.isError = false;
         });
         builder.addCase(deleteShift.fulfilled, (state, action) => {
             state.shifts = state.shifts.filter((shift) => {

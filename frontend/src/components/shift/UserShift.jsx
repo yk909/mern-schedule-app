@@ -16,7 +16,7 @@ const UserShift = ({dateControl, employees, shifts, startDate, toDate, fromDate}
                             </div>
                             <div className="section-details">
                                 <div className="section-name">
-                                    {employee.firstName} {employee.lastName}
+                                    {employee.lastName}
                                 </div>
                                 <div className="section-hours">
                                     <div>
@@ -45,14 +45,12 @@ const UserShift = ({dateControl, employees, shifts, startDate, toDate, fromDate}
                             employee={employee}
                             dateControl={dateControl}
                             fromDate={fromDate}
-                            shifts={shifts.filter(shift => shift.employee === employee._id)}
                         />
                     :
                         <DayShift
                             employee={employee}
                             dateControl={dateControl}
                             startDate={startDate}
-                            shifts={shifts}
                             fromDate={fromDate}
                         />
                 )}

@@ -6,6 +6,7 @@ import "./styles/BusinessCard.css";
 const BusinessCard = ({ businesses, isLoading }) => {
   const { employees } = useSelector(state => state.employee);
   const { user } = useSelector(state => state.auth);
+  const { company } = useSelector(state => state.company);
   return (
     <section className="businesses">
       {!isLoading && businesses && (
@@ -20,7 +21,7 @@ const BusinessCard = ({ businesses, isLoading }) => {
                 (business._id === employee.business || business._id === employee.business._id ) && (
                     employee.user === user._id && (
                     <div key={`permition-${employee._id}`} className="business-card-header-info-right">
-                    {employee.isOwner ? (
+                    {company.owners.includes(employee.user) ? (
                       <>
                         <p>OWNER</p>
                         <UpdateBusiness

@@ -45,6 +45,16 @@
     margin-bottom: 1rem;
 }
 
+.business-card-header-info:first-of-type .business-card-header-info-left {
+    padding: 0 10px;
+    transition: var(--transition-duration);
+}
+
+.business-card-header-info:first-of-type .business-card-header-info-left:hover {
+    border-radius: var(--border-radius);
+    background: var(--color-secondary-light);
+}
+
 .business-card-header-info a {
     font-size: 1.5rem;
     text-decoration: none;

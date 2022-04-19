@@ -91,6 +91,46 @@ export const deleteCompany = createAsyncThunk(
 );
 
 
+// Change role
+export const changeRole = createAsyncThunk(
+    'company/changeRole',
+    async (data, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token;
+            return await companyService.changeRole(data, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
+// Remove user
+export const removeUser = createAsyncThunk(
+    'company/removeUser',
+    async (data, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token;
+            return await companyService.removeUser(data, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
 // Create slice
 const companySlice = createSlice({
     name: 'company',
@@ -109,6 +149,7 @@ const companySlice = createSlice({
         // Create company
         builder.addCase(createCompany.pending, (state) => {
             state.isLoading = true;
+            state.isError = false;
             state.msg = '';
         });
         builder.addCase(createCompany.fulfilled, (state, action) => {
@@ -127,6 +168,7 @@ const companySlice = createSlice({
         // Get company
         builder.addCase(getCompany.pending, (state) => {
             state.isLoading = true;
+            state.isError = false;
             state.msg = '';
         });
         builder.addCase(getCompany.fulfilled, (state, action) => {
@@ -146,6 +188,7 @@ const companySlice = createSlice({
         // Update company
         builder.addCase(updateCompany.pending, (state) => {
             state.isLoading = true;
+            state.isError = false;
             state.msg = '';
         });
         builder.addCase(updateCompany.fulfilled, (state, action) => {
@@ -165,6 +208,7 @@ const companySlice = createSlice({
         // Delete company
         builder.addCase(deleteCompany.pending, (state) => {
             state.isLoading = true;
+            state.isError = false;
             state.msg = '';
         });
         builder.addCase(deleteCompany.fulfilled, (state, action) => {
@@ -179,6 +223,42 @@ const companySlice = createSlice({
             state.isError = true;
             state.msg = action.payload;
             state.company = null;
+        });
+
+        // Change role
+        builder.addCase(changeRole.pending, (state) => {
+            state.isLoading = true;
+            state.isError = false;
+        });
+        builder.addCase(changeRole.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            state.isError = false;
+            state.msg = '';
+            state.company = action.payload;
+        });
+        builder.addCase(changeRole.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.msg = action.payload;
+        });
+
+        // Remove user
+        builder.addCase(removeUser.pending, (state) => {
+            state.isLoading = true;
+            state.isError = false;
+        });
+        builder.addCase(removeUser.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            state.isError = false;
+            state.msg = '';
+            state.company = action.payload;
+        });
+        builder.addCase(removeUser.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.msg = action.payload;
         });
     }
 });

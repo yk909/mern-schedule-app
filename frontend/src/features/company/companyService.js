@@ -58,11 +58,36 @@ const deleteCompany = async (id, token) => {
 }
 
 
+// Change role
+const changeRole = async (data, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    };
+    const response = await axios.post(`${API_URL}${data.id}/changeRole`, data, config);
+    return response.data;
+}
+
+
+// Remove user
+const removeUser = async (data, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    };
+    const response = await axios.post(`${API_URL}${data.id}/removeUser`, data, config);
+    return response.data;
+}
+
 const companyService = {
     createCompany,
     getCompany,
     updateCompany,
     deleteCompany,
+    changeRole,
+    removeUser
 };
 
 

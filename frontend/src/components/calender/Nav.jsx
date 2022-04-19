@@ -7,9 +7,8 @@ import { getAllBusinessShifts } from '../../features/shift/shiftSlice';
 import { customSelectStyles, timeframeOptions } from '../../constance/localData';
 
 
-const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, toDate, setfromDate, setToDate}) => {
+const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, toDate, setfromDate, setToDate, setBusiness, business}) => {
     const { company } = useSelector(state => state.company);
-    const [ business, setBusiness ] = useState({ value: company.businesses[0]._id, label: company.businesses[0].name });
     const dispatch = useDispatch();
 
     const businessesSelect = company.businesses.map(business => {

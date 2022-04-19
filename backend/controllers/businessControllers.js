@@ -84,7 +84,6 @@ const createBusiness = async (req, res) => {
             business: business._id,
             firstName: req.user.firstName,
             lastName: req.user.lastName,
-            isOwner: true,
         });
 
         await employee.save();

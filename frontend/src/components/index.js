@@ -29,6 +29,8 @@ import UpdateBusiness from "./business/UpdateBusiness";
 import CreateEmployee from "./employee/CreateEmployee";
 import EmployeeCard from "./employee/EmployeeCard";
 import Employees from "./employee/Employees";
+import EmployeesModal from "./employee/EmployeesModal";
+
 import Invites from "./invite/Invites";
 
 export {

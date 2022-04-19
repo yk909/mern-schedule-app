@@ -129,10 +129,12 @@ const businessSlice = createSlice({
         // Create business
         builder.addCase(createBusiness.pending, (state, action) => {
             state.isLoading = true;
+            state.isError = false;
         });
         builder.addCase(createBusiness.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
+            state.isError = false;
             state.businesses.push(action.payload)
         });
         builder.addCase(createBusiness.rejected, (state, action) => {
@@ -145,10 +147,12 @@ const businessSlice = createSlice({
         // Get business
         builder.addCase(getBusiness.pending, (state, action) => {
             state.isLoading = true;
+            state.isError = false;
         });
         builder.addCase(getBusiness.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
+            state.isError = false;
             state.businesses = action.payload;
         });
         builder.addCase(getBusiness.rejected, (state, action) => {
@@ -161,10 +165,12 @@ const businessSlice = createSlice({
         // Update business
         builder.addCase(updateBusiness.pending, (state, action) => {
             state.isLoading = true;
+            state.isError = false;
         });
         builder.addCase(updateBusiness.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
+            state.isError = false;
             state.businesses = state.businesses.map((business, index) => {
                 if (business._id === action.payload._id) {
                     return state.businesses[index] = action.payload;
@@ -183,10 +189,12 @@ const businessSlice = createSlice({
         // Delete business
         builder.addCase(deleteBusiness.pending, (state, action) => {
             state.isLoading = true;
+            state.isError = false;
         });
         builder.addCase(deleteBusiness.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
+            state.isError = false;
             state.businesses = state.businesses.filter((business) => business._id !== action.payload._id);
         });
         builder.addCase(deleteBusiness.rejected, (state, action) => {         
@@ -199,10 +207,12 @@ const businessSlice = createSlice({
         // Get businesses
         builder.addCase(getBusinesses.pending, (state, action) => {
             state.isLoading = true;
+            state.isError = false;
         });
         builder.addCase(getBusinesses.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
+            state.isError = false;
             state.businesses = action.payload;
         });
         builder.addCase(getBusinesses.rejected, (state, action) => {

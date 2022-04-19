@@ -109,6 +109,7 @@ const employeeSlice = createSlice({
         // Get all employees
         builder.addCase(getEmployees.pending, (state, action) => {
             state.isLoading = true;
+            state.isError = false;
         });
         builder.addCase(getEmployees.fulfilled, (state, action) => {
             state.employees = action.payload;
@@ -125,6 +126,7 @@ const employeeSlice = createSlice({
         // Create employee
         builder.addCase(createEmployee.pending, (state, action) => {
             state.isLoading = true;
+            state.isError = false;
             state.msg = '';
         });
         builder.addCase(createEmployee.fulfilled, (state, action) => {
@@ -141,6 +143,7 @@ const employeeSlice = createSlice({
         // Update employee
         builder.addCase(editEmployee.pending, (state, action) => {
             state.isLoading = true;
+            state.isError = false;
             state.msg = '';
         });
         builder.addCase(editEmployee.fulfilled, (state, action) => {
@@ -166,10 +169,12 @@ const employeeSlice = createSlice({
         // Delete employee
         builder.addCase(deleteEmployee.pending, (state, action) => {
             state.isLoading = true;
+            state.isError = false;
             state.msg = '';
         });
         builder.addCase(deleteEmployee.fulfilled, (state, action) => {
             state.isLoading = false;
+            state.isError = false;
             state.isError = false;
             state.employees = state.employees.filter(employee => employee._id !== action.payload._id);
         });

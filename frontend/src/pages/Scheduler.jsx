@@ -14,13 +14,19 @@ const Scheduler = () => {
     const [fromDate, setfromDate] = useState();
     const [toDate, setToDate] = useState(new Date());
     const { company } = useSelector(state => state.company);
+    const [ business, setBusiness ] = useState();
 
+    useEffect(() => {
+        if(company) {
+            setBusiness({ value: company?.businesses[0]?._id, label: company?.businesses[0]?.name });
+        }
+    }, [company]);
 
     return (
         <>
         <section>
             <div className="calender">
-                {company && (
+                {company && business && (
                     <Nav
                         dateControl={dateControl}
                         setDateControl={setDateControl}
@@ -30,6 +36,8 @@ const Scheduler = () => {
                         toDate={toDate}
                         setfromDate={setfromDate}
                         setToDate={setToDate}
+                        setBusiness={setBusiness}
+                        business={business}
                     />
                 )}
                 <DndProvider backend={HTML5Backend}>
@@ -40,6 +48,7 @@ const Scheduler = () => {
                         dateControl={dateControl}
                         setDateControl={setDateControl}
                         setStartDate={setStartDate}
+                        business={business}
                     />
                 </DndProvider>
             </div>

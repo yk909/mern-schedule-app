@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDrop } from 'react-dnd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { editShift } from '../../features/shift/shiftSlice';
 import { hours } from '../../constance/localData';
 import { CreateShift, Shift } from '../';
 
 
-const DayShift = ({ dateControl, startDate, shifts, employee }) => {
+const DayShift = ({ dateControl, startDate, employee, businessId}) => {
     const [endTimeOnResize, setEndTimeOnResize] = useState({});
     const dispatch = useDispatch();
+    const { shifts } = useSelector(state => state.shift);
     const todayShifts = shifts.filter(shift => 
-        new Date(shift.date).toLocaleString('en-us', { year: 'numeric', day: 'numeric', month: 'numeric' }) === 
-        new Date(startDate).toLocaleString('en-us', { year: 'numeric', day: 'numeric', month: 'numeric' }) &&
-        ((employee && employee._id === shift.employee) || !employee )
+        new Date(shift.date).setHours(0, 0, 0, 0) === 
+        new Date(startDate).setHours(0, 0, 0, 0) &&
+        ((employee && employee._id === shift.employee) || !employee && shift.employee === null)
     );
 
     const [{ isOver }, drop] = useDrop({
@@ -131,6 +132,7 @@ const DayShift = ({ dateControl, startDate, shifts, employee }) => {
                     >
                         <div className="flex flex-col">
                             <CreateShift 
+                                businessId={businessId}
                                 date={startDate}
                                 employee={employee}
                             />

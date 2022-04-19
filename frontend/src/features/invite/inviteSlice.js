@@ -110,6 +110,7 @@ const inviteSlice = createSlice({
         // Get all user invites
         builder.addCase(getInvites.pending, (state) => {
             state.isLoading = true;
+            state.isError = false;
         });
         builder.addCase(getInvites.fulfilled, (state, action) => {
             state.invites = action.payload.invites;
@@ -117,6 +118,7 @@ const inviteSlice = createSlice({
             state.invitesCompany = action.payload.invitesCompany;
             state.isLoading = false;
             state.isSuccess = true;
+            state.isError = false;
             state.msg = '';
         });
         builder.addCase(getInvites.rejected, (state, action) => {
@@ -136,6 +138,7 @@ const inviteSlice = createSlice({
         builder.addCase(createInvite.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
+            state.isError = false;
             state.invitesSent.push(action.payload.invite);
             state.msg = action.payload.msg;
         });
@@ -159,6 +162,7 @@ const inviteSlice = createSlice({
             state.invitesSent = state.invitesSent.filter(invite => invite._id !== action.payload.invite._id);
             state.isLoading = false;
             state.isSuccess = true;
+            state.isError = false;
             state.msg = action.payload.msg;
         });
         builder.addCase(updateInvite.rejected, (state, action) => {
@@ -179,6 +183,7 @@ const inviteSlice = createSlice({
             state.invitesSent = state.invitesSent.filter(invite => invite._id !== action.payload._id);
             state.isLoading = false;
             state.isSuccess = true;
+            state.isError = false;
             state.msg = '';
         });
         builder.addCase(deleteInvite.rejected, (state, action) => {

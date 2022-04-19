@@ -1,0 +1,64 @@
+.employees-btn {
+    cursor: pointer;
+}
+
+.users-modal .css-oukpw8-control {
+    background: var(--color-secondary-light);
+}
+
+.users-modal {
+    max-height: 50vh;
+    overflow-y: scroll;
+    padding: 20px 25px 65px 25px;
+}
+
+.employees-btn {
+    padding: 0 10px;
+    transition: var(--transition-duration);
+}
+
+.employees-btn:hover {
+    background: var(--color-secondary-light);
+    border-radius: var(--border-radius);
+}
+
+.user-card {
+    background: var(--color-secondary-light);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    padding: 10px 10px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: var(--transition-duration);
+}
+
+.user-card:hover {
+    box-shadow: var(--box-shadow-xl);
+}
+
+.user-card-left {
+    display: flex;
+}
+
+.user-card-image img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    box-shadow: var(--box-shadow);
+}
+
+.user-card-name {
+    font-size: 1.1rem;
+}
+
+.user-card-right .btn {
+    height: 37px;
+    padding: 0 10px;
+}
+
+.user-card-email {
+    font-weight: 600;
+    opacity: .8;
+}

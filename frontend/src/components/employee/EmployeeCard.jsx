@@ -46,6 +46,7 @@ const EmployeeCard = ({employee, positions, businesses, businessId}) => {
     const onSubmitDanger = () => {
         dispatch(deleteEmployee(employee._id));
         setIsModalOpen(false);
+        setIsDeleteModalOpen(false);
     }
 
 

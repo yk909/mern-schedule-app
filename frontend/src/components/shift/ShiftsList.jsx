@@ -1,11 +1,15 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Shift } from '../';
 import { CreateShift } from '../';
 import { useDrop } from 'react-dnd';
 import { editShift } from '../../features/shift/shiftSlice';
 
-const ShiftsList = ({fromDate, i, shifts, employee}) => {
-    // const { shifts } = useSelector(state => state.shift);
+const ShiftsList = ({fromDate, i, employee, businessId}) => {
+    const shift = useSelector(state => state.shift);
+    const shifts = shift.shifts.filter(shift => 
+        ((employee && employee._id === shift.employee) || !employee && shift.employee === null)
+    );
+
     const dispatch = useDispatch();
 
     const [{ isOver }, drop] = useDrop({
@@ -28,9 +32,9 @@ const ShiftsList = ({fromDate, i, shifts, employee}) => {
             date: new Date (newDate),
             employee: id === 'openShift' ? null : id,
         }
-        if(new Date(newDate).setHours(0,0,0,0) !== new Date(item.shift.date).setHours(0,0,0,0)){
+        // if(new Date(newDate).setHours(0,0,0,0) !== new Date(item.shift.date).setHours(0,0,0,0)){
             dispatch(editShift(data))
-        }
+        // }
     }
 
     return (
@@ -59,6 +63,7 @@ const ShiftsList = ({fromDate, i, shifts, employee}) => {
             <CreateShift 
                 date={new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()+i)}
                 employee={employee}
+                businessId={businessId}
             />
         </div>
     )

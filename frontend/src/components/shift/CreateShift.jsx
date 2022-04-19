@@ -14,10 +14,9 @@ const positionsSelect = positions.map(position => {
     }
 })
 
-const CreateShift = ({ date, employee, startTime }) => {
+const CreateShift = ({ date, employee, startTime, businessId }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const dispatch = useDispatch();
-    const { id } = useParams();
 
     const [shift, setShift] = useState({
         startTime: startTime ? {value: startTime, label: startTime} : null,
@@ -52,13 +51,12 @@ const CreateShift = ({ date, employee, startTime }) => {
         if(shift.startTime && shift.endTime) {
             const data = {
                 employee: employee ? employee._id : null,
-                business: employee ? employee.business : id,
+                business: employee ? employee.business : businessId.value,
                 date: date,
                 position: shift.position ? shift.position.value : null,
                 startTime: shift.startTime.value,
                 endTime: shift.endTime.value
             }
-            // console.log(data)
             dispatch(createShift(data));
             setModalIsOpen(false);
         } else {

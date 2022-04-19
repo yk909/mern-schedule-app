@@ -42,7 +42,7 @@ const createEmployee = async (req, res) => {
     const { firstName, lastName, wage, position, user } = req.body;
 
     try {
-        const business = await Business.findById(req.body.business);
+        const business = await Business.findById(req.body.business).populate('company');
 
         if (!business) {
             return res.status(400).json({
@@ -71,7 +71,7 @@ const createEmployee = async (req, res) => {
         }
 
         // Check if logged in user is a manager or company owner
-        if (userEmployee.isManager || userEmployee.isOwner)
+        if (userEmployee.isManager || business.company.owners.includes(req.user._id))
         {
             const newEmployee = new Employee({
                 user: user,
@@ -114,7 +114,7 @@ const updateEmployee = async (req, res) => {
             });
         }
 
-        const business = await Business.findById(employee.business);
+        const business = await Business.findById(employee.business).populate('company');
 
         if (!business) {
             return res.status(400).json({
@@ -132,7 +132,7 @@ const updateEmployee = async (req, res) => {
         }
 
         // Check if logged in user is a manager or company owner
-        if (userEmployee.isManager || userEmployee.isOwner) // If user is a manager
+        if (userEmployee.isManager || business.company.owners.includes(req.user._id)) // If user is a manager
         {
             const editEmployee = await Employee.findByIdAndUpdate(id, req.body, {new: true});
             return res.status(200).json(editEmployee);
@@ -164,7 +164,7 @@ const deleteEmployee = async (req, res) => {
             });
         }
 
-        const business = await Business.findById(employee.business);
+        const business = await Business.findById(employee.business).populate('company');
 
         if (!business) {
             return res.status(400).json({
@@ -182,7 +182,7 @@ const deleteEmployee = async (req, res) => {
         }
 
         // Check if logged in user is a manager or company owner
-        if (userEmployee.isManager || userEmployee.isOwner) // If user is a manager
+        if (userEmployee.isManager || business.company.owners.includes(req.user._id)) // If user is a manager
         {
             const deletedEmployee = employee;
             await employee.remove();
