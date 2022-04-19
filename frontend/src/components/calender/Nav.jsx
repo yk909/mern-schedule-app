@@ -1,16 +1,18 @@
 import { useState, forwardRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import DatePicker from "react-datepicker";
 import { getAllBusinessShifts } from '../../features/shift/shiftSlice';
 import { customSelectStyles, timeframeOptions } from '../../constance/localData';
 
 
-const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, toDate, setfromDate, setToDate, setBusiness, business}) => {
+const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, toDate, setfromDate, setToDate}) => {
     const [zoom, setZoom] = useState('0.75');
     const { company } = useSelector(state => state.company);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { id } = useParams();
 
     const businessesSelect = company.businesses.map(business => {
         return {
@@ -78,15 +80,15 @@ const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, to
     }, [startDate]);
 
     useEffect(() => {
-        if (business && fromDate) {
+        if (id && fromDate) {
             const  data = {
-                business: business.value,
+                business: id,
                 fromDate: fromDate,
                 toDate: toDate
             }
             dispatch(getAllBusinessShifts(data));
         }
-    }, [business, fromDate])
+    }, [fromDate, id])
 
     const onChangeZoom = (e) => {
         const calenderBody = document.querySelector('.calender-body');
@@ -168,8 +170,8 @@ const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, to
                     </div>
                     <div className="business-control">
                         <Select
-                            value={business}
-                            onChange={(e) => {setBusiness(e)}}
+                            value={{value: id, label: company.businesses.filter(business => business._id === id)[0].name}}
+                            onChange={(e) => {navigate(`/scheduler/${e.value}`)}}
                             isSearchable={false}
                             options={businessesSelect}
                             styles={customSelectStyles}

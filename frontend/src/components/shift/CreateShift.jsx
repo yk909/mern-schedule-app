@@ -1,22 +1,23 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import { Modal } from '../';
 import { createShift } from '../../features/shift/shiftSlice';
-import { customSelectModalStyles, hoursArray, positions } from '../../constance/localData';
+import { customSelectModalStyles, hoursArray } from '../../constance/localData';
 
-const positionsSelect = positions.map(position => {
-    return {
-        value: position,
-        label: position
-    }
-})
-
-const CreateShift = ({ date, employee, startTime, businessId }) => {
+const CreateShift = ({ date, employee, startTime }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const dispatch = useDispatch();
+    const { id } = useParams();
+    const positionsSelect = useSelector(state => state.company.company.businesses)
+        .filter(business => business._id === id)[0].positions?.map(position => {
+            return {
+                value: position,
+                label: position
+                }
+            });
 
     const [shift, setShift] = useState({
         startTime: startTime ? {value: startTime, label: startTime} : null,
@@ -51,7 +52,7 @@ const CreateShift = ({ date, employee, startTime, businessId }) => {
         if(shift.startTime && shift.endTime) {
             const data = {
                 employee: employee ? employee._id : null,
-                business: employee ? employee.business : businessId.value,
+                business: id,
                 date: date,
                 position: shift.position ? shift.position.value : null,
                 startTime: shift.startTime.value,
@@ -64,10 +65,17 @@ const CreateShift = ({ date, employee, startTime, businessId }) => {
         }
     }
 
-
     return (
     <>
+        {modalIsOpen && (
+            console.log((1 - +document.querySelector('.calender-body').style.zoom))
+        )}
         <Modal
+        style={{
+            zoom: `${!document.querySelector('.calender-body').style.zoom 
+            ? '1.25' 
+            : ((1/+document.querySelector('.calender-body').style.zoom)*100) + '%'}`
+        }}
         setModalIsOpen={setModalIsOpen}
         modalIsOpen={modalIsOpen}
         actionBtnText="Save"

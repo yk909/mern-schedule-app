@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import './styles/Modal.css';
 
-const Modal = ({children, bodyStyles, modalIsOpen, contentLabel, setModalIsOpen, actionBtnText, onSubmit, actionDangerBtnText, onSubmitDanger}) => {
+const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModalIsOpen, actionBtnText, onSubmit, actionDangerBtnText, onSubmitDanger}) => {
 
     // useEffect(() => {
     //     document.body.style.overflow = modalIsOpen ? 'hidden' : 'auto';
@@ -17,7 +17,7 @@ const Modal = ({children, bodyStyles, modalIsOpen, contentLabel, setModalIsOpen,
     return (
         <>
         {modalIsOpen ? (
-        <div className="modal-overlay" onClick={onClickOutside}>
+        <div className="modal-overlay" onClick={onClickOutside} style={style}>
             <div className="modal-wrapper">
                 <div className="modal-body">
                     <div className="modal-header">

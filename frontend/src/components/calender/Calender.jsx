@@ -6,26 +6,14 @@ import { getAllBusinessShifts } from '../../features/shift/shiftSlice';
 import { CalenderHeader, OpenShift, UserShift, CalenderFooter } from '../';
 import './styles/Scheduler.css';
 
-const Scheduler = ({fromDate, toDate, startDate, dateControl, setStartDate, setDateControl, business}) => {
+const Scheduler = ({fromDate, toDate, startDate, dateControl, setStartDate, setDateControl}) => {
     const calenderRef = useRef(null);
-    const dispatch = useDispatch();
-    const { shifts, employees, isLoading, isError, msg } = useSelector(state => state.shift);
-
-
-    useEffect(() => {
-        if(business && business.value && toDate && fromDate) {
-            const data = {
-                business: business.value,
-                fromDate: `${fromDate.getFullYear()}-${fromDate.getMonth()}-${fromDate.getDate()}`,
-                toDate: `${toDate.getFullYear()}-${toDate.getMonth()}-${toDate.getDate()}`,
-            }
-            dispatch(getAllBusinessShifts(data));
-        }
-    }, [startDate, business]);
+    const { id } = useParams();
+    const { shifts, employees, isLoading } = useSelector(state => state.shift);
 
     return (
         <>
-        {!isLoading && fromDate && business ? (
+        {!isLoading && fromDate && id ? (
         <div className={`calender-body${
             dateControl.value === 'day' ? 
                 ' calender-body-day'
@@ -49,7 +37,6 @@ const Scheduler = ({fromDate, toDate, startDate, dateControl, setStartDate, setD
                         fromDate={fromDate}
                         dateControl={dateControl}
                         shifts={shifts}
-                        business={business}
                     />
                     <UserShift
                         startDate={startDate}

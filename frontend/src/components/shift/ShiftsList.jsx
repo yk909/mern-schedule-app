@@ -1,11 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { Shift } from '../';
 import { CreateShift } from '../';
 import { useDrop } from 'react-dnd';
 import { editShift } from '../../features/shift/shiftSlice';
 
-const ShiftsList = ({fromDate, i, employee, businessId}) => {
+const ShiftsList = ({fromDate, i, employee}) => {
     const shift = useSelector(state => state.shift);
+    const { id } = useParams();
     const shifts = shift.shifts.filter(shift => 
         ((employee && employee._id === shift.employee) || !employee && shift.employee === null)
     );
@@ -63,7 +65,6 @@ const ShiftsList = ({fromDate, i, employee, businessId}) => {
             <CreateShift 
                 date={new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()+i)}
                 employee={employee}
-                businessId={businessId}
             />
         </div>
     )

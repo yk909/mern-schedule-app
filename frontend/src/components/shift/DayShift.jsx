@@ -1,14 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDrop } from 'react-dnd';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { editShift } from '../../features/shift/shiftSlice';
 import { hours } from '../../constance/localData';
 import { CreateShift, Shift } from '../';
 
 
-const DayShift = ({ dateControl, startDate, employee, businessId}) => {
+const DayShift = ({ dateControl, startDate, employee}) => {
     const [endTimeOnResize, setEndTimeOnResize] = useState({});
     const dispatch = useDispatch();
+    const { id } = useParams();
     const { shifts } = useSelector(state => state.shift);
     const todayShifts = shifts.filter(shift => 
         new Date(shift.date).setHours(0, 0, 0, 0) === 
@@ -132,7 +134,7 @@ const DayShift = ({ dateControl, startDate, employee, businessId}) => {
                     >
                         <div className="flex flex-col">
                             <CreateShift 
-                                businessId={businessId}
+                                businessId={id}
                                 date={startDate}
                                 employee={employee}
                             />

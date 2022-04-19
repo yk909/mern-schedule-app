@@ -1,6 +1,7 @@
-import { useState, forwardRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { useSelector } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Calender, Nav } from "../components";
 import "react-datepicker/dist/react-datepicker.css";
@@ -14,19 +15,19 @@ const Scheduler = () => {
     const [fromDate, setfromDate] = useState();
     const [toDate, setToDate] = useState(new Date());
     const { company } = useSelector(state => state.company);
-    const [ business, setBusiness ] = useState();
+    const navigate = useNavigate();
+    const { id } = useParams();
 
     useEffect(() => {
-        if(company) {
-            setBusiness({ value: company?.businesses[0]?._id, label: company?.businesses[0]?.name });
+        if(!id) {
+            navigate(`/scheduler/${company.businesses[0]._id}`);
         }
-    }, [company]);
-
+    }, []);
     return (
         <>
         <section>
             <div className="calender">
-                {company && business && (
+                {company && company.businesses && (
                     <Nav
                         dateControl={dateControl}
                         setDateControl={setDateControl}
@@ -36,8 +37,6 @@ const Scheduler = () => {
                         toDate={toDate}
                         setfromDate={setfromDate}
                         setToDate={setToDate}
-                        setBusiness={setBusiness}
-                        business={business}
                     />
                 )}
                 <DndProvider backend={HTML5Backend}>
@@ -48,7 +47,6 @@ const Scheduler = () => {
                         dateControl={dateControl}
                         setDateControl={setDateControl}
                         setStartDate={setStartDate}
-                        business={business}
                     />
                 </DndProvider>
             </div>
