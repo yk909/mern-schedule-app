@@ -204,7 +204,7 @@ const deleteShift = async (req, res) => {
 // @access Private
 const copyPreviousWeekShifts = async (req, res) => {
     const { business } = req.params;
-    const { fromDate, toDate } = req.body;
+    const { fromDate, toDate, dateControl } = req.body;
 
     try {
         const businessObj = await Business.findById(business).populate('company');
@@ -241,13 +241,33 @@ const copyPreviousWeekShifts = async (req, res) => {
                 });
             }
 
-            // Add one week to each shift date
+            // Add one time to each shift date return new shift but withou _id
             const newShifts = previousWeekShifts.map(shift => {
-                shift.date = new Date(shift.date.getTime() + 7 * 24 * 60 * 60 * 1000);
-                return shift;
+                const newShift = {
+                    date: new Date(
+                        (shift.date.setHours(0, 0, 0, 0) + 
+                        ((dateControl === 'week' ?
+                            7
+                        : dateControl === '2week' ?
+                            14
+                        : dateControl === '4week' ?
+                            28
+                        : 1)
+                        * 24 * 60 * 60 * 1000))
+                        ),
+                    employee: shift.employee,
+                    scheduledBy: shift.scheduledBy,
+                    business: shift.business,
+                    position: shift.position,
+                    startTime: shift.startTime,
+                    endTime: shift.endTime,
+                    color: shift.color,
+                    isConfirmed: shift.isConfirmed,
+                }
+                return newShift;
             });
 
-            const newShiftsObj = await Shift.create(newShifts);
+            const newShiftsObj = await Shift.insertMany(newShifts);
 
             return res.status(200).json(newShiftsObj);
         } else {

@@ -8,6 +8,7 @@ import Calender from "./calender/Calender";
 import CalenderFooter from "./calender/CalenderFooter";
 import CalenderHeader from "./calender/CalenderHeader";
 import Nav from "./calender/Nav";
+import CopyShifts from "./calender/CopyShifts";
 
 import UserShift from "./shift/UserShift";
 import OpenShift from "./shift/OpenShift";
@@ -39,26 +40,34 @@ export {
     RequireCompany,
     Modal,
     Alerts,
+
     Calender,
-    UserShift,
-    OpenShift,
     CalenderFooter,
     CalenderHeader,
     Nav,
+    CopyShifts,
+
+    UserShift,
+    OpenShift,
     DayShift,
     WeekShift,
     Shift,
     CreateShift,
     EditShift,
     ShiftsList,
+
     CompanyCard,
     CreateCompany,
     InviteUser,
+
     BusinessCard,
     CreateBusiness,
     UpdateBusiness,
+
     CreateEmployee,
     EmployeeCard,
     Employees,
+    EmployeesModal,
+
     Invites,
 }

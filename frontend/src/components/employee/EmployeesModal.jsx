@@ -121,7 +121,7 @@ const EmployeesModal = () => {
                 <div className="form-group-row">
                     <div className="form-group">
                         <div
-                            className="btn btn-primary"
+                            className="btn btn-outline"
                             onClick={() => setIsDeleteModalOpen(false)}
                         >Cancel</div>
                     </div>

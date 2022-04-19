@@ -67,9 +67,6 @@ const CreateShift = ({ date, employee, startTime }) => {
 
     return (
     <>
-        {modalIsOpen && (
-            console.log((1 - +document.querySelector('.calender-body').style.zoom))
-        )}
         <Modal
         style={{
             zoom: `${!document.querySelector('.calender-body').style.zoom 

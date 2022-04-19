@@ -18,7 +18,7 @@ router.route('/:id')
     .put(protect, editShift)
     .delete(protect, deleteShift);
 
-router.route('/copy/:id')
+router.route('/copy/:business')
     .put(protect, copyPreviousWeekShifts);
 
 

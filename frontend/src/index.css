@@ -3,6 +3,11 @@
   --warning: #FFF591;
   --success: #A3F7BF;
   --info: #05DFD7;
+  --danger-hover: #88353d;
+  --warning-hover: #c9c16b;
+  --success-hover: #87cf9f;
+  --info-hover: #14beb9;
+  --color-primary-hover: #2459a0;
 
   --color-primary: #2a74d3;
   --color-main: #ffffff;
@@ -290,7 +295,6 @@ main {
 
 .btn:hover {
   background-color: var(--color-secondary);
-  box-shadow: var(--box-shadow-xl);
 }
 
 .btn:active {
@@ -302,6 +306,10 @@ main {
   background-color: var(--danger);
   border: 2px solid var(--danger);
   color: var(--text-light);
+}
+
+.btn.btn-danger:hover {
+  background-color: var(--danger-hover);
 }
 
 .btn.btn-warning {
@@ -329,6 +337,10 @@ main {
   fill: var(--text-light);
 }
 
+.btn.btn-primary:hover {
+  background: var(--color-primary-hover);
+}
+
 .btn.btn-outline {
   background-color: transparent;
   border: 2px solid var(--color-secondary);
@@ -337,6 +349,7 @@ main {
 
 .btn.btn-outline:hover {
   background-color: var(--color-secondary);
+  box-shadow: var(--box-shadow);
 }
 
 .btn.btn-outline svg {
@@ -356,6 +369,7 @@ main {
 
 .btn.btn-outline-danger:hover {
   background-color: var(--danger);
+  box-shadow: var(--box-shadow);
   color: var(--text-light);
 }
 
@@ -367,6 +381,7 @@ main {
 
 .btn.btn-outline-warning:hover {
   background-color: var(--warning);
+  box-shadow: var(--box-shadow);
   color: var(--text-light);
 }
 
@@ -378,6 +393,7 @@ main {
 
 .btn.btn-outline-success:hover {
   background-color: var(--success);
+  box-shadow: var(--box-shadow);
   color: var(--text-light);
 }
 
@@ -389,6 +405,7 @@ main {
 
 .btn.btn-outline-info:hover {
   background-color: var(--info);
+  box-shadow: var(--box-shadow);
 }
 
 .btn.btn-outline-primary {
@@ -401,6 +418,7 @@ main {
 
 .btn.btn-outline-primary:hover {
   background-color: var(--color-primary);
+  box-shadow: var(--box-shadow);
   color: var(--text-light);
   fill: var(--text-light);
 }

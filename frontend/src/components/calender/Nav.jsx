@@ -5,6 +5,7 @@ import Select from 'react-select';
 import DatePicker from "react-datepicker";
 import { getAllBusinessShifts } from '../../features/shift/shiftSlice';
 import { customSelectStyles, timeframeOptions } from '../../constance/localData';
+import { CopyShifts } from '../';
 
 
 const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, toDate, setfromDate, setToDate}) => {
@@ -114,11 +115,11 @@ const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, to
                         )}
                     </div>
                 </div>
-                <div className="calender-header-right">
-                    <div className="btn">
-                        Copy This Schedule 
-                    </div>
-                </div>
+                <CopyShifts 
+                    fromDate={fromDate}
+                    toDate={toDate}
+                    dateControl={dateControl}
+                />
             </div>
             <div className="flex align-between">
                 <div className="calender-header-left">

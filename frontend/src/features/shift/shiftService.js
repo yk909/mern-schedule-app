@@ -63,7 +63,7 @@ const copyPreviousWeekShifts = async (data, token) => {
             Authorization: `Bearer ${token}`,
         }
     };
-    const response = await axios.put(`${API_URL}copy/${data.id}`, data, config);
+    const response = await axios.put(`${API_URL}copy/${data.business}`, data, config);
 
     return response.data;
 }

@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
-import { CreateBusiness, InviteUser } from '../';
-import EmployeesModal from '../employee/EmployeesModal';
+import { CreateBusiness, InviteUser, EmployeesModal } from '../';
 import './styles/CompanyCard.css';
 
 const CompanyCard = ({company, isLoading}) => {
