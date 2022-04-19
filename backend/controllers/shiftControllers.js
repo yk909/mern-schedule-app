@@ -42,7 +42,7 @@ const getAllBusinessShifts = async (req, res) => {
 
 
 // @desc   Create a shift
-// @route  POST /api/shifts/user/:userId/schedule/:scheduleId'
+// @route  POST /api/shifts/
 // @access Private
 const createShift = async (req, res) => {
     const { date, startTime, endTime, business, employee, position } = req.body;
@@ -199,9 +199,73 @@ const deleteShift = async (req, res) => {
 }
 
 
+// @desc   Copy previous week's shifts
+// @route  POST /api/shifts/copy/:business
+// @access Private
+const copyPreviousWeekShifts = async (req, res) => {
+    const { business } = req.params;
+    const { fromDate, toDate } = req.body;
+
+    try {
+        const businessObj = await Business.findById(business).populate('company');
+
+        if (!businessObj) {
+            return res.status(400).json({
+                msg: 'Business not found'
+            });
+        }
+
+        // Check if user is a manager
+        const userEmployee = await Employee.findOne({ user: req.user._id, business: business });
+
+        if(!userEmployee) {
+            return res.status(400).json({
+                msg: 'You are not authorized to update this employee'
+            });
+        }
+
+        // Check if logged in user is a manager or company owner
+        if (userEmployee.isManager || businessObj.company.owners.includes(req.user._id))
+        {
+            const previousWeekShifts = await Shift.find(
+                { business, 
+                    date: { 
+                        $gte: new Date(fromDate).setHours(0,0,0,0),
+                        $lte: new Date(toDate).setHours(0,0,0,0)
+                    } 
+                }).sort({ date: -1 });
+
+            if(previousWeekShifts.length === 0) {
+                return res.status(400).json({
+                    msg: 'No shifts found'
+                });
+            }
+
+            // Add one week to each shift date
+            const newShifts = previousWeekShifts.map(shift => {
+                shift.date = new Date(shift.date.getTime() + 7 * 24 * 60 * 60 * 1000);
+                return shift;
+            });
+
+            const newShiftsObj = await Shift.create(newShifts);
+
+            return res.status(200).json(newShiftsObj);
+        } else {
+            return res.status(400).json({
+                msg: 'You are not authorized to create shift'
+            });
+        }
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ msg: 'Server Error' });
+    }
+}
+
+
 module.exports = {
     getAllBusinessShifts,
     createShift,
     editShift,
     deleteShift,
+    copyPreviousWeekShifts
 };

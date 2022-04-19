@@ -5,7 +5,8 @@ const {
     createShift,
     editShift,
     getAllBusinessShifts,
-    deleteShift
+    deleteShift,
+    copyPreviousWeekShifts
 } = require('../controllers/shiftControllers');
 
 
@@ -16,6 +17,9 @@ router.route('/')
 router.route('/:id')
     .put(protect, editShift)
     .delete(protect, deleteShift);
+
+router.route('/copy/:id')
+    .put(protect, copyPreviousWeekShifts);
 
 
 module.exports = router;

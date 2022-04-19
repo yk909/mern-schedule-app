@@ -92,6 +92,26 @@ export const deleteShift = createAsyncThunk(
 );
 
 
+// Copy Previous Week Shifts
+export const copyPreviousWeekShifts = createAsyncThunk(
+    'shift/copyPreviousWeekShifts',
+    async (data, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token;
+            return await shiftService.copyPreviousWeekShifts(data, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
 // Create Slice
 const shiftSlice = createSlice({
     name: 'shift',
@@ -180,6 +200,23 @@ const shiftSlice = createSlice({
         });
         builder.addCase(deleteShift.rejected, (state, action) => {
             // state.isLoading = false;
+            state.isError = true;
+            state.msg = action.payload;
+        });
+
+        // Copy Previous Week Shifts
+        builder.addCase(copyPreviousWeekShifts.pending, (state, action) => {
+            state.isLoading = true;
+            state.isError = false;
+        });
+        builder.addCase(copyPreviousWeekShifts.fulfilled, (state, action) => {
+            state.shifts = state.shifts.concat(action.payload);
+            state.isSuccess = true;
+            state.isError = false;
+            state.isLoading = false;
+        });
+        builder.addCase(copyPreviousWeekShifts.rejected, (state, action) => {
+            state.isLoading = false;
             state.isError = true;
             state.msg = action.payload;
         });

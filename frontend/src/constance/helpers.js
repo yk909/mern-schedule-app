@@ -4,10 +4,12 @@ const countTotalHours = (employee, shifts, startDate, fromDate, toDate) => {
     if(startDate) {
         shifts && shifts.map(shift => {
             if(
-                new Date(shift.date).setHours(0, 0, 0, 0) === 
+                (new Date(shift.date).setHours(0, 0, 0, 0) === 
                 new Date(startDate).setHours(0, 0, 0, 0) &&
-                (employee && shift.employee === employee._id) || 
-                (!employee && !shift.employee)
+                (employee && shift.employee === employee._id)) || 
+                (new Date(shift.date).setHours(0, 0, 0, 0) === 
+                new Date(startDate).setHours(0, 0, 0, 0) &&
+                (!employee && !shift.employee))
             ) {
                 hours += shift.endTime.slice(0,2) - shift.startTime.slice(0,2);
                 minuts += shift.endTime.slice(3,5) - shift.startTime.slice(3,5);

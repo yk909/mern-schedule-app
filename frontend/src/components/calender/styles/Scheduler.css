@@ -5,7 +5,8 @@
     box-shadow: var(--box-shadow);
     border: 1px solid var(--color-secondary-light);
     max-width: fit-content;
-    margin: 20px auto;
+    margin: 10px auto;
+    zoom: 0.75
 }
 
 .calender-body.blink {

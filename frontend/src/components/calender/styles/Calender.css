@@ -3,10 +3,29 @@
 }
 
 .calender .calender-header {
-    display: flex;
+    /* display: flex; */
     justify-content: space-between;
     max-width: 1780px;
     margin: 0 auto;
+    background: var(--color-secondary-light);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    padding: 0 15px;
+}
+
+.zoom-calender {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+.calender .calender-header .calender-header-left {
+    display: flex;
+}
+
+.business-control,
+.select-control {
+    margin-left: 10px;
+    margin-right: 5px;
 }
 
 .calender .calender-header .calender-header-right {
@@ -18,19 +37,12 @@
     margin: 10px 0;
 }
 
-.date-control .btn:hover {
-    box-shadow: none;
-}
-
-.today-control .btn:hover {
+.calender-header .btn:hover {
     box-shadow: var(--box-shadow);
 }
 
-
 .calender .today-control,
-.calender .select-control,
-.calender .print-control,
-.calender .business-control {
+.calender .print-control {
     margin: 0 10px;
 }
 
@@ -41,10 +53,12 @@
 }
 
 .calender .date {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 10px 10px;
     font-weight: 600;
+}
+
+.react-datepicker__input-container {
+    background: var(--color-main);
 }
 
 .calender svg {
@@ -52,7 +66,7 @@
     width: 20px;
 }
 
-.calender .calender-header-left {
+.calender .date {
     align-self: center;
     font-size: 2rem;
 }
@@ -103,13 +117,13 @@
 
 @media (max-width: 992px) {
     .calender .calender-header {
-        flex-direction: column;
+        /* flex-direction: column;
         justify-content: space-between;
-        align-content: center;
+        align-content: center; */
     }
 
     .calender .calender-header .calender-header-right {
-        justify-content: center;
+        /* justify-content: center; */
     }
 }
 

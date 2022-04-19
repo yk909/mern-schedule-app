@@ -56,12 +56,26 @@ const deleteShift = async (id, token) => {
 }
 
 
+// Copy Previous Week Shifts
+const copyPreviousWeekShifts = async (data, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    };
+    const response = await axios.put(`${API_URL}copy/${data.id}`, data, config);
+
+    return response.data;
+}
+
+
 // export service
 const shiftService = {
     getAllBusinessShifts,
     createShift,
     editShift,
     deleteShift,
+    copyPreviousWeekShifts
 };
 
 export default shiftService;

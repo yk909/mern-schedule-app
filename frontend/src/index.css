@@ -244,7 +244,7 @@ main {
   max-height: 21px;
   border-right: 0!important;
   border-left: 0!important;
-  box-shadow: none;
+  box-shadow: none!important;
 }
 
 .btn-group .btn {
@@ -291,7 +291,6 @@ main {
 .btn:hover {
   background-color: var(--color-secondary);
   box-shadow: var(--box-shadow-xl);
-  border-color: var(--color-secondary);
 }
 
 .btn:active {
@@ -420,6 +419,11 @@ input {
   transition: var(--transition-duration);
   font-size: 1rem;
   min-height: 23px;
+}
+
+input[type="range"] {
+  cursor: pointer;
+  padding: 0;
 }
 
 input:hover,
