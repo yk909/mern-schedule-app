@@ -14,12 +14,6 @@
 
 .employees-btn {
     padding: 0 10px;
-    transition: var(--transition-duration);
-}
-
-.employees-btn:hover {
-    background: var(--color-secondary-light);
-    border-radius: var(--border-radius);
 }
 
 .user-card {

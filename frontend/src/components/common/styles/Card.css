@@ -1,0 +1,45 @@
+.card {
+    background: var(--color-main);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.card.blink {
+    min-height: 450px
+}
+
+.card-title {
+    font-size: 2rem;
+    font-weight: 600;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+}
+
+.card-body {
+    height: 0;
+    opacity: 0;
+    transition: var(--transition-duration);
+}
+
+.card-body.open {
+    height: auto;
+    opacity: 1;
+}
+
+.blink .card-title {
+    min-height: 2rem;
+    font-weight: 800;
+    background: var(--color-secondary-light);
+    border-radius: var(--border-radius);
+}
+
+.blink .card-body {
+    min-height: 400px;
+    margin: 1rem;
+    border-radius: var(--border-radius);
+    background: var(--color-secondary-light);
+}

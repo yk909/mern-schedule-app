@@ -69,7 +69,20 @@ const countAsignedTotalHours = (shifts, startDate, fromDate, toDate) => {
     return resultHours + resultMinuts;
 }
 
+
+const countTotalShiftHours = (startTime, endTime) => {
+    let hours = 0;
+    let minuts = 0;
+    hours += endTime.slice(0,2) - startTime.slice(0,2);
+    minuts += endTime.slice(3,5) - startTime.slice(3,5);
+    const resultHours = (hours + minuts / 60).toString().split('.')[0] +'h'
+    const resultMinuts = (hours + minuts / 60).toString().split('.')[1] ? (+((hours + minuts / 60).toFixed(2)).toString().split('.')[1] / 100 * 60) + 'm' : '';
+    
+    return resultHours + resultMinuts;
+}
+
 export {
     countTotalHours,
-    countAsignedTotalHours
+    countAsignedTotalHours,
+    countTotalShiftHours
 }

@@ -5,6 +5,7 @@ import shiftService from './shiftService';
 const initialState = {
     shifts: null,
     employees: null,
+    userShifts: null,
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -209,12 +210,21 @@ const shiftSlice = createSlice({
             state.isError = false;
         });
         builder.addCase(editShift.fulfilled, (state, action) => {
-            state.shifts = state.shifts.map((shift) => {
-                if (shift._id === action.payload._id) {
-                    return action.payload;
-                }
-                return shift;
-            });
+            if(state.shifts !== null) {
+                state.shifts = state.shifts.map((shift) => {
+                    if (shift._id === action.payload._id) {
+                        return action.payload;
+                    }
+                    return shift;
+                });
+            } else {
+                state.userShifts = state.userShifts.map((shift) => {
+                    if (shift._id === action.payload._id) {
+                        return action.payload;
+                    }
+                    return shift;
+                });
+            }
             state.isSuccess = true;
             state.isError = false;
             // state.isLoading = false;
@@ -267,7 +277,8 @@ const shiftSlice = createSlice({
             state.isError = false;
         });
         builder.addCase(getUserShifts.fulfilled, (state, action) => {
-            state.shifts = action.payload;
+            state.shifts = null;
+            state.userShifts = action.payload;
             state.isSuccess = true;
             state.isError = false;
             state.isLoading = false;
@@ -284,7 +295,7 @@ const shiftSlice = createSlice({
             state.isError = false;
         });
         builder.addCase(pickUpShift.fulfilled, (state, action) => {
-            state.shifts = state.shifts.map((shift) => {
+            state.userShifts = state.userShifts.map((shift) => {
                 if (shift._id === action.payload._id) {
                     return action.payload;
                 }

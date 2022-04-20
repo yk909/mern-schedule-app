@@ -6,6 +6,7 @@ import Alerts from "./common/Alerts";
 import ManagerProtect from "./common/ManagerProtect";
 import OwnerProtect from "./common/OwnerProtect";
 import AdminProtect from "./common/AdminProtect";
+import Card from "./common/Card";
 
 import Calender from "./calender/Calender";
 import CalenderFooter from "./calender/CalenderFooter";
@@ -21,6 +22,9 @@ import Shift from "./shift/Shift";
 import CreateShift from "./shift/CreateShift";
 import EditShift from "./shift/EditShift";
 import ShiftsList from "./shift/ShiftsList";
+import UserShifts from "./shift/UserShifts";
+import UserOpenShifts from "./shift/UserOpenShifts";
+import AddNote from "./shift/AddNote";
 
 import CompanyCard from "./company/CompanyCard";
 import CreateCompany from "./company/CreateCompany";
@@ -46,6 +50,7 @@ export {
     ManagerProtect,
     OwnerProtect,
     AdminProtect,
+    Card,
 
     Calender,
     CalenderFooter,
@@ -61,6 +66,9 @@ export {
     CreateShift,
     EditShift,
     ShiftsList,
+    UserShifts,
+    UserOpenShifts,
+    AddNote,
 
     CompanyCard,
     CreateCompany,

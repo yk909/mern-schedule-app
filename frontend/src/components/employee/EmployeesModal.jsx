@@ -134,7 +134,7 @@ const EmployeesModal = () => {
                 </div>
             </Modal>
             <div 
-                className="company-card-detail employees-btn"
+                className="company-card-detail employees-btn text-hover"
                 onClick={() => setIsModalOpen(true)}
             >
                 <div className="company-card-detail-icon">

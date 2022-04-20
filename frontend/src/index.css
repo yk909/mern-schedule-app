@@ -245,11 +245,15 @@ main {
 
 .btn-group .btn {
   padding: 10px 10px;
-  height: 21px;
-  max-height: 21px;
+  height: 15px;
+  max-height: 15px;
   border-right: 0!important;
   border-left: 0!important;
   box-shadow: none!important;
+}
+
+.react-datepicker-popper {
+  z-index: 10!important;
 }
 
 .btn-group .btn {
@@ -269,7 +273,7 @@ main {
 }
 
 .btn {
-  padding: 10px 20px;
+  padding: 7px 14px;
   border-radius: var(--border-radius);
   font-size: 1rem;
   text-align: center;
@@ -377,6 +381,7 @@ main {
   background-color: transparent;
   border: 2px solid var(--warning);
   color: var(--text-dark);
+  box-shadow: none;
 }
 
 .btn.btn-outline-warning:hover {
@@ -389,6 +394,7 @@ main {
   background-color: transparent;
   border: 2px solid var(--success);
   color: var(--text-dark);
+  box-shadow: none;
 }
 
 .btn.btn-outline-success:hover {
@@ -397,10 +403,24 @@ main {
   color: var(--text-light);
 }
 
+.btn.btn-outline-light {
+  background-color: transparent;
+  border: 2px solid var(--color-main);
+  color: var(--text-dark);
+  box-shadow: none;
+}
+
+.btn.btn-outline-light:hover {
+  background-color: var(--color-main);
+  box-shadow: var(--box-shadow);
+  color: var(--text-dark);
+}
+
 .btn.btn-outline-info {
   background-color: transparent;
   border: 2px solid var(--info);
   color: var(--text-dark);
+  box-shadow: none;
 }
 
 .btn.btn-outline-info:hover {
@@ -565,9 +585,20 @@ input:focus {
   margin: 12px 0;
 }
 
+.text-hover {
+  cursor: pointer;
+  transition: var(--transition-duration);
+}
+
+.text-hover:hover {
+  border-radius: var(--border-radius);
+  border-color: var(--color-secondary);
+  background: var(--color-secondary);
+}
+
 .nav-tab-select {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .nav-tab-select p {
@@ -586,7 +617,7 @@ input:focus {
 }
 
 .nav-tab-select p:hover {
-    border-bottom: 2px solid var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
 }
 
 .blink {

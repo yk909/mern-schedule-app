@@ -2,6 +2,10 @@
     padding-bottom: 100px;
 }
 
+.calender-header .flex {
+    flex-wrap: wrap;
+}
+
 .calender .calender-header {
     /* display: flex; */
     justify-content: space-between;
@@ -115,19 +119,12 @@
     height: fit-content;
 }
 
-@media (max-width: 992px) {
-    .calender .calender-header {
-        /* flex-direction: column;
-        justify-content: space-between;
-        align-content: center; */
+@media (max-width: 640px) {
+    .calender-header .flex {
+        align-items: center;
+        justify-content: center;
     }
 
-    .calender .calender-header .calender-header-right {
-        /* justify-content: center; */
-    }
-}
-
-@media (max-width: 480px) {
     .calender-header-right {
         flex-direction: column;
         width: 100%;
@@ -143,6 +140,7 @@
     .calender .select-control,
     .calender .print-control,
     .calender .business-control{
-        margin: 5px 0;
+        margin: 5px 5px;
+        width: 100%;
     }
 }

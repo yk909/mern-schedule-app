@@ -14,7 +14,7 @@ const BusinessCard = ({ businesses, isLoading }) => {
       <div key={`business-card-${i}`} className="business-card">
         <div className="business-card-header">
           <div className="business-card-header-info">
-            <div className="business-card-header-info-left">
+            <div className="business-card-header-info-left text-hover">
               <Link to={`/scheduler/${business._id}`}>{business.name}</Link>
             </div>
               { employees && employees.map(employee => (

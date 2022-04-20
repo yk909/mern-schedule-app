@@ -55,13 +55,13 @@ const getUserShifts = async (req, res) => {
             business: {
                 $in: userEmployees.map(employee => employee.business)
             }
-        }).populate('business').populate('employee').populate('scheduledBy');
+        }).populate('business').populate('employee').sort({ date: 1 });
 
         if (!shifts) {
             return res.status(400).json({ msg: 'No shifts found' });
         }
 
-        return res.status(200).json({ shifts });
+        return res.status(200).json(shifts);
     } catch (err) {
         console.log(err)
         return res.status(500).json({ msg: 'Server Error' });
@@ -134,7 +134,7 @@ const editShift = async (req, res) => {
     const { id } = req.params;  // id is the shift id
 
     try {
-        const shift = await Shift.findById(id);
+        const shift = await Shift.findById(id).populate('business').populate('employee');
 
         if (!shift) {
             return res.status(400).json({
@@ -142,7 +142,7 @@ const editShift = async (req, res) => {
             });
         }
 
-        const business = await Business.findById(shift.business).populate('company');
+        const business = await Business.findById(shift.business._id).populate('company');
 
         if (!business) {
             return res.status(400).json({
@@ -151,7 +151,7 @@ const editShift = async (req, res) => {
         }
 
         // Check if user is a manager
-        const userEmployee = await Employee.findOne({ user: req.user._id, business: shift.business });
+        const userEmployee = await Employee.findOne({ user: req.user._id, business: shift.business._id });
 
         if(!userEmployee) {
             return res.status(400).json({
@@ -165,7 +165,7 @@ const editShift = async (req, res) => {
             const editedShift = await Shift.findByIdAndUpdate(id, req.body, { new: true });
 
             return res.status(200).json(editedShift);
-        }  else if (userEmployee._id.toString() === shift.employee.toString()) { // Check is user is an employee in this shift
+        }  else if (userEmployee._id.toString() === shift.employee._id.toString()) { // Check is user is an employee in this shift
             shift.note = req.body.note;
             const editedShift = await shift.save();
 
@@ -320,7 +320,7 @@ const copyPreviousWeekShifts = async (req, res) => {
 // @access Private
 const pickUpShift = async (req, res) => {
     try {
-        const shift = await Shift.findById(req.params.id);
+        const shift = await Shift.findById(req.params.id).populate('business').populate('scheduledBy');
 
         if (!shift) {
             return res.status(400).json({
@@ -341,6 +341,8 @@ const pickUpShift = async (req, res) => {
         shift.employee = userEmployee._id;
 
         const updatedShift = await shift.save();
+
+        shift.employee = userEmployee;
 
         return res.status(200).json(updatedShift);
     } catch (err) {
