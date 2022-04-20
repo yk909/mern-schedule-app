@@ -3,6 +3,7 @@
   --warning: #FFF591;
   --success: #A3F7BF;
   --info: #05DFD7;
+  --dark: #292929;
   --danger-hover: #88353d;
   --warning-hover: #c9c16b;
   --success-hover: #87cf9f;
@@ -194,9 +195,9 @@ main {
   width: 20px;
   height: 20px;
   transition: var(--transition-duration);
-  background: var(--color-main);
+  background: transparent;
   border-radius: 50%;
-  border: 2px solid var(--color-secondary);
+  border: 2px solid var(--dark);
 }
 
 .btn-icon svg {
@@ -234,7 +235,8 @@ main {
 }
 
 .btn-icon:hover {
-  background: var(--color-secondary);
+  background: var(--dark);
+  fill: var(--text-light);
 }
 
 .btn-group {
@@ -347,21 +349,16 @@ main {
 
 .btn.btn-outline {
   background-color: transparent;
-  border: 2px solid var(--color-secondary);
+  border: 2px solid var(--dark);
   box-shadow: none;
+  fill: var(--text-dark);
 }
 
 .btn.btn-outline:hover {
-  background-color: var(--color-secondary);
+  background-color: var(--dark);
+  color: var(--text-light);
   box-shadow: var(--box-shadow);
-}
-
-.btn.btn-outline svg {
-  fill: var(--text-dark);
-}
-
-.btn.btn-outline:hover svg {
-  fill: var(--text-dark);
+  fill: var(--text-light);
 }
 
 .btn.btn-outline-danger {

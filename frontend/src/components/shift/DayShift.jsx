@@ -16,14 +16,13 @@ const DayShift = ({ dateControl, startDate, employee}) => {
     const todayShifts = shifts.filter(shift => 
         new Date(shift.date).setHours(0, 0, 0, 0) === 
         new Date(startDate).setHours(0, 0, 0, 0) &&
-        ((employee && (employee._id === shift.employee || employee._id === shift.employee._id)) || !employee && shift.employee === null)
+        ((employee && (employee?._id === shift.employee || employee?._id === shift?.employee?._id)) || !employee && shift.employee === null)
     );
 
     const [{ isOver }, drop] = useDrop({
         accept: 'shift',
         drop: (item) => {
             const element = document.getElementsByClassName('day-shift-over')[0];
-            console.log(element)
             moveShift(item, element)
         },
         collect: monitor => ({

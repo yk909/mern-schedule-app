@@ -8,7 +8,7 @@ const ShiftsList = ({fromDate, i, employee}) => {
     const shift = useSelector(state => state.shift);
     const { id } = useParams();
     const shifts = shift.shifts.filter(shift => 
-        ((employee && (employee._id === shift.employee || employee._id === shift.employee._id)) || !employee && shift.employee === null)
+        ((employee && (employee?._id === shift.employee || employee?._id === shift?.employee?._id)) || !employee && shift.employee === null)
     );
 
     const dispatch = useDispatch();

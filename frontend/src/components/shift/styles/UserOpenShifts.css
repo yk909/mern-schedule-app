@@ -19,8 +19,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid var(--color-secondary);
-    background: var(--color-secondary-light);
+    color: var(--text-light);
+    box-shadow: var(--box-shadow);
+    /* border-bottom: 2px solid var(--color-secondary); */
+    background: var(--color-primary);
 }
 
 .user-open-shifts-shift-title svg {
@@ -34,7 +36,7 @@
     font-weight: 600;
     text-decoration: none;
     padding: 0px 5px;
-    color: var(--text-dark);
+    color: var(--text-light);
 }
 
 .user-open-shifts-shift-body {
@@ -107,8 +109,8 @@
 }
 
 .user-open-shifts-shift-footer {
-    background: var(--color-secondary-light);
-    border-top: 2px solid var(--color-secondary);
+    /* background: var(--color-dark); */
+    border-top: 1px solid var(--color-secondary);
     padding: 15px 10px;
 }
 
