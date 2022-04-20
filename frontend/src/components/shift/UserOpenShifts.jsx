@@ -36,7 +36,7 @@ const UserOpenShifts = () => {
                         </div>
                         <div className="user-open-shifts-shift-footer">
                             <button
-                                className="btn btn-outline-dark mt-1 w-100"
+                                className="btn btn-outline mt-1 w-100"
                                 onClick={() => dispatch(pickUpShift(shift._id))}>
                                 Accept
                             </button>

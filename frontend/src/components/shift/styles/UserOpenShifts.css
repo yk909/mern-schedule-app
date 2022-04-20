@@ -5,6 +5,10 @@
     padding: 1rem;
 }
 
+.open .user-open-shifts {
+    margin: 25px 0;
+}
+
 .user-open-shifts-shift-container {
     background: var(--color-main);
     border-radius: var(--border-radius);

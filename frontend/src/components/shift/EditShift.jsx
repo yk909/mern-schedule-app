@@ -12,7 +12,7 @@ const EditShift = ({ employee, shift, modalIsOpen, setModalIsOpen }) => {
     const dispatch = useDispatch();
     const business = useSelector(state => state.company.company.businesses).filter(business => business._id === shift.business)[0];
 
-    const positionsSelect = business.positions.map(position => {
+    const positionsSelect = business?.positions.map(position => {
         return {
             value: position,
             label: position

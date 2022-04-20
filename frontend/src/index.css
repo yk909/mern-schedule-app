@@ -589,8 +589,9 @@ input:focus {
 
 .text-hover:hover {
   border-radius: var(--border-radius);
-  border-color: var(--color-secondary);
-  background: var(--color-secondary);
+  color: var(--text-dark);
+  border-color: var(--color-secondary-light);
+  background: var(--color-secondary-light);
 }
 
 .nav-tab-select {

@@ -6,6 +6,7 @@ import { UserShifts, UserOpenShifts, Card } from '../components';
 const Schedule = () => {
     const [ isCardOpen, setIsCardOpen] = useState(false);
     const { userShifts, isLoading } = useSelector(state => state.shift);
+    const { company } = useSelector(state => state.company);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -14,7 +15,7 @@ const Schedule = () => {
 
     return (
         <section>
-            {!isLoading && userShifts && (
+            {!isLoading && userShifts && company && (
                 <>
                     <Card 
                         title="Open Shifts"
