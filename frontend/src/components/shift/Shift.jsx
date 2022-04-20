@@ -36,11 +36,11 @@ const Shift = ({ shift, employee, index, endTimeOnResize, onMouseDownResize }) =
         let hours = ((+shift.endTime.slice(0, 2))  - (+shift.startTime.slice(0, 2)))
         let minutes = ((+shift.endTime.slice(3, 5)) - (+shift.startTime.slice(3, 5)))/60
         setWidth(((hours+minutes) * 100));
-    }, [shift.endTime]);
+    }, [shift.endTime, shift.startTime]);
 
     useMemo(() => {
         newCalcTotalHours(shift.startTime, endTimeOnResize && endTimeOnResize[index] ? endTimeOnResize[index] : shift.endTime);
-    }, [endTimeOnResize && endTimeOnResize[index], shift.endTime]);
+    }, [endTimeOnResize && endTimeOnResize[index], shift.endTime, shift.startTime]);
 
     return (
         <>
