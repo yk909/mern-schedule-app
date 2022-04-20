@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import { Modal, ManagerProtect } from '../';
@@ -8,15 +7,17 @@ import { deleteShift, editShift } from '../../features/shift/shiftSlice';
 
 import { customSelectModalStyles, hoursArray, positions } from '../../constance/localData';
 
-const positionsSelect = positions.map(position => {
-    return {
-        value: position,
-        label: position
-    }
-})
 
 const EditShift = ({ employee, shift, modalIsOpen, setModalIsOpen }) => {
     const dispatch = useDispatch();
+    const business = useSelector(state => state.company.company.businesses).filter(business => business._id === shift.business)[0];
+
+    const positionsSelect = business.positions.map(position => {
+        return {
+            value: position,
+            label: position
+        }
+    } );
 
     const [newShift, setNewShift] = useState({
         startTime: {value: shift.startTime, label: shift.startTime},
