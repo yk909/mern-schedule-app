@@ -70,7 +70,7 @@ const CreateShift = ({ date, employee, startTime }) => {
         <Modal
         style={{
             zoom: `${!document.querySelector('.calender-body').style.zoom 
-            ? '1.25' 
+            ? '1' 
             : ((1/+document.querySelector('.calender-body').style.zoom)*100) + '%'}`
         }}
         setModalIsOpen={setModalIsOpen}

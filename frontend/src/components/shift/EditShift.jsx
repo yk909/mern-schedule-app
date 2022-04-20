@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
-import { Modal } from '../';
+import { Modal, ManagerProtect } from '../';
 import { deleteShift, editShift } from '../../features/shift/shiftSlice';
 
 import { customSelectModalStyles, hoursArray, positions } from '../../constance/localData';
@@ -85,36 +85,38 @@ const EditShift = ({ employee, shift, modalIsOpen, setModalIsOpen }) => {
                 }
         >
             <div className="create-shift-form">
-                <div className="form-group-row">
-                    <div className="form-group">
-                        <label>Start *</label>
-                        <Select
-                        value={newShift.startTime}
-                        onChange={(e) => {setNewShift({...newShift, startTime: e})}}
-                        options={hoursSelectStart}
-                        styles={customSelectModalStyles}
-                        />
+                <ManagerProtect>
+                    <div className="form-group-row">
+                        <div className="form-group">
+                            <label>Start *</label>
+                            <Select
+                            value={newShift.startTime}
+                            onChange={(e) => {setNewShift({...newShift, startTime: e})}}
+                            options={hoursSelectStart}
+                            styles={customSelectModalStyles}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>End *</label>
+                            <Select
+                            value={newShift.endTime}
+                            onChange={(e) => {setNewShift({...newShift, endTime: e});}}
+                            options={hoursSelectEnd}
+                            styles={customSelectModalStyles}
+                            />
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label>End *</label>
-                        <Select
-                        value={newShift.endTime}
-                        onChange={(e) => {setNewShift({...newShift, endTime: e});}}
-                        options={hoursSelectEnd}
-                        styles={customSelectModalStyles}
-                        />
-                    </div>
-                </div>
+                </ManagerProtect>
                 <div className="form-group-row">
                     <div className="form-group">
                         <label>Note</label>
                         <input
                             placeholder="Enter any notes"
-
                             value={newShift.note}
                             onChange={(e) => {setNewShift({...newShift, note: e.target.value})}}
                         />
                     </div>
+                <ManagerProtect>
                     {(!shift.employee) && (
                         <div className="form-group">
                             <label>Position</label>
@@ -126,6 +128,7 @@ const EditShift = ({ employee, shift, modalIsOpen, setModalIsOpen }) => {
                             />
                         </div>
                     )}
+                </ManagerProtect>
                 </div>
             </div>
         </Modal>

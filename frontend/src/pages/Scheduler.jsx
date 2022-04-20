@@ -19,15 +19,15 @@ const Scheduler = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        if(!id) {
+        if(!id && company) {
             navigate(`/scheduler/${company.businesses[0]._id}`);
         }
-    }, []);
+    }, [company]);
     return (
         <>
         <section>
             <div className="calender">
-                {company && company.businesses && (
+                {id && company && company.businesses && (
                     <Nav
                         dateControl={dateControl}
                         setDateControl={setDateControl}

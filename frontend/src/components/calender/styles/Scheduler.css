@@ -277,6 +277,8 @@
 
 .section-row .shift .time {
     transition: var(--transition-duration);
+    position: relative;
+    z-index: 2;
 }
 
 .section-row .shift:hover .time {
@@ -284,10 +286,22 @@
     height: 0;
 }
 
+.note-badge {
+    width: 10px;
+    background: var(--info);
+    height: 150%;
+    position: absolute;
+    top: -20px;
+    right: 0;
+    transform: rotate(135deg);
+}
+
 .section-row .shift .edit {
     transition: var(--transition-duration);
     opacity: 0;
     height: 0;
+    position: relative;
+    z-index: 2;
 }
 
 .section-row .shift .edit svg {

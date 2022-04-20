@@ -41,6 +41,34 @@ const getAllBusinessShifts = async (req, res) => {
 };
 
 
+// @desc   GET all users shifts from today with limit of 20
+// @route  GET /api/shifts/user/
+// @access Private
+const getUserShifts = async (req, res) => {
+    try {
+        const userEmployees = await Employee.find({ user: req.user._id });
+
+        const shifts = await Shift.find({
+            date: {
+                $gte: new Date().setHours(0,0,0,0),
+            },
+            business: {
+                $in: userEmployees.map(employee => employee.business)
+            }
+        }).populate('business').populate('employee').populate('scheduledBy');
+
+        if (!shifts) {
+            return res.status(400).json({ msg: 'No shifts found' });
+        }
+
+        return res.status(200).json({ shifts });
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ msg: 'Server Error' });
+    }
+};
+
+
 // @desc   Create a shift
 // @route  POST /api/shifts/
 // @access Private
@@ -137,9 +165,14 @@ const editShift = async (req, res) => {
             const editedShift = await Shift.findByIdAndUpdate(id, req.body, { new: true });
 
             return res.status(200).json(editedShift);
+        }  else if (userEmployee._id.toString() === shift.employee.toString()) { // Check is user is an employee in this shift
+            shift.note = req.body.note;
+            const editedShift = await shift.save();
+
+            return res.status(200).json(editedShift);
         } else {
             return res.status(400).json({
-                msg: 'You are not authorized to create shift'
+                msg: 'You are not authorized to update this shift'
             });
         }
     } catch (err) {
@@ -282,10 +315,47 @@ const copyPreviousWeekShifts = async (req, res) => {
 }
 
 
+// @desc   Pick up a shift
+// @route  POST /api/shifts/pickup/:id
+// @access Private
+const pickUpShift = async (req, res) => {
+    try {
+        const shift = await Shift.findById(req.params.id);
+
+        if (!shift) {
+            return res.status(400).json({
+                msg: 'No shift found'
+            });
+        }
+
+        // Check if user is an employee of shift's business
+        const userEmployee = await Employee.findOne({ user: req.user._id, business: shift.business });
+
+        if(!userEmployee) {
+            return res.status(400).json({
+                msg: 'You are not an employee of this business'
+            });
+        }
+
+        shift.isConfirmed = true;
+        shift.employee = userEmployee._id;
+
+        const updatedShift = await shift.save();
+
+        return res.status(200).json(updatedShift);
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ msg: 'Server Error' });
+    }
+}
+
+
 module.exports = {
     getAllBusinessShifts,
+    getUserShifts,
     createShift,
     editShift,
     deleteShift,
-    copyPreviousWeekShifts
+    copyPreviousWeekShifts,
+    pickUpShift
 };

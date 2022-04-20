@@ -112,6 +112,46 @@ export const copyPreviousWeekShifts = createAsyncThunk(
 );
 
 
+// Get User Shifts
+export const getUserShifts = createAsyncThunk(
+    'shift/getUserShifts',
+    async (id, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token;
+            return await shiftService.getUserShifts(token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
+// Pick Up Shift
+export const pickUpShift = createAsyncThunk(
+    'shift/pickUpShift',
+    async (data, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token;
+            return await shiftService.pickUpShift(data, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
 // Create Slice
 const shiftSlice = createSlice({
     name: 'shift',
@@ -216,6 +256,45 @@ const shiftSlice = createSlice({
             state.isLoading = false;
         });
         builder.addCase(copyPreviousWeekShifts.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.msg = action.payload;
+        });
+
+        // Get User Shifts
+        builder.addCase(getUserShifts.pending, (state, action) => {
+            state.isLoading = true;
+            state.isError = false;
+        });
+        builder.addCase(getUserShifts.fulfilled, (state, action) => {
+            state.shifts = action.payload;
+            state.isSuccess = true;
+            state.isError = false;
+            state.isLoading = false;
+        });
+        builder.addCase(getUserShifts.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.msg = action.payload;
+        });
+
+        // Pick Up Shift
+        builder.addCase(pickUpShift.pending, (state, action) => {
+            state.isLoading = true;
+            state.isError = false;
+        });
+        builder.addCase(pickUpShift.fulfilled, (state, action) => {
+            state.shifts = state.shifts.map((shift) => {
+                if (shift._id === action.payload._id) {
+                    return action.payload;
+                }
+                return shift;
+            });
+            state.isSuccess = true;
+            state.isError = false;
+            state.isLoading = false;
+        });
+        builder.addCase(pickUpShift.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.msg = action.payload;

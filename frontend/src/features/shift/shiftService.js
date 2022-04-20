@@ -69,13 +69,41 @@ const copyPreviousWeekShifts = async (data, token) => {
 }
 
 
+// Get User Shifts
+const getUserShifts = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    };
+    const response = await axios.get(`${API_URL}user`, config);
+
+    return response.data;
+}
+
+
+// Pick Up Shift
+const pickUpShift = async (id, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    };
+    const response = await axios.post(`${API_URL}pickup/${id}`, null, config);
+
+    return response.data;
+}
+
+
 // export service
 const shiftService = {
     getAllBusinessShifts,
     createShift,
     editShift,
     deleteShift,
-    copyPreviousWeekShifts
+    copyPreviousWeekShifts,
+    getUserShifts,
+    pickUpShift,
 };
 
 export default shiftService;
