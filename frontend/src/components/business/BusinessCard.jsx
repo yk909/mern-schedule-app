@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Employees, CreateEmployee, UpdateBusiness, ManagerProtect } from '../';
+import { Employees, CreateEmployee, UpdateBusiness, ManagerProtect, AdminProtect } from '../';
 import "./styles/BusinessCard.css";
 
 const BusinessCard = ({ businesses, isLoading }) => {
@@ -21,12 +21,11 @@ const BusinessCard = ({ businesses, isLoading }) => {
                 (business._id === employee.business || business._id === employee.business._id ) && (
                     employee.user === user._id && (
                     <div key={`permition-${employee._id}`} className="business-card-header-info-right">
-                    {company.owners.includes(employee.user) ? (
+                    { company.user === user._id ? (
+                      <p>ADMIN</p>
+                    ): company.owners.includes(employee.user) ? (
                       <>
                         <p>OWNER</p>
-                        <UpdateBusiness
-                          business={business}
-                        />
                       </>
                     ): employee.isManager ? (
                       <>
@@ -37,6 +36,12 @@ const BusinessCard = ({ businesses, isLoading }) => {
                         <p>EMPLOYEE</p>
                       </>
                     )}
+                    
+                    <AdminProtect>
+                      <UpdateBusiness
+                        business={business}
+                      />
+                    </AdminProtect>
                     </div>
                   )
                 )
