@@ -5,11 +5,11 @@ import Select from 'react-select';
 import DatePicker from "react-datepicker";
 import { getAllBusinessShifts } from '../../features/shift/shiftSlice';
 import { customSelectStyles, timeframeOptions } from '../../constance/localData';
-import { CopyShifts } from '../';
+import { CopyShifts, ManagerProtect } from '../';
 
 
 const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, toDate, setfromDate, setToDate}) => {
-    const [zoom, setZoom] = useState('0.75');
+    const [zoom, setZoom] = useState('1');
     const { company } = useSelector(state => state.company);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -115,11 +115,13 @@ const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, to
                         )}
                     </div>
                 </div>
-                <CopyShifts 
-                    fromDate={fromDate}
-                    toDate={toDate}
-                    dateControl={dateControl}
-                />
+                <ManagerProtect>
+                    <CopyShifts 
+                        fromDate={fromDate}
+                        toDate={toDate}
+                        dateControl={dateControl}
+                    />
+                </ManagerProtect>
             </div>
             <div className="flex align-between">
                 <div className="calender-header-left">

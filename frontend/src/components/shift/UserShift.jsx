@@ -12,7 +12,11 @@ const UserShift = ({dateControl, employees, shifts, startDate, toDate, fromDate}
                     <div className="section-content w-100 flex align-between">
                         <div className="flex align-center h-100">
                             <div className="section-img flex align-center">
-                                <img src="https://via.placeholder.com/150" alt=""/>
+                                    { employee.profilePicture ? 
+                                        <img src={employee.profilePicture} alt={employee.firstName} /> 
+                                    : 
+                                        <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" alt="user" />
+                                    }
                             </div>
                             <div className="section-details">
                                 <div className="section-name">

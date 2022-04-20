@@ -3,6 +3,9 @@ import RequireAuth from "./common/RequireAuth";
 import RequireCompany from "./common/RequireCompany";
 import Modal from "./common/Modal";
 import Alerts from "./common/Alerts";
+import ManagerProtect from "./common/ManagerProtect";
+import OwnerProtect from "./common/OwnerProtect";
+import AdminProtect from "./common/AdminProtect";
 
 import Calender from "./calender/Calender";
 import CalenderFooter from "./calender/CalenderFooter";
@@ -40,6 +43,9 @@ export {
     RequireCompany,
     Modal,
     Alerts,
+    ManagerProtect,
+    OwnerProtect,
+    AdminProtect,
 
     Calender,
     CalenderFooter,

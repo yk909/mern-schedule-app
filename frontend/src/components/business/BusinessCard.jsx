@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Employees, CreateEmployee, UpdateBusiness } from '../';
+import { Employees, CreateEmployee, UpdateBusiness, ManagerProtect } from '../';
 import "./styles/BusinessCard.css";
 
 const BusinessCard = ({ businesses, isLoading }) => {
@@ -76,12 +76,16 @@ const BusinessCard = ({ businesses, isLoading }) => {
             <Employees 
               positions={business.positions}
               businesses={businesses}
-              businessId={business._id}
-            />
-            <CreateEmployee
-              positions={business.positions}
               business={business}
             />
+            <ManagerProtect
+              business={business}
+            >
+              <CreateEmployee
+                positions={business.positions}
+                business={business}
+              />
+            </ManagerProtect>
           </div>
         </div>
       </div>

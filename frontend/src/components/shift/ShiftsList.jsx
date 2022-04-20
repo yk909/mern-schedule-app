@@ -1,9 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Shift } from '../';
-import { CreateShift } from '../';
 import { useDrop } from 'react-dnd';
 import { editShift } from '../../features/shift/shiftSlice';
+import { Shift, CreateShift, ManagerProtect } from '../';
 
 const ShiftsList = ({fromDate, i, employee}) => {
     const shift = useSelector(state => state.shift);
@@ -62,10 +61,12 @@ const ShiftsList = ({fromDate, i, employee}) => {
                     />
                 )
             })}
-            <CreateShift 
-                date={new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()+i)}
-                employee={employee}
-            />
+            <ManagerProtect>
+                <CreateShift 
+                    date={new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()+i)}
+                    employee={employee}
+                />
+            </ManagerProtect>
         </div>
     )
 }

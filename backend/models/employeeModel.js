@@ -38,6 +38,10 @@ const employeeSchema = new mongoose.Schema({
         ref: 'Business',
         required: true
     },
+    profilePicture: {
+        type: String,
+        default: 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png'
+    },
     isActive: {
         type: Boolean,
         default: true

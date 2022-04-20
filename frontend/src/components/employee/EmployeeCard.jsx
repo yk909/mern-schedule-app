@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import Select from 'react-select';
 import { useDispatch } from 'react-redux';
-import { Modal } from '../';
+import { Modal, ManagerProtect, OwnerProtect } from '../';
 import { editEmployee, deleteEmployee } from '../../features/employee/employeeSlice';
 import { customSelectModalStyles } from '../../constance/localData';
 import './styles/EmployeeCard.css';
 
-const EmployeeCard = ({employee, positions, businesses, businessId}) => {
+const EmployeeCard = ({employee, positions, businesses, business}) => {
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -52,59 +52,63 @@ const EmployeeCard = ({employee, positions, businesses, businessId}) => {
 
     return (
         <>
-        <Modal
-            setModalIsOpen={setIsModalOpen}
-            modalIsOpen={isModalOpen}
-            actionBtnText="Save"
-            contentLabel={`${employee.firstName} ${employee.lastName}`}
-            onSubmit={onSubmit}
-            onSubmitDanger={() => setIsDeleteModalOpen(true)}
-            actionDangerBtnText="Delete"
-        >
-            <div className="employee-form">
-                <div className="form-group-row">
-                    <div className="form-group">
-                        <label>Is Manager</label>
-                        <Select
-                            value={editUser.isManager}
-                            onChange={(e) => { setEditUser({...editUser, isManager: e}) }}
-                            options={[{ value: true, label: 'true' }, { value: false, label: 'false' }]}
-                            styles={customSelectModalStyles}
-                        />
+        <ManagerProtect business={business}>
+            <Modal
+                setModalIsOpen={setIsModalOpen}
+                modalIsOpen={isModalOpen}
+                actionBtnText="Save"
+                contentLabel={`${employee.firstName} ${employee.lastName}`}
+                onSubmit={onSubmit}
+                onSubmitDanger={() => setIsDeleteModalOpen(true)}
+                actionDangerBtnText="Delete"
+            >
+                <div className="employee-form">
+                    <div className="form-group-row">
+                        <OwnerProtect>
+                            <div className="form-group">
+                                <label>Is Manager</label>
+                                <Select
+                                    value={editUser.isManager}
+                                    onChange={(e) => { setEditUser({...editUser, isManager: e}) }}
+                                    options={[{ value: true, label: 'true' }, { value: false, label: 'false' }]}
+                                    styles={customSelectModalStyles}
+                                />
+                            </div>
+                        </OwnerProtect>
+                        <div className="form-group">
+                            <label>Position</label>
+                            <Select
+                                value={editUser.position}
+                                name="position"
+                                onChange={(e) => { setEditUser({...editUser, position: e}) }}
+                                options={positionsSelect}
+                                styles={customSelectModalStyles}
+                            />
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label>Position</label>
-                        <Select
-                            value={editUser.position}
-                            name="position"
-                            onChange={(e) => { setEditUser({...editUser, position: e}) }}
-                            options={positionsSelect}
-                            styles={customSelectModalStyles}
-                        />
+                    <div className="form-group-row">
+                        <div className="form-group">
+                            <label>Business</label>
+                            <Select
+                                value={editUser.business}
+                                onChange={(e) => { setEditUser({...editUser, business: e}) }}
+                                options={businessesSelect}
+                                styles={customSelectModalStyles}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Wage</label>
+                            <input 
+                                type="number" 
+                                value={editUser.wage}
+                                onChange={(e) => { setEditUser({...editUser, wage: e.target.value}) }}
+                                min={0}
+                            />
+                        </div>
                     </div>
                 </div>
-                <div className="form-group-row">
-                    <div className="form-group">
-                        <label>Business</label>
-                        <Select
-                            value={editUser.business}
-                            onChange={(e) => { setEditUser({...editUser, business: e}) }}
-                            options={businessesSelect}
-                            styles={customSelectModalStyles}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Wage</label>
-                        <input 
-                            type="number" 
-                            value={editUser.wage}
-                            onChange={(e) => { setEditUser({...editUser, wage: e.target.value}) }}
-                            min={0}
-                        />
-                    </div>
-                </div>
-            </div>
-        </Modal>
+            </Modal>
+        </ManagerProtect>
         <div 
             onClick={() => setIsModalOpen(true)}
             className="business-card-body-employee">

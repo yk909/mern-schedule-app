@@ -1,9 +1,10 @@
 import { useSelector } from 'react-redux';
-import { CreateBusiness, InviteUser, EmployeesModal } from '../';
+import { CreateBusiness, InviteUser, EmployeesModal, OwnerProtect, AdminProtect } from '../';
 import './styles/CompanyCard.css';
 
-const CompanyCard = ({company, isLoading}) => {
+const CompanyCard = () => {
     const { user } = useSelector(state => state.auth);
+    const { company, isLoading } = useSelector(state => state.company);
 
     return (
         <section className="companies">
@@ -61,16 +62,16 @@ const CompanyCard = ({company, isLoading}) => {
                             )}
                         </div>
                         <div className="flex align-between">
-                            {company.user === user._id && (
-                                <>
-                                    <CreateBusiness 
-                                        company={company}
-                                    />
-                                    <InviteUser
-                                        company={company}
-                                    />
-                                </>
-                            )}
+                            <AdminProtect>
+                                <CreateBusiness 
+                                    company={company}
+                                />
+                            </AdminProtect>
+                            <OwnerProtect>
+                                <InviteUser
+                                    company={company}
+                                />
+                            </OwnerProtect>
                         </div>
                     </div>
                 </div>

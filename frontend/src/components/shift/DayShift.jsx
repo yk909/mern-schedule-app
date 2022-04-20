@@ -4,14 +4,15 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { editShift } from '../../features/shift/shiftSlice';
 import { hours } from '../../constance/localData';
-import { CreateShift, Shift } from '../';
+import { CreateShift, Shift, ManagerProtect } from '../';
 
 
 const DayShift = ({ dateControl, startDate, employee}) => {
     const [endTimeOnResize, setEndTimeOnResize] = useState({});
-    const dispatch = useDispatch();
-    const { id } = useParams();
     const { shifts } = useSelector(state => state.shift);
+    const { id } = useParams();
+    const dispatch = useDispatch();
+
     const todayShifts = shifts.filter(shift => 
         new Date(shift.date).setHours(0, 0, 0, 0) === 
         new Date(startDate).setHours(0, 0, 0, 0) &&
@@ -45,10 +46,14 @@ const DayShift = ({ dateControl, startDate, employee}) => {
     const onMouseDownResize = (e, index, startTime, shiftId) => {
         e.preventDefault();
         const minStep = 70; // min box width
+        const mouseOffset = !document.querySelector('.calender-body').style.zoom 
+            ? 1.25
+            : ((+document.querySelector('.calender-body').style.zoom)*10)
+            console.log(mouseOffset)
 
         const onMouseMove = (e) => {
             const shiftParent = document.getElementById(shiftId);
-            let newWidth = e.pageX - 15 - shiftParent.getBoundingClientRect().left; // 25 is an offset to make the width of the div to be the same as the width of the mouse pointer
+            let newWidth = e.pageX - (-(mouseOffset)) - shiftParent.getBoundingClientRect().left; // 25 is an offset to make the width of the div to be the same as the width of the mouse pointer
             let withPercent = +(Math.round(1000*(newWidth / minStep)) / 100).toFixed(0)
 
             if ( newWidth >= minStep && newWidth <= (24-index)*70 ) { // 25 is the number of boxes in a row, 70 is the width of a box, index is box index
@@ -108,11 +113,15 @@ const DayShift = ({ dateControl, startDate, employee}) => {
                                         endTimeOnResize={endTimeOnResize}
                                     />
                                     :
-                                    <CreateShift 
-                                        date={startDate}
-                                        startTime={time}
-                                        employee={employee}
-                                    />
+                                    <>
+                                        <ManagerProtect>
+                                            <CreateShift 
+                                                date={startDate}
+                                                startTime={time}
+                                                employee={employee}
+                                            />
+                                        </ManagerProtect>
+                                    </>
                                 }
                             </div>
                         )
@@ -133,11 +142,13 @@ const DayShift = ({ dateControl, startDate, employee}) => {
                         className="col section-holder"
                     >
                         <div className="flex flex-col">
-                            <CreateShift 
-                                businessId={id}
-                                date={startDate}
-                                employee={employee}
-                            />
+                            <ManagerProtect>
+                                <CreateShift 
+                                    businessId={id}
+                                    date={startDate}
+                                    employee={employee}
+                                />
+                            </ManagerProtect>
                         </div>
                     </div>
                 )})}

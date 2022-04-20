@@ -21,25 +21,12 @@ const Businesses = () => {
         }
     }, [company]);
 
-    // useEffect(() => {
-    //     if(business.msg) {
-    //         toast.error(business.msg);
-    //     }
-    //     if(employee.msg) {
-    //         toast.error(employee.msg);
-    //     }
-    // }, [business.msg, employee.msg]);
-
-
     return (
         <>
             <Invites />
             {company && (
                 <>
-                <CompanyCard 
-                    isLoading={isLoading}
-                    company={company} 
-                />
+                <CompanyCard />
                 <BusinessCard
                     businesses={business.businesses}
                     isLoading={business.isLoading}

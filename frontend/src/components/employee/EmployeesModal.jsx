@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
-import { Modal } from '../';
+import { Modal, OwnerProtect, AdminProtect } from '../';
 import Select from 'react-select';
 import { changeRole, removeUser } from "../../features/company/companySlice";
 import './styles/EmployeesModal.css';
@@ -76,31 +76,31 @@ const EmployeesModal = () => {
                                 <div className="user-card-right flex align-center">
                                     {company.user !== user._id ?
                                     <>
-                                    {company.owners.includes(auth.user._id) && (
-                                        <div 
-                                            className="btn btn-outline-danger mr-1"
-                                            onClick={() => {setIsDeleteModalOpen(true); setUpdatedUser(user);}}
-                                        >
-                                            Remove
-                                        </div>
-                                    )}
-                                    {company.user === auth.user._id && (
-                                        <Select
-                                            value={{
-                                                value: user._id,
-                                                label: company.owners.includes(user._id) ? 'Owner' : 'Employee'
-                                            }}
-                                            onChange={(e) => {onSubmitRole(user._id, e.value)}}
-                                            options={[
-                                                { value: 'owner',
-                                                label: 'Owner' },
-                                                { value: 'employee',
-                                                label: 'Employee'}
-                                            ]}
-                                            isSearchable={false}
-                                            styles={customSelectModalStyles}
-                                        />
-                                    )}
+                                        <OwnerProtect>
+                                            <div 
+                                                className="btn btn-outline-danger mr-1"
+                                                onClick={() => {setIsDeleteModalOpen(true); setUpdatedUser(user);}}
+                                            >
+                                                Remove
+                                            </div>
+                                        </OwnerProtect>
+                                        <AdminProtect>
+                                            <Select
+                                                value={{
+                                                    value: user._id,
+                                                    label: company.owners.includes(user._id) ? 'Owner' : 'Employee'
+                                                }}
+                                                onChange={(e) => {onSubmitRole(user._id, e.value)}}
+                                                options={[
+                                                    { value: 'owner',
+                                                    label: 'Owner' },
+                                                    { value: 'employee',
+                                                    label: 'Employee'}
+                                                ]}
+                                                isSearchable={false}
+                                                styles={customSelectModalStyles}
+                                            />
+                                        </AdminProtect>
                                     </>
                                     :
                                         <p>
