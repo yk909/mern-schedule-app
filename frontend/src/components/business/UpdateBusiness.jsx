@@ -110,15 +110,27 @@ const UpdateBusiness = ({ business }) => {
                     />
                 </div>
             </div>
-            <div className="form-group">
-                <label>Phone Number</label>
-                <input
-                    type="text"
-                    placeholder="Phone number"
-                    name="phoneNumber"
-                    value={updatedBusiness.phoneNumber}
-                    onChange={onChange}
-                />
+            <div className="form-group-row">
+                <div className="form-group">
+                    <label>Phone Number</label>
+                    <input
+                        type="text"
+                        placeholder="Phone number"
+                        name="phoneNumber"
+                        value={updatedBusiness.phoneNumber}
+                        onChange={onChange}
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Work Hours</label>
+                    <input
+                        type="text"
+                        placeholder="07:00 - 17:00"
+                        name="workHours"
+                        value={updatedBusiness.workHours}
+                        onChange={onChange}
+                    />
+                </div>
             </div>
             <div className="form-group">
                 <label>Position</label>

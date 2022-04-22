@@ -10,7 +10,7 @@
     box-shadow: var(--box-shadow);
     padding: 1rem;
     transition: var(--transition-duration);
-    border: 2px solid var(--color-main);
+    border: 1px solid var(--color-secondary);
     flex-wrap: nowrap;
     margin-bottom: 25px;
     text-decoration: none;

@@ -22,18 +22,18 @@ const BusinessCard = ({ businesses, isLoading }) => {
                     employee.user === user._id && (
                     <div key={`permition-${employee._id}`} className="business-card-header-info-right">
                     { company.user === user._id ? (
-                      <p>ADMIN</p>
+                      <p className="text-hover" title="Your permissions to this business">ADMIN</p>
                     ): company.owners.includes(employee.user) ? (
                       <>
-                        <p>OWNER</p>
+                        <p className="text-hover" title="Your permissions to this business">OWNER</p>
                       </>
                     ): employee.isManager ? (
                       <>
-                        <p>MANAGER</p>
+                        <p className="text-hover" title="Your permissions to this business">MANAGER</p>
                       </>
                     ) : (
                       <>
-                        <p>EMPLOYEE</p>
+                        <p className="text-hover" title="Your permissions to this business">EMPLOYEE</p>
                       </>
                     )}
                     
@@ -54,6 +54,12 @@ const BusinessCard = ({ businesses, isLoading }) => {
               </svg>
               <p>{business.type}</p>
             </div>
+            {business.workHours && (
+              <div className="business-card-header-info-left">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"></path><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"></path></svg>
+                <p>{business.workHours}</p>
+              </div>
+            )}
           </div>
           <div className="business-card-header-info">
             <div className="business-card-header-info-left">
@@ -76,7 +82,7 @@ const BusinessCard = ({ businesses, isLoading }) => {
         <div className="business-card-body">
           <div className="business-card-body-employees">
             <div className="busines-card-body-title">
-              <p>Employees</p>
+              {/* <p>Employees</p> */}
             </div>
             <Employees 
               positions={business.positions}

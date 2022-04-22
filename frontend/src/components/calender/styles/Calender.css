@@ -11,16 +11,19 @@
     justify-content: space-between;
     max-width: 1780px;
     margin: 0 auto;
-    background: var(--color-secondary-light);
+    background: var(--color-main);
     box-shadow: var(--box-shadow);
     border-radius: var(--border-radius);
     padding: 0 15px;
+    border: 1px solid var(--color-secondary);
 }
 
 .zoom-calender {
+    margin: 0 auto;
     margin-top: 10px;
     display: flex;
     justify-content: flex-end;
+    max-width: 1780px;
 }
 .calender .calender-header .calender-header-left {
     display: flex;

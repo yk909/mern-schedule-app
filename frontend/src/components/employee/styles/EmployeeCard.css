@@ -24,6 +24,7 @@
     margin: 5px;
     margin: 1rem;
     box-shadow: var(--box-shadow);
+    background: var(--color-main);
     position: relative;
 }
 
@@ -80,31 +81,36 @@
 }
 
 .business-card-body-employee-name {
-    margin-top: 1rem;
     font-size: 1rem;
     text-align: center;
 }
 
-.business-card-body-employee-name p:first-child {
-    font-size: 1.25rem;
-    font-weight: 600;
-    opacity: 0.8;
-    width: 60%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
+.business-card-body-employee-name hr {
+    border: none;
+    height: 1px;
+    background: var(--color-secondary);
 }
 
 .business-card-body-employee-name p {
-    margin-top: 15px;
+    padding: 10px 0;
     font-size: 1rem;
     font-weight: 600;
+}
+
+.business-card-body-employee-name p:first-of-type {
+    font-size: 1.25rem;
+    font-weight: 600;
+    opacity: 0.8;
 }
 
 .business-card-body-employee-name svg {
     width: 15px;
     height: 15px;
-    margin-right: 5px;
     fill: var(--color-primary);
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    padding: 1px;
+    background: var(--color-main);
+    border-radius: 50%;
 }

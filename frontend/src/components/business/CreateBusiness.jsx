@@ -1,17 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Select from 'react-select';
 import { toast } from 'react-toastify';
-import { customSelectModalStyles, positions } from '../../constance/localData';
 import { createBusiness } from '../../features/business/businessSlice';
 import { Modal } from '../';
-
-const positionsSelect = positions.sort().map(position => {
-    return {
-        value: position,
-        label: position
-    }
-});
 
 const CreateBusiness = ({ company }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,7 +14,8 @@ const CreateBusiness = ({ company }) => {
         state: '',
         zip: '',
         phoneNumber: '',
-        positions: null,
+        workHours: '',
+        positions: [],
         companyId: company._id
     });
 
@@ -42,7 +34,8 @@ const CreateBusiness = ({ company }) => {
                     state: '',
                     zip: '',
                     phoneNumber: '',
-                    positions: null,
+                    workHours: '',
+                    positions: [],
                     companyId: company._id
                 });
                 setIsModalOpen(false);
@@ -134,24 +127,41 @@ const CreateBusiness = ({ company }) => {
                     />
                 </div>
             </div>
-            <div className="form-group">
-                <label>Phone Number</label>
-                <input
-                    type="text"
-                    placeholder="Phone number"
-                    name="phoneNumber"
-                    value={business.phoneNumber}
-                    onChange={onChange}
-                />
+            <div className="form-group-row">
+                <div className="form-group">
+                    <label>Phone Number</label>
+                    <input
+                        type="text"
+                        placeholder="Phone number"
+                        name="phoneNumber"
+                        value={business.phoneNumber}
+                        onChange={onChange}
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Work Hours</label>
+                    <input
+                        type="text"
+                        placeholder="07:00 - 17:00"
+                        name="workHours"
+                        value={business.workHours}
+                        onChange={onChange}
+                    />
+                </div>
             </div>
             <div className="form-group">
                 <label>Position</label>
-                <Select
-                    value={business.positions}
-                    onChange={(e) => { setBusiness({ ...business, positions: e }) }}
-                    options={positionsSelect}
-                    styles={customSelectModalStyles}
-                    isMulti={true}
+                <input
+                    type="text"
+                    placeholder="Enter comma separated positions (e.g. CEO, Manager, Barista, etc.)"
+                    name="position"
+                    value={business.positions?.join(', ')}
+                    onChange={(e) => {
+                        setBusiness({
+                            ...business,
+                            positions: e.target.value.split(', ')
+                        })}
+                    }
                 />
             </div>
         </Modal>

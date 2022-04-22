@@ -32,7 +32,7 @@ const getAllBusinesses = async (req, res) => {
 // @route  POST /api/businesses/
 // @access Private
 const createBusiness = async (req, res) => {
-    const { name, address, city, state, zip, phoneNumber, positions, type, companyId } = req.body;
+    const { name, address, city, state, zip, phoneNumber, workHours, positions, type, companyId } = req.body;
 
     if (!companyId) {
         return res.status(400).json({
@@ -73,6 +73,7 @@ const createBusiness = async (req, res) => {
             city,
             state,
             zip,
+            workHours,
             phoneNumber
         });
 

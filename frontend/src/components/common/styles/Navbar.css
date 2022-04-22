@@ -104,6 +104,7 @@ nav .nav-menu-links:last-child {
 nav .nav-menu-links {
     width: 100%;
     top: 73px;
+    box-shadow: var(--box-shadow);
 }
 
 nav .nav-menu-links a {

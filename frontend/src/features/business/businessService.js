@@ -6,7 +6,6 @@ const API_URL = '/api/businesses/';
 
 // Create business
 const createBusiness = async (business, token) => {
-    business.positions = business.positions ? await business.positions.map(position => { return position.value }) : [];
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,

@@ -15,6 +15,7 @@
     color: var(--text-dark);
     margin-bottom: 25px;
     overflow: hidden;
+    border: 1px solid var(--color-secondary);
 }
 
 .business-card.blink {
@@ -34,9 +35,13 @@
 
 .business-card-header {
     padding: 1rem;
-    border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    /* background: var(--color-secondary-light); */
+    background: var(--color-main);
+    position: relative;
+}
+
+.business-card-body {
+    background: var(--color-secondary-light);
 }
 
 .business-card-header-info {
@@ -64,19 +69,18 @@
 .business-card .btn-icon {
     width: 30px;
     height: 30px;
-    box-shadow: var(--box-shadow);
     transition: var(--transition-duration);
     margin-left: 15px;
 }
+.business-card .btn-icon:hover {
+    box-shadow: var(--box-shadow);
+}
 
 .business-card-header-info:first-of-type p {
-    font-size: 0.75rem;
-    background: var(--color-secondary);
+    font-size: 1rem;
     color: var(--text-dark);
-    box-shadow: var(--box-shadow);
     font-weight: 600;
     padding: 3px 5px;
-    border-radius: var(--border-radius);
 }
 
 .business-card-header-info p {

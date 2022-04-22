@@ -5,16 +5,13 @@
     padding: 1rem;
 }
 
-.open .user-open-shifts {
-    margin: 25px 0;
-}
-
 .user-open-shifts-shift-container {
     background: var(--color-main);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     overflow: hidden;
     height: fit-content;
+    border: 1px solid var(--color-secondary);
 }
 
 .user-open-shifts-shift-title {
@@ -23,10 +20,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: var(--text-light);
+    color: var(--text-dark);
     box-shadow: var(--box-shadow);
-    /* border-bottom: 2px solid var(--color-secondary); */
-    background: var(--color-primary);
+    position: relative;
+    background: var(--color-main);
+    z-index: 3;
 }
 
 .user-open-shifts-shift-title svg {
@@ -40,17 +38,21 @@
     font-weight: 600;
     text-decoration: none;
     padding: 0px 5px;
-    color: var(--text-light);
+    color: var(--text-dark);
 }
 
 .user-open-shifts-shift-body {
     padding: 15px 10px;
     cursor: pointer;
     transition: var(--transition-duration);
+    background: var(--color-secondary-light);
+    box-shadow: var(--box-shadow);
+    position: relative;
+    z-index: 2;
 }
 
 .user-open-shifts-shift-body:hover {
-    background: var(--color-secondary-light);
+    background: var(--color-secondary);
 }
 
 .user-open-shifts-shift-body .flex {
@@ -113,9 +115,10 @@
 }
 
 .user-open-shifts-shift-footer {
-    /* background: var(--color-dark); */
-    border-top: 1px solid var(--color-secondary);
+    background: var(--color-secondary);
     padding: 15px 10px;
+    position: relative;
+    z-index: 1;
 }
 
 .user-open-shifts-shift-footer .btn {

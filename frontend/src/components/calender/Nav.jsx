@@ -67,7 +67,7 @@ const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, to
     }
 
     const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
-        <div className="date btn example-custom-input" onClick={onClick} ref={ref}>
+        <div className="date btn btn-outline example-custom-input" onClick={onClick} ref={ref}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
             <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
             <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
@@ -125,9 +125,9 @@ const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, to
             </div>
             <div className="flex align-between">
                 <div className="calender-header-left">
-                    <div className="date-control btn-group box-shadow">
+                    <div className="date-control btn-group btn-group-outline box-shadow">
                         <div 
-                            className="prev-date btn" 
+                            className="prev-date btn btn-outline" 
                             onClick={() => { handleNextPrev('prev') }}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -143,7 +143,7 @@ const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, to
                             endDate={dateControl.label === "Day" ? startDate : toDate}
                         />
                         <div 
-                            className="next-date btn" 
+                            className="next-date btn btn-outline" 
                             onClick={() => { handleNextPrev('next') }}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -153,7 +153,7 @@ const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, to
                     </div>
                     <div className="today-control">
                         <div 
-                            className="today btn" 
+                            className="today btn btn-outline" 
                             onClick={() => { setStartDate(new Date) }}
                         >
                             TODAY

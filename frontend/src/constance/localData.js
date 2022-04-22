@@ -19,26 +19,27 @@ const customSelectStyles = {
         cursor: 'pointer',
     }),
     control: () => ({
-        border: '2px solid var(--color-main)',
+        border: '2px solid var(--dark)',
         background: 'var(--color-main)',
         fontWeight: '600',
         display: 'flex',
         height: '35px',
         borderRadius: 'var(--border-radius)',
-        boxShadow: 'var(--box-shadow)',
+        // boxShadow: 'var(--box-shadow)',
         cursor: 'pointer',
         transition: 'var(--transition-duration)',
         // width: 200,
         width: '100%',
         minWidth: '110px',
         '&:hover': {
-            background: 'var(--color-secondary)',
+            background: 'var(--dark)',
+            color: 'var(--text-light)',
         },
     }),
     singleValue: (provided, state) => {
         const opacity = state.isDisabled ? 0.5 : 1;
         const transition = 'opacity 300ms';
-        const color = 'var(--text-dark)';
+        const color = state.isSelected ? 'var(--text-light)' : '#var(--text-dark)';
 
         return { ...provided, opacity, transition, color };
     }

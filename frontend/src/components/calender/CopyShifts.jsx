@@ -64,11 +64,9 @@ const CopyShifts = ({dateControl, fromDate, toDate}) => {
                     </div>
                 </div>
             </Modal>
-            <div 
-                className="calender-header-right"
-                onClick={() => setModalIsOpen(true)}
-            >
-                <div className="btn">
+            <div className="calender-header-right">
+                <div className="btn btn-outline"
+                onClick={() => setModalIsOpen(true)}>
                     Copy {dateControl.label} Schedule 
                 </div>
             </div>
