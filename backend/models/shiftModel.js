@@ -6,6 +6,11 @@ const shiftSchema = new mongoose.Schema({
         ref: 'Employee',
         required: false
     },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: false
+    },
     scheduledBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Employee',
