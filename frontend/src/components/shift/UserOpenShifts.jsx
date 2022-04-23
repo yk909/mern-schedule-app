@@ -19,18 +19,29 @@ const UserOpenShifts = () => {
                             <Link to={`/scheduler/${shift.business._id}`} className="text-hover">
                                 {shift.business.name}
                             </Link>
-                            <p>
-                                {new Date(shift.date).toLocaleString("en-US", { month: 'short', weekday: 'long', day: 'numeric', year: 'numeric' })}
-                            </p>
+                            <div className="shift-body-date">
+                                <p className="text-center">
+                                    {new Date(shift.date).toLocaleString("en-US", { month: 'short' })}
+                                </p>
+                                <p className="text-center">
+                                    {new Date(shift.date).toLocaleString("en-US", { weekday: 'short', day: 'numeric' })}
+                                </p>
+                            </div>
                             {/* <p>
                                 {shift.business.address}, {shift.business.city}, {shift.business.state}, {shift.business.zip}
                             </p> */}
                         </div>
                         <div className="user-open-shifts-shift-body">
                             <div className="flex align-between">
-                                <p>
-                                    {shift.startTime} - {shift.endTime}
-                                </p>
+                                <div>
+                                    <p>
+                                        {shift.startTime}
+                                    </p>
+                                    <hr />
+                                    <p>
+                                        {shift.endTime}
+                                    </p>
+                                </div>
                                 <p>{countTotalShiftHours(shift.startTime, shift.endTime)}</p>
                             </div>
                         </div>

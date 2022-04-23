@@ -20,9 +20,14 @@ const UserShifts = () => {
                                 <Link to={`/scheduler/${shift.business._id}`} className="text-hover">
                                     {shift.business.name}
                                 </Link>
-                                <p>
-                                    {new Date(shift.date).toLocaleString("en-US", { month: 'short', weekday: 'long', day: 'numeric', year: 'numeric' })}
-                                </p>
+                                <div className="shift-body-date">
+                                    <p className="text-center">
+                                        {new Date(shift.date).toLocaleString("en-US", { month: 'short' })}
+                                    </p>
+                                    <p className="text-center">
+                                        {new Date(shift.date).toLocaleString("en-US", { weekday: 'short', day: 'numeric' })}
+                                    </p>
+                                </div>
                                 {/* <p>
                                     {shift.business.address}, {shift.business.city}, {shift.business.state}, {shift.business.zip}
                                 </p> */}

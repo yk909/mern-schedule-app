@@ -1,7 +1,7 @@
-const GlobalMessage = require('../models/globalMessage');
-const Employee = require('../models/employee');
-const Company = require('../models/employee');
-const Shift = require('../models/shift');
+const GlobalMessage = require('../models/globalMessageModel');
+const Employee = require('../models/employeeModel');
+const Company = require('../models/companyModel');
+const Shift = require('../models/shiftModel');
 
 
 // @route   GET api/globalMessage/sender

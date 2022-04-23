@@ -7,7 +7,7 @@ const {
     createGlobalMessage,
     updateGlobalMessage,
     deleteGlobalMessage,
-} = require('../../controllers/globalMessageControllers');
+} = require('../controllers/globalMessageControllers');
 
 
 router.route('/sender')
@@ -20,3 +20,6 @@ router.route('/')
 router.route('/:id')
     .put(protect, updateGlobalMessage)
     .delete(protect, deleteGlobalMessage);
+
+
+module.exports = router;
