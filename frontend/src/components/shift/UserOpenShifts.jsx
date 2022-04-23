@@ -16,7 +16,7 @@ const UserOpenShifts = () => {
                     <div key={`open-shift-${shift._id}`}
                         className="user-open-shifts-shift-container">
                         <div className="user-open-shifts-shift-title">
-                            <Link to={`/scheduler/${shift.business._id}`} className="text-hover">
+                            <Link to={`/scheduler/${shift.business._id}`} className="text-hover text-headline">
                                 {shift.business.name}
                             </Link>
                             <div className="shift-body-date">
@@ -33,7 +33,7 @@ const UserOpenShifts = () => {
                         </div>
                         <div className="user-open-shifts-shift-body">
                             <div className="flex align-between">
-                                <div>
+                                <div className="text-box">
                                     <p>
                                         {shift.startTime}
                                     </p>
@@ -42,12 +42,14 @@ const UserOpenShifts = () => {
                                         {shift.endTime}
                                     </p>
                                 </div>
-                                <p>{countTotalShiftHours(shift.startTime, shift.endTime)}</p>
+                                <div className="text-box">
+                                    <p>{countTotalShiftHours(shift.startTime, shift.endTime)}</p>
+                                </div>
                             </div>
                         </div>
                         <div className="user-open-shifts-shift-footer">
                             <button
-                                className="btn btn-outline mt-1 w-100"
+                                className="btn btn-primary mt-1 w-100"
                                 onClick={() => dispatch(pickUpShift(shift._id))}>
                                 Accept
                             </button>

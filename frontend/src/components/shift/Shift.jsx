@@ -74,6 +74,9 @@ const Shift = ({ shift, employee, index, endTimeOnResize, onMouseDownResize }) =
             }}
         >
             <div className={`shift w-100 h-100 ${ shift.color }`}>
+                {shift.note && (
+                    <div className="note-badge"/>
+                )}
                 <ManagerProtect>
                     {
                         onMouseDownResize ? 
@@ -126,9 +129,6 @@ const Shift = ({ shift, employee, index, endTimeOnResize, onMouseDownResize }) =
                         </div>
                     )}
                 </div>
-                {shift.note && (
-                    <div className="note-badge"/>
-                )}
             </div>
         </div>
         {shift  && (

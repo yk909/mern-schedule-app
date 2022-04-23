@@ -2,12 +2,13 @@
   --danger: #b9505a;
   --warning: #FFF591;
   --success: #A3F7BF;
-  --info: #05DFD7;
+  --info: #add8e6;
   --dark: #313536;
   --danger-hover: #88353d;
   --warning-hover: #c9c16b;
   --success-hover: #87cf9f;
-  --info-hover: #14beb9;
+  --info-hover: #91c4d4;
+  --dark-hover: #272a2b;
   --color-primary-hover: #2459a0;
 
   --color-primary: #2a74d3;
@@ -196,8 +197,12 @@ main {
   height: 20px;
   transition: var(--transition-duration);
   background: transparent;
-  border-radius: 50%;
+  border-radius: var(--border-radius);
   border: 2px solid var(--dark);
+}
+
+.btn-sm {
+
 }
 
 .btn-icon svg {
@@ -236,6 +241,7 @@ main {
 
 .btn-icon:hover {
   background: var(--dark);
+  box-shadow: var(--box-shadow);
   fill: var(--text-light);
 }
 
@@ -321,6 +327,7 @@ main {
 
 .btn.btn-danger:hover {
   background-color: var(--danger-hover);
+  border-color: var(--danger-hover);
 }
 
 .btn.btn-warning {
@@ -350,6 +357,7 @@ main {
 
 .btn.btn-primary:hover {
   background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
 }
 
 .btn.btn-outline {
@@ -586,6 +594,19 @@ input:focus {
   font-weight: 500;
   letter-spacing: 1px;
   margin: 12px 0;
+}
+
+.text-headline {
+  border-left: 3px solid var(--color-primary);
+  padding-left: 10px;
+}
+
+.text-box {
+  color: var(--text-dark);
+  box-shadow: var(--box-shadow);
+  background-color: var(--color-main);
+  border-radius: var(--border-radius);
+  padding: 5px 8px;
 }
 
 .text-hover {

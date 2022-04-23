@@ -9,10 +9,6 @@ const customSelectStyles = {
         ...provided,
         color: state.isSelected ? 'var(--text-light)' : '#var(--text-dark)',
         transition: 'var(--transition-duration)',
-        '&:hover': {
-            background: 'var(--color-primary)',
-            color: "var(--text-light)",
-        },
         padding: 15,
         background: state.isSelected ? 'var(--color-primary)' : 'var(--color-main)',
         fontWeight: state.isSelected ? '600' : 'normal',
@@ -34,6 +30,7 @@ const customSelectStyles = {
         '&:hover': {
             background: 'var(--dark)',
             color: 'var(--text-light)',
+            boxShadow: 'var(--box-shadow)',
         },
     }),
     singleValue: (provided, state) => {
@@ -57,7 +54,7 @@ const customSelectModalStyles = {
     }),
     control: (provided, state) => ({
         ...provided,
-        background: 'var(--color-main)',
+        background: 'transparent',
         fontWeight: '600',
         display: 'flex',
         border: 'none',
@@ -70,7 +67,7 @@ const customSelectModalStyles = {
         '&:hover': {
             borderBottom: '2px solid var(--color-primary)',
             color: "var(--text-light)",
-            boxShadow: 'none',
+            boxShadow: 'var(--box-shadow)',
         },
         '&:focus': {
             outline: 'none',

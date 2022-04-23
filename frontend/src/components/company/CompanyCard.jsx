@@ -18,7 +18,7 @@ const CompanyCard = () => {
                         )}
                     </div>
                     <div className="company-card-info">
-                        <div className="company-card-info-name">
+                        <div className="company-card-info-name text-headline">
                             <h3>{company.name}</h3>
                         </div>
                         <div className="company-card-info-description">

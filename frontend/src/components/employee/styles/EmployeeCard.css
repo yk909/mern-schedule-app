@@ -9,10 +9,16 @@
 
 .busines-card-body-title {
     grid-column: 1/-1;
-    padding-top: 1rem;
-    padding-left: 1rem;
+    padding: 1rem;
     font-size: 1rem;
-    /* border-top: 1px solid var(--color-secondary); */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.busines-card-body-title h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
 .business-card-body-employee {
@@ -30,11 +36,6 @@
 
 .blink .business-card-body-employee {
     min-height: 150px;
-}
-
-.business-card-body-employee.create-employee-btn {
-    display: flex;
-    justify-content: center;
 }
 
 .business-card-body-employee .user-bg {

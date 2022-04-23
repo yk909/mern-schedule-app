@@ -89,6 +89,7 @@
 }
 
 .section-row .section-title .section-name {
+    text-overflow: ellipsis;
     font-weight: 600;
     max-width: 130px;
     overflow: hidden;
@@ -137,7 +138,8 @@
     height: 50px;
     margin: 10px;
     border-radius: var(--border-radius);
-    background: var(--color-main);
+    fill: var(--text-light);
+    background: var(--color-primary);
     transition: var(--transition-duration);
 }
 
@@ -147,7 +149,7 @@
     box-shadow: var(--box-shadow);
 }
 .section-row .section-holder .create-shift div:hover {
-    background: var(--color-secondary-light);
+    background: var(--color-primary-hover);
 }
 
 .section-row .section-holder .create-shift div:active {
@@ -175,6 +177,7 @@
     align-items: center;
     justify-content: space-between;
     width: 150px;
+    font-weight: 400;
 }
 
 .open-shift .section-img {
@@ -183,6 +186,11 @@
     height: 30px;
     border-radius: 50%;
     margin-right: 5px;
+}
+
+.open-shift .section-title,
+.open-shift .section-holder {
+    background: var(--info);
 }
 
 .section-row .col {
@@ -278,7 +286,6 @@
 .section-row .shift .time {
     transition: var(--transition-duration);
     position: relative;
-    z-index: 2;
 }
 
 .section-row .shift:hover .time {

@@ -14,7 +14,7 @@ const BusinessCard = ({ businesses, isLoading }) => {
       <div key={`business-card-${i}`} className="business-card">
         <div className="business-card-header">
           <div className="business-card-header-info">
-            <div className="business-card-header-info-left text-hover">
+            <div className="business-card-header-info-left text-hover text-headline ">
               <Link to={`/scheduler/${business._id}`}>{business.name}</Link>
             </div>
               { employees && employees.map(employee => (
@@ -82,21 +82,21 @@ const BusinessCard = ({ businesses, isLoading }) => {
         <div className="business-card-body">
           <div className="business-card-body-employees">
             <div className="busines-card-body-title">
-              {/* <p>Employees</p> */}
+              <h3>Employees</h3>
+              <ManagerProtect
+                business={business}
+              >
+                <CreateEmployee
+                  positions={business.positions}
+                  business={business}
+                />
+              </ManagerProtect>
             </div>
             <Employees 
               positions={business.positions}
               businesses={businesses}
               business={business}
             />
-            <ManagerProtect
-              business={business}
-            >
-              <CreateEmployee
-                positions={business.positions}
-                business={business}
-              />
-            </ManagerProtect>
           </div>
         </div>
       </div>

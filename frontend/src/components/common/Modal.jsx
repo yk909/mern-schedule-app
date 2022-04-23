@@ -39,7 +39,7 @@ const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModal
                             </button>
                         )}
                         {actionBtnText && (
-                            <button className="btn btn-outline-primary" onClick={onSubmit}>
+                            <button className="btn btn-primary" onClick={onSubmit}>
                                 {actionBtnText}
                             </button>
                         )}

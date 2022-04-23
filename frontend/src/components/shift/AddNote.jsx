@@ -8,7 +8,7 @@ const AddNote = ({ shift }) => {
         <>
             <div className="user-open-shifts-shift-body" onClick={() => setModalIsOpen(true)}>
                 <div className="flex align-between">
-                    <div>
+                    <div className="text-box">
                         <p>
                             {shift.startTime}
                         </p>
@@ -17,7 +17,9 @@ const AddNote = ({ shift }) => {
                             {shift.endTime}
                         </p>
                     </div>
-                    <p>{countTotalShiftHours(shift.startTime, shift.endTime)}</p>
+                    <div className="text-box">
+                        <p>{countTotalShiftHours(shift.startTime, shift.endTime)}</p>
+                    </div>
                 </div>
             </div>
             <EditShift

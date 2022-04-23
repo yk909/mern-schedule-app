@@ -34,7 +34,9 @@
 }
 
 .user-open-shifts-shift-title a {
-    font-size: 1.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.5rem;
     font-weight: 600;
     text-decoration: none;
     padding: 0px 5px;
@@ -123,6 +125,10 @@
 
 .user-open-shifts-shift-footer .btn {
     margin: 0;
+}
+
+.shift-body-date {
+    min-width: fit-content;
 }
 
 .shift-body-date p:first-of-type {
