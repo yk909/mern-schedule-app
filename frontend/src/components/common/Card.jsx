@@ -4,7 +4,7 @@ const Card = ({children, title, className, isOpen, setIsOpen}) => {
     return (
         <div className={`card ${className ? className : ''}`}>
             <div 
-                className="card-title"
+                className="card-title title-2"
                 onClick={() => setIsOpen(!isOpen)}
             >
                 {title}

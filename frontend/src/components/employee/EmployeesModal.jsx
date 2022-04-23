@@ -143,7 +143,7 @@ const EmployeesModal = () => {
                     </svg>
                 </div>
                 <div className="company-card-detail-text">
-                    <p>Employees</p>
+                    <p className="text-secondary">Employees</p>
                     <p>{company.employees.length}</p>
                 </div>
             </div>

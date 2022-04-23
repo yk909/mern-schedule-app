@@ -559,6 +559,11 @@ input:focus {
   padding-right: 10px;
 }
 
+
+.text-secondary {
+  opacity: 0.7;
+}
+
 .text-center {
   text-align: center;
 }
@@ -576,24 +581,21 @@ input:focus {
 }
 
 .title-1 {
-  font-size: 3rem;
-  font-weight: 500;
-  letter-spacing: 1px;
-  margin: 18px 0;
-}
-
-.title-2 {
-  font-size: 2.5rem;
-  font-weight: 500;
-  letter-spacing: 1px;
-  margin: 14px 0;
-}
-
-.title-3 {
   font-size: 2rem;
   font-weight: 500;
   letter-spacing: 1px;
-  margin: 12px 0;
+}
+
+.title-2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.title-3 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 1px;
 }
 
 .text-headline {

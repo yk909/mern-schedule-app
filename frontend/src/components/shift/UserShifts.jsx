@@ -17,7 +17,7 @@ const UserShifts = () => {
                         <div key={`open-shift-${shift._id}`}
                             className="user-open-shifts-shift-container">
                             <div className="user-open-shifts-shift-title">
-                                <Link to={`/scheduler/${shift.business._id}`} className="text-hover text-headline">
+                                <Link to={`/scheduler/${shift.business._id}`} className="text-hover text-headline title-3">
                                     {shift.business.name}
                                 </Link>
                                 <div className="shift-body-date">

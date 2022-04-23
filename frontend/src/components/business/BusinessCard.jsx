@@ -14,7 +14,7 @@ const BusinessCard = ({ businesses, isLoading }) => {
       <div key={`business-card-${i}`} className="business-card">
         <div className="business-card-header">
           <div className="business-card-header-info">
-            <div className="business-card-header-info-left text-hover text-headline ">
+            <div className="business-card-header-info-left text-hover text-headline title-2">
               <Link to={`/scheduler/${business._id}`}>{business.name}</Link>
             </div>
               { employees && employees.map(employee => (
@@ -81,7 +81,7 @@ const BusinessCard = ({ businesses, isLoading }) => {
         </div>
         <div className="business-card-body">
           <div className="business-card-body-employees">
-            <div className="busines-card-body-title">
+            <div className="busines-card-body-title title-3">
               <h3>Employees</h3>
               <ManagerProtect
                 business={business}
