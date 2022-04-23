@@ -5,6 +5,8 @@ import businessReducer from '../features/business/businessSlice';
 import employeeReducer from '../features/employee/employeeSlice';
 import shiftReducer from '../features/shift/shiftSlice';
 import inviteReducer from '../features/invite/inviteSlice';
+import globalMessageReducer from '../features/globalMessage/globalMessageSlice';
+import taskReducer from '../features/task/taskSlice';
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +16,7 @@ export const store = configureStore({
     employee: employeeReducer,
     shift: shiftReducer,
     invite: inviteReducer,
+    globalMessage: globalMessageReducer,
+    task: taskReducer,
   },
 });
