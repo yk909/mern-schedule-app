@@ -12,8 +12,6 @@
 }
 
 .card-title {
-    font-size: 2rem;
-    font-weight: 600;
     padding: 1rem;
     transition: var(--transition-duration);
     box-shadow: var(--box-shadow);
@@ -31,7 +29,7 @@
     opacity: 0;
     padding: 0;
     transition: var(--transition-duration);
-    background: var(--color-secondary-light);
+    background: var(--color-secondary);
 }
 
 .card-body.open {

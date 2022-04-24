@@ -5,8 +5,10 @@ const OwnerProtect = ({ children }) => {
     const auth = useSelector(state => state.auth);
 
     return (
-        company.owners.includes(auth.user._id) && (
+        company?.owners.includes(auth.user._id) ? (
             children
+        ) : (
+            null
         )
     )
 }

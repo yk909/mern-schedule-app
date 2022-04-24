@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux';
 import {  Link } from 'react-router-dom';
-import { pickUpShift } from '../../features/shift/shiftSlice';
-import { countTotalShiftHours } from '../../constance/helpers';
-import './styles/UserOpenShifts.css';
+import { pickUpShift } from '../../../features/shift/shiftSlice';
+import { countTotalShiftHours } from '../../../constance/helpers';
+import '../styles/UserOpenShifts.css';
 
 const UserOpenShifts = () => {
     const dispatch = useDispatch();

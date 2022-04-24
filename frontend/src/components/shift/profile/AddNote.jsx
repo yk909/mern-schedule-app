@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { EditShift } from '../';
-import { countTotalShiftHours } from '../../constance/helpers';
+import { EditShift } from '../../';
+import { countTotalShiftHours } from '../../../constance/helpers';
 
 const AddNote = ({ shift }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);

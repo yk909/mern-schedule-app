@@ -6,7 +6,7 @@ const shiftSchema = new mongoose.Schema({
         ref: 'Employee',
         required: false
     },
-    user: {
+    acceptedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: false

@@ -22,9 +22,9 @@ import Shift from "./shift/Shift";
 import CreateShift from "./shift/CreateShift";
 import EditShift from "./shift/EditShift";
 import ShiftsList from "./shift/ShiftsList";
-import UserShifts from "./shift/UserShifts";
-import UserOpenShifts from "./shift/UserOpenShifts";
-import AddNote from "./shift/AddNote";
+import UserShifts from "./shift/profile/UserShifts";
+import UserOpenShifts from "./shift/profile/UserOpenShifts";
+import AddNote from "./shift/profile/AddNote";
 
 import CompanyCard from "./company/CompanyCard";
 import CreateCompany from "./company/CreateCompany";
@@ -38,6 +38,9 @@ import CreateEmployee from "./employee/CreateEmployee";
 import EmployeeCard from "./employee/EmployeeCard";
 import Employees from "./employee/Employees";
 import EmployeesModal from "./employee/EmployeesModal";
+
+import GlobalMessage from "./message/GlobalMessage";
+import MessageCard from "./message/MessageCard";
 
 import Invites from "./invite/Invites";
 
@@ -82,6 +85,9 @@ export {
     EmployeeCard,
     Employees,
     EmployeesModal,
+
+    GlobalMessage,
+    MessageCard,
 
     Invites,
 }

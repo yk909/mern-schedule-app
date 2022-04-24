@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getBusinesses } from '../features/business/businessSlice';
 import { getEmployees } from '../features/employee/employeeSlice';
-import { BusinessCard, CompanyCard, CreateCompany, Invites } from '../components';
+import { BusinessCard, CompanyCard, CreateCompany, Invites, OwnerProtect } from '../components';
 
 const Businesses = () => {
     const { id } = useParams();
@@ -23,7 +23,9 @@ const Businesses = () => {
 
     return (
         <>
-            <Invites />
+            <OwnerProtect>
+                <Invites />
+            </OwnerProtect>
             {company && (
                 <>
                 <CompanyCard />

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getCompany, reset } from "../../features/company/companySlice";
+import { getUserEmployees } from '../../features/employee/employeeSlice';
 
 const RequireCompany = ({children}) => {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ const RequireCompany = ({children}) => {
 
         if(auth.user && !company) {
             dispatch(getCompany());
+            dispatch(getUserEmployees());
         }
 
         if(auth.user && !company && !isLoading && isSuccess) {

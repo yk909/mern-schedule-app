@@ -69,6 +69,37 @@ const getUserShifts = async (req, res) => {
 };
 
 
+// @desc   GET all manager shifts from today withot limit
+// @route  GET /api/shifts/manager/
+// @access Private
+const getManagerOpenShifts = async (req, res) => {
+    try {
+        const managerEmployees = await Employee.find({ user: req.user._id, isManager: true });
+
+        // console.log(managerEmployees)
+        const shifts = await Shift.find({
+            date: {
+                $gte: new Date().setHours(0,0,0,0),
+            },
+            employee: null,
+            acceptedBy: null,
+            business: {
+                $in: managerEmployees.map(employee => employee.business)
+            }
+        }).populate('business').populate('employee').sort({ date: 1 });
+
+        if (!shifts) {
+            return res.status(400).json({ msg: 'No shifts found' });
+        }
+
+        return res.status(200).json(shifts);
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ msg: 'Server Error' });
+    }
+};
+
+
 // @desc   Create a shift
 // @route  POST /api/shifts/
 // @access Private
@@ -355,6 +386,7 @@ const pickUpShift = async (req, res) => {
 module.exports = {
     getAllBusinessShifts,
     getUserShifts,
+    getManagerOpenShifts,
     createShift,
     editShift,
     deleteShift,

@@ -35,6 +35,27 @@ const getCompanyEmployees = async (req, res) => {
 }
 
 
+// @desc   Get all user employees
+// @route  GET /api/employees/user
+// @access Private
+const getUserEmployees = async (req, res) => {
+    try {
+        const employees = await Employee.find({ user: req.user.id });
+
+        if (!employees) {
+            return res.status(400).json({
+                msg: 'Employees not found'
+            });
+        }
+
+        return res.status(200).json(employees);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({msg: 'Server Error'});
+    }
+}
+
+
 // @desc   Create employee
 // @route  POST /api/employees
 // @access Private
@@ -204,6 +225,7 @@ const deleteEmployee = async (req, res) => {
 
 module.exports = {
     getCompanyEmployees,
+    getUserEmployees,
     createEmployee,
     updateEmployee,
     deleteEmployee

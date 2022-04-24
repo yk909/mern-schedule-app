@@ -33,6 +33,26 @@ export const getAllBusinessShifts = createAsyncThunk(
 );
 
 
+// Get all shifts where the user is a manager
+export const getManagerOpenShifts = createAsyncThunk(
+    'shift/getManagerOpenShifts',
+    async (_, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token;
+            return await shiftService.getManagerOpenShifts(token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
 // Create Shift
 export const createShift = createAsyncThunk(
     'shift/createShift',
@@ -187,6 +207,25 @@ const shiftSlice = createSlice({
             state.msg = action.payload;
         });
 
+        // Get all manager shifts
+        builder.addCase(getManagerOpenShifts.pending, (state, action) => {
+            state.isLoading = true;
+            state.isError = false;
+        });
+        builder.addCase(getManagerOpenShifts.fulfilled, (state, action) => {
+            state.shifts = null;
+            state.userShifts = null;
+            state.userShifts = action.payload;
+            state.isSuccess = true;
+            state.isError = false;
+            state.isLoading = false;
+        });
+        builder.addCase(getManagerOpenShifts.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.msg = action.payload;
+        });
+
         // Create Shift
         builder.addCase(createShift.pending, (state, action) => {
             // state.isLoading = true;
@@ -278,6 +317,7 @@ const shiftSlice = createSlice({
         });
         builder.addCase(getUserShifts.fulfilled, (state, action) => {
             state.shifts = null;
+            state.userShifts = null;
             state.userShifts = action.payload;
             state.isSuccess = true;
             state.isError = false;

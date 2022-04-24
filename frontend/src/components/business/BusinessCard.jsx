@@ -82,7 +82,7 @@ const BusinessCard = ({ businesses, isLoading }) => {
         <div className="business-card-body">
           <div className="business-card-body-employees">
             <div className="busines-card-body-title title-3">
-              <h3>Employees</h3>
+              <p className="title-2">Employees</p>
               <ManagerProtect
                 business={business}
               >

@@ -8,6 +8,11 @@ const Schedule = () => {
     const { userShifts, isLoading } = useSelector(state => state.shift);
     const { company } = useSelector(state => state.company);
     const dispatch = useDispatch();
+    const { user } = useSelector(state => state.auth);
+    const userShiftsFiltred = 
+        useSelector(state => state.shift.userShifts)
+            ?.filter(shift => shift.employee != null)
+            ?.filter(shift => shift.employee.user === user._id);
 
     useEffect(() => {
         dispatch(getUserShifts());
@@ -28,7 +33,25 @@ const Schedule = () => {
                         title="Your Shifts"
                         isOpen={true}
                     >
-                        <UserShifts/>
+                        <div className="flex align-between px-1">
+                            <p className="title-2">
+                                {userShiftsFiltred?.length ? (
+                                    'Shifts'
+                                ) : (
+                                    'No Shifts'
+                                )}
+                            </p>
+                        </div>
+                        <div className="user-open-shifts">
+                            {userShiftsFiltred?.map((shift, index) => {
+                                return (
+                                    <UserShifts
+                                        key={index}
+                                        shift={shift}
+                                    />
+                                )
+                            })}
+                        </div>
                     </Card>
                 </>
             )}

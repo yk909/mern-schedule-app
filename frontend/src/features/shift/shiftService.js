@@ -17,6 +17,19 @@ const getAllBusinessShifts = async (data, token) => {
 }
 
 
+// Get all managers shifts
+const getManagerOpenShifts = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    };
+    const response = await axios.get(`${API_URL}/manager`, config);
+
+    return response.data;
+}
+
+
 // Create Shift
 const createShift = async (data, token) => {
     const config = {
@@ -98,6 +111,7 @@ const pickUpShift = async (id, token) => {
 // export service
 const shiftService = {
     getAllBusinessShifts,
+    getManagerOpenShifts,
     createShift,
     editShift,
     deleteShift,

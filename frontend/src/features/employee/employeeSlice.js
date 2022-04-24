@@ -4,6 +4,7 @@ import employeeService from "./employeeService";
 
 const initialState = {
     employees: null,
+    userEmployees: null,
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -29,6 +30,27 @@ export const getEmployees = createAsyncThunk(
         }
     }
 );
+
+
+// Get user employees
+export const getUserEmployees = createAsyncThunk(
+    'employee/getUser',
+    async (_, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token;
+            return await employeeService.getUserEmployees(token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
 
 
 // Create employee
@@ -118,6 +140,23 @@ const employeeSlice = createSlice({
             state.isSuccess = true;
         });
         builder.addCase(getEmployees.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.msg = action.payload;
+        });
+
+        // Get user employees
+        builder.addCase(getUserEmployees.pending, (state, action) => {
+            state.isLoading = true;
+            state.isError = false;
+        });
+        builder.addCase(getUserEmployees.fulfilled, (state, action) => {
+            state.userEmployees = action.payload;
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+        });
+        builder.addCase(getUserEmployees.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.msg = action.payload;

@@ -91,7 +91,7 @@ const updateGlobalMessage = async (req, res) => {
             return res.status(400).json({msg: 'Shift not found, or shift is already assigned'});
         }
 
-        shift.user = req.user._id;
+        shift.acceptedBy = req.user._id;
         await shift.save();
 
         globalMessage.status = 'accepted';
