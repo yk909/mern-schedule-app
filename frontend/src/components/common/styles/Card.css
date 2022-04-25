@@ -1,10 +1,10 @@
 .card {
     background: var(--color-main);
     border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
+    /* box-shadow: var(--box-shadow); */
     margin-bottom: 2rem;
-    overflow: hidden;
-    border: 1px solid var(--color-secondary);
+    /* overflow: hidden; */
+    /* border: 1px solid var(--color-secondary); */
 }
 
 .card.blink {
@@ -18,6 +18,21 @@
     cursor: pointer;
     background: var(--color-main);
     position: relative;
+    font-weight: 600;
+    border-radius: var(--border-radius);
+}
+
+.card-title svg {
+    fill: var(--text-dark);
+    font-weight: bold;
+    stroke: var(--text-dark);
+    stroke-width: 3px;
+    transform: rotate(180deg);
+    transition: var(--transition-duration);
+}
+
+.open .card-title svg {
+    transform: rotate(0deg);
 }
 
 .card-title:active {
@@ -28,13 +43,15 @@
     height: 0;
     opacity: 0;
     padding: 0;
+    overflow: hidden;
     transition: var(--transition-duration);
-    background: var(--color-secondary);
+    /* background: var(--color-secondary-light); */
 }
 
-.card-body.open {
+.open .card-body {
     height: auto;
     opacity: 1;
+    overflow: visible;
     padding: 25px 0;
 }
 

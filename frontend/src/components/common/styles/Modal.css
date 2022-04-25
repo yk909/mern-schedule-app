@@ -10,6 +10,7 @@
     height: 100%;
     animation-duration: var(--transition-duration);
     animation-name: opacity;
+    text-align: start;
 }
 
 .modal-overlay .modal-wrapper {

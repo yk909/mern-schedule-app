@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { EditShift } from '../../';
-import { countTotalShiftHours } from '../../../constance/helpers';
+import { EditShift } from '../';
+import { countTotalShiftHours } from '../../constance/helpers';
 
 const AddNote = ({ shift }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     return (
         <>
-            <div className="user-open-shifts-shift-body" onClick={() => setModalIsOpen(true)}>
+            {/* <div className="user-open-shifts-shift-body" onClick={() => setModalIsOpen(true)}>
                 <div className="flex align-between">
                     <div className="text-box">
                         <p>
@@ -21,6 +21,9 @@ const AddNote = ({ shift }) => {
                         <p>{countTotalShiftHours(shift.startTime, shift.endTime)}</p>
                     </div>
                 </div>
+            </div> */}
+            <div onClick={() => setModalIsOpen(true)} className="btn btn-outline">
+                Edit
             </div>
             <EditShift
                 shift={shift}
