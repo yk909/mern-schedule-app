@@ -18,7 +18,7 @@ const Dashboard = () => {
 
     return (
         <main className="dashboard">
-            {!globalMessage.isLoading && (
+            {globalMessage && (
                 <GlobalMessage />
             )}
             

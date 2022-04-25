@@ -19,7 +19,7 @@ const globalMessageSchema = new mongoose.Schema({
     company: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Company',
-        required: false
+        required: true
     },
     receiver: {
         type: String,
@@ -30,10 +30,6 @@ const globalMessageSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Shift',
         required: false
-    },
-    date: {
-        type: Date,
-        required: true
     },
     status: {
         type: String,

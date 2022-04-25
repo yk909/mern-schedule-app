@@ -37,6 +37,7 @@ nav ul a {
     text-decoration: none;
 }
 
+.nav-links .user-menu.notification,
 nav li a {
     display: flex;
     justify-content: center;
@@ -58,7 +59,7 @@ nav .nav-menu-links a.active {
     border-color: var(--color-primary);
 }
 
-nav li a svg {
+nav li svg {
     width: 30px;
     height: 30px;
     transition: var(--transition-duration);
@@ -66,6 +67,21 @@ nav li a svg {
     margin-right: 8px;
 }
 
+.nav-links .user-menu.notification {
+    min-width: 50px;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+nav .notification svg {
+    margin-right: 0;
+}
+
+.nav-links .user-menu.notification div {
+    height: 70px;
+}
+
+.nav-links .user-menu.notification:hover,
 nav li a:hover {
     color: var(--text-dark);
     border-bottom: 3px solid var(--color-primary);

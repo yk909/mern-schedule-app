@@ -6,7 +6,7 @@ import { createInvite } from '../../features/invite/inviteSlice';
 import './styles/CreateCompany.css';
 
 const CreateCompany = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(true);
     const [isNew, setIsNew] = useState(false);
     const [email, setEmail] = useState('');
     const [company, setCompany] = useState({
@@ -26,13 +26,13 @@ const CreateCompany = () => {
     const onSubmit = (e) => {
         if(user && isNew) {
             dispatch(createCompany(company));
-            setIsModalOpen(false);
+            // setIsModalOpen(false);
         } else if ( user && !isNew ) {
             dispatch(createInvite({
                 receiver: email,
                 to: 'company',
             }));
-            setIsModalOpen(false);
+            // setIsModalOpen(false);
         }
     };
 
@@ -42,8 +42,12 @@ const CreateCompany = () => {
             setModalIsOpen={setIsModalOpen}
             modalIsOpen={isModalOpen}
             actionBtnText={`${!isNew ? 'Apply' : 'Create'}`}
-            contentLabel={'Add Company'}
+            contentLabel={'Apply to Company or Create One'}
             onSubmit={onSubmit}
+            disableClose={true}
+            style={{
+                zIndex: '1',
+            }}
         >
             <div className="nav-tab-select">
                 <p className={`${!isNew ? 'selected' : ''}`} onClick={() => setIsNew(false)}>Apply By Email</p>
@@ -92,12 +96,12 @@ const CreateCompany = () => {
                 </>
             )}
         </Modal>
-        <section className="add-company" onClick={() => { setIsModalOpen(true) }}>
+        {/* <section className="add-company" onClick={() => { setIsModalOpen(true) }}>
             <p>Find Or Create New Company</p>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
             </svg>
-        </section>
+        </section> */}
         </>
     )
 }

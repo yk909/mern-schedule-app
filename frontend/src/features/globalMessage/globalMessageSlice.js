@@ -173,7 +173,7 @@ const globalMessageSlice = createSlice({
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
-            state.globalMessages.push(action.payload);
+            state.globalMessagesSender.push(action.payload);
         });
         builder.addCase(createGlobalMessage.rejected, (state, action) => {
             state.isLoading = false;
@@ -212,10 +212,10 @@ const globalMessageSlice = createSlice({
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
-            const index = state.globalMessages.findIndex(
+            const index = state.globalMessagesSender.findIndex(
                 (globalMessage) => globalMessage._id === action.payload._id
             );
-            state.globalMessages.splice(index, 1);
+            state.globalMessagesSender.splice(index, 1);
         });
         builder.addCase(deleteGlobalMessage.rejected, (state, action) => {
             state.isLoading = false;

@@ -12,7 +12,7 @@ function App() {
         <div className="container">
           <Alerts />
           <Routes>
-            <Route path="/" element={<RequireAuth> <RequireCompany> <Dashboard/> </RequireCompany> </RequireAuth>} />
+            <Route path="/dashboard" element={<RequireAuth> <RequireCompany> <Dashboard/> </RequireCompany> </RequireAuth>} />
             <Route path="/scheduler" element={<RequireAuth> <RequireCompany> <Scheduler/> </RequireCompany> </RequireAuth>} />
             <Route path="/scheduler/:id" element={<RequireAuth> <RequireCompany> <Scheduler/> </RequireCompany> </RequireAuth>} />
             <Route path="/company" element={<RequireAuth> <RequireCompany> <Company/> </RequireCompany> </RequireAuth>} />

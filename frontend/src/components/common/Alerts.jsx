@@ -9,13 +9,14 @@ const Alerts = () => {
     const employee = useSelector(state => state.employee);
     const shift = useSelector(state => state.shift);
     const invite = useSelector(state => state.invite);
+    const globalMessage = useSelector(state => state.globalMessage);
 
     useEffect(() => {
         if(auth.isError) {
             toast.error(auth.msg);
         }
         if(company.isError) {
-            toast.error(company.msg);
+            // toast.error(company.msg);
         }
         if(business.isError) {
             toast.error(business.msg);
@@ -29,7 +30,18 @@ const Alerts = () => {
         if(invite.isError) {
             toast.error(invite.msg);
         }
-    }, [auth.isError, company.isError, business.isError, employee.isError, shift.isError, invite.isError]);
+        if(globalMessage.isError) {
+            toast.error(globalMessage.msg);
+        }
+    }, [
+        auth.isError, 
+        company.isError, 
+        business.isError, 
+        employee.isError, 
+        shift.isError, 
+        invite.isError, 
+        globalMessage.isError
+    ]);
 
     return null;
 }

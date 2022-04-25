@@ -9,7 +9,7 @@ const Shift = require('../models/shiftModel');
 // @access  Private
 const getSenderGlobalMessage = async (req, res) => {
     try {
-        const senderGlobalMessage = await GlobalMessage.find({ sender: req.user.id, status: 'pending' });
+        const senderGlobalMessage = await GlobalMessage.find({ sender: req.user._id, status: 'pending' });
 
         return res.status(200).json(senderGlobalMessage);
     } catch (err) {
@@ -40,26 +40,46 @@ const getAllGlobalMessages = async (req, res) => {
 // @access  Private
 const createGlobalMessage = async (req, res) => {
     try {
-        if(req.body.messageTo === 'business') {
+        if(req.body.receiver === 'business') {
             const employee = await Employee.findOne({ user: req.user._id, business: req.body.business, isManager: true });
 
             if(!employee) {
                 return res.status(400).json({ msg: 'You are not an manager of this business' });
             }
 
-            const globalMessage = await GlobalMessage.create(req.body);
+            const newMessage = new GlobalMessage({
+                sender: req.user._id,
+                business: req.body.business,
+                company: req.body.company,
+                receiver: req.body.receiver,
+                shift: req.body.shift,
+                message: req.body.message,
+                isImportant: req.body.isImportant
+            });
 
-            return res.status(200).json(globalMessage);
-        } else if(req.body.messageTo === 'company') {
+            await newMessage.save();
+
+            return res.status(200).json(newMessage);
+        } else if(req.body.receiver === 'company') {
             const company = await Company.findById(req.body.company);
 
-            if(!company || (company && (!company.oweners.includes(req.user._id) || company.user.toString() !== req.user._id.toString()))) {
+            if(!company || (company && (!company.owners.includes(req.user._id) || company.user.toString() !== req.user._id.toString()))) {
                 return res.status(400).json({ msg: 'You are not an owener of this company' });
             }
 
-            const globalMessage = await GlobalMessage.create(req.body);
+            const newMessage = new GlobalMessage({
+                sender: req.user._id,
+                business: req.body.business,
+                company: req.body.company,
+                receiver: req.body.receiver,
+                shift: req.body.shift,
+                message: req.body.message,
+                isImportant: req.body.isImportant
+            });
 
-            return res.status(200).json(globalMessage);
+            await newMessage.save();
+
+            return res.status(200).json(newMessage);
         } else {
             return res.status(400).json({ msg: 'Invalid message receiver' });
         }
@@ -116,7 +136,7 @@ const deleteGlobalMessage = async (req, res) => {
             return res.status(400).json({ msg: 'Global message not found' });
         }
 
-        if(globalMessage.sender !== req.user._id) {
+        if(globalMessage.sender.toString() !== req.user._id.toString()) {
             return res.status(400).json({ msg: 'You are not the sender of this global message' });
         }
 

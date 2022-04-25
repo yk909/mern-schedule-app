@@ -22,7 +22,7 @@ const AddNote = ({ shift }) => {
                     </div>
                 </div>
             </div> */}
-            <div onClick={() => setModalIsOpen(true)} className="btn btn-outline">
+            <div onClick={() => setModalIsOpen(true)} className="btn btn-outline btn-sm">
                 Edit
             </div>
             <EditShift

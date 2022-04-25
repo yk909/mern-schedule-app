@@ -7,6 +7,7 @@ import ManagerProtect from "./common/ManagerProtect";
 import OwnerProtect from "./common/OwnerProtect";
 import AdminProtect from "./common/AdminProtect";
 import Card from "./common/Card";
+import Sidebar from "./common/Sidebar";
 
 import Calender from "./calender/Calender";
 import CalenderFooter from "./calender/CalenderFooter";
@@ -40,6 +41,7 @@ import EmployeesModal from "./employee/EmployeesModal";
 
 import GlobalMessage from "./message/GlobalMessage";
 import MessageCard from "./message/MessageCard";
+import CreateMessage from "./message/CreateMessage";
 
 import Invites from "./invite/Invites";
 
@@ -53,6 +55,7 @@ export {
     OwnerProtect,
     AdminProtect,
     Card,
+    Sidebar,
 
     Calender,
     CalenderFooter,
@@ -86,6 +89,7 @@ export {
 
     GlobalMessage,
     MessageCard,
+    CreateMessage,
 
     Invites,
 }

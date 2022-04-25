@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const frequency = ['Daily', 'Weekly', 'Monthly', 'One-Time'];
+const frequency = ['daily', 'weekly', 'monthly', 'one-time'];
 
 const taskListSchema = new mongoose.Schema({
     business: {

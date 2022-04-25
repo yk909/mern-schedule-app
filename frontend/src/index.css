@@ -201,8 +201,10 @@ main {
   border: 2px solid var(--dark);
 }
 
-.btn-sm {
-
+.btn.btn-sm {
+  padding: 4px 8px;
+  font-size: 0.85rem;
+  font-weight: 400;
 }
 
 .btn-icon svg {
@@ -297,7 +299,7 @@ main {
   cursor: pointer;
   user-select: none;
   transition: var(--transition-duration);
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 1px;
   box-shadow: var(--box-shadow);
   display: flex;
@@ -457,7 +459,62 @@ main {
   box-shadow: var(--box-shadow);
 }
 
-input {
+.table {
+  width: -webkit-fill-available;
+  background-color: var(--color-main);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 0.5rem;
+  background: var(--color-secondary-light);
+  border: 1px solid var(--color-secondary);
+}
+
+.table table {
+  /* border-collapse: collapse; */
+  overflow-x: scroll;
+  display: block;
+  padding-bottom: 1rem;
+}
+
+table thead {
+  background: var(--color-main);
+}
+
+table tbody {
+  background: var(--color-main);
+  border-radius: var(--border-radius);
+}
+
+tr {
+  transition: var(--transition-duration);
+}
+
+tr:hover  {
+  background-color: var(--color-secondary-light);
+}
+
+th, 
+td {
+  padding: 0.5rem;
+  text-align: center;
+  white-space: nowrap;
+  outline: 1px solid var(--color-secondary);
+}
+
+td.address,
+th.address {
+  width: 100%;
+  text-align: start;
+}
+
+th a, 
+td a {
+  text-decoration: none;
+  color: var(--text-dark);
+}
+
+input,
+textarea {
   outline: none;
   border-top: none;
   border-right: none;
@@ -468,6 +525,7 @@ input {
   background: transparent;
   font-size: 1rem;
   min-height: 23px;
+  resize: none;
 }
 
 input[type="range"] {
@@ -476,9 +534,16 @@ input[type="range"] {
 }
 
 input:hover,
-input:focus {
+input:focus,
+textarea:hover,
+textarea:focus {
   outline: none;
   border-color: var(--color-primary);
+}
+
+input:hover,
+textarea:hover {
+  box-shadow: var(--box-shadow);
 }
 
 .form-group-row {
@@ -512,27 +577,27 @@ input:focus {
 }
 
 .mt-1 {
-  margin-top: 12px;
+  margin-top: 1rem;
 }
 
 .mr-1 {
-  margin-right: 12px;
+  margin-right: 1rem;
 }
 
 .ml-1 {
-  margin-left: 12px;
+  margin-left: 1rem;
 }
 
 .mb-1 {
-  margin-bottom: 12px;
+  margin-bottom: 1rem;
 }
 
 .mx-1 {
-  margin: 0 12px;
+  margin: 0 1rem;
 }
 
 .mY-1 {
-  margin: 12px 0;
+  margin: 1rem 0;
 }
 
 .p-0 {
@@ -570,6 +635,10 @@ input:focus {
 
 .text-center {
   text-align: center;
+}
+
+.text-start {
+  text-align: start;
 }
 
 .text-end {
@@ -651,6 +720,10 @@ input:focus {
 
 .nav-tab-select p:hover {
   border-bottom: 2px solid var(--color-primary);
+}
+
+.highlight {
+  background: var(--info);
 }
 
 .blink {

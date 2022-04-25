@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import { useSearchParams } from 'react-router-dom';
 import { pickUpShift } from '../../features/shift/shiftSlice';
 import { AddNote } from '../';
 import { countTotalShiftHours } from '../../constance/helpers';
-import './styles/ShiftsTable.css';
 
 const ShiftTable = ({shifts, isOpenShift}) => {
+    const [searchParams, setSearchParams] = useSearchParams();
     const dispatch = useDispatch();
     return (
         <div className="table">
@@ -15,10 +16,10 @@ const ShiftTable = ({shifts, isOpenShift}) => {
                     <tr>
                         <th>#</th>
                         <th>Business</th>
-                        <th className="address">Address</th>
                         <th>Date</th>
                         <th>Shift</th>
                         <th>Total Hours</th>
+                        <th className="address">Address</th>
                         <th>Note</th>
                         <th>Action</th>
                     </tr>
@@ -26,28 +27,37 @@ const ShiftTable = ({shifts, isOpenShift}) => {
                 <tbody>
                     {shifts.map((shift, index) => {
                         return (
-                            <tr key={index}>
-                                <td>{index+1}</td>
+                            <tr 
+                                key={index} 
+                                className={`${searchParams.get('id') && searchParams.get('id') === shift._id ? 'highlight' : ''}`}
+                            >
+                                <td><b>{index+1}</b></td>
                                 <td>
-                                    <Link to={`/scheduler/${shift.business._id}`} className="text-hover title-3">
-                                        {shift.business.name}
-                                    </Link>
+                                    <b>
+                                        <Link to={`/scheduler/${shift.business._id}`} className="text-hover">
+                                            {shift.business.name}
+                                        </Link>
+                                    </b>
                                 </td>
-                                <td className="address">{shift.business.address}, {shift.business.city}, {shift.business.state}, {shift.business.zip}</td>
                                 <td className="text-center">
-                                    {new Date(shift.date).toLocaleString("en-US", { month: 'short'})}
-                                    <br />
-                                    <b>{new Date(shift.date).toLocaleString("en-US", { weekday: 'short', day: 'numeric' })}</b>
+                                    <b>
+                                        {new Date(shift.date).toLocaleString("en-US", { month: 'short'})}
+                                        <br />
+                                        {new Date(shift.date).toLocaleString("en-US", { weekday: 'short', day: 'numeric' })}
+                                    </b>
                                 </td>
                                 <td>
                                     <b>{shift.startTime} - {shift.endTime}</b>
                                 </td>
                                 <td>{countTotalShiftHours(shift.startTime, shift.endTime)}</td>
+                                <td className="address">{shift.business.address}, {shift.business.city}, {shift.business.state}, {shift.business.zip}</td>
                                 <td>
-                                    {shift.note && (
-                                        <div className="btn btn-outline-info" onClick={() => toast.info(shift.note)}>
+                                    {shift.note ? (
+                                        <div className="btn btn-outline-info btn-sm" onClick={() => toast.info(shift.note)}>
                                             Note
                                         </div>
+                                    ) : (
+                                        '-'
                                     )}
                                 </td>
                                 {!isOpenShift ? (
@@ -55,7 +65,7 @@ const ShiftTable = ({shifts, isOpenShift}) => {
                                 ) : (
                                     <td>
                                         <button
-                                            className="btn btn-outline-primary w-100"
+                                            className="btn btn-outline-primary w-100 btn-sm"
                                             onClick={() => dispatch(pickUpShift(shift._id))}>
                                             Accept
                                         </button>

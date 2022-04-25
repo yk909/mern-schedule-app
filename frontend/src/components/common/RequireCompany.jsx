@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getCompany, reset } from "../../features/company/companySlice";
 import { getUserEmployees } from '../../features/employee/employeeSlice';
+import { getAllGlobalMessages } from '../../features/globalMessage/globalMessageSlice';
 
 const RequireCompany = ({children}) => {
     const navigate = useNavigate();
@@ -16,13 +17,20 @@ const RequireCompany = ({children}) => {
         if(auth.user && !company) {
             dispatch(getCompany());
             dispatch(getUserEmployees());
+            dispatch(getAllGlobalMessages());
         }
 
-        if(auth.user && !company && !isLoading && isSuccess) {
+        if(auth.user && !company && !isLoading && (isSuccess)) {
             navigate("/company");
         }
 
     }, [company]);
+
+    useEffect(() => {
+        if(msg === "Company not found") {
+            navigate("/company");
+        }
+    }, [msg]);
 
     // if (isLoading) {
     //     return <div>Loading...</div>;

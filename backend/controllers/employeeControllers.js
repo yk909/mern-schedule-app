@@ -40,7 +40,7 @@ const getCompanyEmployees = async (req, res) => {
 // @access Private
 const getUserEmployees = async (req, res) => {
     try {
-        const employees = await Employee.find({ user: req.user.id });
+        const employees = await Employee.find({ user: req.user.id }).populate('business');
 
         if (!employees) {
             return res.status(400).json({
