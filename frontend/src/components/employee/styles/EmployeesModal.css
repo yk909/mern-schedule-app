@@ -12,10 +12,6 @@
     padding: 20px 25px 65px 25px;
 }
 
-.employees-btn {
-    padding: 0 10px;
-}
-
 .user-card {
     background: var(--color-main);
     border: 1px solid var(--color-secondary);

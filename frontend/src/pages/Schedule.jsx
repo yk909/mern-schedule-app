@@ -12,8 +12,11 @@ const Schedule = () => {
     const { user } = useSelector(state => state.auth);
     const userShiftsFiltred = 
         useSelector(state => state.shift.userShifts)
-            ?.filter(shift => shift.employee != null)
-            ?.filter(shift => shift.employee.user === user._id);
+            ?.filter(shift => (shift.employee != null || shift.acceptedBy))
+            ?.filter(shift => (
+                shift?.employee?.user === user._id ||
+                shift?.acceptedBy === user._id
+                ));
     const userOpenShifts = 
         useSelector(state => state.shift.userShifts)
             ?.filter(shift => shift.employee === null);

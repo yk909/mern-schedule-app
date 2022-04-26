@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Card } from '../';
-import { MessageCard, CreateMessage } from '../';
+import { MessageTable, CreateMessage } from '../';
 import "./styles/GlobalMessage.css";
 
 const GlobalMessage = () => {
@@ -18,7 +18,7 @@ const GlobalMessage = () => {
                 </p>
                 <CreateMessage/>
             </div>
-            <MessageCard />
+            <MessageTable />
         </Card>
     )
 }

@@ -87,7 +87,9 @@ const EditShift = ({ employee, shift, modalIsOpen, setModalIsOpen }) => {
             onSubmitDanger={onSubmitDanger}
             actionDangerBtnText="Delete"
             contentLabel={
-                    `Edit ${employee ? 
+                    `Edit ${shift.acceptedBy ?
+                        `${shift.acceptedBy.firstName}`
+                        : employee ? 
                     'Shift for ' + employee.firstName 
                     : 'Open Shift'} on ${new Date(shift.date).toLocaleString('en-us', {  weekday: 'short', month: 'short', day: 'numeric' })}`
                 }

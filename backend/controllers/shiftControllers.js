@@ -27,7 +27,9 @@ const getAllBusinessShifts = async (req, res) => {
                     $lte: new Date(toDate).setHours(0,0,0,0)
                 }
             }
-        );
+        ).populate('acceptedBy');
+
+        console.log(req.query)
 
         if (!shifts) {
             return res.status(400).json({ msg: 'No shifts found' });
@@ -57,11 +59,18 @@ const getUserShifts = async (req, res) => {
             }
         }).populate('business').populate('employee').sort({ date: 1 });
 
-        if (!shifts) {
+        const pickedUpShifts = await Shift.find({
+            date: {
+                $gte: new Date().setHours(0,0,0,0),
+            },
+            acceptedBy: req.user._id,
+        }).populate('business').populate('employee').sort({ date: 1 });
+
+        if (!shifts && !pickedUpShifts) {
             return res.status(400).json({ msg: 'No shifts found' });
         }
 
-        return res.status(200).json(shifts);
+        return res.status(200).json(shifts.concat(pickedUpShifts));
     } catch (err) {
         console.log(err)
         return res.status(500).json({ msg: 'Server Error' });

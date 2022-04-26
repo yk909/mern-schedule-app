@@ -55,6 +55,14 @@ main {
   display: flex;
 }
 
+.flex-end {
+  justify-content: flex-end;
+}
+
+.flex-align-center {
+  align-items: center;
+}
+
 .flex-column {
   flex-direction: column;
 }
@@ -193,8 +201,8 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   transition: var(--transition-duration);
   background: transparent;
   border-radius: var(--border-radius);
@@ -601,11 +609,15 @@ textarea:hover {
 }
 
 .p-0 {
-  padding: 0;
+  padding: 0!important;
 }
 
 .px-1 {
   padding: 0 1rem;
+}
+
+.py-1 {
+  padding: 1rem 0;
 }
 
 .p-1 {
@@ -667,6 +679,12 @@ textarea:hover {
 
 .title-3 {
   font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.title-4 {
+  font-size: 1.15rem;
   font-weight: 500;
   letter-spacing: 1px;
 }

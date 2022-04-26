@@ -19,15 +19,45 @@ const getSenderGlobalMessage = async (req, res) => {
 };
 
 
-// @route   GET api/globalMessage?business=:businessId&company=:companyId
+// @route   GET api/globalMessage
 // @desc    Get all global messages
 // @access  Private
 const getAllGlobalMessages = async (req, res) => {
     try {
-        const businessGlobalMessage = await GlobalMessage.find({ business: req.query.business, messageTo: 'business', status: 'pending' });
-        const companyGlobalMessage = await GlobalMessage.find({ company: req.query.company, messageTo: 'company', status: 'pending' });
+        const employees = await Employee.find({ user: req.user._id });
 
-        return res.status(200).json({ businessGlobalMessage, companyGlobalMessage });
+        if(!employees) {
+            return res.status(400).json({ msg: 'You are not an employee' });
+        }
+
+        const businessGlobalMessage = await GlobalMessage.find(
+            { 
+                business: {
+                    $in: employees.map(employee => employee.business)
+                },
+                receiver: 'business',
+                status: 'pending' 
+            }
+        ).populate({
+            path: 'shift',
+            populate: {
+                path: 'business',
+            }
+        }).exec();
+
+        const companyGlobalMessage = await GlobalMessage.find(
+            { company: employees[0].company, receiver: 'company', status: 'pending' }
+            ).populate({
+                path: 'shift',
+                populate: {
+                    path: 'business',
+                }
+            }).exec();
+
+        return res.status(200).json({
+                businessGlobalMessage: businessGlobalMessage.filter(message => message.sender.toString() !== req.user._id.toString()),
+                companyGlobalMessage: companyGlobalMessage.filter(message => message.sender.toString() !== req.user._id.toString())
+            });
     } catch (err) {
         console.error(err.message);
         return res.status(500).send('Server Error');

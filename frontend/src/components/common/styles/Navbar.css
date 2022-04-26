@@ -23,10 +23,6 @@ nav ul.nav-links {
 }
 
 
-nav ul.nav-links li {
-    /* overflow: hidden; */
-}
-
 nav ul li {
     list-style: none;
     position: relative;
@@ -37,7 +33,6 @@ nav ul a {
     text-decoration: none;
 }
 
-.nav-links .user-menu.notification,
 nav li a {
     display: flex;
     justify-content: center;
@@ -71,17 +66,32 @@ nav li svg {
     min-width: 50px;
     padding: 0 10px;
     cursor: pointer;
+    position: relative;
+}
+
+nav .notification span {
+    display: none;
 }
 
 nav .notification svg {
     margin-right: 0;
 }
 
-.nav-links .user-menu.notification div {
-    height: 70px;
+.notification .count {
+    position: absolute;
+    background: var(--danger);
+    color: var(--text-light);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    right: 15px;
+    bottom: 23px;
 }
 
-.nav-links .user-menu.notification:hover,
 nav li a:hover {
     color: var(--text-dark);
     border-bottom: 3px solid var(--color-primary);
@@ -130,4 +140,44 @@ nav .nav-menu-links a {
     font-size: .85rem;
     height: 50px;
     margin-bottom: 0px;
+}
+
+.nav-burger {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    nav .nav-wrapper {
+        display: none;
+    }
+
+    nav .nav-burger {
+        display: block;
+    }
+
+    .nav-burger .notification .count {
+        left: 25px;
+        top: 30px;
+    }
+
+    .nav-burger .notification span {
+        display: block;
+    }
+
+    nav li a.active,
+    nav .nav-menu-links a.active {
+        border-left: 3px solid var(--color-primary);
+    }
+
+    .nav-burger a {
+        border-bottom: 0;
+        border-left: 3px solid var(--color-main);
+        justify-content: flex-start;
+    }
+
+    .nav-burger li a:hover {
+        color: var(--text-dark);
+        border-left: 3px solid var(--color-primary);
+        border-bottom: 0;
+    }
 }

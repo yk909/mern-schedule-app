@@ -7,7 +7,6 @@ const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModal
         if (e.target.classList.contains('modal-overlay') || e.target.classList.contains('modal-wrapper')) {
             if(!disableClose || disableClose === false) {
                 setModalIsOpen(false);
-                console.log('closing modal');
             } else {
                 console.log('modal is disabled');
             }

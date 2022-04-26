@@ -1,8 +1,6 @@
 .invites {
-    padding: 20px;
-    border-radius: var(--border-radius);
-    background-color: var(--color-main);
-    box-shadow: var(--box-shadow);
+    max-width: 1050px;
+    margin: 0 auto;
     margin-bottom: 20px;
 }
 
@@ -21,6 +19,7 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 15px;
+    border: 1px solid var(--color-secondary);
 }
 
 .invite-right {

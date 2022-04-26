@@ -64,7 +64,7 @@
 
 @media (max-width: 768px) {
     .modal-overlay .modal-wrapper .modal-body {
-        min-width: 95vw;
+        min-width: 90vw;
         text-align: initial;
     }
 }

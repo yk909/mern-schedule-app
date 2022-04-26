@@ -191,10 +191,17 @@ const globalMessageSlice = createSlice({
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
-            const index = state.globalMessages.findIndex(
-                (globalMessage) => globalMessage._id === action.payload._id
-            );
-            state.globalMessages[index] = action.payload;
+            if(action.payload.receiver === 'company') {
+                const index = state.globalMessages.companyGlobalMessage.findIndex(
+                    (globalMessage) => globalMessage._id === action.payload._id
+                );
+                state.globalMessages.companyGlobalMessage.splice(index, 1)
+            } else {
+                const index = state.globalMessages.businessGlobalMessage.findIndex(
+                    (globalMessage) => globalMessage._id === action.payload._id
+                );
+                state.globalMessages.businessGlobalMessage.splice(index, 1)
+            }
         });
         builder.addCase(updateGlobalMessage.rejected, (state, action) => {
             state.isLoading = false;

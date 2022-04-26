@@ -23,9 +23,7 @@ const Businesses = () => {
 
     return (
         <>
-            <OwnerProtect>
-                <Invites />
-            </OwnerProtect>
+            <Invites />
             {company && (
                 <>
                 <CompanyCard />
@@ -35,7 +33,7 @@ const Businesses = () => {
                 />
                 </>
             )}
-            {!isLoading && !company && (
+            {!isLoading && !company && invite && invite?.invites?.length === 0 && (
                 <CreateCompany />
             )}
         </>

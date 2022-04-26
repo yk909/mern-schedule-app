@@ -4,6 +4,12 @@ import './styles/Sidebar.css';
 const Sidebar = ({children, title, isSidebarOpen, setIsSidebarOpen}) => {
     const [isOpen, setIsOpen] = useState(false);
 
+    const onClickOutside = (e) => {
+        if (e.target.classList.contains('sidebar-wrapper')) {
+            setIsSidebarOpen(false);
+        }
+    }
+
     useEffect(() => {
         if (!isSidebarOpen) {
             setTimeout(() => {
@@ -16,7 +22,10 @@ const Sidebar = ({children, title, isSidebarOpen, setIsSidebarOpen}) => {
 
     return (
         isOpen ? (
-        <div className={`sidebar-wrapper ${isSidebarOpen ? 'open' : 'closed'}`}>
+        <div 
+            className={`sidebar-wrapper ${isSidebarOpen ? 'open' : 'closed'}`}
+            onClick={onClickOutside}
+        >
             <div className="sidebar">
                 <div className="sidebar-header">
                     <div className="flex align-between">

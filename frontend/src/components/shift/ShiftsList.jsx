@@ -4,12 +4,17 @@ import { useDrop } from 'react-dnd';
 import { editShift } from '../../features/shift/shiftSlice';
 import { Shift, CreateShift, ManagerProtect } from '../';
 
-const ShiftsList = ({fromDate, i, employee}) => {
-    const shift = useSelector(state => state.shift);
-    const { id } = useParams();
-    const shifts = shift.shifts.filter(shift => 
-        ((employee && (employee?._id === shift.employee || employee?._id === shift?.employee?._id)) || !employee && shift.employee === null)
+const ShiftsList = ({fromDate, i, employee, pickedShifts}) => {
+    const shiftsSelector = useSelector(state => state.shift.shifts).filter(shift => 
+        ((employee && (
+            employee?._id === shift.employee || 
+            employee?._id === shift?.employee?._id ||
+            employee?.user === shift?.acceptedBy?._id
+            )) || // for employee from thee loop
+        !employee && shift.employee === null && !shift.acceptedBy) // for open shift from the loop
     );
+
+    const shifts = pickedShifts ? pickedShifts : shiftsSelector;
 
     const dispatch = useDispatch();
 
@@ -61,12 +66,14 @@ const ShiftsList = ({fromDate, i, employee}) => {
                     />
                 )
             })}
-            <ManagerProtect>
-                <CreateShift 
-                    date={new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()+i)}
-                    employee={employee}
-                />
-            </ManagerProtect>
+            {!pickedShifts && (
+                <ManagerProtect>
+                    <CreateShift 
+                        date={new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()+i)}
+                        employee={employee}
+                    />
+                </ManagerProtect>
+            )}
         </div>
     )
 }

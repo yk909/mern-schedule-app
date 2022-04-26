@@ -1,6 +1,6 @@
 import {ShiftsList} from '../';
 
-const WeekShift = ({dateControl, fromDate, employee}) => {
+const WeekShift = ({dateControl, fromDate, employee, pickedShifts}) => {
 
     return (
         <div className="flex">
@@ -17,6 +17,7 @@ const WeekShift = ({dateControl, fromDate, employee}) => {
                         employee={employee}
                         key={`open-shift-day-${i}`}
                         fromDate={fromDate}
+                        pickedShifts={pickedShifts}
                         i={i}
                     />
                 )

@@ -16,7 +16,12 @@ const DayShift = ({ dateControl, startDate, employee}) => {
     const todayShifts = shifts.filter(shift => 
         new Date(shift.date).setHours(0, 0, 0, 0) === 
         new Date(startDate).setHours(0, 0, 0, 0) &&
-        ((employee && (employee?._id === shift.employee || employee?._id === shift?.employee?._id)) || !employee && shift.employee === null)
+        (employee && (
+            employee?._id === shift?.employee || 
+            employee?._id === shift?.employee?._id ||
+            employee?.user === shift?.acceptedBy
+            ) || // for employee from thee loop
+        !employee && shift.employee === null && !shift.acceptedBy) // for open shift from the loop
     );
 
     const [{ isOver }, drop] = useDrop({
@@ -38,6 +43,7 @@ const DayShift = ({ dateControl, startDate, employee}) => {
         }
 
         if(item.shift.employee !== employee) {
+            console.log(data)
             dispatch(editShift(data));
         }
     }

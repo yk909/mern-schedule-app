@@ -8,6 +8,7 @@ import OwnerProtect from "./common/OwnerProtect";
 import AdminProtect from "./common/AdminProtect";
 import Card from "./common/Card";
 import Sidebar from "./common/Sidebar";
+import Notification from "./message/Notification";
 
 import Calender from "./calender/Calender";
 import CalenderFooter from "./calender/CalenderFooter";
@@ -25,6 +26,7 @@ import EditShift from "./shift/EditShift";
 import ShiftsList from "./shift/ShiftsList";
 import AddNote from "./shift/AddNote";
 import ShiftsTable from "./shift/ShiftsTable";
+import PickedShift from "./shift/PickedShift";
 
 import CompanyCard from "./company/CompanyCard";
 import CreateCompany from "./company/CreateCompany";
@@ -40,8 +42,9 @@ import Employees from "./employee/Employees";
 import EmployeesModal from "./employee/EmployeesModal";
 
 import GlobalMessage from "./message/GlobalMessage";
-import MessageCard from "./message/MessageCard";
+import MessageTable from "./message/MessageTable";
 import CreateMessage from "./message/CreateMessage";
+import MessageCard from "./message/MessageCard";
 
 import Invites from "./invite/Invites";
 
@@ -56,6 +59,7 @@ export {
     AdminProtect,
     Card,
     Sidebar,
+    Notification,
 
     Calender,
     CalenderFooter,
@@ -73,6 +77,7 @@ export {
     ShiftsList,
     AddNote,
     ShiftsTable,
+    PickedShift,
 
     CompanyCard,
     CreateCompany,
@@ -88,8 +93,9 @@ export {
     EmployeesModal,
 
     GlobalMessage,
-    MessageCard,
+    MessageTable,
     CreateMessage,
+    MessageCard,
 
     Invites,
 }
