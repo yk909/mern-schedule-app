@@ -7,7 +7,7 @@ import ManagerProtect from "./common/ManagerProtect";
 import OwnerProtect from "./common/OwnerProtect";
 import AdminProtect from "./common/AdminProtect";
 import Card from "./common/Card";
-import Sidebar from "./common/Sidebar";
+import Sidenav from "./common/Sidenav";
 import Notification from "./message/Notification";
 
 import Calender from "./calender/Calender";
@@ -58,7 +58,7 @@ export {
     OwnerProtect,
     AdminProtect,
     Card,
-    Sidebar,
+    Sidenav,
     Notification,
 
     Calender,

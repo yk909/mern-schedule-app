@@ -22,7 +22,7 @@ const Scheduler = () => {
         if(!id && company) {
             navigate(`/scheduler/${company.businesses[0]._id}`);
         }
-    }, [company]);
+    }, [company, id]);
     return (
         <>
         <section>

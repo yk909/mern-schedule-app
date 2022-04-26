@@ -193,6 +193,19 @@
     background: var(--info);
 }
 
+.accepted-shift .section-title,
+.accepted-shift .section-holder {
+    background: var(--success);
+}
+
+.accepted-shift .section-img {
+    background: var(--success);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
 .section-row .col {
     padding: 0;
     min-width: 220px;

@@ -3,7 +3,7 @@ import { Link, useNavigate, NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import './styles/Navbar.css';
 import { logout, reset } from '../../features/auth/authSlice';
-import { Notification, Sidebar } from '../';
+import { Notification, Sidenav } from '../';
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -135,7 +135,7 @@ const Navbar = () => {
                         </svg>
                     </div>
                 </div>
-                <Sidebar
+                <Sidenav
                     isSidebarOpen={sidebar}
                     setIsSidebarOpen={setSidebar}
                     title="Menu"
@@ -236,7 +236,7 @@ const Navbar = () => {
                         </>
                         )}
                     </ul>
-                </Sidebar>
+                </Sidenav>
             </div>
         </nav>
     )

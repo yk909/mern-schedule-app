@@ -7,22 +7,31 @@ import { hours } from '../../constance/localData';
 import { CreateShift, Shift, ManagerProtect } from '../';
 
 
-const DayShift = ({ dateControl, startDate, employee}) => {
+const DayShift = ({ dateControl, startDate, employee, pickedShifts}) => {
     const [endTimeOnResize, setEndTimeOnResize] = useState({});
-    const { shifts } = useSelector(state => state.shift);
+    const shift = useSelector(state => state.shift);
     const { id } = useParams();
     const dispatch = useDispatch();
 
-    const todayShifts = shifts.filter(shift => 
+    const todayShifts = shift.shifts.filter(shift => 
         new Date(shift.date).setHours(0, 0, 0, 0) === 
         new Date(startDate).setHours(0, 0, 0, 0) &&
-        (employee && (
-            employee?._id === shift?.employee || 
+        ((employee && (
+            employee?._id === shift.employee || 
             employee?._id === shift?.employee?._id ||
-            employee?.user === shift?.acceptedBy
-            ) || // for employee from thee loop
-        !employee && shift.employee === null && !shift.acceptedBy) // for open shift from the loop
+            employee?.user === shift?.acceptedBy?._id
+            )) || // for employee from thee loop
+        (!employee && shift.employee === null && !shift.acceptedBy)
+        ) // for open shift from the loop
     );
+
+    const shifts = pickedShifts 
+    ? pickedShifts.filter(
+        shift => 
+            new Date(shift.date).setHours(0, 0, 0, 0) === 
+            new Date(startDate).setHours(0, 0, 0, 0)
+        )
+    : todayShifts
 
     const [{ isOver }, drop] = useDrop({
         accept: 'shift',
@@ -95,7 +104,7 @@ const DayShift = ({ dateControl, startDate, employee}) => {
                 opacity: isOver ? 0.5 : 1,
             }}
         >
-        { todayShifts && todayShifts.map((shift, e) => {
+        { shifts && shifts.map((shift, e) => {
             return (
                 <div 
                     key={`shift-row-${e}`} 
@@ -119,6 +128,7 @@ const DayShift = ({ dateControl, startDate, employee}) => {
                                     />
                                     :
                                     <>
+                                    {!pickedShifts && (
                                         <ManagerProtect>
                                             <CreateShift 
                                                 date={startDate}
@@ -126,6 +136,7 @@ const DayShift = ({ dateControl, startDate, employee}) => {
                                                 employee={employee}
                                             />
                                         </ManagerProtect>
+                                    )}
                                     </>
                                 }
                             </div>

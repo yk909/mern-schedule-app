@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './styles/Sidebar.css';
 
-const Sidebar = ({children, title, isSidebarOpen, setIsSidebarOpen}) => {
+const Sidenav = ({children, title, isSidebarOpen, setIsSidebarOpen}) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const onClickOutside = (e) => {
@@ -49,4 +49,4 @@ const Sidebar = ({children, title, isSidebarOpen, setIsSidebarOpen}) => {
     )
 }
 
-export default Sidebar
+export default Sidenav

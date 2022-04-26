@@ -106,9 +106,9 @@ const Shift = ({ shift, employee, index, endTimeOnResize, onMouseDownResize }) =
                             )
                         }
                         </div>
-                        {shift.position && 
+                        {shift.acceptedBy && 
                             <div className="position">
-                                { shift.position }
+                                { shift.acceptedBy.firstName }
                             </div>
                         }
                     </div>

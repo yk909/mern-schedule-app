@@ -84,8 +84,12 @@ const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, to
         if (id && fromDate) {
             const  data = {
                 business: id,
-                fromDate: fromDate,
-                toDate: toDate
+                fromDate: dateControl.value === 'day' 
+                    ? new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())
+                        : fromDate,
+                toDate: dateControl.value === 'day' 
+                    ? new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()+1)
+                        : toDate,
             }
             dispatch(getAllBusinessShifts(data));
         }
@@ -119,6 +123,7 @@ const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, to
                     <CopyShifts 
                         fromDate={fromDate}
                         toDate={toDate}
+                        startDate={startDate}
                         dateControl={dateControl}
                     />
                 </ManagerProtect>

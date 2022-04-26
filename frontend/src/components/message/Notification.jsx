@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { MessageCard, Sidebar } from '../';
+import { MessageCard, Sidenav } from '../';
 
 const Notification = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -8,7 +8,7 @@ const Notification = () => {
 
     return (
         <>
-            <Sidebar
+            <Sidenav
                 setIsSidebarOpen={setIsSidebarOpen}
                 isSidebarOpen={isSidebarOpen}
                 title={`Notifications`}
@@ -29,7 +29,7 @@ const Notification = () => {
                         </div>
                     )}
                 </div>
-            </Sidebar>
+            </Sidenav>
             <li className="notification" onClick={() => setIsSidebarOpen(true)}>
                 <a className="flex align-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">

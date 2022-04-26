@@ -29,8 +29,6 @@ const getAllBusinessShifts = async (req, res) => {
             }
         ).populate('acceptedBy');
 
-        console.log(req.query)
-
         if (!shifts) {
             return res.status(400).json({ msg: 'No shifts found' });
         }
@@ -202,7 +200,7 @@ const editShift = async (req, res) => {
         // Check if logged in user is a manager or company owner
         if (userEmployee.isManager || business.company.owners.includes(req.user._id))
         {
-            const editedShift = await Shift.findByIdAndUpdate(id, req.body, { new: true }).populate('business').populate('employee').exec();
+            const editedShift = await Shift.findByIdAndUpdate(id, req.body, { new: true }).populate('business').populate('employee').populate('acceptedBy').exec();
 
             return res.status(200).json(editedShift);
         }  else if (userEmployee._id.toString() === shift.employee._id.toString()) { // Check is user is an employee in this shift

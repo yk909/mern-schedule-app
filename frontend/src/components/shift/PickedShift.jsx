@@ -12,7 +12,7 @@ const PickedShift = ({ dateControl, fromDate, toDate, startDate  }) => {
     return (
         <>
         {weekShifts && weekShifts.length > 0 && (
-        <div className="section-row flex open-shift user-row">
+        <div className="section-row flex accepted-shift user-row">
             <div className="section-title flex align-center">
                 <div className="section-content flex align-between">
                     <div className="flex align-center">

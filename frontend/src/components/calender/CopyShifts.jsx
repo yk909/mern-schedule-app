@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { copyPreviousWeekShifts } from '../../features/shift/shiftSlice';
 import { Modal } from '../';
 
-const CopyShifts = ({dateControl, fromDate, toDate}) => {
+const CopyShifts = ({dateControl, fromDate, toDate, startDate}) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const dispatch = useDispatch();
     const { id } = useParams();
@@ -12,8 +12,12 @@ const CopyShifts = ({dateControl, fromDate, toDate}) => {
     const onSubmit = () => {
         const data = {
             business: id,
-            fromDate: fromDate.setHours(0,0,0,0), 
-            toDate: toDate.setHours(0,0,0,0),
+            fromDate: dateControl.value === 'day' 
+                ? new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())
+                    : fromDate.setHours(0,0,0,0),
+            toDate: dateControl.value === 'day' 
+                ? new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()+1)
+                    : toDate.setHours(0,0,0,0),
             dateControl: dateControl.value
         }
         dispatch(copyPreviousWeekShifts(data));
@@ -27,28 +31,37 @@ const CopyShifts = ({dateControl, fromDate, toDate}) => {
                 setModalIsOpen={setModalIsOpen}
                 modalIsOpen={modalIsOpen}
             >
-                <p>
-                    From <b>{fromDate.toLocaleString("en-US", { month: 'short', day: 'numeric' })}</b> - <b>{toDate.toLocaleString("en-US", { month: 'short', day: 'numeric' })}</b>
-                </p>
-                <p>
-                    To <b>{new Date(fromDate.setHours(0, 0, 0, 0) + 
-                        ((dateControl.value === 'week' ?
-                            7
-                        : dateControl.value === '2week' ?
-                            14
-                        : dateControl.value === '4week' ?
-                            28
-                        : 1)
-                        * 24 * 60 * 60 * 1000)) .toLocaleString("en-US", { month: 'short', day: 'numeric' })}</b> - <b>{new Date(toDate.setHours(0, 0, 0, 0) + 
-                        ((dateControl.value === 'week' ?
-                            7
-                        : dateControl.value === '2week' ?
-                            14
-                        : dateControl.value === '4week' ?
-                            28
-                        : 1)
-                        * 24 * 60 * 60 * 1000)) .toLocaleString("en-US", { month: 'short', day: 'numeric' })} </b>
-                </p>
+                {dateControl.value === 'day' ? (
+                    <>
+                        <p>From <b>{startDate.toLocaleString("en-US", { month: 'short', day: 'numeric' })}</b></p>
+                        <p>To <b>{new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()+1).toLocaleString("en-US", { month: 'short', day: 'numeric' })}</b></p>
+                    </>
+                ):(
+                    <>
+                        <p>
+                            From <b>{fromDate.toLocaleString("en-US", { month: 'short', day: 'numeric' })}</b> - <b>{toDate.toLocaleString("en-US", { month: 'short', day: 'numeric' })}</b>
+                        </p>
+                        <p>
+                            To <b>{new Date(fromDate.setHours(0, 0, 0, 0) + 
+                                ((dateControl.value === 'week' ?
+                                    7
+                                : dateControl.value === '2week' ?
+                                    14
+                                : dateControl.value === '4week' ?
+                                    28
+                                : 1)
+                                * 24 * 60 * 60 * 1000)) .toLocaleString("en-US", { month: 'short', day: 'numeric' })}</b> - <b>{new Date(toDate.setHours(0, 0, 0, 0) + 
+                                ((dateControl.value === 'week' ?
+                                    7
+                                : dateControl.value === '2week' ?
+                                    14
+                                : dateControl.value === '4week' ?
+                                    28
+                                : 1)
+                                * 24 * 60 * 60 * 1000)) .toLocaleString("en-US", { month: 'short', day: 'numeric' })} </b>
+                        </p>
+                    </>
+                )}
                 <div className="form-group-row">
                     <div className="form-group">
                         <div
