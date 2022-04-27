@@ -60,6 +60,10 @@
     color: var(--text-dark);
 }
 
+.business-card-header-info-left {
+    max-width: 150px;
+}
+
 .business-card-header-info-left,
 .business-card-header-info-right {
     display: flex;
@@ -91,4 +95,11 @@
     width: 20px;
     height: 20px;
     margin-right: 5px;
+}
+
+@media (max-width: 768px) {
+    .business-card-header-info-left p,
+    .business-card-header-info-right p {
+        font-size: 0.85rem;
+    }
 }

@@ -30,3 +30,34 @@
     padding-top: 1rem;
     margin-right: 1rem;
 }
+
+@media (max-width: 768px) {
+    .profile-container {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .profile-name {
+        justify-content: center;
+        align-self: center;
+    }
+
+    .user-info {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .user-info-item {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-right: 0;
+    }
+
+    .profile-container .user-info svg {
+        margin: 0;
+    }
+}

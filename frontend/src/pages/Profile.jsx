@@ -39,7 +39,7 @@ const Profile = () => {
                                 </>
                             )}
                             {!showLastNameInput ? (
-                                <h1 className="title-2 mr-1" onClick={() => setShowLastNameInput(true)}>{user.lastName}</h1>
+                                <h1 className="title-2" onClick={() => setShowLastNameInput(true)}>{user.lastName}</h1>
                             ) : (
                                 <>
                                     <input 
@@ -106,7 +106,7 @@ const Profile = () => {
                                 <p className="text-secondary">
                                     Company
                                 </p>
-                                <div className="text-headline mt-4">
+                                <div className="mt-4">
                                     {company.name}
                                 </div>
                             </div>
@@ -118,7 +118,7 @@ const Profile = () => {
                                     Businesses
                                 </p>
                                 {userEmployees?.length > 0 ? (
-                                    <div className="text-headline mt-4">
+                                    <div className="mt-4">
                                         {userEmployees.map((employee, index) => (
                                             <p key={index}>{employee.business.name}</p>
                                         ))}
@@ -135,7 +135,7 @@ const Profile = () => {
                                     Manager Of Businesses
                                 </p>
                                 {userEmployees?.length > 0 ? (
-                                    <div className="text-headline mt-4">
+                                    <div className="mt-4">
                                         {userEmployees.map((employee, index) => (
                                             employee.isManager && 
                                             <p key={index}>{employee.business.name}</p>

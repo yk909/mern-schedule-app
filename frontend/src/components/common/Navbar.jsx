@@ -114,9 +114,9 @@ const Navbar = () => {
             </div>
             <div className="nav-burger h-100">
                 <div className="flex align-between h-100 px-1">
-                    <div className="title-2">
-                        Menu
-                    </div>
+                    {user && company && employee && (
+                        <Notification />
+                    )}
                     <div className="btn btn-outline" onClick={() => {setSidenav(true)}}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
                             <path d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
@@ -129,9 +129,6 @@ const Navbar = () => {
                     title="Menu"
                 >
                     <ul className="nav-burger-links">
-                        {user && company && employee && (
-                            <Notification />
-                        )}
                         {user && company && employee && (
                             <li>
                                 <NavLink onClick={() => setSidenav(false)} to="/dashboard">

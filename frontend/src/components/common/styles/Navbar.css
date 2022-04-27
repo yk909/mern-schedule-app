@@ -69,10 +69,6 @@ nav li svg {
     position: relative;
 }
 
-nav .notification span {
-    display: none;
-}
-
 nav .notification svg {
     margin-right: 0;
 }
@@ -155,13 +151,18 @@ nav .nav-menu-links a {
         display: block;
     }
 
-    .nav-burger .notification .count {
-        left: 25px;
-        top: 30px;
+    .nav-burger .notification {
+        list-style: none;
     }
 
-    .nav-burger .notification span {
-        display: block;
+    .nav-burger .notification a {
+        border-left: 0;
+        border-bottom: 3px solid var(--color-main);
+    }
+
+    .nav-burger .notification a:hover {
+        border-left: none;
+        border-bottom: 3px solid var(--color-primary);
     }
 
     nav li a.active,

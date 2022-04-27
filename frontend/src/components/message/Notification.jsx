@@ -40,9 +40,6 @@ const Notification = () => {
                             {+globalMessages?.companyGlobalMessage?.length + +globalMessages?.businessGlobalMessage?.length}
                         </div>
                     )}
-                    <span>
-                        Notifications
-                    </span>
                 </a>
             </li>
         </>

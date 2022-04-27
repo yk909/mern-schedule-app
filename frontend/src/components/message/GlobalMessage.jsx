@@ -10,7 +10,7 @@ const GlobalMessage = () => {
 
     return (
         <Card 
-            title={`Your Messages ${globalMessagesSender.length}`}
+            title={`Your Messages ${globalMessagesSender?.length}`}
             isOpen={isCardOpen}
             setIsOpen={setIsCardOpen}
         >
