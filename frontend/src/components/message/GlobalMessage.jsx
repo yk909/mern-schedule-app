@@ -1,20 +1,22 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Card } from '../';
 import { MessageTable, CreateMessage } from '../';
 import "./styles/GlobalMessage.css";
 
 const GlobalMessage = () => {
     const [ isCardOpen, setIsCardOpen] = useState(false);
+    const { globalMessagesSender } = useSelector(state => state.globalMessage);
 
     return (
         <Card 
-            title="Global Messages"
+            title={`Your Messages ${globalMessagesSender.length}`}
             isOpen={isCardOpen}
             setIsOpen={setIsCardOpen}
         >
             <div className="flex align-between px-1">
-                <p className="title-2">
-                    Your Messages
+                <p className="title-3">
+                    All Pending Messages
                 </p>
                 <CreateMessage/>
             </div>

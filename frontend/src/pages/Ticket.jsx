@@ -35,7 +35,7 @@ const Ticket = () => {
                 setIsOpen={setIsCard2Open}
             >
                 <div className="flex align-between px-1">
-                    <p className="title-2">
+                    <p className="title-3">
                         Last 10 tickets
                     </p>
                     <CreateTicket

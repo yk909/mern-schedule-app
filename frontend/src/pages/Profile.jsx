@@ -17,6 +17,7 @@ const Profile = () => {
 
     return (
         <section className="profile-page">
+            {user && company && (
             <div className="profile-container flex">
                 <div className="profile-img">
                     <img src={user.profilePicture ? user.profilePicture : '	https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png'} alt="profile" />
@@ -105,7 +106,9 @@ const Profile = () => {
                                 <p className="text-secondary">
                                     Company
                                 </p>
-                                {company.name}
+                                <div className="text-headline mt-4">
+                                    {company.name}
+                                </div>
                             </div>
                         </div>
                         <div className="user-info-item">
@@ -114,12 +117,12 @@ const Profile = () => {
                                 <p className="text-secondary">
                                     Businesses
                                 </p>
-                                {userEmployees.length > 0 ? (
-                                    <>
+                                {userEmployees?.length > 0 ? (
+                                    <div className="text-headline mt-4">
                                         {userEmployees.map((employee, index) => (
                                             <p key={index}>{employee.business.name}</p>
                                         ))}
-                                    </>
+                                    </div>
                                 ) : (
                                     <p>No businesses</p>
                                 )}
@@ -131,13 +134,13 @@ const Profile = () => {
                                 <p className="text-secondary">
                                     Manager Of Businesses
                                 </p>
-                                {userEmployees.length > 0 ? (
-                                    <>
+                                {userEmployees?.length > 0 ? (
+                                    <div className="text-headline mt-4">
                                         {userEmployees.map((employee, index) => (
                                             employee.isManager && 
                                             <p key={index}>{employee.business.name}</p>
                                         ))}
-                                    </>
+                                    </div>
                                 ) : (
                                     <p>No businesses</p>
                                 )}
@@ -146,6 +149,7 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
+            )}
         </section>
     )
 }

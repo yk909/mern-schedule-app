@@ -30,14 +30,14 @@ const Schedule = () => {
             {!isLoading && userShifts && company && (
                 <>
                     <Card 
-                        title="Open Shifts"
+                        title={`Open Shifts ${userOpenShifts.length}`}
                         isOpen={isCardOpen}
                         setIsOpen={setIsCardOpen}
                     >
                         <ShiftsTable shifts={userOpenShifts} isOpenShift={true}/>
                     </Card>
                     <Card 
-                        title="Your Shifts"
+                        title={`Your Shifts ${userShiftsFiltred.length}`}
                         isOpen={isCard2Open}
                         setIsOpen={setIsCard2Open}
                     >

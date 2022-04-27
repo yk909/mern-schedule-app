@@ -24,7 +24,7 @@ const Dashboard = () => {
             
             {!isLoading && userShifts && company && (
                 <Card 
-                    title="Open Shifts"
+                    title={`Open Shifts ${userShifts.length}`}
                     isOpen={isCardOpen}
                     setIsOpen={setIsCardOpen}
                 >
