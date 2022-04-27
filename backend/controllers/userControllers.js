@@ -16,6 +16,7 @@ const getUser = async (req, res) => {
             email: user.email,
             firstName: user.firstName,
             lastName: user.lastName,
+            phoneNumber: user.phoneNumber,
             token: req.headers.authorization.split(' ')[1]
         })
     } else {
@@ -93,6 +94,7 @@ const loginUser = async (req, res) => {
                 email: user.email,
                 firstName: user.firstName,
                 lastName: user.lastName,
+                phoneNumber: user.phoneNumber,
                 token: generateToken(user._id)
             });
         } else {
@@ -132,6 +134,7 @@ const editUser = async (req, res) => {
             email: user.email,
             firstName: user.firstName,
             lastName: user.lastName,
+            phoneNumber: user?.phoneNumber,
             token: req.headers.authorization.split(' ')[1]
         })
     } catch (err) {

@@ -7,6 +7,8 @@
 .page section {
     overflow: hidden;
     padding: 0 1rem;
+    padding-bottom: 50px;
+    padding-top: 10px;
 }
 
 .page.sidebar-open {
@@ -19,6 +21,8 @@
 
 .sidebar-container {
     padding-left: 1rem;
+    padding-bottom: 50px;
+    padding-top: 10px;
 }
 
 .sidebar {

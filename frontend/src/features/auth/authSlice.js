@@ -132,6 +132,22 @@ const authSlice = createSlice({
             state.msg = action.payload;
             state.user = null;
         });
+
+        // Edit user
+        builder.addCase(editUser.pending, (state) => {
+            state.isLoading = true;
+            state.isError = false;
+        });
+        builder.addCase(editUser.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            state.user = action.payload;
+        });
+        builder.addCase(editUser.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.msg = action.payload;
+        });
     }
 });
 
