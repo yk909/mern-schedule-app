@@ -82,6 +82,7 @@ const CreateMessage = () => {
                         name="message"
                         placeholder="Enter your message here"
                         maxLength={100}
+                        rows={2}
                         className="form-control"
                         value={message.message}
                         onChange={(e) => onChange(e)}

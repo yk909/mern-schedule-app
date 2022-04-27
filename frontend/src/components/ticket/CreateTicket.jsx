@@ -13,14 +13,20 @@ const CreateTicket = () => {
     const dispatch = useDispatch();
     const location = useLocation().pathname.split('/')[1];
     const businesses = useSelector(state => state.employee.userEmployees)?.map(e => e.business);
-    const employees = useSelector(state => state.company.company.employees);
+    const employees = useSelector(state => state.company.company?.employees);
+    const company = useSelector(state => state.company);
+    const user = useSelector(state => state.auth.user);
+    const businessManager = useSelector(state => state.employee.userEmployees)?.filter(a => a.isManager)?.map(e => e.business);
+    const businessManagerOrOwner = company?.owners?.includes(user._id) ?
+        company.businesses
+    : businessManager;
 
     const [ticket, setTicket] = useState({
         message: "",
         business: null,
         to: null,
         type: null,
-        date: null,
+        date: '',
         message: '',
         anonymous: {value: false, label: 'No'}
     });
@@ -32,17 +38,29 @@ const CreateTicket = () => {
         {value: 'complaint', label: 'Complaint'},
         {value: 'other', label: 'Other'}
     ]
-    const businessSelect = businesses?.map(b => ({value: b._id, label: b.name}));
-    const employeeSelect = employees?.map(b => ({value: b._id, label: `${b.firstName} ${b.lastName}`}));
+    const businessSelect = businesses?.map(b => ({value: b, label: b.name}));
+    const businessManagerSelect = businessManagerOrOwner?.map(b => ({value: b, label: b.name}));
+    const employeeSelect = employees?.map(b => ({value: b, label: `${b.firstName} ${b.lastName}`}));
 
     const onSubmit = () => {
-        if(ticket.message.length > 1 && ticket.business && ticket.type) {
+        if(location === 'user' && ticket.message.length > 1 && ticket.business && ticket.type
+        ) {
             const data = {
                 message: ticket.message,
                 business: ticket.business.value,
                 type: ticket.type.value,
                 date: ticket.date,
                 anonymous: ticket.anonymous.value
+            }
+            dispatch(createTicket(data));
+            setIsModalOpen(false);
+        } else if (location === 'dashboard' && ticket.business && ticket.message.length > 1 && ticket.to && ticket.type) {
+            const data = {
+                message: ticket.message,
+                date: ticket.date,
+                business: ticket.business.value,
+                type: ticket.type.value,
+                to: ticket.to.value,
             }
             dispatch(createTicket(data));
             setIsModalOpen(false);
@@ -89,16 +107,15 @@ const CreateTicket = () => {
                                 />
                             </>
                         ) : (
-                            <>
-                                
-                                <label>Business *</label>
-                                <Select
-                                    styles={customSelectModalStyles}
-                                    options={businessSelect}
-                                    onChange={(e) => setTicket({...ticket, business: e})}
-                                    value={ticket.business}
-                                />
-                            </>
+                            <div className="form-group">
+                            <label>Business *</label>
+                            <Select
+                                styles={customSelectModalStyles}
+                                options={businessSelect}
+                                onChange={(e) => setTicket({...ticket, business: e})}
+                                value={ticket.business}
+                            />
+                            </div>
                         )}
                     </div>
                 </div>
@@ -107,7 +124,7 @@ const CreateTicket = () => {
                         <label>Date</label>
                         <input type="date" name="date" value={ticket.date} onChange={onChange} />
                     </div>
-                    {location !== 'dashboard' && (
+                    {location !== 'dashboard' ? (
                         <div className="form-group">
                             <label>Anonymous</label>
                             <Select
@@ -117,12 +134,27 @@ const CreateTicket = () => {
                                 value={ticket.anonymous}
                             />
                         </div>
+                    ) : (
+                        <div className="form-group">
+                        <label>Business *</label>
+                        <Select
+                            styles={customSelectModalStyles}
+                            options={businessManagerSelect}
+                            onChange={(e) => setTicket({...ticket, business: e})}
+                            value={ticket.business}
+                        />
+                        </div>
                     )}
                 </div>
                 <div className="form-group">
                     <label>Message *</label>
-                    <textarea name="message" value={ticket.message} onChange={onChange} 
-                    placeholder="Enter your message here" rows="3"></textarea>
+                    <textarea 
+                        name="message" 
+                        value={ticket.message}
+                        onChange={onChange} 
+                        placeholder="Enter your message here" 
+                        maxLength="100"
+                        rows="2"/>
                 </div>
             </Modal>
             <div 

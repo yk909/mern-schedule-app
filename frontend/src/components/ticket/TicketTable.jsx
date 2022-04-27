@@ -1,10 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateTicket, deleteTicket } from "../../features/ticket/ticketSlice";
+
 
 const TicketTable = ({isReceived}) => {
     const ticketsFrom = useSelector(state => state.ticket.from);
     const ticketsTo = useSelector(state => state.ticket.to);
     const location = useLocation().pathname.split('/')[1];
+    const dispatch = useDispatch();
 
     const tickets = isReceived ? ticketsTo : ticketsFrom;
 
@@ -48,20 +51,26 @@ const TicketTable = ({isReceived}) => {
                                     </b>
                                 </td>
                             )}
-                            <td className="w-100 text-start">
+                            <td className="w-100 text-start text-transform-none">
                                 {ticket.message}
                             </td>
-                            <td>
-                                <b>
-                                    {ticket?.type}
-                                </b>
+                            <td className={`${
+                                ticket.type === 'complaint' ||
+                                ticket.type === 'issue' ?
+                                'bg-danger' :
+                                ticket.type === 'request' ||
+                                ticket.type === 'time-off' ?
+                                'bg-warning' :
+                                ''
+                                }`}>
+                                {ticket?.type}
                             </td>
                             <td>
-                                {ticket?.date.split('T')[0]}
+                                {ticket?.date?.split('T')[0]}
                             </td>
                             <td className={`${
                                 ticket.status === 'pending' ? 'bg-warning' 
-                            : ticket.status === 'accepted' ? 'bg-success'
+                            : ticket.status === 'accepted' || ticket.status === 'resolved' ? 'bg-success'
                             : ticket.status === 'rejected' ? 'bg-danger' : '' }`}>
                                 {ticket.status}
                             </td>
@@ -71,8 +80,10 @@ const TicketTable = ({isReceived}) => {
                                         className="btn btn-outline-danger w-100 btn-sm mr-1"
                                         onClick={() => 
                                             {
-                                                console.log('message')
-                                                // dispatch(deleteGlobalMessage(message._id));
+                                                dispatch(updateTicket({
+                                                    _id: ticket._id,
+                                                    status: 'rejected'
+                                                }))
                                             }
                                         }>
                                         Reject
@@ -81,11 +92,13 @@ const TicketTable = ({isReceived}) => {
                                         className="btn btn-outline-success w-100 btn-sm"
                                         onClick={() => 
                                             {
-                                                console.log('message')
-                                                // dispatch(deleteGlobalMessage(message._id));
+                                                dispatch(updateTicket({
+                                                    _id: ticket._id,
+                                                    status: 'resolved'
+                                                }))
                                             }
                                         }>
-                                        Approve
+                                        Resolved
                                     </button>
                                 </td>
                             ) : (
@@ -94,8 +107,7 @@ const TicketTable = ({isReceived}) => {
                                     className="btn btn-outline-danger w-100 btn-sm"
                                     onClick={() => 
                                         {
-                                            console.log('message')
-                                            // dispatch(deleteGlobalMessage(message._id));
+                                            dispatch(deleteTicket(ticket._id));
                                         }
                                     }>
                                     Delete

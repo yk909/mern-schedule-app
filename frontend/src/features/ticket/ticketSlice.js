@@ -178,8 +178,8 @@ const ticketSlice = createSlice({
             state.isError = false;
         });
         builder.addCase(updateTicket.fulfilled, (state, action) => {
-            const index = state.tickets.findIndex(ticket => ticket.id === action.payload.id);
-            state.tickets[index] = action.payload;
+            const index = state.to.findIndex(ticket => ticket._id === action.payload._id);
+            state.to[index] = action.payload;
             state.isLoading = false;
             state.isSuccess = true;
         });
@@ -195,7 +195,7 @@ const ticketSlice = createSlice({
             state.isError = false;
         });
         builder.addCase(deleteTicket.fulfilled, (state, action) => {
-            state.from = state.from.filter(ticket => ticket.id !== action.payload);
+            state.from = state.from.filter(ticket => ticket._id !== action.payload._id);
             state.isLoading = false;
             state.isSuccess = true;
         });

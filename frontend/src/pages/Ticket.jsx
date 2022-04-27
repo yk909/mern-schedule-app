@@ -36,6 +36,7 @@ const Ticket = () => {
             >
                 <div className="flex align-between px-1">
                     <p className="title-2">
+                        Last 10 tickets
                     </p>
                     <CreateTicket
                         isReceived={false}

@@ -69,7 +69,7 @@ const getAllEmployeeTickets = async (req, res) => {
 // @access  Private
 const createTicket = async (req, res) => {
     try {
-        const business = await Business.findById(req.body.business).populate('company');
+        const business = await Business.findById(req.body.business._id).populate('company');
         
         if(!business) {
             return res.status(404).json({ msg: 'Business not found' });
@@ -78,7 +78,7 @@ const createTicket = async (req, res) => {
         if(req.body.to) {
             const ticket = new Ticket({
                 from: req.user._id,
-                to: req.body.to,
+                to: req.body.to._id,
                 business: business._id,
                 message: req.body.message,
                 type: req.body.type,
@@ -87,6 +87,9 @@ const createTicket = async (req, res) => {
             });
 
             await ticket.save();
+
+            ticket.to = req.body.to ? req.body.to : null;
+            ticket.business = req.body.business ? business : null;
 
             return res.status(200).json(ticket);
         } else {
@@ -100,6 +103,8 @@ const createTicket = async (req, res) => {
             });
 
             await ticket.save();
+
+            ticket.business = business;
 
             return res.status(200).json(ticket);
         }
@@ -116,13 +121,16 @@ const createTicket = async (req, res) => {
 // @access  Private
 const updateTicket = async (req, res) => {
     try {
-        const ticket = await Ticket.findById(req.params.id);
+        const ticket = await Ticket.findById(req.params.id)
+        .populate('from')
+        .populate('to')
+        .populate('business').exec();;
 
         if(!ticket) {
             return res.status(404).json({ msg: 'Ticket not found' });
         }
 
-        if(ticket.from.toString() !== req.user._id.toString() || (ticket.to && ticket.to.toString() !== req.user._id.toString())) {
+        if(ticket.from._id.toString() !== req.user._id.toString() || (ticket.to && ticket.to._id.toString() !== req.user._id.toString())) {
             return res.status(401).json({ msg: 'User not authorized' });
         }
         

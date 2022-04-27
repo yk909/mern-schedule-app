@@ -119,7 +119,7 @@ main {
 
 .bg-danger {
   background-color: var(--danger);
-  color: var(--text-dark);
+  color: var(--text-light);
 }
 
 .bg-warning {
@@ -693,6 +693,10 @@ textarea:hover {
   font-size: 1.15rem;
   font-weight: 500;
   letter-spacing: 1px;
+}
+
+.text-transform-none {
+  text-transform: none;
 }
 
 .text-headline {
