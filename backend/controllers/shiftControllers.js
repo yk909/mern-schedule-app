@@ -52,6 +52,17 @@ const getUserShifts = async (req, res) => {
             date: {
                 $gte: new Date().setHours(0,0,0,0),
             },
+            employee: {
+                $in: userEmployees.map(employee => employee._id)
+            }
+        }).populate('business').populate('employee').sort({ date: 1 });
+
+        const openShifts = await Shift.find({
+            date: {
+                $gte: new Date().setHours(0,0,0,0),
+            },
+            employee: null,
+            acceptedBy: null,
             business: {
                 $in: userEmployees.map(employee => employee.business)
             }
@@ -68,7 +79,7 @@ const getUserShifts = async (req, res) => {
             return res.status(400).json({ msg: 'No shifts found' });
         }
 
-        return res.status(200).json(shifts.concat(pickedUpShifts));
+        return res.status(200).json(shifts.concat(pickedUpShifts).concat(openShifts));
     } catch (err) {
         console.log(err)
         return res.status(500).json({ msg: 'Server Error' });
@@ -200,6 +211,7 @@ const editShift = async (req, res) => {
         // Check if logged in user is a manager or company owner
         if (userEmployee.isManager || business.company.owners.includes(req.user._id))
         {
+            req.body.acceptedBy = req.body.acceptedBy ? req.body.acceptedBy : null;
             const editedShift = await Shift.findByIdAndUpdate(id, req.body, { new: true }).populate('business').populate('employee').populate('acceptedBy').exec();
 
             return res.status(200).json(editedShift);

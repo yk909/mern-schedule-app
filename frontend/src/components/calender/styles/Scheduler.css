@@ -163,6 +163,7 @@
     object-position: center;
     border-radius: 50%;
     margin-right: 5px;
+    box-shadow: var(--box-shadow);
 }
 
 .section-row .section-title .section-hours svg {
@@ -186,6 +187,7 @@
     height: 30px;
     border-radius: 50%;
     margin-right: 5px;
+    box-shadow: var(--box-shadow);
 }
 
 .open-shift .section-title,
@@ -204,6 +206,7 @@
     height: 30px;
     border-radius: 50%;
     margin-right: 5px;
+    box-shadow: var(--box-shadow);
 }
 
 .section-row .col {

@@ -4,17 +4,17 @@ import { useDrop } from 'react-dnd';
 import { editShift } from '../../features/shift/shiftSlice';
 import { Shift, CreateShift, ManagerProtect } from '../';
 
-const ShiftsList = ({fromDate, i, employee, pickedShifts}) => {
+const ShiftsList = ({fromDate, i, employee, acceptedShifts}) => {
     const shiftsSelector = useSelector(state => state.shift.shifts).filter(shift => 
         ((employee && (
             employee?._id === shift.employee || 
             employee?._id === shift?.employee?._id ||
             employee?.user === shift?.acceptedBy?._id
             )) || // for employee from thee loop
-        !employee && shift.employee === null && !shift.acceptedBy) // for open shift from the loop
+        (!employee && shift.employee === null && !shift.acceptedBy)) // for open shift from the loop
     );
 
-    const shifts = pickedShifts ? pickedShifts : shiftsSelector;
+    const shifts = acceptedShifts ? acceptedShifts : shiftsSelector;
 
     const dispatch = useDispatch();
 
@@ -50,7 +50,7 @@ const ShiftsList = ({fromDate, i, employee, pickedShifts}) => {
                 `${new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()+i).getFullYear()}-${new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()+i).getMonth()+1}-${new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()+i).getDate()}-id-${employee ? employee._id : 'openShift'}`
                 }
             className={`col section-holder ${isOver ? 'over' : ''}`}
-            ref={drop}
+            ref={!acceptedShifts ? drop : null}
             style={{
                 opacity: isOver ? 0.5 : 1,
                 background: isOver ? 'var(--color-secondary)' : '',
@@ -63,10 +63,11 @@ const ShiftsList = ({fromDate, i, employee, pickedShifts}) => {
                         key={`shift-row-${e}`}
                         shift={shift}
                         employee={employee}
+                        acceptedShifts={acceptedShifts}
                     />
                 )
             })}
-            {!pickedShifts && (
+            {!acceptedShifts && (
                 <ManagerProtect>
                     <CreateShift 
                         date={new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()+i)}

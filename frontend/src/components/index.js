@@ -26,7 +26,7 @@ import EditShift from "./shift/EditShift";
 import ShiftsList from "./shift/ShiftsList";
 import AddNote from "./shift/AddNote";
 import ShiftsTable from "./shift/ShiftsTable";
-import PickedShift from "./shift/PickedShift";
+import AcceptedShift from "./shift/AcceptedShift";
 
 import CompanyCard from "./company/CompanyCard";
 import CreateCompany from "./company/CreateCompany";
@@ -77,7 +77,7 @@ export {
     ShiftsList,
     AddNote,
     ShiftsTable,
-    PickedShift,
+    AcceptedShift,
 
     CompanyCard,
     CreateCompany,

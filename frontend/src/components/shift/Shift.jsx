@@ -4,7 +4,7 @@ import { useDrag } from 'react-dnd';
 import { toast } from 'react-toastify';
 import { EditShift, ManagerProtect } from '../';
 
-const Shift = ({ shift, employee, index, endTimeOnResize, onMouseDownResize }) => {
+const Shift = ({ shift, employee, index, endTimeOnResize, onMouseDownResize, acceptedShifts }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [width, setWidth] = useState(0);
     const [totalHours, setTotalHours] = useState(0);
@@ -44,7 +44,6 @@ const Shift = ({ shift, employee, index, endTimeOnResize, onMouseDownResize }) =
 
     return (
         <>
-        {/* {console.log(Test())} */}
         <div 
             className="shift-parent flex align-between"
             id={`${shift._id}`}
@@ -106,9 +105,9 @@ const Shift = ({ shift, employee, index, endTimeOnResize, onMouseDownResize }) =
                             )
                         }
                         </div>
-                        {shift.acceptedBy && 
+                        {acceptedShifts && shift.acceptedBy && 
                             <div className="position">
-                                { shift.acceptedBy.firstName }
+                                { shift.acceptedBy.lastName }
                             </div>
                         }
                     </div>

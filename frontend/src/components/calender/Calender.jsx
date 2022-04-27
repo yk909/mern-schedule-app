@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getAllBusinessShifts } from '../../features/shift/shiftSlice';
-import { CalenderHeader, OpenShift, UserShift, CalenderFooter, PickedShift } from '../';
+import { CalenderHeader, OpenShift, UserShift, CalenderFooter, AcceptedShift } from '../';
 import './styles/Scheduler.css';
 
 const Scheduler = ({fromDate, toDate, startDate, dateControl, setStartDate, setDateControl}) => {
@@ -38,7 +38,7 @@ const Scheduler = ({fromDate, toDate, startDate, dateControl, setStartDate, setD
                         dateControl={dateControl}
                         shifts={shifts}
                     />
-                    <PickedShift
+                    <AcceptedShift
                         startDate={startDate}
                         toDate={toDate}
                         fromDate={fromDate}

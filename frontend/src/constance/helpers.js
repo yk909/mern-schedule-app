@@ -4,22 +4,31 @@ const countTotalHours = (employee, shifts, startDate, fromDate, toDate) => {
     if(startDate) {
         shifts && shifts.map(shift => {
             if(
-                (new Date(shift.date).setHours(0, 0, 0, 0) === 
-                new Date(startDate).setHours(0, 0, 0, 0) &&
-                (employee && shift.employee === employee._id)) || 
-                (new Date(shift.date).setHours(0, 0, 0, 0) === 
-                new Date(startDate).setHours(0, 0, 0, 0) &&
-                (!employee && !shift.employee))
-            ) {
-                hours += shift.endTime.slice(0,2) - shift.startTime.slice(0,2);
-                minuts += shift.endTime.slice(3,5) - shift.startTime.slice(3,5);
+                new Date(shift.date).setHours(0, 0, 0, 0) === 
+                new Date(startDate).setHours(0, 0, 0, 0)
+            ){
+                if(
+                    ((employee && (
+                        employee?._id === shift.employee || 
+                        employee?._id === shift?.employee?._id ||
+                        employee?.user === shift?.acceptedBy?._id
+                        )) || // for employee from thee loop
+                    (!employee && shift.employee === null && !shift.acceptedBy))
+                ) {
+                    hours += shift.endTime.slice(0,2) - shift.startTime.slice(0,2);
+                    minuts += shift.endTime.slice(3,5) - shift.startTime.slice(3,5);
+                }
             }
         });
     } else {
         shifts && shifts.map(shift => {
             if(
-                (employee && (shift.employee === employee._id)) || 
-                (!employee && !shift.employee)
+                ((employee && (
+                    employee?._id === shift.employee || 
+                    employee?._id === shift?.employee?._id ||
+                    employee?.user === shift?.acceptedBy?._id
+                    )) || // for employee from thee loop
+                (!employee && shift.employee === null && !shift.acceptedBy))
             ) {
                 let sTime = new Date(shift.date).setHours(0, 0, 0, 0);
                 let fTime = new Date(fromDate).setHours(0, 0, 0, 0);

@@ -7,7 +7,7 @@ import { hours } from '../../constance/localData';
 import { CreateShift, Shift, ManagerProtect } from '../';
 
 
-const DayShift = ({ dateControl, startDate, employee, pickedShifts}) => {
+const DayShift = ({ dateControl, startDate, employee, acceptedShifts}) => {
     const [endTimeOnResize, setEndTimeOnResize] = useState({});
     const shift = useSelector(state => state.shift);
     const { id } = useParams();
@@ -25,8 +25,8 @@ const DayShift = ({ dateControl, startDate, employee, pickedShifts}) => {
         ) // for open shift from the loop
     );
 
-    const shifts = pickedShifts 
-    ? pickedShifts.filter(
+    const shifts = acceptedShifts 
+    ? acceptedShifts.filter(
         shift => 
             new Date(shift.date).setHours(0, 0, 0, 0) === 
             new Date(startDate).setHours(0, 0, 0, 0)
@@ -98,7 +98,7 @@ const DayShift = ({ dateControl, startDate, employee, pickedShifts}) => {
 
     return (
         <div
-            ref={drop}
+            ref={!acceptedShifts ? drop : null}
             className="pos-relative"
             style={{
                 opacity: isOver ? 0.5 : 1,
@@ -125,10 +125,11 @@ const DayShift = ({ dateControl, startDate, employee, pickedShifts}) => {
                                         index={index}
                                         onMouseDownResize={onMouseDownResize}
                                         endTimeOnResize={endTimeOnResize}
+                                        acceptedShifts={acceptedShifts}
                                     />
                                     :
                                     <>
-                                    {!pickedShifts && (
+                                    {!acceptedShifts && (
                                         <ManagerProtect>
                                             <CreateShift 
                                                 date={startDate}
