@@ -7,6 +7,7 @@ import shiftReducer from '../features/shift/shiftSlice';
 import inviteReducer from '../features/invite/inviteSlice';
 import globalMessageReducer from '../features/globalMessage/globalMessageSlice';
 import taskReducer from '../features/task/taskSlice';
+import ticketReducer from '../features/ticket/ticketSlice';
 
 export const store = configureStore({
   reducer: {
@@ -18,5 +19,6 @@ export const store = configureStore({
     invite: inviteReducer,
     globalMessage: globalMessageReducer,
     task: taskReducer,
+    ticket: ticketReducer,
   },
 });

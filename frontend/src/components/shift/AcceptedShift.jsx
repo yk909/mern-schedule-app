@@ -9,8 +9,6 @@ const AcceptedShift = ({ dateControl, fromDate, toDate, startDate  }) => {
         !employeesUID.includes(shift.acceptedBy._id)
     );
 
-    console.log(weekShifts);
-
     return (
         <>
         {weekShifts && weekShifts.length > 0 && (

@@ -17,7 +17,7 @@ const Dashboard = () => {
     }, []);
 
     return (
-        <main className="dashboard">
+        <section className="dashboard">
             {globalMessage && (
                 <GlobalMessage />
             )}
@@ -31,7 +31,7 @@ const Dashboard = () => {
                     <ShiftsTable shifts={userShifts ? userShifts : null} isOpenShift={false}/>
                 </Card>
             )}
-        </main>
+        </section>
     )
 }
 

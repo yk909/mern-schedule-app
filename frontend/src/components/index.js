@@ -8,7 +8,7 @@ import OwnerProtect from "./common/OwnerProtect";
 import AdminProtect from "./common/AdminProtect";
 import Card from "./common/Card";
 import Sidenav from "./common/Sidenav";
-import Notification from "./message/Notification";
+import Sidebar from "./common/Sidebar";
 
 import Calender from "./calender/Calender";
 import CalenderFooter from "./calender/CalenderFooter";
@@ -45,8 +45,14 @@ import GlobalMessage from "./message/GlobalMessage";
 import MessageTable from "./message/MessageTable";
 import CreateMessage from "./message/CreateMessage";
 import MessageCard from "./message/MessageCard";
+import Notification from "./message/Notification";
 
 import Invites from "./invite/Invites";
+
+import Tickets from "./ticket/Tickets";
+import CreateTicket from "./ticket/CreateTicket";
+import TicketTable from "./ticket/TicketTable";
+
 
 export {
     Navbar,
@@ -59,7 +65,7 @@ export {
     AdminProtect,
     Card,
     Sidenav,
-    Notification,
+    Sidebar,
 
     Calender,
     CalenderFooter,
@@ -96,6 +102,11 @@ export {
     MessageTable,
     CreateMessage,
     MessageCard,
+    Notification,
 
     Invites,
+
+    Tickets,
+    CreateTicket,
+    TicketTable
 }

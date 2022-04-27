@@ -88,6 +88,8 @@ const EditShift = ({ employee, shift, modalIsOpen, setModalIsOpen }) => {
             actionDangerBtnText="Delete"
             contentLabel={
                     `Edit ${shift.acceptedBy ?
+                        `${shift.acceptedBy === 'undefined'}` ?
+                            'shift' :
                         `${shift.acceptedBy.firstName}`
                         : employee ? 
                     'Shift for ' + employee.firstName 

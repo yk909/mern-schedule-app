@@ -13,25 +13,25 @@ const Alerts = () => {
 
     useEffect(() => {
         if(auth.isError) {
-            toast.error(auth.msg);
+            return toast.error(auth.msg);
         }
         if(company.isError) {
-            // toast.error(company.msg);
+            return toast.error(company.msg);
         }
         if(business.isError) {
-            toast.error(business.msg);
+            return toast.error(business.msg);
         }
         if(employee.isError) {
-            toast.error(employee.msg);
+            return toast.error(employee.msg);
         }
         if(shift.isError) {
-            toast.error(shift.msg);
+            return toast.error(shift.msg);
         }
         if(invite.isError) {
-            toast.error(invite.msg);
+            return toast.error(invite.msg);
         }
         if(globalMessage.isError) {
-            toast.error(globalMessage.msg);
+            return toast.error(globalMessage.msg);
         }
     }, [
         auth.isError, 

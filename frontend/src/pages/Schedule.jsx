@@ -19,7 +19,7 @@ const Schedule = () => {
                 ));
     const userOpenShifts = 
         useSelector(state => state.shift.userShifts)
-            ?.filter(shift => shift.employee === null);
+            ?.filter(shift => (shift.employee === null && shift.acceptedBy === null));
 
     useEffect(() => {
         dispatch(getUserShifts());

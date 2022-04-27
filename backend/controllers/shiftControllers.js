@@ -144,7 +144,7 @@ const createShift = async (req, res) => {
 
         if(!userEmployee) {
             return res.status(400).json({
-                msg: 'You are not authorized to update this employee'
+                msg: 'You are not authorized to update this shift'
             });
         }
 
@@ -202,20 +202,26 @@ const editShift = async (req, res) => {
         // Check if user is a manager
         const userEmployee = await Employee.findOne({ user: req.user._id, business: shift.business._id });
 
-        if(!userEmployee) {
+        if(!userEmployee && (!shift.acceptedBy || (shift.acceptedBy && shift.acceptedBy.toString() !== req.user._id.toString()))) {
             return res.status(400).json({
-                msg: 'You are not authorized to update this employee'
+                msg: 'You are not authorized to update this shift'
             });
         }
 
         // Check if logged in user is a manager or company owner
-        if (userEmployee.isManager || business.company.owners.includes(req.user._id))
+        if (userEmployee?.isManager || business.company.owners.includes(req.user._id))
         {
             req.body.acceptedBy = req.body.acceptedBy ? req.body.acceptedBy : null;
-            const editedShift = await Shift.findByIdAndUpdate(id, req.body, { new: true }).populate('business').populate('employee').populate('acceptedBy').exec();
+            const editedShift = await Shift.findByIdAndUpdate(id, req.body, { new: true })
+            .populate('business')
+            .populate('employee')
+            .populate('acceptedBy').exec();
 
             return res.status(200).json(editedShift);
-        }  else if (userEmployee._id.toString() === shift.employee._id.toString()) { // Check is user is an employee in this shift
+        }  else if (
+            userEmployee?._id.toString() === shift.employee?._id.toString() || 
+            (shift.acceptedBy && shift.acceptedBy.toString() !== req.user._id.toString())
+        ) { // Check is user is an employee in this shift
             shift.note = req.body.note;
             const editedShift = await shift.save();
 
@@ -260,7 +266,7 @@ const deleteShift = async (req, res) => {
 
         if(!userEmployee) {
             return res.status(400).json({
-                msg: 'You are not authorized to update this employee'
+                msg: 'You are not authorized to delete this shift'
             });
         }
 
@@ -272,7 +278,7 @@ const deleteShift = async (req, res) => {
             return res.status(200).json(deletedShift);
         } else {
             return res.status(400).json({
-                msg: 'You are not authorized to create shift'
+                msg: 'You are not authorized to delete shift'
             });
         }
     } catch (err) {

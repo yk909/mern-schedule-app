@@ -5,6 +5,9 @@ import Scheduler from "./Scheduler";
 import Schedule from "./Schedule";
 import Company from "./Company";
 import Profile from "./Profile";
+import Main from "./Main";
+import Ticket from "./Ticket";
+import Task from "./Task";
 
 export {
     Login,
@@ -14,4 +17,7 @@ export {
     Schedule,
     Company,
     Profile,
+    Main,
+    Ticket,
+    Task
 }
