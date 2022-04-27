@@ -1,24 +1,32 @@
 const mongoose = require('mongoose');
 
 
-const type = ['Time-off', 'Issue', 'Request', 'Complaint', 'Other'];
-const status = ['Pending', 'Resolved', 'Approved', 'Rejected'];
+const type = ['time-off', 'issue', 'request', 'complaint', 'other'];
+const status = ['pending', 'resolved', 'approved', 'rejected'];
 
 
 const ticketSchema = new mongoose.Schema({
     from: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employee',
+        ref: 'User',
         required: false
     },
     to: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employee',
+        ref: 'User',
         required: false
     },
     business: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Business',
+        required: false
+    },
+    date: {
+        type: Date,
+        required: false
+    },
+    anonymous: {
+        type: Boolean,
         required: false
     },
     message: {
@@ -33,7 +41,7 @@ const ticketSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: status,
-        default: 'Pending'
+        default: 'pending'
     },
 }, { timestamps: true });
 

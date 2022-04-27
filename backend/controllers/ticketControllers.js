@@ -14,11 +14,27 @@ const getAllManagerTickets = async (req, res) => {
             return res.status(400).json({ msg: 'No employee found' });
         }
 
-        const managerTickets = await Ticket.find({ business: {
+        const to = await Ticket.find({ business: {
             $in: employee.map(employee => employee.business)
-        } }).sort({ createdAt: -1 }).limit(10);
+        } }).sort({ createdAt: -1 }).limit(10)
+        .populate('from')
+        .populate('to')
+        .populate('business').exec();
 
-        return res.status(200).json(managerTickets);
+        const from = await Ticket.find(
+            {
+                business: {
+                    $in: employee.map(employee => employee.business)
+                },
+                to: {
+                    $exists: true
+                }
+            }).sort({ createdAt: -1 }).limit(10)
+            .populate('from')
+            .populate('to')
+            .populate('business').exec();
+
+        return res.status(200).json({to, from});
     } catch (err) {
         console.error(err.message);
         return res.status(500).send('Server Error');
@@ -31,14 +47,16 @@ const getAllManagerTickets = async (req, res) => {
 // @access  Private
 const getAllEmployeeTickets = async (req, res) => {
     try {
-        const employee = await Employee.find({ user: req.user._id, isManager: false });
+        const to = await Ticket.find({ to: req.user._id }).sort({ createdAt: -1 }).limit(10)
+        .populate('from')
+        .populate('to')
+        .populate('business').exec();
+        const from = await Ticket.find({ from: req.user._id }).sort({ createdAt: -1 }).limit(10)
+        .populate('from')
+        .populate('to')
+        .populate('business').exec();
 
-        const employeeTickets = await Ticket.find({ to: {
-            $in: employee.map(employee => employee._id)
-        } }).sort({ createdAt: -1 }).limit(10);
-
-
-        return res.status(200).json(employeeTickets);
+        return res.status(200).json({to, from});
     } catch (err) {
         console.error(err.message);
         return res.status(500).send('Server Error');
@@ -51,36 +69,21 @@ const getAllEmployeeTickets = async (req, res) => {
 // @access  Private
 const createTicket = async (req, res) => {
     try {
-        const employeeSender = await Employee.findById(req.body.employee);
-
-        if(!employeeSender) {
-            return res.status(400).json({ msg: 'No employee found' });
-        }
-
         const business = await Business.findById(req.body.business).populate('company');
         
         if(!business) {
             return res.status(404).json({ msg: 'Business not found' });
         }
 
-        if(req.body.to && employeeSender.isManager === true) {
-            const to = await Employee.findById(req.body.to);
-
-            if(!to) {
-                return res.status(400).json({ msg: 'No employee found' });
-            }
-
-            if(to.business.toString() !== business._id.toString()) {
-                return res.status(400).json({ msg: 'Employee is not part of this business' });
-            }
-
+        if(req.body.to) {
             const ticket = new Ticket({
-                from: employeeSender._id,
+                from: req.user._id,
+                to: req.body.to,
                 business: business._id,
                 message: req.body.message,
                 type: req.body.type,
-                status: 'Pending',
-                to: to._id
+                date: req.body.date,
+                anonymous: req.body.anonymous
             });
 
             await ticket.save();
@@ -88,11 +91,12 @@ const createTicket = async (req, res) => {
             return res.status(200).json(ticket);
         } else {
             const ticket = new Ticket({
-                from: employeeSender._id,
+                from: req.user._id,
                 business: business._id,
                 message: req.body.message,
                 type: req.body.type,
-                status: 'Pending'
+                date: req.body.date,
+                anonymous: req.body.anonymous
             });
 
             await ticket.save();

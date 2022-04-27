@@ -3,7 +3,8 @@ import ticketService from './ticketService';
 
 
 const initialState = {
-    tickets: [],
+    from: [],
+    to: [],
     isError: false,
     isLoading: false,
     isSuccess: false,
@@ -127,7 +128,8 @@ const ticketSlice = createSlice({
             state.isError = false;
         });
         builder.addCase(getAllManagerTickets.fulfilled, (state, action) => {
-            state.tickets = action.payload;
+            state.from = action.payload.from;
+            state.to = action.payload.to;
             state.isLoading = false;
             state.isSuccess = true;
         });
@@ -143,7 +145,8 @@ const ticketSlice = createSlice({
             state.isError = false;
         });
         builder.addCase(getAllEmployeeTickets.fulfilled, (state, action) => {
-            state.tickets = action.payload;
+            state.from = action.payload.from;
+            state.to = action.payload.to;
             state.isLoading = false;
             state.isSuccess = true;
         });
@@ -159,7 +162,7 @@ const ticketSlice = createSlice({
             state.isError = false;
         });
         builder.addCase(createTicket.fulfilled, (state, action) => {
-            state.tickets.push(action.payload);
+            state.from.push(action.payload);
             state.isLoading = false;
             state.isSuccess = true;
         });
@@ -192,7 +195,7 @@ const ticketSlice = createSlice({
             state.isError = false;
         });
         builder.addCase(deleteTicket.fulfilled, (state, action) => {
-            state.tickets = state.tickets.filter(ticket => ticket.id !== action.payload);
+            state.from = state.from.filter(ticket => ticket.id !== action.payload);
             state.isLoading = false;
             state.isSuccess = true;
         });

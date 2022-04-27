@@ -420,7 +420,7 @@ main {
 .btn.btn-outline-success:hover {
   background-color: var(--success);
   box-shadow: var(--box-shadow);
-  color: var(--text-light);
+  color: var(--text-dark);
 }
 
 .btn.btn-outline-light {
@@ -475,6 +475,7 @@ main {
   padding: 0.5rem;
   background: var(--color-secondary-light);
   border: 1px solid var(--color-secondary);
+  text-transform: capitalize;
 }
 
 .table table {
@@ -534,6 +535,11 @@ textarea {
   font-size: 1rem;
   min-height: 23px;
   resize: none;
+}
+
+input[type="date"] {
+  padding: 6px 8px;
+  cursor: pointer;
 }
 
 input[type="range"] {
