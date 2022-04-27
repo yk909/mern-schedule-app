@@ -85,6 +85,28 @@ function App() {
                 </RequireAuth>
               }
             />
+            <Route path="/user/tickets" 
+              element={
+                <RequireAuth>
+                  <RequireCompany>
+                  <Sidebar>
+                    <Ticket/>
+                  </Sidebar>
+                </RequireCompany>
+                </RequireAuth>
+              }
+            />
+            <Route path="/user/tasks" 
+              element={
+                <RequireAuth>
+                  <RequireCompany>
+                  <Sidebar>
+                    <Task/>
+                  </Sidebar>
+                </RequireCompany>
+                </RequireAuth>
+              }
+            />
             <Route path="/user/profile" 
               element={
                 <RequireAuth>

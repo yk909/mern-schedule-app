@@ -11,7 +11,7 @@ const initialState = {
 };
 
 
-const getAllManagerTickets = createAsyncThunk(
+export const getAllManagerTickets = createAsyncThunk(
     'ticket/getAllManagerTickets',
     async (_, thunkAPI) => {
         try {
@@ -30,7 +30,7 @@ const getAllManagerTickets = createAsyncThunk(
 );
 
 
-const getAllEmployeeTickets = createAsyncThunk(
+export const getAllEmployeeTickets = createAsyncThunk(
     'ticket/getAllEmployeeTickets',
     async (_, thunkAPI) => {
         try {
@@ -49,7 +49,7 @@ const getAllEmployeeTickets = createAsyncThunk(
 );
 
 
-const createTicket = createAsyncThunk(
+export const createTicket = createAsyncThunk(
     'ticket/createTicket',
     async (ticket, thunkAPI) => {
         try {
@@ -68,7 +68,7 @@ const createTicket = createAsyncThunk(
 );
 
 
-const updateTicket = createAsyncThunk(
+export const updateTicket = createAsyncThunk(
     'ticket/updateTicket',
     async (ticket, thunkAPI) => {
         try {
@@ -87,7 +87,7 @@ const updateTicket = createAsyncThunk(
 );
 
 
-const deleteTicket = createAsyncThunk(
+export const deleteTicket = createAsyncThunk(
     'ticket/deleteTicket',
     async (id, thunkAPI) => {
         try {

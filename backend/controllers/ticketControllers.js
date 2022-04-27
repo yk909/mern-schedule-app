@@ -33,7 +33,7 @@ const getAllEmployeeTickets = async (req, res) => {
     try {
         const employee = await Employee.find({ user: req.user._id, isManager: false });
 
-        const employeeTickets = await Ticket.find({ targetEmployee: {
+        const employeeTickets = await Ticket.find({ to: {
             $in: employee.map(employee => employee._id)
         } }).sort({ createdAt: -1 }).limit(10);
 
@@ -63,24 +63,24 @@ const createTicket = async (req, res) => {
             return res.status(404).json({ msg: 'Business not found' });
         }
 
-        if(req.body.targetEmployee && employeeSender.isManager === true) {
-            const targetEmployee = await Employee.findById(req.body.targetEmployee);
+        if(req.body.to && employeeSender.isManager === true) {
+            const to = await Employee.findById(req.body.to);
 
-            if(!targetEmployee) {
+            if(!to) {
                 return res.status(400).json({ msg: 'No employee found' });
             }
 
-            if(targetEmployee.business.toString() !== business._id.toString()) {
+            if(to.business.toString() !== business._id.toString()) {
                 return res.status(400).json({ msg: 'Employee is not part of this business' });
             }
 
             const ticket = new Ticket({
-                createdBy: employeeSender._id,
+                from: employeeSender._id,
                 business: business._id,
                 message: req.body.message,
                 type: req.body.type,
                 status: 'Pending',
-                targetEmployee: targetEmployee._id
+                to: to._id
             });
 
             await ticket.save();
@@ -88,7 +88,7 @@ const createTicket = async (req, res) => {
             return res.status(200).json(ticket);
         } else {
             const ticket = new Ticket({
-                createdBy: employeeSender._id,
+                from: employeeSender._id,
                 business: business._id,
                 message: req.body.message,
                 type: req.body.type,
@@ -118,7 +118,7 @@ const updateTicket = async (req, res) => {
             return res.status(404).json({ msg: 'Ticket not found' });
         }
 
-        if(ticket.createdBy.toString() !== req.user._id.toString() || (ticket.targetEmployee && ticket.targetEmployee.toString() !== req.user._id.toString())) {
+        if(ticket.from.toString() !== req.user._id.toString() || (ticket.to && ticket.to.toString() !== req.user._id.toString())) {
             return res.status(401).json({ msg: 'User not authorized' });
         }
         
@@ -145,7 +145,7 @@ const deleteTicket = async (req, res) => {
             return res.status(404).json({ msg: 'Ticket not found' });
         }
 
-        if(ticket.createdBy.toString() !== req.user._id.toString() || (ticket.targetEmployee && ticket.targetEmployee.toString() !== req.user._id.toString())) {
+        if(ticket.from.toString() !== req.user._id.toString() || (ticket.to && ticket.to.toString() !== req.user._id.toString())) {
             return res.status(401).json({ msg: 'User not authorized' });
         }
 

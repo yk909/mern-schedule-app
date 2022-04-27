@@ -22,8 +22,6 @@ const Sidebar = ({children}) => {
             setNavLinks(userSideNavLinks);
         } else if (location.pathname.split('/')[1] === 'dashboard') {
             setNavLinks(dashboardSideNavLinks);
-            console.log(dashboardSideNavLinks)
-            console.log(navLinks)
         }
     }, [location]);
 

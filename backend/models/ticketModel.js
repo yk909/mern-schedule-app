@@ -6,7 +6,12 @@ const status = ['Pending', 'Resolved', 'Approved', 'Rejected'];
 
 
 const ticketSchema = new mongoose.Schema({
-    createdBy: {
+    from: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Employee',
+        required: false
+    },
+    to: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Employee',
         required: false
@@ -29,11 +34,6 @@ const ticketSchema = new mongoose.Schema({
         type: String,
         enum: status,
         default: 'Pending'
-    },
-    targetEmployee: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employee',
-        required: false
     },
 }, { timestamps: true });
 

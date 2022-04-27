@@ -41,8 +41,8 @@
     transform: rotate(180deg);
 }
 
-.sidebar-closed .sidebar-header .btn {
-    padding: 7px 5px;
+.sidebar-header .btn {
+    padding: 5px;
 }
 
 .sidebar-body {
@@ -94,10 +94,6 @@
     .sidebar-closed .sidebar-header svg {
         transform: rotate(0);
         transform: rotate(180deg);
-    }
-
-    .sidebar-closed .sidebar-header .btn {
-        padding: 7px 5px;
     }
 
     .sidebar {

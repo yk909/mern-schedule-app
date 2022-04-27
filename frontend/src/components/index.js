@@ -49,7 +49,6 @@ import Notification from "./message/Notification";
 
 import Invites from "./invite/Invites";
 
-import Tickets from "./ticket/Tickets";
 import CreateTicket from "./ticket/CreateTicket";
 import TicketTable from "./ticket/TicketTable";
 
@@ -106,7 +105,6 @@ export {
 
     Invites,
 
-    Tickets,
     CreateTicket,
     TicketTable
 }
