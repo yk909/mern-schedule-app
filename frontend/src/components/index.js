@@ -53,8 +53,9 @@ import CreateTicket from "./ticket/CreateTicket";
 import TicketTable from "./ticket/TicketTable";
 
 import TaskList from "./task/TaskList";
-import TaskItem from "./task/TaskItem";
 import CreateTaskList from "./task/CreateTaskList";
+import EditTaskList from "./task/EditTaskList";
+import AddTask from "./task/AddTask";
 
 
 export {
@@ -113,6 +114,7 @@ export {
     TicketTable,
 
     TaskList,
-    TaskItem,
     CreateTaskList,
+    EditTaskList,
+    AddTask,
 }

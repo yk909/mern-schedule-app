@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Card } from "../";
 import Select from 'react-select';
+import { toast } from "react-toastify";
+import { createTaskList } from "../../features/task/taskSlice";
 import { customSelectModalStyles, weekDaySelectOptions } from '../../constance/localData';
 import './styles/CreateTaskList.css';
 
 const CreateTaskList = () => {
+    const dispatch = useDispatch();
     const { company } = useSelector(state => state.company);
     const [isOpen, setIsOpen] = useState(false);
     const [taskItemCount, setTaskItemCount] = useState(1);
@@ -13,7 +16,7 @@ const CreateTaskList = () => {
         title: '',
         frequency: '',
         repeat: [],
-        business: [],
+        businesses: [],
         positions: [],
     });
     const [taskItems, setTaskItems] = useState([{
@@ -54,8 +57,30 @@ const CreateTaskList = () => {
     }
 
     const onSubmit = () => {
-        console.log(taskList);
-        console.log(taskItems);
+        if(
+            taskList.title !== '' && 
+            taskList.frequency !== '' &&
+            taskList.businesses.length > 0 &&
+            taskList.positions.length > 0 &&
+            (
+                ((taskList.frequency.value === 'weekly' || taskList.frequency.value === 'weekly') && taskList.repeat.length > 0 ) ||
+                taskList.frequency.value === 'daily'
+            )
+        ) {
+            const taskListData = {
+                title: taskList.title,
+                frequency: taskList.frequency.value,
+                company: company._id,
+                repeat: taskList.repeat.map(item => item.value),
+                businesses: taskList.businesses.map(item => item.value),
+                positions: taskList.positions.map(item => item.value),
+                taskItems: taskItems
+            }
+
+            dispatch(createTaskList(taskListData));
+        } else {
+            toast.error('Please fill all fields');
+        }
     }
 
     return (
@@ -73,6 +98,7 @@ const CreateTaskList = () => {
                                 type="text" 
                                 name="title"
                                 placeholder="Task List Title"
+                                value={taskList.title}
                                 onChange={onChange}
                                 autoComplete="off"
                             />
@@ -83,7 +109,7 @@ const CreateTaskList = () => {
                                 styles={customSelectModalStyles}
                                 options={frequencySelect}
                                 value={taskList.frequency}
-                                onChange={e => setTaskList({ ...taskList, frequency: e })}
+                                onChange={e => setTaskList({ ...taskList, repeat: [], frequency: e })}
                             />
                         </div>
                     </div>
@@ -108,17 +134,17 @@ const CreateTaskList = () => {
                     )}
                     <div className="form-group-row">
                         <div className="form-group">
-                            <label>Business</label>
+                            <label>Businesses *</label>
                             <Select
                                 styles={customSelectModalStyles}
                                 options={businessSelect}
-                                value={taskList.business}
-                                onChange={e => setTaskList({ ...taskList, business: e })}
+                                value={taskList.businesses}
+                                onChange={e => setTaskList({ ...taskList, businesses: e })}
                                 isMulti={true}
                             />
                         </div>
                         <div className="form-group">
-                            <label>Positions</label>
+                            <label>Positions *</label>
                             <Select
                                 styles={customSelectModalStyles}
                                 options={positionsSelect}
@@ -139,11 +165,12 @@ const CreateTaskList = () => {
                                 {index + 1 === taskItemCount && index !== 0 ? (
                                     <div className="flex align-between">
                                         <label>Task #{index + 1} *</label>
-                                        <div className="btn btn-outline"
+                                        <button 
+                                            class="btn-icon btn-icon-danger"
                                             onClick={() => setTaskItemCount(taskItemCount - 1)}
-                                        >
-                                            Remove Task
-                                        </div>
+                                            >
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"></path><path d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"></path></svg>
+                                        </button>
                                     </div>
                                 ) : (
                                     <label>Task #{index + 1} *</label>

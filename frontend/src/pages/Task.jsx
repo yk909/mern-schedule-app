@@ -23,15 +23,10 @@ const Task = () => {
     return (
         <section className="task-page">
             {location === 'dashboard' && <CreateTaskList />}
-            <Card
-                title={'Task Lists'}
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-            >
-                {taskLists?.map(taskList => (
-                    <TaskList key={taskList.id} taskList={taskList} />
-                ))}
-            </Card>
+            {!isLoading && taskLists?.length === 0 && <p className="title-3 mx-1">No task lists found</p>}
+            {taskLists && taskLists?.map(taskList => (
+                <TaskList key={taskList._id} taskList={taskList} />
+            ))}
         </section>
     )
 }

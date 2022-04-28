@@ -17,10 +17,10 @@ const initialState = {
 // Get business tasks list
 export const getAllCompanyTaskLists = createAsyncThunk(
     "task/getAllCompanyTaskLists",
-    async (id, thunkAPI) => {
+    async (_, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token;
-            return await taskService.getAllCompanyTaskLists(id, token);
+            return await taskService.getAllCompanyTaskLists(token);
         } catch (error) {
             const message =
                 (error.response &&

@@ -8,10 +8,13 @@ const Company = require('../../models/companyModel');
 // @access  Private
 const getAllCompanyTaskLists = async (req, res) => {
     try {
-        const company = await Company.findOne({ user: req.user._id }).populate('businesses');
+        const company = await Company
+        .findOne({ user: req.user._id })
+        .populate('businesses');
 
-        const taskLists = await TaskList.find({ company: company})
-            .populate('business');
+        const taskLists = await TaskList
+        .find({ company: company})
+        .populate('businesses');
             
         return res.status(200).json(taskLists);
     } catch (err) {
@@ -52,20 +55,28 @@ const getAllUserTaskLists = async (req, res) => {
 // @access  Private
 const createTaskList = async (req, res) => {
     try {
-        const { business, positions, name, frequency, color, taskItems } = req.body;
-        const employee = await Employee.findOne({ user: req.user._id, business: business }).populate('company');
+        const { businesses, positions, title, frequency, color, taskItems, company } = req.body;
 
-        if (!employee) {
-            return res.status(400).json({msg: 'You are not an employee of this business'});
+        const companyObj = await Company.findById(company);
+
+        if (!companyObj) {
+            return res.status(400).json({msg: 'Company not found'});
         }
 
-        if(employee.isManager || employee.company.owners.includes(req.user._id)) {
+        const employee = await Employee.findOne({ user: req.user._id, company: company._id, isManager: true });
+
+        if(
+            employee ||
+            companyObj.owners.includes(req.user._id)
+        ) {
             const taskList = await TaskList.create({
-                business,
+                businesses,
+                company,
                 positions,
-                name,
+                title,
                 frequency,
                 color,
+                taskItems,
                 createdBy: req.user._id
             });
 

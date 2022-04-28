@@ -61,7 +61,7 @@
 }
 
 .business-card-header-info-left {
-    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 .business-card-header-info-left,
@@ -94,7 +94,14 @@
 .business-card-header svg {
     width: 20px;
     height: 20px;
+}
+
+.business-card-header-info-left svg {
     margin-right: 5px;
+}
+
+.business-card-header-info-right svg {
+    margin-left: 5px;
 }
 
 @media (max-width: 768px) {

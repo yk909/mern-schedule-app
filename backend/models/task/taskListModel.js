@@ -12,10 +12,10 @@ const taskListSchema = new mongoose.Schema({
         ref: 'Company',
         required: true
     },
-    business: [{
+    businesses: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Business',
-        required: false
+        required: true
     }],
     positions: [{
         type: String,
@@ -40,7 +40,11 @@ const taskListSchema = new mongoose.Schema({
         default: '#2a74d3'
     },
     taskItems: [{
-        _id: mongoose.Schema.Types.ObjectId,
+        _id: {
+            type: mongoose.Types.ObjectId,
+            default: mongoose.Types.ObjectId(),
+            required: true,
+        },
         title: {
             type: String,
             required: true

@@ -6,13 +6,13 @@ const API_URL = '/api/tasks/';
 
 // Task lists
 // get all business task lists
-const getAllCompanyTaskLists = async (id, token) => {
+const getAllCompanyTaskLists = async (token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         }
     };
-    const response = await axios.get(`${API_URL}list/${id}`, config);
+    const response = await axios.get(`${API_URL}list/company`, config);
     return response.data;
 }
 

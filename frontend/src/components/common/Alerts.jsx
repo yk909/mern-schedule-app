@@ -11,6 +11,7 @@ const Alerts = () => {
     const invite = useSelector(state => state.invite);
     const globalMessage = useSelector(state => state.globalMessage);
     const ticket = useSelector(state => state.ticket);
+    const task = useSelector(state => state.task);
 
     useEffect(() => {
         if(auth.isError) {
@@ -37,6 +38,9 @@ const Alerts = () => {
         if(ticket.isError) {
             return toast.error(ticket.msg);
         }
+        if(task.isError) {
+            return toast.error(task.msg);
+        }
     }, [
         auth.isError, 
         company.isError, 
@@ -45,7 +49,8 @@ const Alerts = () => {
         shift.isError, 
         invite.isError, 
         globalMessage.isError,
-        ticket.isError
+        ticket.isError,
+        task.isError,
     ]);
 
     return null;
