@@ -71,8 +71,12 @@
     color: var(--text-dark);
 }
 
+.company-card-info .btn svg {
+    margin-right: 0.5rem;
+}
 
-@media (max-width: 468px) {
+
+@media (max-width: 568px) {
     .company-card {
         justify-content: center;
         text-align: center;

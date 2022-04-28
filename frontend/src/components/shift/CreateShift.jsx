@@ -6,6 +6,8 @@ import { toast } from 'react-toastify';
 import { Modal } from '../';
 import { createShift } from '../../features/shift/shiftSlice';
 import { customSelectModalStyles, hoursArray } from '../../constance/localData';
+import { plusIcon } from '../../constance/icons';
+
 
 const CreateShift = ({ date, employee, startTime }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -119,9 +121,7 @@ const CreateShift = ({ date, employee, startTime }) => {
         </Modal>
         <div className="create-shift flex align-end" title="Create Shift">
             <div className="flex align-center w-100 h-100" onClick={() => setModalIsOpen(true)}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                    <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-                </svg>
+                {plusIcon}
             </div>
         </div>
     </>

@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { closeIcon } from '../../constance/icons';
 import './styles/Modal.css';
 
 const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModalIsOpen, actionBtnText, onSubmit, actionDangerBtnText, onSubmitDanger, disableClose}) => {
@@ -23,10 +24,7 @@ const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModal
                         <h3>{contentLabel}</h3>
                         {disableClose ? null : (
                             <button className="btn-icon btn-icon-danger" onClick={() => {setModalIsOpen(false)} }>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                    <path d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
-                                    <path d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
-                                </svg>
+                                {closeIcon}
                             </button>
                         )}
                     </div>

@@ -38,11 +38,14 @@
 .modal-body .modal-header h3 {
     font-weight: 400;
     font-size: 1.5rem;
+    margin-right: 1rem;
 }
 
 .modal-body .modal-header button {
     width: 30px;
     height: 30px;
+    min-width: 30px;
+    min-height: 30px;
 }
 
 .modal-body .modal-content {
@@ -64,8 +67,9 @@
 
 @media (max-width: 768px) {
     .modal-overlay .modal-wrapper .modal-body {
-        min-width: 90vw;
         text-align: initial;
+        min-width: auto;
+        margin: 0 1rem;
     }
 }
 

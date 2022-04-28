@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import { getAllBusinessShifts } from '../../features/shift/shiftSlice';
 import { customSelectStyles, timeframeOptions } from '../../constance/localData';
 import { CopyShifts, ManagerProtect } from '../';
+import { arrowLeftIcon, arrowRightIcon, calenderRangeIcon } from '../../constance/icons';
 
 
 const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, toDate, setfromDate, setToDate}) => {
@@ -68,10 +69,7 @@ const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, to
 
     const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
         <div className="date btn btn-outline example-custom-input" onClick={onClick} ref={ref}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-            <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
-            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-            </svg>
+            {calenderRangeIcon}
         </div>
     ));
 
@@ -135,9 +133,7 @@ const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, to
                             className="prev-date btn btn-outline" 
                             onClick={() => { handleNextPrev('prev') }}
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                            <path d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
-                            </svg>
+                            {arrowLeftIcon}
                         </div>
                         <DatePicker
                             selected={dateControl.label === "Day" ? startDate : fromDate}
@@ -151,9 +147,7 @@ const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, to
                             className="next-date btn btn-outline" 
                             onClick={() => { handleNextPrev('next') }}
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                            <path d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
-                            </svg>
+                            {arrowRightIcon}
                         </div>
                     </div>
                     <div className="today-control">
