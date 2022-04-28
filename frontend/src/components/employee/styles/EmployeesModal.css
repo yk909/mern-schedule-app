@@ -15,7 +15,6 @@
 .user-card {
     background: var(--color-main);
     border: 1px solid var(--color-secondary);
-    box-shadow: var(--box-shadow);
     border-radius: var(--border-radius);
     padding: 10px 10px;
     margin-bottom: 15px;
@@ -26,7 +25,7 @@
 }
 
 .user-card:hover {
-    box-shadow: var(--box-shadow-xl);
+    box-shadow: var(--box-shadow);
 }
 
 .user-card-left {

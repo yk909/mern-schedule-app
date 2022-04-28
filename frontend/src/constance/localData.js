@@ -27,6 +27,7 @@ const customSelectStyles = {
         // width: 200,
         width: '100%',
         minWidth: '110px',
+        fontFamily: 'inherit',
         '&:hover': {
             background: 'var(--dark)',
             color: 'var(--text-light)',
@@ -47,6 +48,7 @@ const customSelectModalStyles = {
         ...provided,
         background: state.isSelected ? 'var(--color-primary)' : 'var(--color-main)',
         transition: 'var(--transition-duration)',
+        fontFamily: 'inherit',
         '&:hover': {
             background: 'var(--color-primary)',
             color: "var(--text-light)",
@@ -62,6 +64,7 @@ const customSelectModalStyles = {
         minHeight: '35px',
         borderRadius: '0',
         cursor: 'pointer',
+        fontFamily: 'inherit',
         width: '100%',
         transition: 'var(--transition-duration)',
         '&:hover': {
@@ -91,6 +94,16 @@ const timeframeOptions = [
     { value: 'week', label: 'Week' },
     { value: '2week', label: '2 Week' },
     { value: '4week', label: '4 Week' },
+];
+
+const weekDaySelectOptions = [
+    { value: 'monday', label: 'Monday' },
+    { value: 'tuesday', label: 'Tuesday' },
+    { value: 'wednesday', label: 'Wednesday' },
+    { value: 'thursday', label: 'Thursday' },
+    { value: 'friday', label: 'Friday' },
+    { value: 'saturday', label: 'Saturday' },
+    { value: 'sunday', label: 'Sunday' },
 ];
 
 const positions = [
@@ -182,5 +195,6 @@ export {
     positions,
     customSelectModalStyles,
     userSideNavLinks,
-    dashboardSideNavLinks
+    dashboardSideNavLinks,
+    weekDaySelectOptions
 };

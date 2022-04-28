@@ -21,8 +21,8 @@ const Task = () => {
     }, [dispatch]);
 
     return (
-        <section className={`task-page${!taskLists && isLoading ? ' blink' : ''}`}>
-            <CreateTaskList />
+        <section className="task-page">
+            {location === 'dashboard' && <CreateTaskList />}
             <Card
                 title={'Task Lists'}
                 isOpen={isOpen}

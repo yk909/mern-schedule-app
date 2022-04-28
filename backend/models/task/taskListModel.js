@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const frequency = ['daily', 'weekly', 'monthly', 'once'];
 
 const taskListSchema = new mongoose.Schema({
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
     company: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Company',
@@ -17,17 +21,17 @@ const taskListSchema = new mongoose.Schema({
         type: String,
         required: false
     }],
-    createdBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-    },
-    name: {
-        type: String,
-        required: true
-    },
     frequency: {
         type: String,
         enum: frequency,
+        required: true
+    },
+    repeat: [{
+        type: String,
+        required: false
+    }],
+    title: {
+        type: String,
         required: true
     },
     color: {
@@ -36,7 +40,6 @@ const taskListSchema = new mongoose.Schema({
         default: '#2a74d3'
     },
     taskItems: [{
-        // generate a random id for each task item
         _id: mongoose.Schema.Types.ObjectId,
         title: {
             type: String,

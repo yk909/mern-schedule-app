@@ -61,7 +61,7 @@
 }
 
 .business-card-header-info-left {
-    max-width: 150px;
+    margin-left: 1rem;
 }
 
 .business-card-header-info-left,
@@ -98,6 +98,9 @@
 }
 
 @media (max-width: 768px) {
+    .business-card-header-info-left {
+        max-width: 150px;
+    }
     .business-card-header-info-left p,
     .business-card-header-info-right p {
         font-size: 0.85rem;

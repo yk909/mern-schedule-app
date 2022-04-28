@@ -1,10 +1,10 @@
 :root {
-  --danger: #b9505a;
+  --danger: #FFBDAD;
   --warning: #FFF591;
   --success: #87cf9f;
   --info: #add8e6;
   --dark: #313536;
-  --danger-hover: #88353d;
+  --danger-hover: #DE350B;
   --warning-hover: #c9c16b;
   --success-hover: #77bb8e;
   --info-hover: #91c4d4;
@@ -225,14 +225,13 @@ main {
 }
 
 .btn-icon.btn-icon-danger svg {
-  fill: var(--danger);
+  fill: var(--danger-hover);
 }
 
 .btn-icon.btn-icon-danger:hover {
   background: var(--danger);
 }
 
-.btn-icon.btn-icon-danger:hover svg,
 .btn-icon.btn-icon-primary:hover svg {
   fill: var(--text-light);
 }
@@ -332,12 +331,13 @@ main {
 .btn.btn-danger {
   background-color: var(--danger);
   border: 2px solid var(--danger);
-  color: var(--text-light);
+  color: var(--danger-hover);
 }
 
 .btn.btn-danger:hover {
   background-color: var(--danger-hover);
   border-color: var(--danger-hover);
+  color: var(--danger);
 }
 
 .btn.btn-warning {
@@ -387,14 +387,14 @@ main {
 .btn.btn-outline-danger {
   background-color: transparent;
   border: 2px solid var(--danger);
-  color: var(--danger);
+  color: var(--danger-hover);
+  fill: var(--danger-hover);
   box-shadow: none;
 }
 
 .btn.btn-outline-danger:hover {
   background-color: var(--danger);
   box-shadow: var(--box-shadow);
-  color: var(--text-light);
 }
 
 .btn.btn-outline-warning {
@@ -535,7 +535,7 @@ textarea {
   font-size: 1rem;
   min-height: 23px;
   resize: none;
-  font-family: monospace;
+  font-family: inherit;
 }
 
 input[type="date"] {

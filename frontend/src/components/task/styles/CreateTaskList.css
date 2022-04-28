@@ -16,3 +16,9 @@
 .create-task-item:hover {
     box-shadow: var(--box-shadow);
 }
+
+.create-task-items {
+    border-top: 1px solid var(--color-secondary);
+    padding-top: 1rem;
+    margin-top: 2rem;
+}
