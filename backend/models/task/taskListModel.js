@@ -1,13 +1,18 @@
 const mongoose = require('mongoose');
 
-const frequency = ['daily', 'weekly', 'monthly', 'one-time'];
+const frequency = ['daily', 'weekly', 'monthly', 'once'];
 
 const taskListSchema = new mongoose.Schema({
-    business: {
+    company: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Business',
+        ref: 'Company',
         required: true
     },
+    business: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Business',
+        required: false
+    }],
     positions: [{
         type: String,
         required: false
@@ -31,9 +36,16 @@ const taskListSchema = new mongoose.Schema({
         default: '#2a74d3'
     },
     taskItems: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'TaskItem',
-        required: false
+        // generate a random id for each task item
+        _id: mongoose.Schema.Types.ObjectId,
+        title: {
+            type: String,
+            required: true
+        },
+        description: {
+            type: String,
+            required: false
+        },
     }],
 }, { timestamps: true });
 

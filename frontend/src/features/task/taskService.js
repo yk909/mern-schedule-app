@@ -6,7 +6,7 @@ const API_URL = '/api/tasks/';
 
 // Task lists
 // get all business task lists
-const getAllBusinessTaskLists = async (id, token) => {
+const getAllCompanyTaskLists = async (id, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -61,41 +61,6 @@ const deleteTaskList = async (data, token) => {
 }
 
 
-// Task list items
-// create task list item
-const createTaskListItem = async (data, token) => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }
-    };
-    const response = await axios.post(`${API_URL}item/`, data, config);
-    return response.data;
-}
-
-// update task item
-const updateTaskItem = async (data, token) => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }
-    };
-    const response = await axios.put(`${API_URL}item/${data._id}`, data, config);
-    return response.data;
-}
-
-// delete task list item
-const deleteTaskItem = async (id, token) => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }
-    };
-    const response = await axios.delete(`${API_URL}item/${id}`, config);
-    return response.data;
-}
-
-
 // Completed user tasks
 // get all tasks for the list
 const getAllTasksForList = async (taskListId, token) => {
@@ -145,15 +110,11 @@ const deleteTask = async (id, token) => {
 
 
 const taskService = {
-    getAllBusinessTaskLists,
+    getAllCompanyTaskLists,
     getAllUserTaskLists,
     createTaskList,
     updateTaskList,
     deleteTaskList,
-
-    createTaskListItem,
-    updateTaskItem,
-    deleteTaskItem,
 
     getAllTasksForList,
     getRecentUserTasks,

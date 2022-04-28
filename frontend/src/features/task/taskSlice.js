@@ -15,12 +15,12 @@ const initialState = {
 
 // task list
 // Get business tasks list
-export const getAllBusinessTaskLists = createAsyncThunk(
-    "task/getAllBusinessTaskLists",
+export const getAllCompanyTaskLists = createAsyncThunk(
+    "task/getAllCompanyTaskLists",
     async (id, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token;
-            return await taskService.getAllBusinessTaskLists(id, token);
+            return await taskService.getAllCompanyTaskLists(id, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -97,65 +97,6 @@ export const deleteTaskList = createAsyncThunk(
         try {
             const token = thunkAPI.getState().auth.user.token;
             return await taskService.deleteTaskList(id, token);
-        } catch (error) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.msg) ||
-                error.message ||
-                error.toString();
-            return thunkAPI.rejectWithValue(message);
-        }
-    }
-);
-
-
-// task list items
-// create task list item
-export const createTaskListItem = createAsyncThunk(
-    "task/createTaskListItem",
-    async (taskListItem, thunkAPI) => {
-        try {
-            const token = thunkAPI.getState().auth.user.token;
-            return await taskService.createTaskListItem(taskListItem, token);
-        } catch (error) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.msg) ||
-                error.message ||
-                error.toString();
-            return thunkAPI.rejectWithValue(message);
-        }
-    }
-);
-
-// update task list item
-export const updateTaskListItem = createAsyncThunk(
-    "task/updateTaskListItem",
-    async (taskListItem, thunkAPI) => {
-        try {
-            const token = thunkAPI.getState().auth.user.token;
-            return await taskService.updateTaskListItem(taskListItem, token);
-        } catch (error) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.msg) ||
-                error.message ||
-                error.toString();
-            return thunkAPI.rejectWithValue(message);
-        }
-    }
-);
-
-// delete task list item
-export const deleteTaskListItem = createAsyncThunk(
-    "task/deleteTaskListItem",
-    async (id, thunkAPI) => {
-        try {
-            const token = thunkAPI.getState().auth.user.token;
-            return await taskService.deleteTaskListItem(id, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -264,16 +205,16 @@ const taskSlice = createSlice({
     },
     extraReducers: (builder) => {
         // get all business task lists
-        builder.addCase(getAllBusinessTaskLists.pending, (state, action) => {
+        builder.addCase(getAllCompanyTaskLists.pending, (state, action) => {
             state.isLoading = true;
             state.isError = false;
         });
-        builder.addCase(getAllBusinessTaskLists.fulfilled, (state, action) => {
+        builder.addCase(getAllCompanyTaskLists.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
             state.taskLists = action.payload;
         });
-        builder.addCase(getAllBusinessTaskLists.rejected, (state, action) => {
+        builder.addCase(getAllCompanyTaskLists.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.msg = action.payload;
@@ -344,69 +285,6 @@ const taskSlice = createSlice({
             state.taskLists.splice(index, 1);
         });
         builder.addCase(deleteTaskList.rejected, (state, action) => {
-            state.isLoading = false;
-            state.isError = true;
-            state.msg = action.payload;
-        });
-
-        // create task list item
-        builder.addCase(createTaskListItem.pending, (state, action) => {
-            state.isLoading = true;
-            state.isError = false;
-        });
-        builder.addCase(createTaskListItem.fulfilled, (state, action) => {
-            state.isLoading = false;
-            state.isSuccess = true;
-            const index = state.taskLists.findIndex(
-                (taskList) => taskList._id === action.payload.taskList
-            );
-            state.taskLists[index].taskItems.push(action.payload);
-        });
-        builder.addCase(createTaskListItem.rejected, (state, action) => {
-            state.isLoading = false;
-            state.isError = true;
-            state.msg = action.payload;
-        });
-
-        // update task list item
-        builder.addCase(updateTaskListItem.pending, (state, action) => {
-            state.isLoading = true;
-            state.isError = false;
-        });
-        builder.addCase(updateTaskListItem.fulfilled, (state, action) => {
-            state.isLoading = false;
-            state.isSuccess = true;
-            const index = state.taskLists.findIndex(
-                (taskList) => taskList._id === action.payload.taskList
-            );
-            const itemIndex = state.taskLists[index].taskItems.findIndex(
-                (taskItem) => taskItem._id === action.payload._id
-            );
-            state.taskLists[index].taskItems[itemIndex] = action.payload;
-        });
-        builder.addCase(updateTaskListItem.rejected, (state, action) => {
-            state.isLoading = false;
-            state.isError = true;
-            state.msg = action.payload;
-        });
-
-        // delete task list item
-        builder.addCase(deleteTaskListItem.pending, (state, action) => {
-            state.isLoading = true;
-            state.isError = false;
-        });
-        builder.addCase(deleteTaskListItem.fulfilled, (state, action) => {
-            state.isLoading = false;
-            state.isSuccess = true;
-            const index = state.taskLists.findIndex(
-                (taskList) => taskList._id === action.payload.taskList
-            );
-            const itemIndex = state.taskLists[index].taskItems.findIndex(
-                (taskItem) => taskItem._id === action.payload.taskItem
-            );
-            state.taskLists[index].taskItems.splice(itemIndex, 1);
-        });
-        builder.addCase(deleteTaskListItem.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.msg = action.payload;

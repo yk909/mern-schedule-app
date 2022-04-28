@@ -1,15 +1,16 @@
-const TaskItem = require('../../models/task/taskItemModel');
 const TaskList = require('../../models/task/taskListModel');
 const Employee = require('../../models/employeeModel');
+const Company = require('../../models/companyModel');
 
 
 // @route   GET api/taskList/business
-// @desc    Get all task lists for a business
+// @desc    Get all task lists for a company
 // @access  Private
-const getAllBusinessTaskLists = async (req, res) => {
+const getAllCompanyTaskLists = async (req, res) => {
     try {
-        const taskLists = await TaskList.find({ business: req.params.businessId })
-            .populate('taskItems')
+        const company = await Company.findOne({ user: req.user._id }).populate('businesses');
+
+        const taskLists = await TaskList.find({ company: company})
             .populate('business');
             
         return res.status(200).json(taskLists);
@@ -36,7 +37,6 @@ const getAllUserTaskLists = async (req, res) => {
                 $in: userEmployee.map(employee => employee.business)
             }
         })
-        .populate('taskItems')
         .populate('business');
 
         return res.status(200).json(taskLists);
@@ -69,21 +69,7 @@ const createTaskList = async (req, res) => {
                 createdBy: req.user._id
             });
 
-            taskItems.forEach(async taskItem => {
-                const newTaskItems = await TaskItem.create({
-                    task: taskItem.task,
-                    taskList: taskList._id,
-                    note: taskItem.note,
-                    images: taskItem.images,
-                    videos: taskItem.videos,
-                    canComplete: taskItem.canComplete,
-                });
-
-                await taskList.taskItems.push(newTaskItems);
-            });
-
             const newTaskList = await taskList.save();
-
 
             return res.status(200).json(newTaskList);
         } else {
@@ -156,7 +142,7 @@ const deleteTaskList = async (req, res) => {
 
 
 module.exports = {
-    getAllBusinessTaskLists,
+    getAllCompanyTaskLists,
     getAllUserTaskLists,
     createTaskList,
     updateTaskList,

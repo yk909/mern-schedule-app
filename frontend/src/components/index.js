@@ -52,6 +52,10 @@ import Invites from "./invite/Invites";
 import CreateTicket from "./ticket/CreateTicket";
 import TicketTable from "./ticket/TicketTable";
 
+import TaskList from "./task/TaskList";
+import TaskItem from "./task/TaskItem";
+import CreateTaskList from "./task/CreateTaskList";
+
 
 export {
     Navbar,
@@ -106,5 +110,9 @@ export {
     Invites,
 
     CreateTicket,
-    TicketTable
+    TicketTable,
+
+    TaskList,
+    TaskItem,
+    CreateTaskList,
 }
