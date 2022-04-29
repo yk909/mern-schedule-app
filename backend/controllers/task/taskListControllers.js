@@ -99,16 +99,38 @@ const createTaskList = async (req, res) => {
 // @access  Private
 const updateTaskList = async (req, res) => {
     try {
-        const employee = await Employee.findOne({ user: req.user._id, business: req.body.business }).populate('company');
+        const task = await TaskList.findById(req.params.id).populate('businesses');
 
-        if (!employee) {
-            return res.status(400).json({msg: 'You are not an employee of this business'});
+        if (!task) {
+            return res.status(400).json({msg: 'Task list not found'});
         }
 
-        if(employee.isManager || employee.company.owners.includes(req.user._id)) {
-            const taskList = await TaskList.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const company = await Company.findById(task.company);
 
-            return res.status(200).json(taskList);
+        if (!company) {
+            return res.status(400).json({msg: 'Company not found'});
+        }
+
+        const employee = await Employee.findOne({ user: req.user._id, business: task.business });
+
+        if(
+            (employee && employee.isManager) || company.owners.includes(req.user._id)
+        ) {
+            if(req.body.action === 'addTaskItem') {
+                task.taskItems.push(req.body.taskItem);
+            } else if(req.body.action === 'removeTaskItem') {
+                // Remove task item from task list by task item _id
+                task.taskItems = task.taskItems.filter(taskItem => taskItem._id.toString() !== req.body.taskItemId);
+            } else {
+                const updatedTaskList = await TaskList.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+                updatedTaskList.businesses = task.businesses;
+                return res.status(200).json(updatedTaskList);
+            }
+            
+            await task.save();
+
+            return res.status(200).json(task);
         } else {
             return res.status(400).json({msg: 'You are not authorized to update a task list'});
         }

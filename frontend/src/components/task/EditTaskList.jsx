@@ -1,17 +1,18 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
+import { toast } from 'react-toastify';
 import { Modal } from '../';
-import { editTaskList } from '../../features/task/taskSlice';
+import { updateTaskList } from '../../features/task/taskSlice';
 import { customSelectModalStyles, weekDaySelectOptions } from '../../constance/localData';
 
 const EditTaskList = ({taskList}) => {
     const [isOpen, setIsOpen] = useState(false);
     const dispatch = useDispatch();
     const { company } = useSelector(state => state.company);
-    const [editTaskList, setEditTaskList] = useState({
+    const [editedTaskList, setEditedTaskList] = useState({
         title: taskList.title,
-        frequency: taskList.frequency,
+        frequency: { value: taskList.frequency, label: taskList.frequency },
         repeat: taskList?.repeat?.map(item => ({value: item, label: item})),
         businesses: taskList.businesses.map(business => ({value: business._id, label: business.name})),
         positions: taskList?.positions?.map(position => ({value: position, label: position})),
@@ -43,16 +44,28 @@ const EditTaskList = ({taskList}) => {
         }))
 
     const onChange = e => {
-        setEditTaskList({
-            ...editTaskList,
+        setEditedTaskList({
+            ...editedTaskList,
             [e.target.name]: e.target.value
         });
     }
 
 
     const onSubmit = () => {
-        // dispatch(editTaskList());
-        setIsOpen(false);
+        if(editedTaskList.title && editedTaskList.frequency && editedTaskList.businesses.length > 0 && editedTaskList.positions.length > 0) {
+            const data = {
+                _id: taskList._id,
+                title: editedTaskList.title,
+                frequency: editedTaskList.frequency.value,
+                repeat: editedTaskList.repeat.map(item => item.value),
+                businesses: editedTaskList.businesses.map(business => business.value),
+                positions: editedTaskList.positions.map(position => position.value),
+            }
+            dispatch(updateTaskList(data))
+            setIsOpen(false);
+        } else {
+            toast.error('Please fill all fields');
+        }
     }
 
     const onSubmitDanger = () => {
@@ -78,7 +91,7 @@ const EditTaskList = ({taskList}) => {
                         type="text" 
                         name="title"
                         placeholder="Task List Title"
-                        value={editTaskList.title}
+                        value={editedTaskList.title}
                         onChange={onChange}
                         autoComplete="off"
                     />
@@ -88,27 +101,27 @@ const EditTaskList = ({taskList}) => {
                     <Select
                         styles={customSelectModalStyles}
                         options={frequencySelect}
-                        value={editTaskList.frequency}
-                        onChange={e => setEditTaskList({ ...editTaskList, repeat: [], frequency: e })}
+                        value={editedTaskList.frequency}
+                        onChange={e => setEditedTaskList({ ...editedTaskList, repeat: [], frequency: e })}
                     />
                 </div>
             </div>
-            {(taskList.frequency.value === 'weekly' || taskList.frequency.value === 'monthly') && (
+            {(editedTaskList.frequency.value === 'weekly' || editedTaskList.frequency.value === 'monthly') && (
                 <div className="form-group">
                     <label>Repeat On *</label>
                     <Select
                         styles={customSelectModalStyles}
                         isMulti={true}
                         options={
-                            taskList.frequency.value === 'weekly' ?
+                            editedTaskList.frequency.value === 'weekly' ?
                             weekDaySelectOptions :
                             [...Array(31).keys()].map(day => ({
                                 value: day + 1,
                                 label: day + 1
                             }))
                         }
-                        value={editTaskList.repeat}
-                        onChange={e => setEditTaskList({ ...editTaskList, repeat: e })}
+                        value={editedTaskList.repeat}
+                        onChange={e => setEditedTaskList({ ...editedTaskList, repeat: e })}
                     />
                 </div>
             )}
@@ -118,8 +131,8 @@ const EditTaskList = ({taskList}) => {
                     <Select
                         styles={customSelectModalStyles}
                         options={businessSelect}
-                        value={editTaskList.businesses}
-                        onChange={e => setEditTaskList({ ...editTaskList, businesses: e })}
+                        value={editedTaskList.businesses}
+                        onChange={e => setEditedTaskList({ ...editedTaskList, businesses: e })}
                         isMulti={true}
                     />
                 </div>
@@ -128,8 +141,8 @@ const EditTaskList = ({taskList}) => {
                     <Select
                         styles={customSelectModalStyles}
                         options={positionsSelect}
-                        value={editTaskList.positions}
-                        onChange={e => setEditTaskList({ ...editTaskList, positions: e })}
+                        value={editedTaskList.positions}
+                        onChange={e => setEditedTaskList({ ...editedTaskList, positions: e })}
                         isMulti={true}
                     />
                 </div>

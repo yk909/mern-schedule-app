@@ -1,18 +1,34 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { updateTaskList } from '../../features/task/taskSlice';
 import { Modal } from '../';
 
 const AddTask = ({taskList}) => {
+    const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
     const [task, setTask] = useState({
         title: '',
         description: '',
     });
-    const dispatch = useDispatch();
 
 
     const onSubmit = () => {
-        console.log(task)
+        if(task.title && task.description) {
+            const data = {
+                _id: taskList._id,
+                action: 'addTaskItem',
+                taskItem: {
+                    title: task.title,
+                    description: task.description,
+                }
+            }
+
+            dispatch(updateTaskList(data));
+            setIsOpen(false);
+        } else {
+            toast.error('Please fill all fields');
+        }
     }
 
     return (
