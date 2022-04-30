@@ -14,10 +14,10 @@ const Scheduler = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        if(!id && company) {
+        if((!id || id === 'undefined') && company) {
             navigate(`/scheduler/${company.businesses[0]._id}`);
         }
-    }, [company]);
+    }, [company, navigate]);
 
     return (
         <>

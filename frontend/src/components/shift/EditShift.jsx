@@ -79,7 +79,14 @@ const EditShift = ({ employee, shift, modalIsOpen, setModalIsOpen }) => {
 
     return (
     <>
+    {document.querySelector('.calender-body') && (
+        <>
         <Modal
+            style={{
+                zoom: `${!document.querySelector('.calender-body').style.zoom 
+                ? '1' 
+                : ((1/+document.querySelector('.calender-body').style.zoom)*100) + '%'}`
+            }}
             setModalIsOpen={setModalIsOpen}
             modalIsOpen={modalIsOpen}
             actionBtnText="Save"
@@ -144,6 +151,8 @@ const EditShift = ({ employee, shift, modalIsOpen, setModalIsOpen }) => {
                 </div>
             </div>
         </Modal>
+        </>
+    )}
     </>
     )
 }

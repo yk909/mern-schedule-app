@@ -69,6 +69,8 @@ const CreateShift = ({ date, employee, startTime }) => {
 
     return (
     <>
+    {document.querySelector('.calender-body') && (
+        <>
         <Modal
         style={{
             zoom: `${!document.querySelector('.calender-body').style.zoom 
@@ -124,6 +126,8 @@ const CreateShift = ({ date, employee, startTime }) => {
                 {plusIcon}
             </div>
         </div>
+        </>
+        )}
     </>
     )
 }
