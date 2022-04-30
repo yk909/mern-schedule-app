@@ -14,8 +14,6 @@
 }
 
 .profile-container .user-info {
-    display: flex;
-    flex-wrap: wrap;
     border-top: 1px solid var(--color-secondary);
 }
 

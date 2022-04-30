@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { createBusiness } from '../../features/business/businessSlice';
 import { Modal } from '../';
-import { briefcaseIcon } from '../../constance/icons';
+import { briefcaseIcon, plusIcon } from '../../constance/icons';
 
 const CreateBusiness = ({ company }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,9 +16,23 @@ const CreateBusiness = ({ company }) => {
         zip: '',
         phoneNumber: '',
         workHours: '',
-        positions: [],
         companyId: company._id
     });
+
+    const [positions, setPositions] = useState([
+        {
+            title: '',
+            color: '#2a74d3',
+        },
+        {
+            title: '',
+            color: '#2a74d3',
+        },
+        {
+            title: '',
+            color: '#2a74d3',
+        },
+    ]);
 
     const dispatch = useDispatch();
     const { user } = useSelector(state => state.auth);
@@ -26,7 +40,12 @@ const CreateBusiness = ({ company }) => {
     const onSubmit = () => {
         if(business.name && business.type && business.address && business.city && business.state && business.zip) {
             if (user) {
-                dispatch(createBusiness(business));
+                const data = {
+                    ...business,
+                    positions: positions.filter(position => position.title.length > 0)
+                }
+
+                dispatch(createBusiness(data));
                 setBusiness({
                     name: '',
                     type: '',
@@ -150,21 +169,55 @@ const CreateBusiness = ({ company }) => {
                     />
                 </div>
             </div>
-            <div className="form-group">
-                <label>Position</label>
-                <input
-                    type="text"
-                    placeholder="Enter comma separated positions (e.g. CEO, Manager, Barista, etc.)"
-                    name="position"
-                    value={business.positions?.join(', ')}
-                    onChange={(e) => {
-                        setBusiness({
-                            ...business,
-                            positions: e.target.value.split(', ')
-                        })}
-                    }
-                />
+            <div className="flex align-between p-1 border-bottom">
+                <p className="title-4">Positions</p>
+                <div 
+                    className="btn btn-outline btn-sm"
+                    onClick={() => {
+                        setPositions([
+                            ...positions,
+                            {
+                                title: '',
+                                color: '#2a74d3',
+                            }
+                        ]);
+                    }}
+                >
+                    Add More
+                </div>
             </div>
+            {positions.map((position, index) => (
+                <div key={`position-count-${index}`} className="form-group-row">
+                    <div className="form-group">
+                        <label>Title</label>
+                        <input
+                            type="text"
+                            placeholder="Position title"
+                            name="position"
+                            value={positions? positions.title : ''}
+                            onChange={(e) => {
+                                positions[index].title = e.target.value;
+                                setPositions([...positions]);
+                            }}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <div className="flex align-between">
+                            <label>Color</label>
+                        </div>
+                        <input
+                        className="w-100"
+                            type="color"
+                            name="color"
+                            value={position.color}
+                            onChange={(e) => {
+                                positions[index].color = e.target.value;
+                                setPositions([...positions]);
+                            }}
+                        />
+                    </div>
+                </div>
+            ))}
         </Modal>
         <section className="btn btn-outline" onClick={() => { setIsModalOpen(true) }}>
             {briefcaseIcon}

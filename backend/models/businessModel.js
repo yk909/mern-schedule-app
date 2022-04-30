@@ -44,8 +44,14 @@ const businessSchema = new mongoose.Schema({
         default: true
     },
     positions: [{
-        type: String,
-        required: false
+        name: {
+            type: String,
+            required: false
+        },
+        color: {
+            type: String,
+            default: '#2a74d3'
+        }
     }],
     company: {
         type: mongoose.Schema.Types.ObjectId,

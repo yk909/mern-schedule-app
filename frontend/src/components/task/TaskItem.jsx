@@ -19,9 +19,12 @@ const TaskItem = ({ taskList, taskItem }) => {
                     {taskItem.description && (
                         <p className="ml-1">{taskItem.description}</p>
                     )}
-                    <small>
-                        Completed by {completedTasks.find(task => task.taskItem === taskItem._id).completedBy.firstName} {completedTasks.find(task => task.taskItem === taskItem._id).completedBy.lastName}
-                    </small>
+                    {completedTasks.map(task => (
+                        task.taskItem === taskItem._id &&
+                        <small key={`completed-${taskItem._id}`}>
+                            Completed by {task.completedBy.firstName} {task.completedBy.lastName}
+                        </small>
+                    ))}
                 </div>
                 {location === 'dashboard' ? (
                     <button 

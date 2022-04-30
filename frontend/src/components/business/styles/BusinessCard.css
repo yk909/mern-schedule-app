@@ -104,6 +104,11 @@
     margin-left: 5px;
 }
 
+.company-card .modal-body .modal-content {
+    max-height: 50vh;
+    overflow-y: scroll;
+}
+
 @media (max-width: 768px) {
     .business-card-header-info-left {
         max-width: 150px;
