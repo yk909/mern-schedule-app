@@ -1,9 +1,14 @@
+import { useSelector } from "react-redux";
 import { countAsignedTotalHours } from '../../constance/helpers'; 
 import { DayShift, WeekShift } from '../';
-import { useSelector } from "react-redux";
 import { timeIcon } from '../../constance/icons';
 
-const AcceptedShift = ({ dateControl, fromDate, toDate, startDate  }) => {
+const AcceptedShift = () => {
+    const startDate = new Date (useSelector(state => state.local.time.startDate));
+    const fromDate = new Date (useSelector(state => state.local.time.fromDate));
+    const toDate = new Date (useSelector(state => state.local.time.toDate));
+    const dateControl = useSelector(state => state.local.time.dateControl);
+
     const employeesUID = useSelector(state => state.shift.employees)?.map(e => e.user);
     const weekShifts = useSelector(state => state.shift.shifts)?.filter(shift =>
         shift.acceptedBy && !shift.employee &&
@@ -26,24 +31,19 @@ const AcceptedShift = ({ dateControl, fromDate, toDate, startDate  }) => {
                             <div className="section-hours">
                                 <div className="flex align-center">
                                     {timeIcon}
-                                    {countAsignedTotalHours(weekShifts, dateControl.value === 'day' ? startDate : null, fromDate, toDate)}
+                                    {countAsignedTotalHours(weekShifts, dateControl === 'day' ? startDate : null, fromDate, toDate)}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-                {dateControl.value != "day" ?
+                {dateControl !== "day" ?
                     <WeekShift
-                        dateControl={dateControl}
-                        fromDate={fromDate}
                         acceptedShifts={weekShifts}
                     />
                 :
                     <DayShift
-                        dateControl={dateControl}
-                        startDate={startDate}
-                        fromDate={fromDate}
                         acceptedShifts={weekShifts}
                     />
                 }

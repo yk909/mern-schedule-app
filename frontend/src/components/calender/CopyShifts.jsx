@@ -1,24 +1,29 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { copyPreviousWeekShifts } from '../../features/shift/shiftSlice';
 import { Modal } from '../';
 
-const CopyShifts = ({dateControl, fromDate, toDate, startDate}) => {
+const CopyShifts = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const dispatch = useDispatch();
     const { id } = useParams();
 
+    const startDate = new Date (useSelector(state => state.local.time.startDate));
+    const fromDate = new Date (useSelector(state => state.local.time.fromDate));
+    const toDate = new Date (useSelector(state => state.local.time.toDate));
+    const dateControl = useSelector(state => state.local.time.dateControl);
+
     const onSubmit = () => {
         const data = {
             business: id,
-            fromDate: dateControl.value === 'day' 
-                ? new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())
-                    : fromDate.setHours(0,0,0,0),
-            toDate: dateControl.value === 'day' 
-                ? new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()+1)
-                    : toDate.setHours(0,0,0,0),
-            dateControl: dateControl.value
+            fromDate: dateControl === 'day' 
+                ? new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), 0, 0, 0)
+                    : new Date(fromDate.setHours(0,0,0,0)),
+            toDate: dateControl === 'day' 
+                ? new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()+1, 0, 0, 0)
+                    : new Date(toDate.setHours(0,0,0,0)),
+            dateControl: dateControl
         }
         dispatch(copyPreviousWeekShifts(data));
         setModalIsOpen(false);
@@ -27,11 +32,11 @@ const CopyShifts = ({dateControl, fromDate, toDate, startDate}) => {
     return (
         <>
             <Modal
-                contentLabel={`Are you sure you want to copy ${dateControl.label} shifts?`}
+                contentLabel={`Are you sure you want to copy ${dateControl} shifts?`}
                 setModalIsOpen={setModalIsOpen}
                 modalIsOpen={modalIsOpen}
             >
-                {dateControl.value === 'day' ? (
+                {dateControl === 'day' ? (
                     <>
                         <p>From <b>{startDate.toLocaleString("en-US", { month: 'short', day: 'numeric' })}</b></p>
                         <p>To <b>{new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()+1).toLocaleString("en-US", { month: 'short', day: 'numeric' })}</b></p>
@@ -43,19 +48,19 @@ const CopyShifts = ({dateControl, fromDate, toDate, startDate}) => {
                         </p>
                         <p>
                             To <b>{new Date(fromDate.setHours(0, 0, 0, 0) + 
-                                ((dateControl.value === 'week' ?
+                                ((dateControl === 'week' ?
                                     7
-                                : dateControl.value === '2week' ?
+                                : dateControl === '2week' ?
                                     14
-                                : dateControl.value === '4week' ?
+                                : dateControl === '4week' ?
                                     28
                                 : 1)
                                 * 24 * 60 * 60 * 1000)) .toLocaleString("en-US", { month: 'short', day: 'numeric' })}</b> - <b>{new Date(toDate.setHours(0, 0, 0, 0) + 
-                                ((dateControl.value === 'week' ?
+                                ((dateControl === 'week' ?
                                     7
-                                : dateControl.value === '2week' ?
+                                : dateControl === '2week' ?
                                     14
-                                : dateControl.value === '4week' ?
+                                : dateControl === '4week' ?
                                     28
                                 : 1)
                                 * 24 * 60 * 60 * 1000)) .toLocaleString("en-US", { month: 'short', day: 'numeric' })} </b>
@@ -80,7 +85,7 @@ const CopyShifts = ({dateControl, fromDate, toDate, startDate}) => {
             <div className="calender-header-right">
                 <div className="btn btn-outline"
                 onClick={() => setModalIsOpen(true)}>
-                    Copy {dateControl.label} Schedule 
+                    Copy {dateControl} Schedule 
                 </div>
             </div>
         </>

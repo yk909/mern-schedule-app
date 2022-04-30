@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import localReducer from '../features/local/localSlice';
 import authReducer from '../features/auth/authSlice';
 import companyReducer from '../features/company/companySlice';
 import businessReducer from '../features/business/businessSlice';
@@ -11,6 +12,7 @@ import ticketReducer from '../features/ticket/ticketSlice';
 
 export const store = configureStore({
   reducer: {
+    local: localReducer,
     auth: authReducer,
     company: companyReducer,
     business: businessReducer,
@@ -21,4 +23,8 @@ export const store = configureStore({
     task: taskReducer,
     ticket: ticketReducer,
   },
+  // middleware: getDefaultMiddleware =>
+  //   getDefaultMiddleware({
+  //     serializableCheck: false,
+  //   })
 });

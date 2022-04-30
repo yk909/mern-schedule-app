@@ -4,7 +4,8 @@ import { useDrop } from 'react-dnd';
 import { editShift } from '../../features/shift/shiftSlice';
 import { Shift, CreateShift, ManagerProtect } from '../';
 
-const ShiftsList = ({fromDate, i, employee, acceptedShifts}) => {
+const ShiftsList = ({i, employee, acceptedShifts}) => {
+    const fromDate = new Date (useSelector(state => state.local.time.fromDate));
     const shiftsSelector = useSelector(state => state.shift.shifts).filter(shift => 
         ((employee && (
             employee?._id === shift.employee || 

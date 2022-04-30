@@ -1,20 +1,25 @@
-import { useState, forwardRef, useEffect } from 'react';
+import { useState, forwardRef, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import DatePicker from "react-datepicker";
 import { getAllBusinessShifts } from '../../features/shift/shiftSlice';
 import { customSelectStyles, timeframeOptions } from '../../constance/localData';
-import { CopyShifts, ManagerProtect } from '../';
+import { CopyShifts, ManagerProtect, Zoom } from '../';
 import { arrowLeftIcon, arrowRightIcon, calenderRangeIcon } from '../../constance/icons';
+import { setDateControl, setFromDate, setStartDate, setToDate } from '../../features/local/localSlice';
 
 
-const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, toDate, setfromDate, setToDate}) => {
-    const [zoom, setZoom] = useState('1');
+const Nav = () => {
     const { company } = useSelector(state => state.company);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { id } = useParams();
+
+    const startDate = new Date (useSelector(state => state.local.time.startDate));
+    const fromDate = new Date (useSelector(state => state.local.time.fromDate));
+    const toDate = new Date (useSelector(state => state.local.time.toDate));
+    const dateControl = useSelector(state => state.local.time.dateControl);
 
     const businessesSelect = company.businesses.map(business => {
         return {
@@ -28,40 +33,48 @@ const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, to
         
         previousMonday.setMonth(startDate.getMonth(), date.getDate() - ((date.getDay() + 6) % 7));
         
-        return previousMonday;
+        return previousMonday.toLocaleString("en-US");
     }
 
     // get rande of dates from previous monday to sunday
     function getRange(date = new Date()) {
         const previousMonday = new Date();
         
-        if(dateControl.value === 'week') {
+        if(dateControl === 'week') {
             previousMonday.setMonth(startDate.getMonth(), (date.getDate() - ((date.getDay() + 6) % 7)) + 6);
-        } else if(dateControl.value === '2week') {
+        } else if(dateControl === '2week') {
             previousMonday.setMonth(startDate.getMonth(), (date.getDate() - ((date.getDay() + 6) % 7) + 13));
-        } else if(dateControl.value === '4week') {
+        } else if(dateControl === '4week') {
             previousMonday.setMonth(startDate.getMonth(), (date.getDate() - ((date.getDay() + 6) % 7) + 27));
         }
         
-        return previousMonday;
+        return previousMonday.toLocaleString("en-US");
     }
 
     // handle click on button for next or previous day, week, 2 week or month
     function handleNextPrev(value) {
         if(value === 'next') {
     
-            if(dateControl.value === 'day') {
-            setStartDate(new Date(startDate.setDate(startDate.getDate() + 1)));
+            if(dateControl === 'day') {
+                dispatch(setStartDate(
+                    new Date(startDate.setDate(startDate.getDate() + 1)).toLocaleString("en-US")
+                ));
             } else {
-            setStartDate(new Date(startDate.setMonth(toDate.getMonth(), toDate.getDate() + 1)));
+                dispatch(setStartDate(
+                    new Date(startDate.setMonth(toDate.getMonth(), toDate.getDate() + 1)).toLocaleString("en-US")
+                ));
             }
     
         } else if(value === 'prev') {
     
-            if(dateControl.value === 'day') {
-            setStartDate(new Date(startDate.setDate(startDate.getDate() - 1)));
+            if(dateControl === 'day') {
+                dispatch(setStartDate(
+                    new Date(startDate.setDate(startDate.getDate() - 1)).toLocaleString("en-US")
+                ));
             } else {
-            setStartDate(new Date(startDate.setMonth(fromDate.getMonth(), fromDate.getDate() - 1)));
+                dispatch(setStartDate(
+                    new Date(startDate.setMonth(fromDate.getMonth(), fromDate.getDate() - 1)).toLocaleString("en-US")
+                ));
             }
     
         }
@@ -74,56 +87,28 @@ const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, to
     ));
 
     useEffect(() => {
-        setfromDate(getPreviousMonday(startDate))
-        setToDate(getRange(startDate))
+        dispatch(setFromDate(getPreviousMonday(startDate)));
+        dispatch(setToDate(getRange(startDate)));
     }, [startDate]);
 
-    useEffect(() => {
-        if (id && fromDate) {
-            const  data = {
-                business: id,
-                fromDate: dateControl.value === 'day' 
-                    ? new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())
-                        : fromDate,
-                toDate: dateControl.value === 'day' 
-                    ? new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()+1)
-                        : toDate,
-            }
-            dispatch(getAllBusinessShifts(data));
-        }
-    }, [fromDate, id])
-
-    const onChangeZoom = (e) => {
-        const calenderBody = document.querySelector('.calender-body');
-        calenderBody.style.zoom = e.target.value;
-        setZoom(e.target.value);
-    }
-
     return (
-        <>
-        {fromDate && (
         <>
         <div className="calender-header">
             <div className="flex align-between">
                 <div className="calender-header-left">
                     <div className="date title-1 p-0">
-                        {dateControl.label === 'Day' ?
+                        {dateControl === 'day' ?
                         
-                            startDate.toLocaleString("en-US", { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) 
+                            startDate?.toLocaleString("en-US", { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) 
                         :(
-                            fromDate.toLocaleString("en-US", { month: 'short', day: 'numeric' }) + ' - ' +
-                            toDate.toLocaleString("en-US", { month: 'short', day: 'numeric' }) + ', ' +
-                            fromDate.toLocaleString("en-US", { year: 'numeric' }) 
+                            fromDate?.toLocaleString("en-US", { month: 'short', day: 'numeric' }) + ' - ' +
+                            toDate?.toLocaleString("en-US", { month: 'short', day: 'numeric' }) + ', ' +
+                            fromDate?.toLocaleString("en-US", { year: 'numeric' }) 
                         )}
                     </div>
                 </div>
                 <ManagerProtect>
-                    <CopyShifts 
-                        fromDate={fromDate}
-                        toDate={toDate}
-                        startDate={startDate}
-                        dateControl={dateControl}
-                    />
+                    <CopyShifts />
                 </ManagerProtect>
             </div>
             <div className="flex align-between">
@@ -136,12 +121,16 @@ const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, to
                             {arrowLeftIcon}
                         </div>
                         <DatePicker
-                            selected={dateControl.label === "Day" ? startDate : fromDate}
-                            onChange={(date) => {setStartDate(date)}}
+                            selected={dateControl === "day" ? startDate : fromDate}
+                            onChange={(date) => {
+                                dispatch(setStartDate(
+                                    date.toLocaleString("en-US")
+                                ));
+                            }}
                             customInput={<ExampleCustomInput />}
                             calendarStartDay={1}
-                            startDate={dateControl.label === "Day" ? startDate : fromDate}
-                            endDate={dateControl.label === "Day" ? startDate : toDate}
+                            startDate={dateControl === "day" ? startDate : fromDate}
+                            endDate={dateControl === "day" ? startDate : toDate}
                         />
                         <div 
                             className="next-date btn btn-outline" 
@@ -153,7 +142,7 @@ const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, to
                     <div className="today-control">
                         <div 
                             className="today btn btn-outline" 
-                            onClick={() => { setStartDate(new Date) }}
+                            onClick={() => { dispatch(setStartDate(new Date().toLocaleString("en-US"))) }}
                         >
                             TODAY
                         </div>
@@ -162,8 +151,11 @@ const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, to
                 <div className="calender-header-right">
                     <div className="select-control">
                         <Select
-                            value={dateControl}
-                            onChange={(e) => {setDateControl(e); setStartDate(new Date);}}
+                            value={{value: dateControl, label: dateControl.slice(0, 1).toUpperCase() + dateControl.slice(1)}}
+                            onChange={(e) => {
+                                dispatch(setDateControl(e.value));
+                                dispatch(setStartDate(new Date().toLocaleString("en-US")));
+                            }}
                             isSearchable={false}
                             options={timeframeOptions}
                             styles={customSelectStyles}
@@ -183,13 +175,7 @@ const Nav = ({dateControl, setDateControl, startDate, setStartDate, fromDate, to
                 </div>
             </div>
         </div>
-        <div className="zoom-calender">
-            <div className="zoom-calender-handler" title="Zoom in/out">
-                <input type="range" min="0.25" max="1" step="0.05" value={zoom} onChange={onChangeZoom}/>
-            </div>
-        </div>
-        </>
-        )}
+        <Zoom/>
         </>
     )
 }

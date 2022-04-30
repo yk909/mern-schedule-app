@@ -1,8 +1,12 @@
 import { useSelector } from 'react-redux';
 import { countAsignedTotalHours } from '../../constance/helpers';
 
-const CalenderFooter = ({ dateControl, startDate, fromDate, toDate }) => {
+const CalenderFooter = () => {
 	const { shifts } = useSelector(state => state.shift);
+    const startDate = new Date (useSelector(state => state.local.time.startDate));
+    const fromDate = new Date (useSelector(state => state.local.time.fromDate));
+    const toDate = new Date (useSelector(state => state.local.time.toDate));
+    const dateControl = useSelector(state => state.local.time.dateControl);
 
 	return (
 	<div className="section-container footer-row">
@@ -13,16 +17,16 @@ const CalenderFooter = ({ dateControl, startDate, fromDate, toDate }) => {
 						Assigned Total
 					</div>
 					<div>
-						{countAsignedTotalHours(shifts, dateControl.value === 'day' ? startDate : null, fromDate, toDate)}
+						{countAsignedTotalHours(shifts, dateControl === 'day' ? startDate : null, fromDate, toDate)}
 					</div>
 				</div>
 			</div>
 			{[...Array(
-				dateControl.value === "week" ?
+				dateControl === "week" ?
 					7 
-				: dateControl.value === "2week" ?
+				: dateControl === "2week" ?
 					14
-				: dateControl.value === "4week" ?
+				: dateControl === "4week" ?
 					28
 				: 24
 			).keys()].map((i) => {

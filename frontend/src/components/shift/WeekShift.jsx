@@ -1,13 +1,15 @@
+import { useSelector } from 'react-redux';
 import {ShiftsList} from '../';
 
-const WeekShift = ({dateControl, fromDate, employee, acceptedShifts}) => {
+const WeekShift = ({employee, acceptedShifts}) => {
+    const dateControl = useSelector(state => state.local.time.dateControl);
 
     return (
         <div className="flex">
             {[...Array(
-                dateControl.value === "week" ?
+                dateControl === "week" ?
                     7 
-                : dateControl.value === "2week" ?
+                : dateControl === "2week" ?
                     14
                 :
                     28
@@ -16,7 +18,6 @@ const WeekShift = ({dateControl, fromDate, employee, acceptedShifts}) => {
                     <ShiftsList
                         employee={employee}
                         key={`open-shift-day-${i}`}
-                        fromDate={fromDate}
                         acceptedShifts={acceptedShifts}
                         i={i}
                     />

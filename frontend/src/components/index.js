@@ -15,6 +15,7 @@ import CalenderFooter from "./calender/CalenderFooter";
 import CalenderHeader from "./calender/CalenderHeader";
 import Nav from "./calender/Nav";
 import CopyShifts from "./calender/CopyShifts";
+import Zoom from "./calender/Zoom";
 
 import UserShift from "./shift/UserShift";
 import OpenShift from "./shift/OpenShift";
@@ -76,6 +77,7 @@ export {
     CalenderHeader,
     Nav,
     CopyShifts,
+    Zoom,
 
     UserShift,
     OpenShift,

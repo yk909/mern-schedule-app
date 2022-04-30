@@ -19,7 +19,7 @@ const taskListSchema = new mongoose.Schema({
     }],
     positions: [{
         type: String,
-        required: false
+        required: true
     }],
     frequency: {
         type: String,

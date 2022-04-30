@@ -1,8 +1,14 @@
+import { useSelector } from 'react-redux';
 import { countTotalHours } from '../../constance/helpers'; 
 import { DayShift, WeekShift } from '../';
 import { timeIcon } from '../../constance/icons';
 
-const OpenShift = ({ dateControl, shifts, fromDate, toDate, startDate }) => {
+const OpenShift = () => {
+    const shifts = useSelector(state => state.shift.shifts);
+    const startDate = new Date (useSelector(state => state.local.time.startDate));
+    const fromDate = new Date (useSelector(state => state.local.time.fromDate));
+    const toDate = new Date (useSelector(state => state.local.time.toDate));
+    const dateControl = useSelector(state => state.local.time.dateControl);
 
     return (
         <div className="section-row flex open-shift user-row">
@@ -18,7 +24,9 @@ const OpenShift = ({ dateControl, shifts, fromDate, toDate, startDate }) => {
                             <div className="section-hours">
                                 <div className="flex align-center">
                                     {timeIcon}
-                                    {countTotalHours(null, shifts, dateControl.value === 'day' ? startDate : null, fromDate, toDate)}
+                                    {shifts && (
+                                        countTotalHours(null, shifts, dateControl === 'day' ? startDate : null, fromDate, toDate)
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -26,17 +34,10 @@ const OpenShift = ({ dateControl, shifts, fromDate, toDate, startDate }) => {
                 </div>
             </div>
             {shifts && (
-                dateControl.value != "day" ?
-                    <WeekShift
-                        dateControl={dateControl}
-                        fromDate={fromDate}
-                    />
+                dateControl != "day" ?
+                    <WeekShift/>
                 :
-                    <DayShift
-                        dateControl={dateControl}
-                        startDate={startDate}
-                        fromDate={fromDate}
-                    />
+                    <DayShift/>
             )}
         </div>
     )

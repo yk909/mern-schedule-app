@@ -1,8 +1,14 @@
+import { useSelector } from 'react-redux';
 import { countTotalHours } from '../../constance/helpers';
 import { DayShift, WeekShift } from '../';
 import { timeIcon } from '../../constance/icons';
 
-const UserShift = ({dateControl, employees, shifts, startDate, toDate, fromDate}) => {
+const UserShift = () => {
+    const { shifts, employees } = useSelector(state => state.shift);
+    const startDate = new Date (useSelector(state => state.local.time.startDate));
+    const fromDate = new Date (useSelector(state => state.local.time.fromDate));
+    const toDate = new Date (useSelector(state => state.local.time.toDate));
+    const dateControl = useSelector(state => state.local.time.dateControl);
 
     return (
         <>
@@ -29,7 +35,7 @@ const UserShift = ({dateControl, employees, shifts, startDate, toDate, fromDate}
                                     </div>
                                     <div className="flex align-center">
                                         {timeIcon}
-                                        {countTotalHours(employee, shifts, dateControl.value === 'day' ? startDate : null, fromDate, toDate)}
+                                        {countTotalHours(employee, shifts, dateControl === 'day' ? startDate : null, fromDate, toDate)}
                                     </div>
                                 </div>
                             </div>
@@ -37,18 +43,13 @@ const UserShift = ({dateControl, employees, shifts, startDate, toDate, fromDate}
                     </div>
                 </div>
                 {shifts && (
-                    dateControl.value != "day" ?
+                    dateControl != "day" ?
                         <WeekShift
                             employee={employee}
-                            dateControl={dateControl}
-                            fromDate={fromDate}
                         />
                     :
                         <DayShift
                             employee={employee}
-                            dateControl={dateControl}
-                            startDate={startDate}
-                            fromDate={fromDate}
                         />
                 )}
             </div>

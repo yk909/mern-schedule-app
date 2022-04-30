@@ -6,16 +6,37 @@ import { getAllBusinessShifts } from '../../features/shift/shiftSlice';
 import { CalenderHeader, OpenShift, UserShift, CalenderFooter, AcceptedShift } from '../';
 import './styles/Scheduler.css';
 
-const Scheduler = ({fromDate, toDate, startDate, dateControl, setStartDate, setDateControl}) => {
+const Scheduler = () => {
     const calenderRef = useRef(null);
+    const dispatch = useDispatch();
     const { id } = useParams();
-    const { shifts, employees, isLoading } = useSelector(state => state.shift);
+    const { isLoading } = useSelector(state => state.shift);
+    
+    const startDate = new Date(useSelector(state => state.local.time.startDate));
+    const fromDate = useSelector(state => state.local.time.fromDate);
+    const toDate = useSelector(state => state.local.time.toDate);
+    const dateControl = useSelector(state => state.local.time.dateControl);
+
+    useEffect(() => {
+        if (id && fromDate && toDate) {
+            const  data = {
+                business: id,
+                fromDate: dateControl === 'day' 
+                    ? new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())
+                        : fromDate,
+                toDate: dateControl === 'day' 
+                    ? new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()+1)
+                        : toDate,
+            }
+            dispatch(getAllBusinessShifts(data));
+        }
+    }, [toDate])
 
     return (
         <>
-        {!isLoading && fromDate && id ? (
+        {!isLoading && fromDate && toDate && id ? (
         <div className={`calender-body${
-            dateControl.value === 'day' ? 
+            dateControl === 'day' ? 
                 ' calender-body-day'
             : ''}`}>
             <div
@@ -23,41 +44,13 @@ const Scheduler = ({fromDate, toDate, startDate, dateControl, setStartDate, setD
                 className="scheduler-wrapper"
             >
                 {fromDate && (
-                <CalenderHeader
-                    fromDate={fromDate}
-                    dateControl={dateControl}
-                    setStartDate={setStartDate}
-                    setDateControl={setDateControl}
-                />
+                    <CalenderHeader />
                 )}
                 <div className="section-container">
-                    <OpenShift
-                        startDate={startDate}
-                        toDate={toDate}
-                        fromDate={fromDate}
-                        dateControl={dateControl}
-                        shifts={shifts}
-                    />
-                    <AcceptedShift
-                        startDate={startDate}
-                        toDate={toDate}
-                        fromDate={fromDate}
-                        dateControl={dateControl}
-                    />
-                    <UserShift
-                        startDate={startDate}
-                        toDate={toDate}
-                        fromDate={fromDate}
-                        dateControl={dateControl}
-                        employees={employees}
-                        shifts={shifts}
-                    />
-                    <CalenderFooter
-                        startDate={startDate}
-                        toDate={toDate}
-                        fromDate={fromDate}
-                        dateControl={dateControl}
-                    />
+                    <OpenShift />
+                    <AcceptedShift />
+                    <UserShift />
+                    <CalenderFooter />
                 </div>
             </div>
         </div>

@@ -7,7 +7,9 @@ import { hours } from '../../constance/localData';
 import { CreateShift, Shift, ManagerProtect } from '../';
 
 
-const DayShift = ({ dateControl, startDate, employee, acceptedShifts}) => {
+const DayShift = ({ employee, acceptedShifts}) => {
+    const startDate = new Date (useSelector(state => state.local.time.startDate));
+
     const [endTimeOnResize, setEndTimeOnResize] = useState({});
     const shift = useSelector(state => state.shift);
     const { id } = useParams();
@@ -146,7 +148,7 @@ const DayShift = ({ dateControl, startDate, employee, acceptedShifts}) => {
                 </div>
             )
         })}
-        {todayShifts.length === 0 &&
+        {todayShifts.length === 0 && !acceptedShifts && (
             <div
                 id={`employee-day-shift-${employee ? employee._id : null}`}
                 className={`flex ${isOver ? 'day-shift-over' : ''}`}
@@ -170,7 +172,7 @@ const DayShift = ({ dateControl, startDate, employee, acceptedShifts}) => {
                     </div>
                 )})}
             </div>
-        }
+        )}
     </div>
     )
 }
