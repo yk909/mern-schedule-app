@@ -11,10 +11,6 @@ const taskSchema = new mongoose.Schema({
         ref: 'TaskList',
         required: true
     },
-    completedDate: {
-        type: Date,
-        required: false
-    }, 
     completedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

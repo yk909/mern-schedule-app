@@ -4,8 +4,8 @@ import taskService from "./taskService";
 
 const initialState = {
     taskLists: null,
-    completedTasks: null,
-    recentTasks: null,
+    completedTasks: [],
+    recentTasks: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -195,7 +195,7 @@ const taskSlice = createSlice({
     reducers: {
         // reset state 
         reset: (state) => {
-            state.taskList = null;
+            state.taskLists = null;
             state.completedTasks = null;
             state.isError = false;
             state.isSuccess = false;
@@ -331,6 +331,7 @@ const taskSlice = createSlice({
             state.isLoading = false;
             state.isSuccess = true;
             state.completedTasks.push(action.payload);
+            state.recentTasks.push(action.payload);
         });
         builder.addCase(createTask.rejected, (state, action) => {
             state.isLoading = false;
@@ -349,7 +350,11 @@ const taskSlice = createSlice({
             const index = state.completedTasks.findIndex(
                 (task) => task._id === action.payload
             );
+            const indexResentTask = state.recentTasks.findIndex(
+                (task) => task._id === action.payload
+            );
             state.completedTasks.splice(index, 1);
+            state.recentTasks.splice(indexResentTask, 1);
         });
         builder.addCase(deleteTask.rejected, (state, action) => {
             state.isLoading = false;

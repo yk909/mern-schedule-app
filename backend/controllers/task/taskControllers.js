@@ -1,14 +1,21 @@
 const Task = require('../../models/task/taskModel');
+const TaskList = require('../../models/task/taskListModel');
 const Employee = require('../../models/employeeModel');
 
 
-// @route   GET api/tasks/:taskListId
+// @route   GET api/tasks/:taskListId?date=yyyy-mm-dd
 // @desc    Get a task
 // @access  Private
 const getAllTasksForList = async (req, res) => {
     try {
-        const tasks = await Task.find({ taskList: req.params.taskListId });
-        
+        const tasks = await Task.find({
+            taskList: req.params.taskListId,
+            createdAt: {
+                $gte: new Date(req.query.date).setHours(0, 0, 0, 0), // req.query.date from frontend in format yyyy-mm-dd
+                $lt: new Date(req.query.date).setHours(23, 59, 59, 999)
+            }
+        }).populate('completedBy');
+
         return res.status(200).json(tasks);
     } catch (err) {
         console.error(err.message);
@@ -22,7 +29,7 @@ const getAllTasksForList = async (req, res) => {
 // @access  Private
 const getRecentUserTasks = async (req, res) => {
     try {
-        const tasks = await Task.find({ completedBy: req.user.id }).sort({ completedDate: -1 }).limit(10);
+        const tasks = await Task.find({ completedBy: req.user.id }).limit(10).sort({ completedDate: -1 });
 
         return res.status(200).json(tasks);
     } catch (err) {
@@ -35,33 +42,40 @@ const getRecentUserTasks = async (req, res) => {
 // @route   POST api/tasks
 // @desc    Create a task
 // @access  Private
-// const createTask = async (req, res) => {
-//     try {
-//         const taskItem = await TaskItem.findById(req.body.taskItem).populate('taskList');
+const createTask = async (req, res) => {
+    try {
+        const taskList = await TaskList.findById(req.params.taskListId);
 
-//         if (!taskItem) {
-//             return res.status(400).json({msg: 'Task item not found'});
-//         }
+        if (!taskList) {
+            return res.status(400).json({ msg: 'Task List not found' });
+        }
 
-//         const employee = await Employee.findOne({ user: req.user._id, business: taskItem.taskList.business });
+        // check if task was already completed for this day
+        const task = await Task.findOne({
+            taskList: req.params.taskListId,
+            createdAt: {
+                $gte: new Date(new Date().setHours(0, 0, 0, 0)),
+                $lt: new Date(new Date().setHours(23, 59, 59, 999))
+            }
+        }).populate('completedBy');
 
-//         if (!employee) {
-//             return res.status(400).json({ msg: 'You are not an employee of this business' });
-//         }
+        if (task) {
+            return res.status(400).json({ msg: `Task already completed for this day by ${task.completedBy.firstName} ${task.completedBy.lastName}` });
+        }
 
-//         const task = await Task.create({
-//             taskItem: taskItem,
-//             taskList: taskItem.taskList,
-//             completedDate: new Date(),
-//             completedBy: req.user._id
-//         });
+        const newTask = new Task({
+            taskItem: req.body.taskItem,
+            taskList: taskList._id,
+            completedBy: req.user,
+        });
 
-//         return res.status(200).json(task);
-//     } catch (err) {
-//         console.error(err.message);
-//         return res.status(500).json({ msg: 'Server Error' });
-//     }
-// }
+        await newTask.save();
+        return res.status(200).json(newTask);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({ msg: 'Server Error' });
+    }
+}
 
 
 // @route   DELETE api/tasks/:id
@@ -70,8 +84,12 @@ const getRecentUserTasks = async (req, res) => {
 const deleteTask = async (req, res) => {
     try {
         const task = await Task.findById(req.params.id);
+
+        if (!task) {
+            return res.status(400).json({ msg: 'Task not found' });
+        }
         
-        if (task.completedBy === req.user._id) {
+        if (task.completedBy.toString() === req.user._id.toString()) {
             const deletedTask = await task.remove();
             return res.status(200).json(deletedTask);
         } else {
@@ -87,6 +105,6 @@ const deleteTask = async (req, res) => {
 module.exports = {
     getAllTasksForList,
     getRecentUserTasks,
-    // createTask,
+    createTask,
     deleteTask
 };

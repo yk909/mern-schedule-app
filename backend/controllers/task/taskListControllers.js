@@ -29,20 +29,29 @@ const getAllCompanyTaskLists = async (req, res) => {
 // @access  Private
 const getAllUserTaskLists = async (req, res) => {
     try {
-        const userEmployee = await Employee.find({ user: req.user._id});
+        const userEmployee = await Employee.find({ user: req.user._id})
+            .populate('business');
 
         if (!userEmployee) {
             return res.status(400).json({msg: 'No employee found'});
         }
 
-        const taskLists = await TaskList.find({ 
-            business: {
-                $in: userEmployee.map(employee => employee.business)
-            }
-        })
-        .populate('business');
+        const taskLists = await TaskList
+            .find({ company: userEmployee[0].company });
 
-        return res.status(200).json(taskLists);
+        const userLists = [];
+
+        taskLists.forEach(taskList => {
+            userEmployee.forEach(employee => {
+                if (taskList.businesses.includes(employee.business._id) && taskList.positions.includes(employee.position)) {
+                    taskList.businesses = [employee.business];
+                    taskList.positions = [employee.position];
+                    userLists.push(taskList);
+                }
+            });
+        });
+
+        return res.status(200).json(userLists);
     } catch (err) {
         console.error(err.message);
         return res.status(500).json({msg: 'Server Error'});

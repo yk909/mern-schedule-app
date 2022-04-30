@@ -40,6 +40,12 @@
     transition: var(--transition-duration);
 }
 
+.task-item.completed .task-info h3,
+.task-item.completed .task-info p {
+    opacity: .5;
+    text-decoration: line-through;
+}
+
 .task-list-content .task-item:hover {
     box-shadow: var(--box-shadow);
 }

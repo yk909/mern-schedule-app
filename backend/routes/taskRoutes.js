@@ -12,6 +12,7 @@ const {
 const {
     getAllTasksForList,
     getRecentUserTasks,
+    createTask,
     deleteTask,
 } = require('../controllers/task/taskControllers');
 
@@ -33,7 +34,8 @@ router.route('/list/:id')
 
 // Task Routes
 router.route('/task/:taskListId')
-    .get(getAllTasksForList);
+    .get(protect, getAllTasksForList)
+    .post(protect, createTask);
 
 router.route('/task/')
     .get(protect, getRecentUserTasks)

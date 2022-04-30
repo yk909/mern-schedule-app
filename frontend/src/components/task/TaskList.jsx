@@ -1,15 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { Card, EditTaskList, AddTask } from '../';
-import { calenderRangeIcon, briefcaseIcon, usersIcon, closeIcon } from '../../constance/icons';
-import { updateTaskList } from '../../features/task/taskSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { Card, EditTaskList, AddTask, TaskItem } from '../';
+import { closeIcon, checkMarkIcon } from '../../constance/icons';
+import { updateTaskList, createTask, getAllTasksForList } from '../../features/task/taskSlice';
 import './styles/TaskList.css';
 
 const TaskList = ({taskList}) => {
     const [isOpenn, setIsOpen] = useState(true);
-    const dispatch = useDispatch();
     const location = useLocation().pathname.split('/')[1];
+    const dispatch = useDispatch();
+
+
+    useEffect(() => {
+        dispatch(getAllTasksForList(taskList._id));
+    }, [dispatch, taskList._id]);
 
     return (
         <div className="task-list">
@@ -53,26 +58,7 @@ const TaskList = ({taskList}) => {
                     </div>
                     <div className="task-items px-1">
                         {taskList.taskItems.map((task, index) => (
-                            <div key={task._id} className="task-item">
-                                <div className="flex align-between">
-                                    <h3 className="title-4">{index+1}. {task.title}</h3>
-                                    <button 
-                                        className="btn-icon btn-icon-danger"
-                                        onClick={() => 
-                                            dispatch(updateTaskList({
-                                                _id: taskList._id,
-                                                taskItemId: task._id,
-                                                action: 'removeTaskItem',
-                                            }))
-                                        }
-                                    >
-                                        {closeIcon}
-                                    </button>
-                                </div>
-                                {task.description && (
-                                    <p className="ml-1">{task.description}</p>
-                                )}
-                            </div>
+                            <TaskItem key={task._id} taskList={taskList} taskItem={task} />
                         ))}
                     </div>
                 </div>

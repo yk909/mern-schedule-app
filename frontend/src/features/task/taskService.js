@@ -69,7 +69,8 @@ const getAllTasksForList = async (taskListId, token) => {
             Authorization: `Bearer ${token}`,
         }
     };
-    const response = await axios.get(`${API_URL}task/${taskListId}`, config);
+    const date = new Date().toLocaleString().split(',')[0];
+    const response = await axios.get(`${API_URL}task/${taskListId}?date=${date}`, config);
     return response.data;
 }
 
@@ -91,7 +92,7 @@ const createTask = async (data, token) => {
             Authorization: `Bearer ${token}`,
         }
     };
-    const response = await axios.post(`${API_URL}task`, data, config);
+    const response = await axios.post(`${API_URL}task/${data.taskListId}`, data, config);
     return response.data;
 }
 

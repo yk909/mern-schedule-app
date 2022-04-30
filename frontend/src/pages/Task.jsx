@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCompanyTaskLists } from '../features/task/taskSlice';
+import { getAllCompanyTaskLists, getAllUserTaskLists } from '../features/task/taskSlice';
 import { TaskList, CreateTaskList, Card } from "../components";
 import './styles/TaskPage.css'
 
@@ -16,7 +16,7 @@ const Task = () => {
         if(location === 'dashboard') {
             dispatch(getAllCompanyTaskLists());
         } else if (location === 'user') {
-            console.log('do nothing');
+            dispatch(getAllUserTaskLists());
         }
     }, [dispatch]);
 
