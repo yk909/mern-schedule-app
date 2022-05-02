@@ -51,7 +51,7 @@ const TaskList = ({taskList}) => {
                 <div className="task-list-content mt-1">
                     <div className="task-list-description">
                         <div className="task-list-description-top flex align-between">
-                            <div className="task-list-detail title-3 flex flex-column">
+                            <div className="task-list-detail title-3 flex flex-column text-headline">
                                 {taskList.businesses.map(business => (
                                     <span key={business._id}>{business.name} </span>
                                 ))}

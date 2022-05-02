@@ -102,24 +102,24 @@ const Profile = () => {
                     <div className="user-info">
                         <div className="user-info-item">
                             <div>
-                                <p className="text-secondary">
+                                <span className="text-secondary text-headline">
                                     Company
-                                </p>
-                                <div className="title-2 mt-4">
+                                </span>
+                                <div className="title-2 mt-4 ml-1">
                                     {company.name}
                                 </div>
-                                <div className="title-4 text-secondary">
+                                <div className="title-4 ml-1 text-secondary">
                                     {company.email}
                                 </div>
                             </div>
                         </div>
                         <div className="user-info-item">
                             <div>
-                                <p className="text-secondary">
+                                <span className="text-secondary text-headline">
                                     Works at
-                                </p>
+                                </span>
                                 {userEmployees?.length > 0 ? (
-                                    <div className="title-3 mt-4">
+                                    <div className="title-3 mt-4 ml-1">
                                         {userEmployees.map((employee, index) => (
                                             <p key={index}>{employee.business?.name}</p>
                                         ))}
@@ -131,11 +131,11 @@ const Profile = () => {
                         </div>
                         <div className="user-info-item">
                             <div>
-                                <p className="text-secondary">
+                                <span className="text-secondary text-headline">
                                     Manager of
-                                </p>
+                                </span>
                                 {userEmployees?.length > 0 ? (
-                                    <div className="title-3 mt-4">
+                                    <div className="title-3 mt-4 ml-1">
                                         {userEmployees.map((employee, index) => (
                                             employee.isManager && 
                                             <p key={index}>{employee.business.name}</p>

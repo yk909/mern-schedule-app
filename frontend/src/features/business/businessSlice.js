@@ -128,7 +128,7 @@ const businessSlice = createSlice({
     extraReducers: (builder) => {
         // Create business
         builder.addCase(createBusiness.pending, (state, action) => {
-            state.isLoading = true;
+            // state.isLoading = true;
             state.isError = false;
         });
         builder.addCase(createBusiness.fulfilled, (state, action) => {
@@ -164,7 +164,7 @@ const businessSlice = createSlice({
 
         // Update business
         builder.addCase(updateBusiness.pending, (state, action) => {
-            state.isLoading = true;
+            // state.isLoading = true;
             state.isError = false;
         });
         builder.addCase(updateBusiness.fulfilled, (state, action) => {
@@ -188,7 +188,7 @@ const businessSlice = createSlice({
 
         // Delete business
         builder.addCase(deleteBusiness.pending, (state, action) => {
-            state.isLoading = true;
+            // state.isLoading = true;
             state.isError = false;
         });
         builder.addCase(deleteBusiness.fulfilled, (state, action) => {
