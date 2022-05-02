@@ -7,6 +7,11 @@ const businessSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
+    company: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Company',
+        required: true
+    },
     name: {
         type: String,
         required: true
@@ -53,11 +58,20 @@ const businessSchema = new mongoose.Schema({
             default: '#2a74d3'
         }
     }],
-    company: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Company',
-        required: true
-    },
+    shiftPresets: [{
+        label: {
+            type: String,
+            required: false
+        },
+        startTime: {
+            type: String,
+            required: false
+        },
+        endTime: {
+            type: String,
+            required: false
+        },
+    }],
 }, { timestamps: true });
 
 

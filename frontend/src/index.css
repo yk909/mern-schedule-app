@@ -597,6 +597,7 @@ textarea:hover {
   font-weight: 500;
   margin-bottom: 8px;
   margin-left: 8px;
+  width: fit-content;
 }
 
 .m-0 {

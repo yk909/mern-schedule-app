@@ -21,6 +21,16 @@ const CreateShift = ({ date, employee, startTime }) => {
                 }
             });
 
+    const [shiftPreset, setShiftPreset] = useState(null);
+
+    const shiftPresetsSelect = useSelector(state => state.company.company.businesses)
+    .filter(business => business._id === id)[0].shiftPresets?.map(shiftPreset => {
+        return {
+            value: shiftPreset,
+            label: shiftPreset.label + ' | ' + shiftPreset.startTime + ' - ' + shiftPreset.endTime
+            }
+        });
+
     const [shift, setShift] = useState({
         startTime: startTime ? {value: startTime, label: startTime} : null,
         endTime: null,
@@ -51,14 +61,14 @@ const CreateShift = ({ date, employee, startTime }) => {
     })
 
     const onSubmit = () => {
-        if(shift.startTime && shift.endTime) {
+        if(shiftPreset || (shift.startTime && shift.endTime)) {
             const data = {
                 employee: employee ? employee._id : null,
                 business: id,
                 date: date,
                 position: shift.position ? shift.position.value : null,
-                startTime: shift.startTime.value,
-                endTime: shift.endTime.value
+                startTime: shiftPreset ? shiftPreset.value.startTime : shift.startTime.value,
+                endTime: shiftPreset ? shiftPreset.value.endTime : shift.endTime.value
             }
             dispatch(createShift(data));
             setModalIsOpen(false);
@@ -88,6 +98,20 @@ const CreateShift = ({ date, employee, startTime }) => {
             }
         >
             <div className="create-shift-form">
+                {shiftPresetsSelect.length > 0 && (
+                    <div className="form-group">
+                        <label>Shift Presets</label>
+                        <Select
+                            styles={customSelectModalStyles}
+                            options={shiftPresetsSelect}
+                            value={shiftPreset}
+                            onChange={(shiftPreset) => setShiftPreset(shiftPreset)}
+                            isClearable={true}
+                        />
+                    </div>
+                )}
+                {!shiftPreset && (
+                <>
                 <div className="form-group-row">
                     <div className="form-group">
                         <label>Start *</label>
@@ -118,6 +142,8 @@ const CreateShift = ({ date, employee, startTime }) => {
                             styles={customSelectModalStyles}
                         />
                     </div>
+                )}
+                </>
                 )}
             </div>
         </Modal>

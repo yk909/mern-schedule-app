@@ -72,18 +72,18 @@ const BusinessCard = ({ businesses, isLoading }) => {
           </div>
         </div>
         <div className="business-card-body">
-          <div className="business-card-body-employees">
-            <div className="busines-card-body-title title-3">
-              <p className="title-2">Employees</p>
-              <ManagerProtect
+          <div className="busines-card-body-title title-3">
+            <p className="title-2">Employees</p>
+            <ManagerProtect
+              business={business}
+            >
+              <CreateEmployee
+                positions={business.positions}
                 business={business}
-              >
-                <CreateEmployee
-                  positions={business.positions}
-                  business={business}
-                />
-              </ManagerProtect>
-            </div>
+              />
+            </ManagerProtect>
+          </div>
+          <div className="business-card-body-employees">
             <Employees 
               positions={business.positions}
               businesses={businesses}

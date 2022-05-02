@@ -13,11 +13,20 @@ const UpdateBusiness = ({ business }) => {
     const dispatch = useDispatch();
 
     const businessPositions = business.positions;
+    const businessShiftPresets = business.shiftPresets;
 
     const [positions, setPositions] = useState(businessPositions ? businessPositions : [
         {
             title: '',
             color: '#2a74d3',
+        }
+    ]);
+
+    const [shiftPresets, setShiftPresets] = useState(businessShiftPresets ? businessShiftPresets : [
+        {
+            label: '',
+            startTime: '',
+            endTime: '',
         }
     ]);
 
@@ -32,7 +41,8 @@ const UpdateBusiness = ({ business }) => {
         if(updatedBusiness.name && updatedBusiness.address && updatedBusiness.city && updatedBusiness.state && updatedBusiness.zip && updatedBusiness.type) {
             const data = {
                 ...updatedBusiness,
-                positions: positions.filter(position => position.title.length > 0)
+                positions: positions.filter(position => position.title.length > 0),
+                shiftPresets: shiftPresets.filter(shiftPreset => shiftPreset.startTime.length > 0 && shiftPreset.endTime.length > 0)
             }
             dispatch(updateBusiness(data));
             setIsModalOpen(false);
@@ -58,6 +68,9 @@ const UpdateBusiness = ({ business }) => {
             actionDangerBtnText="Delete"
             onSubmitDanger={() => setIsDeleteModalOpen(true)}
         > 
+            <div className="flex align-between py-1 border-bottom">
+                <h5 className="title-3 text-headline">Business Info</h5>
+            </div>
             <div className="form-group-row">
                 <div className="form-group">
                     <label>Name *</label>
@@ -146,8 +159,8 @@ const UpdateBusiness = ({ business }) => {
                     />
                 </div>
             </div>
-            <div className="flex align-between p-1 border-bottom">
-                <p className="title-4">Positions</p>
+            <div className="flex align-between py-1 border-bottom">
+                <h5 className="title-3 text-headline">Positions</h5>
                 <div 
                     className="btn btn-outline btn-sm"
                     onClick={() => {
@@ -214,6 +227,98 @@ const UpdateBusiness = ({ business }) => {
                                     setPositions([
                                         ...positions.slice(0, index),
                                         ...positions.slice(index + 1)
+                                    ]);
+                                }}
+                            >
+                                {closeIcon}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ))}
+            <div className="flex align-between py-1 border-bottom">
+                <h5 className="title-3 text-headline">Shift Presets</h5>
+                <div 
+                    className="btn btn-outline btn-sm"
+                    onClick={() => {
+                        setShiftPresets([
+                            ...shiftPresets,
+                            {
+                                startTime: '',
+                                endTime: '',
+                            }
+                        ]);
+                    }}
+                >
+                    Add More
+                </div>
+            </div>
+            {shiftPresets.map((shiftPreset, index) => (
+                <div key={`position-count-${index}`} className="form-group-row">
+                    <div className="form-group">
+                        <label>Label</label>
+                        <input
+                            type="text"
+                            name="label"
+                            placeholder="Opening shift"
+                            value={shiftPreset.label}
+                            onChange={(e) => {
+                                setShiftPresets([
+                                        ...shiftPresets.slice(0, index),
+                                        {
+                                            ...shiftPreset,
+                                            label: e.target.value
+                                        },
+                                        ...shiftPresets.slice(index + 1)
+                                ]);
+                            }}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Start</label>
+                        <input
+                            type="time"
+                            name="startTime"
+                            value={shiftPreset.startTime}
+                            onChange={(e) => {
+                                setShiftPresets([
+                                        ...shiftPresets.slice(0, index),
+                                        {
+                                            ...shiftPreset,
+                                            startTime: e.target.value
+                                        },
+                                        ...shiftPresets.slice(index + 1)
+                                ]);
+                            }}
+                        />
+                    </div>
+                    <div className="flex">
+                        <div className="form-group w-100">
+                                <label>End</label>
+                                <input
+                                    type="time"
+                                    name="endTime"
+                                    value={shiftPreset.endTime}
+                                    onChange={(e) => {
+                                        setShiftPresets([
+                                            ...shiftPresets.slice(0, index),
+                                            {
+                                                ...shiftPreset,
+                                                endTime: e.target.value
+                                            },
+                                            ...shiftPresets.slice(index + 1)
+                                        ]);
+                                    }}
+                                />
+                        </div>
+                        <div className="flex align-center">
+                            <div 
+                                className="btn-icon btn-icon-danger" 
+                                title={`Remove preset`}
+                                onClick={() => {
+                                    setShiftPresets([
+                                        ...shiftPresets.slice(0, index),
+                                        ...shiftPresets.slice(index + 1)
                                     ]);
                                 }}
                             >
