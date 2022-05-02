@@ -46,7 +46,7 @@ const Schedule = () => {
                 </>
             )}
             {isLoading && (
-                <Card className={'blink'}/>
+                <Card title={'Loading Shedule ...'} isOpen={false} className={'blink'}/>
             )}
         </section>
     )

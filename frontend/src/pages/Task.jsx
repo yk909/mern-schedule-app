@@ -24,9 +24,12 @@ const Task = () => {
         <section className="task-page">
             {location === 'dashboard' && <CreateTaskList />}
             {!isLoading && taskLists?.length === 0 && <p className="title-3 mx-1">No task lists found</p>}
-            {taskLists && taskLists?.map((taskList, index) => (
-                <TaskList key={`${taskList._id}-${index}`} taskList={taskList} />
-            ))}
+            {!isLoading ?
+                taskLists && taskLists?.map((taskList, index) => (
+                    <TaskList key={`${taskList._id}-${index}`} taskList={taskList} />
+                ))
+                : <Card title={'Loading Task Lists...'} isOpen={false} className={'blink'} />
+            }
         </section>
     )
 }

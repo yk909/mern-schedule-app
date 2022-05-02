@@ -18,8 +18,10 @@ const Dashboard = () => {
 
     return (
         <section className="dashboard">
-            {globalMessage && (
+            {!isLoading ? (
                 <GlobalMessage />
+            ) : (
+                <Card title={'Loading Messages ...'} isOpen={false} className={'blink'}/>
             )}
             
             {!isLoading && userShifts && company && (
@@ -30,6 +32,9 @@ const Dashboard = () => {
                 >
                     <ShiftsTable shifts={userShifts ? userShifts : null} isOpenShift={false}/>
                 </Card>
+            )}
+            {isLoading && (
+                <Card title={'Loading Open Shifts ...'} isOpen={false} className={'blink'}/>
             )}
         </section>
     )

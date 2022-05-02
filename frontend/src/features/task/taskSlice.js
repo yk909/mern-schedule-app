@@ -9,6 +9,7 @@ const initialState = {
     isError: false,
     isSuccess: false,
     isLoading: false,
+    completedTasksisLoading: false,
     msg: '',
 };
 
@@ -292,60 +293,60 @@ const taskSlice = createSlice({
 
         // get users completed tasks
         builder.addCase(getAllTasksForList.pending, (state, action) => {
-            state.isLoading = true;
+            state.completedTasksisLoading = true;
             state.isError = false;
         });
         builder.addCase(getAllTasksForList.fulfilled, (state, action) => {
-            state.isLoading = false;
+            state.completedTasksisLoading = false;
             state.isSuccess = true;
             state.completedTasks = action.payload;
         });
         builder.addCase(getAllTasksForList.rejected, (state, action) => {
-            state.isLoading = false;
+            state.completedTasksisLoading = false;
             state.isError = true;
             state.msg = action.payload;
         });
 
         // get recent user tasks
         builder.addCase(getRecentUserTasks.pending, (state, action) => {
-            state.isLoading = true;
+            state.completedTasksisLoading = true;
             state.isError = false;
         });
         builder.addCase(getRecentUserTasks.fulfilled, (state, action) => {
-            state.isLoading = false;
+            state.completedTasksisLoading = false;
             state.isSuccess = true;
             state.recentTasks = action.payload;
         });
         builder.addCase(getRecentUserTasks.rejected, (state, action) => {
-            state.isLoading = false;
+            state.completedTasksisLoading = false;
             state.isError = true;
             state.msg = action.payload;
         });
 
         // create complete task
         builder.addCase(createTask.pending, (state, action) => {
-            state.isLoading = true;
+            state.completedTasksisLoading = true;
             state.isError = false;
         });
         builder.addCase(createTask.fulfilled, (state, action) => {
-            state.isLoading = false;
+            state.completedTasksisLoading = false;
             state.isSuccess = true;
             state.completedTasks.push(action.payload);
             state.recentTasks.push(action.payload);
         });
         builder.addCase(createTask.rejected, (state, action) => {
-            state.isLoading = false;
+            state.completedTasksisLoading = false;
             state.isError = true;
             state.msg = action.payload;
         });
 
         // delete task
         builder.addCase(deleteTask.pending, (state, action) => {
-            state.isLoading = true;
+            state.completedTasksisLoading = true;
             state.isError = false;
         });
         builder.addCase(deleteTask.fulfilled, (state, action) => {
-            state.isLoading = false;
+            state.completedTasksisLoading = false;
             state.isSuccess = true;
             const index = state.completedTasks.findIndex(
                 (task) => task._id === action.payload
@@ -357,7 +358,7 @@ const taskSlice = createSlice({
             state.recentTasks.splice(indexResentTask, 1);
         });
         builder.addCase(deleteTask.rejected, (state, action) => {
-            state.isLoading = false;
+            state.completedTasksisLoading = false;
             state.isError = true;
             state.msg = action.payload;
         });

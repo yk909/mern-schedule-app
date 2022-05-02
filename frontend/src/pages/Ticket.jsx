@@ -7,6 +7,7 @@ import { Card, TicketTable, CreateTicket } from '../components';
 const Ticket = () => {
     const [isCardOpen, setIsCardOpen] = useState(false);
     const [isCard2Open, setIsCard2Open] = useState(true);
+    const isLoading = useSelector(state => state.ticket.isLoading);
     const dispatch = useDispatch();
     const location = useLocation();
 
@@ -20,30 +21,36 @@ const Ticket = () => {
 
     return (
         <section>
-            <Card
-                title="Recieved Tickets"
-                isOpen={isCardOpen}
-                setIsOpen={setIsCardOpen}
-            >
-                <TicketTable
-                    isReceived={true}
-                />
-            </Card>
-            <Card
-                title="Sent Tickets"
-                isOpen={isCard2Open}
-                setIsOpen={setIsCard2Open}
-            >
-                <div className="flex align-between px-1">
-                    <p className="title-3">
-                        Last 10 tickets
-                    </p>
-                    <CreateTicket
-                        isReceived={false}
+            {!isLoading ? (
+                <>
+                <Card
+                    title="Recieved Tickets"
+                    isOpen={isCardOpen}
+                    setIsOpen={setIsCardOpen}
+                >
+                    <TicketTable
+                        isReceived={true}
                     />
-                </div>
-                <TicketTable/>
-            </Card>
+                </Card>
+                <Card
+                    title="Sent Tickets"
+                    isOpen={isCard2Open}
+                    setIsOpen={setIsCard2Open}
+                >
+                    <div className="flex align-between px-1">
+                        <p className="title-3">
+                            Last 10 tickets
+                        </p>
+                        <CreateTicket
+                            isReceived={false}
+                        />
+                    </div>
+                    <TicketTable/>
+                </Card>
+                </>
+            ) : (
+                <Card title={'Loading Tickets...'} isOpen={false} className={'blink'} />
+            )}
         </section>
     )
 }
