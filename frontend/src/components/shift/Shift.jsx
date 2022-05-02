@@ -14,6 +14,14 @@ const Shift = ({ shift, employee, index, endTimeOnResize, onMouseDownResize, acc
     const { company } = useSelector(state => state.company);
     const { user } = useSelector(state => state.auth);
     const { employees } = useSelector(state => state.shift);
+    
+    const color = shift.position ? 
+        company?.businesses?.find(business => business._id === shift.business)?.positions
+        .find(position => position.title === shift.position)?.color
+    : employee ? 
+        company?.businesses?.find(business => business._id === employee.business)?.positions
+        .find(position => position.title === employee.position)?.color
+    : '#2a74d3';
 
     const [{ isDragging, opacity }, drag] = useDrag({
         type: 'shift',
@@ -73,7 +81,12 @@ const Shift = ({ shift, employee, index, endTimeOnResize, onMouseDownResize, acc
                 }`,
             }}
         >
-            <div className={`shift w-100 h-100 ${ shift.color }`}>
+            <div 
+                className={`shift w-100 h-100 ${ shift.color }`}
+                style={{
+                    backgroundColor: color,
+                }}
+            >
                 {shift.note && (
                     <div className="note-badge"/>
                 )}

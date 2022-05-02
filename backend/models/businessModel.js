@@ -44,7 +44,7 @@ const businessSchema = new mongoose.Schema({
         default: true
     },
     positions: [{
-        name: {
+        title: {
             type: String,
             required: false
         },

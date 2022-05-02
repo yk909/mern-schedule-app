@@ -33,12 +33,12 @@ const EditTaskList = ({taskList}) => {
     const positionsFilter = company
     ?.businesses?.map(business => business?.positions
         ?.map((position, index) => {
-            if(positionsSelect.find(item => item.value === position)) {
+            if(positionsSelect.find(item => item.value === position.title)) {
                 return null;
             } else {
                 positionsSelect.push({
-                    value: position,
-                    label: position
+                    value: position.title,
+                    label: position.title
                 })
             }
         }))

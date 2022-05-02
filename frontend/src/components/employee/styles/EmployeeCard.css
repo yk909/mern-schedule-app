@@ -67,6 +67,11 @@
     box-shadow: var(--box-shadow);
     transition: var(--transition-duration);
     background: var(--color-secondary);
+    border: 2px solid var(--color-main);
+}
+
+.business-card-body-employee.manager img {
+    border-color: var(--color-primary);
 }
 
 .business-card-body-employee-image {

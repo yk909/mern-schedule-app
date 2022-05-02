@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { updateBusiness, deleteBusiness } from '../../features/business/businessSlice';
-import { editIcon } from '../../constance/icons';
+import { closeIcon, editIcon } from '../../constance/icons';
 import { Modal } from '../';
 
 
@@ -11,6 +11,15 @@ const UpdateBusiness = ({ business }) => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [updatedBusiness, setUpdatedBusiness] = useState(business);
     const dispatch = useDispatch();
+
+    const businessPositions = business.positions;
+
+    const [positions, setPositions] = useState(businessPositions ? businessPositions : [
+        {
+            title: '',
+            color: '#2a74d3',
+        }
+    ]);
 
     const onChange = (e) => {
         setUpdatedBusiness({
@@ -21,7 +30,11 @@ const UpdateBusiness = ({ business }) => {
 
     const onSubmit = () => {
         if(updatedBusiness.name && updatedBusiness.address && updatedBusiness.city && updatedBusiness.state && updatedBusiness.zip && updatedBusiness.type) {
-            dispatch(updateBusiness(updatedBusiness));
+            const data = {
+                ...updatedBusiness,
+                positions: positions.filter(position => position.title.length > 0)
+            }
+            dispatch(updateBusiness(data));
             setIsModalOpen(false);
         } else {
             toast.error('Please fill out all fields');
@@ -133,21 +146,83 @@ const UpdateBusiness = ({ business }) => {
                     />
                 </div>
             </div>
-            <div className="form-group">
-                <label>Position</label>
-                <input
-                    type="text"
-                    placeholder="Enter comma separated positions (e.g. CEO, Manager, Barista, etc.)"
-                    name="position"
-                    value={updatedBusiness.positions.join(', ')}
-                    onChange={(e) => {
-                        setUpdatedBusiness({
-                            ...updatedBusiness,
-                            positions: e.target.value.split(', ')
-                        })}
-                    }
-                />
+            <div className="flex align-between p-1 border-bottom">
+                <p className="title-4">Positions</p>
+                <div 
+                    className="btn btn-outline btn-sm"
+                    onClick={() => {
+                        setPositions([
+                            ...positions,
+                            {
+                                title: '',
+                                color: '#2a74d3',
+                            }
+                        ]);
+                    }}
+                >
+                    Add More
+                </div>
             </div>
+            {positions.map((position, index) => (
+                <div key={`position-count-${index}`} className="form-group-row">
+                    <div className="form-group">
+                        <label>Title</label>
+                        <input
+                            type="text"
+                            placeholder="Position title"
+                            name="position"
+                            value={position.title}
+                            onChange={(e) => {
+                                setPositions([
+                                        ...positions.slice(0, index),
+                                        {
+                                            ...position,
+                                            title: e.target.value
+                                        },
+                                        ...positions.slice(index + 1)
+                                ]);
+                            }}
+                        />
+                    </div>
+                    <div className="flex">
+                        <div className="form-group w-100">
+                            <div className="flex align-between">
+                                <label>Color</label>
+                            </div>
+                            <input
+                                className="w-100"
+                                type="color"
+                                name="color"
+                                value={position.color}
+                                onChange={(e) => {
+                                    setPositions([
+                                        ...positions.slice(0, index),
+                                        {
+                                            ...position,
+                                            color: e.target.value
+                                        },
+                                        ...positions.slice(index + 1)
+                                    ]);
+                                }}
+                            />
+                        </div>
+                        <div className="flex align-center">
+                            <div 
+                                className="btn-icon btn-icon-danger" 
+                                title={`Remove ${position.title} position`}
+                                onClick={() => {
+                                    setPositions([
+                                        ...positions.slice(0, index),
+                                        ...positions.slice(index + 1)
+                                    ]);
+                                }}
+                            >
+                                {closeIcon}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ))}
         </Modal>
         <Modal
             setModalIsOpen={setIsDeleteModalOpen}

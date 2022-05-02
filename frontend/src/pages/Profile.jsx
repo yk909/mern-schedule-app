@@ -121,7 +121,7 @@ const Profile = () => {
                                 {userEmployees?.length > 0 ? (
                                     <div className="title-3 mt-4">
                                         {userEmployees.map((employee, index) => (
-                                            <p key={index}>{employee.business.name}</p>
+                                            <p key={index}>{employee.business?.name}</p>
                                         ))}
                                     </div>
                                 ) : (

@@ -63,7 +63,7 @@ const customSelectModalStyles = {
         display: 'flex',
         border: 'none',
         borderBottom: state.isSelected ? '2px solid var(--color-primary)' : '2px solid var(--color-secondary)',
-        minHeight: '35px',
+        minHeight: '41px',
         borderRadius: '0',
         cursor: 'pointer',
         fontFamily: 'inherit',

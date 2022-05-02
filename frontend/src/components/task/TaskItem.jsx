@@ -11,7 +11,8 @@ const TaskItem = ({ taskList, taskItem }) => {
 
     return (
         <div className={`task-item${
-            completedTaskItemIds?.includes(taskItem._id)? ' completed' : ''
+            completedTaskItemIds?.includes(taskItem._id) &&
+            completedTasks.find(task => task.business === taskList.businesses[0]._id ) ? ' completed' : ''
         }`}>
             <div className="flex align-between">
                 <div className="task-info mr-1">
@@ -58,8 +59,8 @@ const TaskItem = ({ taskList, taskItem }) => {
                                 dispatch(createTask({
                                     taskListId: taskList._id,
                                     taskItem: taskItem._id,
-                                }))
-                            }
+                                    business: taskList.businesses[0]._id,
+                                }))}
                         >
                             {checkMarkIcon}
                         </button>

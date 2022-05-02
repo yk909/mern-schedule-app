@@ -24,8 +24,8 @@ const Task = () => {
         <section className="task-page">
             {location === 'dashboard' && <CreateTaskList />}
             {!isLoading && taskLists?.length === 0 && <p className="title-3 mx-1">No task lists found</p>}
-            {taskLists && taskLists?.map(taskList => (
-                <TaskList key={taskList._id} taskList={taskList} />
+            {taskLists && taskLists?.map((taskList, index) => (
+                <TaskList key={`${taskList._id}-${index}`} taskList={taskList} />
             ))}
         </section>
     )

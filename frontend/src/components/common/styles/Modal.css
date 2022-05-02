@@ -68,7 +68,8 @@
 @media (max-width: 768px) {
     .modal-overlay .modal-wrapper .modal-body {
         text-align: initial;
-        min-width: auto;
+        min-width: 90vw;
+        max-width: 90vw;
         margin: 0 1rem;
     }
 }

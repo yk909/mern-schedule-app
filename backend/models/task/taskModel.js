@@ -11,6 +11,11 @@ const taskSchema = new mongoose.Schema({
         ref: 'TaskList',
         required: true
     },
+    business: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Business',
+        required: true
+    },
     completedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

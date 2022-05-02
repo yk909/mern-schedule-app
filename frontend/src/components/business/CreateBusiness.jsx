@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { createBusiness } from '../../features/business/businessSlice';
 import { Modal } from '../';
-import { briefcaseIcon, plusIcon } from '../../constance/icons';
+import { briefcaseIcon, closeIcon, plusIcon } from '../../constance/icons';
 
 const CreateBusiness = ({ company }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -194,27 +194,43 @@ const CreateBusiness = ({ company }) => {
                             type="text"
                             placeholder="Position title"
                             name="position"
-                            value={positions? positions.title : ''}
+                            value={position.title ? position.title : ''}
                             onChange={(e) => {
                                 positions[index].title = e.target.value;
                                 setPositions([...positions]);
                             }}
                         />
                     </div>
-                    <div className="form-group">
-                        <div className="flex align-between">
-                            <label>Color</label>
+                    <div className="flex">
+                        <div className="form-group w-100">
+                            <div className="flex align-between">
+                                <label>Color</label>
+                            </div>
+                            <input
+                            className="w-100"
+                                type="color"
+                                name="color"
+                                value={position.color}
+                                onChange={(e) => {
+                                    positions[index].color = e.target.value;
+                                    setPositions([...positions]);
+                                }}
+                            />
                         </div>
-                        <input
-                        className="w-100"
-                            type="color"
-                            name="color"
-                            value={position.color}
-                            onChange={(e) => {
-                                positions[index].color = e.target.value;
-                                setPositions([...positions]);
-                            }}
-                        />
+                        <div className="flex align-center">
+                            <div 
+                                className="btn-icon btn-icon-danger" 
+                                title={`Remove ${position.title} position`}
+                                onClick={() => {
+                                    setPositions([
+                                        ...positions.slice(0, index),
+                                        ...positions.slice(index + 1)
+                                    ]);
+                                }}
+                            >
+                                {closeIcon}
+                            </div>
+                        </div>
                     </div>
                 </div>
             ))}

@@ -38,7 +38,7 @@ const CreateTicket = () => {
         {value: 'complaint', label: 'Complaint'},
         {value: 'other', label: 'Other'}
     ]
-    const businessSelect = businesses?.map(b => ({value: b, label: b.name}));
+    const businessSelect = businesses?.map(b => ({value: b, label: b?.name}));
     const businessManagerSelect = businessManagerOrOwner?.map(b => ({value: b, label: b.name}));
     const employeeSelect = employees?.map(b => ({value: b, label: `${b.firstName} ${b.lastName}`}));
 

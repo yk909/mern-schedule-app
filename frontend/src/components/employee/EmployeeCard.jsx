@@ -19,15 +19,15 @@ const EmployeeCard = ({employee, positions, businesses, business}) => {
     });
     const positionsSelect = positions.map(position => {
         return {
-            value: position,
-            label: position
+            value: position.title,
+            label: position.title
         }
     } );
 
     const [editUser, setEditUser] = useState({
         _id: employee._id,
         isManager: {value: employee.isManager, label: employee.isManager.toString()},
-        position: positionsSelect.filter(position => position.value === employee.position)[0],
+        position: positionsSelect.find(position => position.value === employee.position),
         business: businessesSelect.filter(business => business.value === employee.business || business.value === employee.business._id)[0],
         wage: employee.wage
     });
@@ -112,8 +112,12 @@ const EmployeeCard = ({employee, positions, businesses, business}) => {
         </ManagerProtect>
         <div 
             onClick={() => setIsModalOpen(true)}
-            className="business-card-body-employee">
-            <div className={`user-bg ${employee.isManager ? 'bg-info' : ''}`} />
+            className={`business-card-body-employee ${employee.isManager ? 'manager' : ''}`}
+        >
+            <div 
+                className="user-bg"
+                style={{backgroundColor: `${positions.find(position => position.title === employee.position)?.color}`}}
+            />
             <div className="business-card-body-employee-image">
                 { employee.profilePicture ? 
                     <img src={employee.profilePicture} alt={employee.name} /> 

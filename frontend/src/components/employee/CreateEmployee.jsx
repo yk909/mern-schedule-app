@@ -16,8 +16,8 @@ const CreateEmployee = ({positions, business}) => {
 
     const positionsSelect = positions.length > 0 ? positions.map(position => {
         return {
-            value: position,
-            label: position
+            value: position.title,
+            label: position.title
         }
     }) : [];
     const userSelect = company && company.employees.map(employee => {

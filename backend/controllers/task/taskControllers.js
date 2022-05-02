@@ -53,6 +53,7 @@ const createTask = async (req, res) => {
         // check if task was already completed for this day
         const task = await Task.findOne({
             taskList: req.params.taskListId,
+            business: req.body.business,
             createdAt: {
                 $gte: new Date(new Date().setHours(0, 0, 0, 0)),
                 $lt: new Date(new Date().setHours(23, 59, 59, 999))
@@ -66,6 +67,7 @@ const createTask = async (req, res) => {
         const newTask = new Task({
             taskItem: req.body.taskItem,
             taskList: taskList._id,
+            business: req.body.business,
             completedBy: req.user,
         });
 

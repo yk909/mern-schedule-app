@@ -104,8 +104,10 @@
     margin-left: 5px;
 }
 
+.business-card-header-info-right .modal-body .modal-content,
 .company-card .modal-body .modal-content {
     max-height: 50vh;
+    min-height: auto;
     overflow-y: scroll;
 }
 

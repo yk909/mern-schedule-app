@@ -29,24 +29,27 @@ const getAllCompanyTaskLists = async (req, res) => {
 // @access  Private
 const getAllUserTaskLists = async (req, res) => {
     try {
-        const userEmployee = await Employee.find({ user: req.user._id})
-            .populate('business');
+        const userEmployee = await Employee.find({ user: req.user._id});
 
         if (!userEmployee) {
             return res.status(400).json({msg: 'No employee found'});
         }
 
         const taskLists = await TaskList
-            .find({ company: userEmployee[0].company });
+            .find({ company: userEmployee[0].company })
+            .populate('businesses');
 
         const userLists = [];
 
         taskLists.forEach(taskList => {
             userEmployee.forEach(employee => {
-                if (taskList.businesses.includes(employee.business._id) && taskList.positions.includes(employee.position)) {
-                    taskList.businesses = [employee.business];
-                    taskList.positions = [employee.position];
-                    userLists.push(taskList);
+                if (taskList.businesses.find(business => business._id.toString() === employee.business.toString()) && taskList.positions.includes(employee.position)) {
+                    const userTaskList = {
+                        ...taskList._doc,
+                        businesses: taskList.businesses.filter(business => business._id.toString() === employee.business.toString()),
+                        positions: [employee.position]
+                    }
+                    userLists.push(userTaskList);
                 }
             });
         });

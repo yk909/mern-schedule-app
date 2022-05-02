@@ -15,14 +15,14 @@ const EditShift = ({ employee, shift, modalIsOpen, setModalIsOpen }) => {
     const positionsSelect = shift.business.positions 
     ? shift.business.positions.map(position => {
         return {
-            value: position,
-            label: position
+            value: position.title,
+            label: position.title
         }
     } )
     : business?.positions.map(position => {
         return {
-            value: position,
-            label: position
+            value: position.title,
+            label: position.title
         }
     } );
 

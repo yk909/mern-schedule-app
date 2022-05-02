@@ -16,8 +16,8 @@ const CreateShift = ({ date, employee, startTime }) => {
     const positionsSelect = useSelector(state => state.company.company.businesses)
         .filter(business => business._id === id)[0].positions?.map(position => {
             return {
-                value: position,
-                label: position
+                value: position.title,
+                label: position.title
                 }
             });
 
