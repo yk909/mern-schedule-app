@@ -7,7 +7,7 @@ import './styles/TaskList.css';
 
 const TaskList = ({taskList}) => {
     const [date, setDate] = useState(new Date(new Date().setHours(0, 0, 0, 0)));
-    const [isOpenn, setIsOpen] = useState(true);
+    const [isOpenn, setIsOpen] = useState(false);
     const location = useLocation().pathname.split('/')[1];
     const dispatch = useDispatch();
 

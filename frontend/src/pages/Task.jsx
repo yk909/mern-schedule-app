@@ -6,10 +6,16 @@ import { TaskList, CreateTaskList, Card } from "../components";
 import './styles/TaskPage.css'
 
 const Task = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen2, setIsOpen2] = useState(false);
     const dispatch = useDispatch();
     const location = useLocation().pathname.split('/')[1];
     const { taskLists, isLoading } = useSelector(state => state.task);
+    const todayLists = taskLists && taskLists.filter(taskList => (
+        taskList.frequency === "weekly" && taskList.repeat.includes(new Date().toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase()) ||
+        taskList.frequency === "monthly" && taskList.repeat.includes((new Date().getDate())) ||
+        taskList.frequency === "daily"
+    ))
 
 
     useEffect(() => {
@@ -25,9 +31,35 @@ const Task = () => {
             {location === 'dashboard' && <CreateTaskList />}
             {!isLoading && taskLists?.length === 0 && <p className="title-3 mx-1">No task lists found</p>}
             {!isLoading ?
-                taskLists && taskLists?.map((taskList, index) => (
-                    <TaskList key={`${taskList._id}-${index}`} taskList={taskList} />
-                ))
+                <>
+                {location === 'user' &&
+                <>
+                    <div className="p-1 mb-1 border-bottom">
+                        <h5 className="title-1 text-headline">
+                            Today's Task Lists
+                        </h5>
+                    </div>
+                    {todayLists?.length > 0 ? (
+                        todayLists?.map((taskList, index) => (
+                            <TaskList key={`${taskList._id}-${index}`} taskList={taskList} />
+                        ))
+                    ) : 
+                        <p className="title-3 mx-1 pb-1">No task lists for today were found</p>
+                    }
+                </>
+                }
+                <>
+                    <div className="p-1 mb-1 border-bottom">
+                        <h5 className="title-1 text-headline">
+                            All Task Lists
+                        </h5>
+                    </div>
+                    {taskLists && taskLists
+                    ?.map((taskList, index) => (
+                        <TaskList key={`${taskList._id}-${index}`} taskList={taskList} />
+                    ))}
+                </>
+                </>
                 : <Card title={'Loading Task Lists...'} isOpen={false} className={'blink'} />
             }
         </section>

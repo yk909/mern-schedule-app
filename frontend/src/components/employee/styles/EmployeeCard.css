@@ -2,7 +2,7 @@
 
 .business-card-body-employees {
     display: grid;
-    grid-template-columns:  repeat( auto-fit, minmax(200px, 200px) );
+    grid-template-columns:  repeat( auto-fit, minmax(185px, 185px) );
     /* gap: 10px; */
     padding-bottom: 25px;
 }
@@ -115,7 +115,7 @@
     transition: var(--transition-duration);
     fill: var(--color-primary);
     position: absolute;
-    right: 28px;
+    right: 22px;
     bottom: 0px;
     padding: 1px;
     background: var(--color-main);

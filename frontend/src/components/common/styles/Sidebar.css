@@ -89,6 +89,11 @@
 }
 
 @media (max-width: 576px) {
+    .page section {
+        padding: 0;
+        overflow: unset;
+    }
+
     .page.sidebar-open {
         grid-template-columns: 1fr;
     }
@@ -117,6 +122,6 @@
 
     .page section,
     .sidebar-container {
-        padding: 1rem;
+        /* padding: 1rem; */
     }
 }

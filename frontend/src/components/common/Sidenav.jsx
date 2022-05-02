@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { arrowTopIcon } from '../../constance/icons';
+import { closeIcon } from '../../constance/icons';
 import './styles/Sidenav.css';
 
 const Sidenav = ({children, title, isSidenavOpen, setIsSidenavOpen}) => {
@@ -34,7 +34,7 @@ const Sidenav = ({children, title, isSidenavOpen, setIsSidenavOpen}) => {
                             {title}
                         </h3>
                         <button className="btn-icon btn-icon-danger" onClick={() => {setIsSidenavOpen(false)} }>
-                            {arrowTopIcon}
+                            {closeIcon}
                         </button>
                     </div>
                 </div>

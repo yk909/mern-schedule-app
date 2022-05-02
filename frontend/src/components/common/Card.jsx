@@ -3,7 +3,7 @@ import './styles/Card.css'
 
 const Card = ({children, title, className, isOpen, setIsOpen}) => {
     return (
-        <div className={`card ${className ? className : ''} ${isOpen ? 'open' : ''}`}>
+        <div className={`card ${className ? className : ''}`}>
             <div 
                 className="card-title flex align-between"
                 onClick={() => setIsOpen ? setIsOpen(!isOpen) : null}
@@ -11,11 +11,11 @@ const Card = ({children, title, className, isOpen, setIsOpen}) => {
                 <h3 className="title-2">
                     {title}
                 </h3>
-                <div className="open-icon">
+                <div className={`open-icon${isOpen ? ' open' : ''}`}>
                     {arrowTopIcon}
                 </div>
             </div>
-            <div className="card-body">
+            <div className={`card-body${isOpen ? ' open' : ''}`}>
                 {children}
             </div>
         </div>
