@@ -14,7 +14,7 @@ const AddTask = ({taskList}) => {
 
 
     const onSubmit = () => {
-        if(task.title && task.description) {
+        if(task.title) {
             const data = {
                 _id: taskList._id,
                 action: 'addTaskItem',

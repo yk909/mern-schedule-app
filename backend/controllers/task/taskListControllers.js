@@ -1,6 +1,7 @@
 const TaskList = require('../../models/task/taskListModel');
 const Employee = require('../../models/employeeModel');
 const Company = require('../../models/companyModel');
+const Business = require('../../models/businessModel');
 
 
 // @route   GET api/taskList/business
@@ -9,13 +10,36 @@ const Company = require('../../models/companyModel');
 const getAllCompanyTaskLists = async (req, res) => {
     try {
         const company = await Company
-        .findOne({ user: req.user._id })
+        .findOne({ 
+            employees: req.user._id,
+        })
         .populate('businesses');
 
-        const taskLists = await TaskList
-        .find({ company: company})
-        .populate('businesses');
+        const totalBusinesses = [];
+
+        if(company.owners.includes(req.user._id)) {
+            company.businesses.forEach(business => {
+                totalBusinesses.push(business);
+            });
+        } else {
+            const userEmployee = await Employee.find(
+                { 
+                    user: req.user._id,
+                    company: company._id,
+                    isManager: true 
+                }).populate('business');
             
+            userEmployee.forEach(employee => {
+                totalBusinesses.push(employee.business);
+            });
+        }
+
+        const taskLists = await TaskList
+        .find({ 
+            businesses: { $in: totalBusinesses }
+        })
+        .populate('businesses');
+
         return res.status(200).json(taskLists);
     } catch (err) {
         console.error(err.message);
@@ -111,38 +135,37 @@ const createTaskList = async (req, res) => {
 // @access  Private
 const updateTaskList = async (req, res) => {
     try {
-        const task = await TaskList.findById(req.params.id).populate('businesses');
+        const taskList = await TaskList.findById(req.params.id).populate('businesses');
 
-        if (!task) {
+        if (!taskList) {
             return res.status(400).json({msg: 'Task list not found'});
         }
 
-        const company = await Company.findById(task.company);
+        const company = await Company.findById(taskList.company);
 
         if (!company) {
             return res.status(400).json({msg: 'Company not found'});
         }
 
-        const employee = await Employee.findOne({ user: req.user._id, business: task.business });
+        const employee = await Employee.findOne({ user: req.user._id, business: taskList.businesses, isManager: true });
 
         if(
-            (employee && employee.isManager) || company.owners.includes(req.user._id)
+            (employee) || company.owners.includes(req.user._id)
         ) {
             if(req.body.action === 'addTaskItem') {
-                task.taskItems.push(req.body.taskItem);
+                taskList.taskItems.push(req.body.taskItem);
             } else if(req.body.action === 'removeTaskItem') {
                 // Remove task item from task list by task item _id
-                task.taskItems = task.taskItems.filter(taskItem => taskItem._id.toString() !== req.body.taskItemId);
+                taskList.taskItems = taskList.taskItems.filter(taskItem => taskItem._id.toString() !== req.body.taskItemId);
             } else {
-                const updatedTaskList = await TaskList.findByIdAndUpdate(req.params.id, req.body, { new: true });
+                const updatedTaskList = await TaskList.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate('businesses');
 
-                updatedTaskList.businesses = task.businesses;
                 return res.status(200).json(updatedTaskList);
             }
             
-            await task.save();
+            await taskList.save();
 
-            return res.status(200).json(task);
+            return res.status(200).json(taskList);
         } else {
             return res.status(400).json({msg: 'You are not authorized to update a task list'});
         }

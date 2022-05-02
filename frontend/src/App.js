@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 import { Alerts, Navbar, RequireAuth, RequireCompany, Sidebar } from './components';
-import { Login, Register, Dashboard, Scheduler, Company, Schedule, Profile, Main, Ticket, Task } from './pages';
+import { Login, Register, Dashboard, Scheduler, Company, Businesses, Schedule, Profile, Main, Ticket, Task } from './pages';
 
 
 
@@ -58,6 +58,17 @@ function App() {
                   <RequireCompany>
                     <Sidebar>
                       <Task/>
+                    </Sidebar>
+                  </RequireCompany>
+                </RequireAuth>
+              } 
+            />
+            <Route path="/dashboard/businesses" 
+              element={
+                <RequireAuth>
+                  <RequireCompany>
+                    <Sidebar>
+                      <Businesses/>
                     </Sidebar>
                   </RequireCompany>
                 </RequireAuth>

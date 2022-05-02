@@ -4,6 +4,7 @@ import Dashboard from "./Dashboard";
 import Scheduler from "./Scheduler";
 import Schedule from "./Schedule";
 import Company from "./Company";
+import Businesses from "./Businesses";
 import Profile from "./Profile";
 import Main from "./Main";
 import Ticket from "./Ticket";
@@ -16,6 +17,7 @@ export {
     Scheduler,
     Schedule,
     Company,
+    Businesses,
     Profile,
     Main,
     Ticket,

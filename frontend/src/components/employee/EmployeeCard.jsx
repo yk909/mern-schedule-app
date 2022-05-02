@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Select from 'react-select';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Modal, ManagerProtect, OwnerProtect } from '../';
 import { editEmployee, deleteEmployee } from '../../features/employee/employeeSlice';
 import { customSelectModalStyles } from '../../constance/localData';
@@ -11,6 +11,7 @@ const EmployeeCard = ({employee, positions, businesses, business}) => {
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const { company } = useSelector(state => state.company);
     const businessesSelect = businesses.map(business => {
         return {
             value: business._id,
@@ -112,7 +113,7 @@ const EmployeeCard = ({employee, positions, businesses, business}) => {
         </ManagerProtect>
         <div 
             onClick={() => setIsModalOpen(true)}
-            className={`business-card-body-employee ${employee.isManager ? 'manager' : ''}`}
+            className="business-card-body-employee"
         >
             <div 
                 className="user-bg"
@@ -124,11 +125,18 @@ const EmployeeCard = ({employee, positions, businesses, business}) => {
                 : 
                     <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" alt="employee" />
                 }
+                <span
+                    className={`${
+                        company?.owners?.includes(employee?.user) ? 'owner' :
+                        employee.isManager ? 'manager' : ''
+                    }`}
+                >
+                    {employee.user && (
+                        checkMarkIcon
+                    )}
+                </span>
             </div>
             <div className="business-card-body-employee-name">
-                {employee.user && (
-                    checkMarkIcon
-                )}
                 <p>
                     {employee.position}
                 </p>

@@ -21,28 +21,28 @@ const BusinessCard = ({ businesses, isLoading }) => {
               { employees && employees.map(employee => (
                 (business._id === employee.business || business._id === employee.business._id ) && (
                     employee.user === user._id && (
-                    <div key={`permition-${employee._id}`} className="business-card-header-info-right">
-                    { company.user === user._id ? (
-                      <p className="text-hover" title="Your permissions to this business">ADMIN</p>
-                    ): company.owners.includes(employee.user) ? (
-                      <>
-                        <p className="text-hover" title="Your permissions to this business">OWNER</p>
-                      </>
-                    ): employee.isManager ? (
-                      <>
-                        <p className="text-hover" title="Your permissions to this business">MANAGER</p>
-                      </>
-                    ) : (
-                      <>
-                        <p className="text-hover" title="Your permissions to this business">EMPLOYEE</p>
-                      </>
-                    )}
-                    
-                    <AdminProtect>
-                      <UpdateBusiness
-                        business={business}
-                      />
-                    </AdminProtect>
+                      <div key={`permition-${employee._id}`} className="business-card-header-info-right">
+                        { company.user === user._id ? (
+                          <p className="text-hover" title="Your permissions to this business">ADMIN</p>
+                        ): company.owners.includes(employee.user) ? (
+                          <>
+                            <p className="text-hover" title="Your permissions to this business">OWNER</p>
+                          </>
+                        ): employee.isManager ? (
+                          <>
+                            <p className="text-hover" title="Your permissions to this business">MANAGER</p>
+                          </>
+                        ) : (
+                          <>
+                            <p className="text-hover" title="Your permissions to this business">EMPLOYEE</p>
+                          </>
+                        )}
+                      
+                      <AdminProtect>
+                        <UpdateBusiness
+                          business={business}
+                        />
+                      </AdminProtect>
                     </div>
                   )
                 )

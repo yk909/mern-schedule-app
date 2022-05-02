@@ -75,7 +75,7 @@ nav .notification svg {
 
 .notification .count {
     position: absolute;
-    background: var(--danger);
+    background: var(--danger-hover);
     color: var(--text-light);
     width: 20px;
     height: 20px;

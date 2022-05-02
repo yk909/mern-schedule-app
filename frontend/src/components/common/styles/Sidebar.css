@@ -6,6 +6,10 @@
     margin: 0 auto;
 }
 
+.page .businesses {
+    margin: 0;
+}
+
 .page section {
     overflow: hidden;
     padding: 0 1rem;
