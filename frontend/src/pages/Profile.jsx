@@ -58,7 +58,7 @@ const Profile = () => {
                         ) : (
                             <>
                                 <input 
-                                    type="text"
+                                    type="tel"
                                     value={phoneNumber}
                                     className="mt-1"
                                     name="phoneNumber"

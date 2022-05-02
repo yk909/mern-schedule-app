@@ -63,14 +63,14 @@ const deleteTaskList = async (data, token) => {
 
 // Completed user tasks
 // get all tasks for the list
-const getAllTasksForList = async (taskListId, token) => {
+const getAllTasksForList = async (data, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         }
     };
-    const date = new Date().toLocaleString().split(',')[0];
-    const response = await axios.get(`${API_URL}task/${taskListId}?date=${date}`, config);
+    const date = data.date.toLocaleString().split(',')[0];
+    const response = await axios.get(`${API_URL}task/${data.taskList}?date=${date}&business=${data.business}`, config);
     return response.data;
 }
 

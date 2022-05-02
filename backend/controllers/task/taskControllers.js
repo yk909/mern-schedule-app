@@ -3,14 +3,15 @@ const TaskList = require('../../models/task/taskListModel');
 const Employee = require('../../models/employeeModel');
 
 
-// @route   GET api/tasks/:taskListId?date=yyyy-mm-dd
+// @route   GET api/tasks/:taskListId?date=yyyy-mm-dd&business=businessId
 // @desc    Get a task
 // @access  Private
 const getAllTasksForList = async (req, res) => {
     try {
         const tasks = await Task.find({
             taskList: req.params.taskListId,
-            createdAt: {
+            business: req.query.business,
+            completedDate: {
                 $gte: new Date(req.query.date).setHours(0, 0, 0, 0), // req.query.date from frontend in format yyyy-mm-dd
                 $lt: new Date(req.query.date).setHours(23, 59, 59, 999)
             }
@@ -54,9 +55,9 @@ const createTask = async (req, res) => {
         const task = await Task.findOne({
             taskList: req.params.taskListId,
             business: req.body.business,
-            createdAt: {
-                $gte: new Date(new Date().setHours(0, 0, 0, 0)),
-                $lt: new Date(new Date().setHours(23, 59, 59, 999))
+            completedDate: {
+                $gte: new Date(req.body.completedDate.split('T')[0]).setHours(0, 0, 0, 0),
+                $lt: new Date(req.body.completedDate.split('T')[0]).setHours(23, 59, 59, 999)
             }
         }).populate('completedBy');
 
@@ -68,6 +69,7 @@ const createTask = async (req, res) => {
             taskItem: req.body.taskItem,
             taskList: taskList._id,
             business: req.body.business,
+            completedDate: req.body.completedDate,
             completedBy: req.user,
         });
 

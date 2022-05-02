@@ -87,7 +87,7 @@ const CreateCompany = () => {
                 <div className="form-group">
                     <label>Website</label>
                     <input 
-                        type="text" 
+                        type="url"
                         placeholder="Company's website" 
                         value={company.website}
                         name="website"

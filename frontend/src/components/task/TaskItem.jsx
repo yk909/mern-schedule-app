@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateTaskList, createTask, deleteTask } from '../../features/task/taskSlice';
 import { closeIcon, checkMarkIcon } from '../../constance/icons';
 
-const TaskItem = ({ taskList, taskItem }) => {
+const TaskItem = ({ taskList, taskItem, date }) => {
     const dispatch = useDispatch();
     const location = useLocation().pathname.split('/')[1];
     const completedTasks = useSelector(state => state.task.completedTasks);
@@ -12,6 +12,7 @@ const TaskItem = ({ taskList, taskItem }) => {
     return (
         <div className={`task-item${
             completedTaskItemIds?.includes(taskItem._id) &&
+            completedTasks.find(task => date.toISOString().split('T')[0] === task.completedDate.split('T')[0] ) &&
             completedTasks.find(task => task.business === taskList.businesses[0]._id ) ? ' completed' : ''
         }`}>
             <div className="flex align-between">
@@ -21,10 +22,12 @@ const TaskItem = ({ taskList, taskItem }) => {
                         <p className="ml-1">{taskItem.description}</p>
                     )}
                     {completedTasks.map(task => (
-                        task.taskItem === taskItem._id &&
-                        <small key={`completed-${taskItem._id}`}>
-                            Completed by {task.completedBy.firstName} {task.completedBy.lastName}
-                        </small>
+                        completedTaskItemIds?.includes(taskItem._id) &&
+                        date.toISOString().split('T')[0] === task.completedDate.split('T')[0] &&
+                        completedTasks.find(task => task.business === taskList.businesses[0]._id ) &&
+                            <small key={`completed-${taskItem._id}`}>
+                                Completed by {task.completedBy.firstName} {task.completedBy.lastName}
+                            </small>
                     ))}
                 </div>
                 {location === 'dashboard' ? (
@@ -41,12 +44,18 @@ const TaskItem = ({ taskList, taskItem }) => {
                         {closeIcon}
                     </button>
                 ) : location === 'user' && (
-                    completedTaskItemIds?.includes(taskItem._id) ? (
+                    completedTaskItemIds?.includes(taskItem._id) &&
+                    completedTasks.find(task => date.toISOString().split('T')[0] === task.completedDate.split('T')[0] ) &&
+                    completedTasks.find(task => task.business === taskList.businesses[0]._id ) ? (
                         <button 
                             className="btn-icon btn-icon-danger"
-                            onClick={() => 
+                            onClick={() =>
                                 dispatch(deleteTask(
-                                    completedTasks.find(task => task.taskItem === taskItem._id)._id
+                                    completedTasks.find(
+                                        task => task.business === taskList.businesses[0]._id &&
+                                        task.completedDate.split('T')[0] === date.toISOString().split('T')[0] &&
+                                        task.taskItem === taskItem._id
+                                    )._id
                                 ))
                             }
                         >
@@ -59,6 +68,7 @@ const TaskItem = ({ taskList, taskItem }) => {
                                 dispatch(createTask({
                                     taskListId: taskList._id,
                                     taskItem: taskItem._id,
+                                    completedDate: date.toISOString().split('T')[0],
                                     business: taskList.businesses[0]._id,
                                 }))}
                         >

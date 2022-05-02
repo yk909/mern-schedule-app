@@ -299,7 +299,11 @@ const taskSlice = createSlice({
         builder.addCase(getAllTasksForList.fulfilled, (state, action) => {
             state.completedTasksisLoading = false;
             state.isSuccess = true;
-            state.completedTasks = action.payload;
+            action.payload.forEach((task) => {
+                if(!state.completedTasks.find(t => t._id === task._id)) {
+                    state.completedTasks.push(task);
+                }
+            });
         });
         builder.addCase(getAllTasksForList.rejected, (state, action) => {
             state.completedTasksisLoading = false;

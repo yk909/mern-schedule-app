@@ -151,7 +151,7 @@ const CreateBusiness = ({ company }) => {
                 <div className="form-group">
                     <label>Phone Number</label>
                     <input
-                        type="text"
+                        type="tel"
                         placeholder="Phone number"
                         name="phoneNumber"
                         value={business.phoneNumber}
