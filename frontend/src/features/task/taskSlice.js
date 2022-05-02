@@ -352,14 +352,8 @@ const taskSlice = createSlice({
         builder.addCase(deleteTask.fulfilled, (state, action) => {
             state.completedTasksisLoading = false;
             state.isSuccess = true;
-            const index = state.completedTasks.findIndex(
-                (task) => task._id === action.payload
-            );
-            const indexResentTask = state.recentTasks.findIndex(
-                (task) => task._id === action.payload
-            );
-            state.completedTasks.splice(index, 1);
-            state.recentTasks.splice(indexResentTask, 1);
+            state.completedTasks = state.completedTasks.filter(task => task._id !== action.payload._id);
+            state.recentTasks = state.recentTasks.filter(task => task._id !== action.payload._id);
         });
         builder.addCase(deleteTask.rejected, (state, action) => {
             state.completedTasksisLoading = false;

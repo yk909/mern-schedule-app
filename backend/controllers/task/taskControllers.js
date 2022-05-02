@@ -53,6 +53,7 @@ const createTask = async (req, res) => {
 
         // check if task was already completed for this day
         const task = await Task.findOne({
+            taskItem: req.body.taskItem,
             taskList: req.params.taskListId,
             business: req.body.business,
             completedDate: {
@@ -94,8 +95,8 @@ const deleteTask = async (req, res) => {
         }
         
         if (task.completedBy.toString() === req.user._id.toString()) {
-            const deletedTask = await task.remove();
-            return res.status(200).json(deletedTask);
+            await task.remove();
+            return res.status(200).json(task);
         } else {
             return res.status(400).json({ msg: 'You are not authorized to delete a task' });
         }

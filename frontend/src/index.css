@@ -200,6 +200,10 @@ main {
   border-bottom: 1px solid var(--color-secondary);
 }
 
+.border-top {
+  border-top: 1px solid var(--color-secondary);
+}
+
 .btn-icon {
   cursor: pointer;
   display: flex;

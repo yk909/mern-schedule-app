@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Card, EditTaskList, AddTask, TaskItem } from '../';
 import { getAllTasksForList } from '../../features/task/taskSlice';
 import './styles/TaskList.css';
@@ -10,7 +10,6 @@ const TaskList = ({taskList}) => {
     const [isOpenn, setIsOpen] = useState(true);
     const location = useLocation().pathname.split('/')[1];
     const dispatch = useDispatch();
-
 
     useEffect(() => {
         dispatch(getAllTasksForList({

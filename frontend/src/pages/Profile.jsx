@@ -100,12 +100,12 @@ const Profile = () => {
                         )}
                     </div>
                     <div className="user-info">
-                        <div className="user-info-item">
+                        <div className="user-info-item py-1 border-bottom">
                             <div>
                                 <span className="text-secondary text-headline">
                                     Company
                                 </span>
-                                <div className="title-2 mt-4 ml-1">
+                                <div className="title-3 mt-4 ml-1">
                                     {company.name}
                                 </div>
                                 <div className="title-4 ml-1 text-secondary">
@@ -113,13 +113,13 @@ const Profile = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="user-info-item">
+                        <div className="user-info-item py-1 border-bottom">
                             <div>
                                 <span className="text-secondary text-headline">
                                     Works at
                                 </span>
                                 {userEmployees?.length > 0 ? (
-                                    <div className="title-3 mt-4 ml-1">
+                                    <div className="title-4 mt-4 ml-1">
                                         {userEmployees.map((employee, index) => (
                                             <p key={index}>{employee.business?.name}</p>
                                         ))}
@@ -135,7 +135,7 @@ const Profile = () => {
                                     Manager of
                                 </span>
                                 {userEmployees?.length > 0 ? (
-                                    <div className="title-3 mt-4 ml-1">
+                                    <div className="title-4 mt-4 ml-1">
                                         {userEmployees.map((employee, index) => (
                                             employee.isManager && 
                                             <p key={index}>{employee.business.name}</p>

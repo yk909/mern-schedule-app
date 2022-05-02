@@ -2,33 +2,39 @@ import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateTaskList, createTask, deleteTask } from '../../features/task/taskSlice';
 import { closeIcon, checkMarkIcon } from '../../constance/icons';
+import { useEffect, useState } from 'react';
 
 const TaskItem = ({ taskList, taskItem, date }) => {
     const dispatch = useDispatch();
     const location = useLocation().pathname.split('/')[1];
     const completedTasks = useSelector(state => state.task.completedTasks);
-    const completedTaskItemIds = useSelector(state => state.task.completedTasks)?.map(task => task.taskItem);
+    const [completesTask, setCompletesTask] = useState(null);
+
+    useEffect(() => {
+        const task = completedTasks.filter(task => 
+            ((task.business === taskList.businesses[0]._id) &&
+            (task.taskList === taskList._id )&&
+            (task.completedDate.split('T')[0] === date.toISOString().split('T')[0]) &&
+            (task.taskItem === taskItem._id))
+        )[0] || null;
+        setCompletesTask(task);
+    }, [completedTasks])
 
     return (
         <div className={`task-item${
-            completedTaskItemIds?.includes(taskItem._id) &&
-            completedTasks.find(task => date.toISOString().split('T')[0] === task.completedDate.split('T')[0] ) &&
-            completedTasks.find(task => task.business === taskList.businesses[0]._id ) ? ' completed' : ''
+            completesTask ? ' completed' : ''
         }`}>
             <div className="flex align-between">
                 <div className="task-info mr-1">
                     <h3 className="title-4">{taskItem.title}</h3>
                     {taskItem.description && (
-                        <p className="ml-1">{taskItem.description}</p>
+                        <p>{taskItem.description}</p>
                     )}
-                    {completedTasks.map(task => (
-                        completedTaskItemIds?.includes(taskItem._id) &&
-                        date.toISOString().split('T')[0] === task.completedDate.split('T')[0] &&
-                        completedTasks.find(task => task.business === taskList.businesses[0]._id ) &&
-                            <small key={`completed-${taskItem._id}`}>
-                                Completed by {task.completedBy.firstName} {task.completedBy.lastName}
-                            </small>
-                    ))}
+                    {completesTask && (
+                        <small>
+                            Completed by {completesTask.completedBy.firstName} {completesTask.completedBy.lastName}
+                        </small>
+                    )}
                 </div>
                 {location === 'dashboard' ? (
                     <button 
@@ -44,19 +50,14 @@ const TaskItem = ({ taskList, taskItem, date }) => {
                         {closeIcon}
                     </button>
                 ) : location === 'user' && (
-                    completedTaskItemIds?.includes(taskItem._id) &&
-                    completedTasks.find(task => date.toISOString().split('T')[0] === task.completedDate.split('T')[0] ) &&
-                    completedTasks.find(task => task.business === taskList.businesses[0]._id ) ? (
+                    completesTask ? (
                         <button 
                             className="btn-icon btn-icon-danger"
-                            onClick={() =>
-                                dispatch(deleteTask(
-                                    completedTasks.find(
-                                        task => task.business === taskList.businesses[0]._id &&
-                                        task.completedDate.split('T')[0] === date.toISOString().split('T')[0] &&
-                                        task.taskItem === taskItem._id
-                                    )._id
-                                ))
+                            onClick={() =>{
+                                    dispatch(deleteTask(
+                                        completesTask._id
+                                    ))
+                                }
                             }
                         >
                             {closeIcon}
