@@ -27,13 +27,16 @@ const TaskList = ({taskList}) => {
                 title={taskList.title}
                 isOpen={isOpenn}
                 setIsOpen={setIsOpen}
+                titleStyle={{
+                    borderLeft: `5px solid ${taskList.color}`,
+                }}
             >
                 {location === 'dashboard' ? (
                     <div className="flex align-between mx-1">
                         <EditTaskList taskList={taskList} />
                         <AddTask taskList={taskList}/>
                     </div>
-                ) : (
+                ) : location === 'user' && (
                     <div className="flex align-between mx-1">
                         <div className="title-3">
                             {date.toUTCString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).split('00:00:00')[0].split('04:00:00')[0]}

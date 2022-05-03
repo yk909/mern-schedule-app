@@ -4,6 +4,7 @@ const { protect } = require('../middleware/authMiddleware');
 const {
     getAllCompanyTaskLists,
     getAllUserTaskLists,
+    searchTaskLists,
     createTaskList,
     updateTaskList,
     deleteTaskList,
@@ -23,6 +24,9 @@ router.route('/list/company')
 
 router.route('/list/user')
     .get(protect, getAllUserTaskLists);
+
+router.route('/list/search')
+    .get(protect, searchTaskLists);
 
 router.route('/list/')
     .post(protect, createTaskList);

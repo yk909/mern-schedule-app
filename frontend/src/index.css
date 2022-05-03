@@ -578,6 +578,10 @@ textarea {
   height: -webkit-fill-available;
 }
 
+input[type="color"] {
+  min-height: 41px;
+}
+
 input[type="date"] {
   padding: 6px 8px;
   cursor: pointer;

@@ -16,6 +16,7 @@ const EditTaskList = ({taskList}) => {
         repeat: taskList?.repeat?.map(item => ({value: item, label: item})),
         businesses: taskList.businesses.map(business => ({value: business._id, label: business.name})),
         positions: taskList?.positions?.map(position => ({value: position, label: position})),
+        color: taskList.color,
     });
 
     const businessSelect = company?.businesses.map(business => ({
@@ -60,6 +61,7 @@ const EditTaskList = ({taskList}) => {
                 repeat: editedTaskList.repeat.map(item => item.value),
                 businesses: editedTaskList.businesses.map(business => business.value),
                 positions: editedTaskList.positions.map(position => position.value),
+                color: editedTaskList.color,
             }
             dispatch(updateTaskList(data))
             setIsOpen(false);
@@ -146,6 +148,22 @@ const EditTaskList = ({taskList}) => {
                         isMulti={true}
                     />
                 </div>
+            </div>
+            <div className="form-group-row">
+            <div className="form-group flex">
+                <label>Color</label>
+                <div className="flex">
+                <input
+                    type="color"
+                    className="w-100"
+                    name="color"
+                    value={editedTaskList.color}
+                    onChange={(e) => {
+                        setEditedTaskList({ ...editedTaskList, color: e.target.value })
+                    }}
+                />
+                </div>
+            </div>
             </div>
         </Modal>
             <div 

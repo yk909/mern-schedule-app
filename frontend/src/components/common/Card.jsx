@@ -1,10 +1,11 @@
 import { arrowTopIcon } from '../../constance/icons'
 import './styles/Card.css'
 
-const Card = ({children, title, className, isOpen, setIsOpen}) => {
+const Card = ({children, title, className, titleStyle, isOpen, setIsOpen}) => {
     return (
         <div className={`card ${className ? className : ''}`}>
             <div 
+                style={titleStyle}
                 className="card-title flex align-between"
                 onClick={() => setIsOpen ? setIsOpen(!isOpen) : null}
             >

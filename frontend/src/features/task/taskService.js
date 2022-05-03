@@ -16,6 +16,17 @@ const getAllCompanyTaskLists = async (token) => {
     return response.data;
 }
 
+// task list search
+const searchTaskLists = async (data, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    };
+    const response = await axios.get(`${API_URL}list/search${data}`, config);
+    return response.data;
+}
+
 // get all user task lists
 const getAllUserTaskLists = async (token) => {
     const config = {
@@ -113,6 +124,7 @@ const deleteTask = async (id, token) => {
 const taskService = {
     getAllCompanyTaskLists,
     getAllUserTaskLists,
+    searchTaskLists,
     createTaskList,
     updateTaskList,
     deleteTaskList,

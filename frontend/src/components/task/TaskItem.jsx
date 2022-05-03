@@ -39,6 +39,7 @@ const TaskItem = ({ taskList, taskItem, date }) => {
                 {location === 'dashboard' ? (
                     <button 
                         className="btn-icon btn-icon-danger"
+                        title="Delete Task Item from Task List"
                         onClick={() => 
                             dispatch(updateTaskList({
                                 _id: taskList._id,
@@ -53,6 +54,7 @@ const TaskItem = ({ taskList, taskItem, date }) => {
                     completesTask ? (
                         <button 
                             className="btn-icon btn-icon-danger"
+                            title="Delete Completed Task"
                             onClick={() =>{
                                     dispatch(deleteTask(
                                         completesTask._id
@@ -65,6 +67,7 @@ const TaskItem = ({ taskList, taskItem, date }) => {
                     ) : (
                         <button 
                             className="btn-icon btn-icon-primary"
+                            title="Mark Task as Completed"
                             onClick={() => 
                                 dispatch(createTask({
                                     taskListId: taskList._id,

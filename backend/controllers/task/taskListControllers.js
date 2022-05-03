@@ -4,7 +4,7 @@ const Company = require('../../models/companyModel');
 const Business = require('../../models/businessModel');
 
 
-// @route   GET api/taskList/business
+// @route   GET api/tasks/list/business
 // @desc    Get all task lists for a company
 // @access  Private
 const getAllCompanyTaskLists = async (req, res) => {
@@ -48,7 +48,7 @@ const getAllCompanyTaskLists = async (req, res) => {
 }
 
 
-// @route   GET api/taskList/user
+// @route   GET api/tasks/list/user
 // @desc    Get all task lists for a user
 // @access  Private
 const getAllUserTaskLists = async (req, res) => {
@@ -86,7 +86,22 @@ const getAllUserTaskLists = async (req, res) => {
 }
 
 
-// @route   POST api/taskList
+// @route   GET api/tasks/list/search
+// @desc    Search for task lists
+// @access  Private
+const searchTaskLists = async (req, res) => {
+    try {
+        const taskLists = await TaskList.find(req.query).populate('businesses');
+
+        return res.status(200).json(taskLists);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({msg: 'Server Error'});
+    }
+}
+
+
+// @route   POST api/tasks/list
 // @desc    Create a task list
 // @access  Private
 const createTaskList = async (req, res) => {
@@ -130,7 +145,7 @@ const createTaskList = async (req, res) => {
 }
 
 
-// @route   PUT api/taskList/:id
+// @route   PUT api/tasks/list/:id
 // @desc    Update a task list
 // @access  Private
 const updateTaskList = async (req, res) => {
@@ -177,7 +192,7 @@ const updateTaskList = async (req, res) => {
 }
 
 
-// @route   DELETE api/taskList/:id
+// @route   DELETE api/tasks/list/:id
 // @desc    Delete a task list
 // @access  Private
 const deleteTaskList = async (req, res) => {
@@ -212,6 +227,7 @@ const deleteTaskList = async (req, res) => {
 module.exports = {
     getAllCompanyTaskLists,
     getAllUserTaskLists,
+    searchTaskLists,
     createTaskList,
     updateTaskList,
     deleteTaskList

@@ -13,7 +13,7 @@ const Task = () => {
     const { taskLists, isLoading } = useSelector(state => state.task);
     const todayLists = taskLists && taskLists.filter(taskList => (
         taskList.frequency === "weekly" && taskList.repeat.includes(new Date().toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase()) ||
-        taskList.frequency === "monthly" && taskList.repeat.includes((new Date().getDate())) ||
+        taskList.frequency === "monthly" && taskList.repeat.includes((new Date().toLocaleDateString('en-US', { day: 'numeric' }))) ||
         taskList.frequency === "daily"
     ))
 

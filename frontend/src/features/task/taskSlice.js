@@ -53,6 +53,25 @@ export const getAllUserTaskLists = createAsyncThunk(
     }
 );
 
+// search task list
+export const searchTaskLists = createAsyncThunk(
+    "task/searchTaskLists",
+    async (data, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token;
+            return await taskService.searchTaskLists(data, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
 // create task list
 export const createTaskList = createAsyncThunk(
     "task/createTaskList",
@@ -232,6 +251,22 @@ const taskSlice = createSlice({
             state.taskLists = action.payload;
         });
         builder.addCase(getAllUserTaskLists.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.msg = action.payload;
+        });
+
+        // search task lists
+        builder.addCase(searchTaskLists.pending, (state, action) => {
+            state.isLoading = true;
+            state.isError = false;
+        });
+        builder.addCase(searchTaskLists.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            state.taskLists = action.payload;
+        });
+        builder.addCase(searchTaskLists.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.msg = action.payload;

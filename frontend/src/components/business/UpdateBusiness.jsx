@@ -22,7 +22,14 @@ const UpdateBusiness = ({ business }) => {
         }
     ]);
 
-    const [shiftPresets, setShiftPresets] = useState(businessShiftPresets ? businessShiftPresets : [
+    const [shiftPresets, setShiftPresets] = useState(businessShiftPresets ? [
+        ...businessShiftPresets,
+        {
+            label: '',
+            startTime: '',
+            endTime: '',
+        }
+    ] : [
         {
             label: '',
             startTime: '',
