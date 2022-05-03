@@ -9,19 +9,21 @@ const GlobalMessage = () => {
     const { globalMessagesSender } = useSelector(state => state.globalMessage);
 
     return (
+        <>
         <Card 
-            title={`Your Messages ${globalMessagesSender?.length}`}
+            title={`Global Messages (${globalMessagesSender?.length})`}
             isOpen={isCardOpen}
             setIsOpen={setIsCardOpen}
         >
             <div className="flex align-between px-1">
                 <p className="title-3">
-                    All Pending Messages
+                    Your Active Messages
                 </p>
                 <CreateMessage/>
             </div>
             <MessageTable />
         </Card>
+        </>
     )
 }
 

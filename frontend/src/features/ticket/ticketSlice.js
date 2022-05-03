@@ -158,7 +158,7 @@ const ticketSlice = createSlice({
 
         // create a ticket
         builder.addCase(createTicket.pending, (state) => {
-            state.isLoading = true;
+            // state.isLoading = true;
             state.isError = false;
         });
         builder.addCase(createTicket.fulfilled, (state, action) => {
@@ -174,7 +174,7 @@ const ticketSlice = createSlice({
 
         // update a ticket
         builder.addCase(updateTicket.pending, (state) => {
-            state.isLoading = true;
+            // state.isLoading = true;
             state.isError = false;
         });
         builder.addCase(updateTicket.fulfilled, (state, action) => {

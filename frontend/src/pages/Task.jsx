@@ -28,14 +28,15 @@ const Task = () => {
 
     return (
         <section className="task-page">
-            {location === 'dashboard' && <CreateTaskList />}
-            {!isLoading && taskLists?.length === 0 && <p className="title-3 mx-1">No task lists found</p>}
+            {location === 'dashboard' && (
+                <CreateTaskList />
+            )}
             {!isLoading ?
                 <>
                 {location === 'user' &&
                 <>
                     <div className="p-1 mb-1 border-bottom">
-                        <h5 className="title-1 text-headline">
+                        <h5 className="title-2 text-headline">
                             Today's Task Lists
                         </h5>
                     </div>
@@ -44,20 +45,20 @@ const Task = () => {
                             <TaskList key={`${taskList._id}-${index}`} taskList={taskList} />
                         ))
                     ) : 
-                        <p className="title-3 mx-1 pb-1">No task lists for today were found</p>
+                        <p className="px-1 mb-1 pb-1">No task lists for today.</p>
                     }
                 </>
                 }
                 <>
                     <div className="p-1 mb-1 border-bottom">
-                        <h5 className="title-1 text-headline">
-                            All Task Lists
-                        </h5>
                     </div>
                     {taskLists && taskLists
                     ?.map((taskList, index) => (
                         <TaskList key={`${taskList._id}-${index}`} taskList={taskList} />
                     ))}
+                    {!isLoading && taskLists?.length === 0 && (
+                        <p className="px-1 mb-1 pb-1">No task lists were found</p>
+                    )}
                 </>
                 </>
                 : <Card title={'Loading Task Lists...'} isOpen={false} className={'blink'} />

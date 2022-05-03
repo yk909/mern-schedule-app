@@ -30,6 +30,13 @@ const TicketTable = ({isReceived}) => {
                 </tr>
             </thead>
             <tbody>
+                {tickets && tickets.length === 0 && (
+                    <tr>
+                        <td colSpan="7">
+                            <p className="text-center">No tickets found</p>
+                        </td>
+                    </tr>
+                )}
                 {tickets?.map((ticket, index) => {
                     return (
                         <tr key={index}>
@@ -37,7 +44,11 @@ const TicketTable = ({isReceived}) => {
                             {isReceived ? (
                                 <td>
                                     <b>
-                                        {ticket.from.firstName} {ticket.from.lastName}
+                                        {ticket.anonymous ? (
+                                            <span>Anonymous</span>
+                                        ) : (
+                                            `${ticket.from.firstName} ${ticket.from.lastName}`
+                                        )}
                                     </b>
                                 </td>
                             ) : (
@@ -66,7 +77,11 @@ const TicketTable = ({isReceived}) => {
                                 {ticket?.type}
                             </td>
                             <td>
-                                {ticket?.date?.split('T')[0]}
+                                {ticket.date ? (
+                                    ticket?.date?.split('T')[0]
+                                ) : (
+                                    '-'
+                                )}
                             </td>
                             <td className={`${
                                 ticket.status === 'pending' ? 'bg-warning' 
@@ -77,7 +92,7 @@ const TicketTable = ({isReceived}) => {
                             {isReceived ? (
                                 <td className="flex space-between">
                                     <button
-                                        className="btn btn-outline-danger w-100 btn-sm mr-1"
+                                        className="btn btn-outline-danger w-100 btn-sm mr-3"
                                         onClick={() => 
                                             {
                                                 dispatch(updateTicket({
@@ -98,7 +113,7 @@ const TicketTable = ({isReceived}) => {
                                                 }))
                                             }
                                         }>
-                                        Resolved
+                                        Сonfirm
                                     </button>
                                 </td>
                             ) : (

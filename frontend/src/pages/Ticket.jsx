@@ -5,7 +5,7 @@ import { getAllManagerTickets, getAllEmployeeTickets } from '../features/ticket/
 import { Card, TicketTable, CreateTicket } from '../components';
 
 const Ticket = () => {
-    const [isCardOpen, setIsCardOpen] = useState(false);
+    const [isCardOpen, setIsCardOpen] = useState(true);
     const [isCard2Open, setIsCard2Open] = useState(true);
     const isLoading = useSelector(state => state.ticket.isLoading);
     const dispatch = useDispatch();

@@ -25,13 +25,15 @@ const Dashboard = () => {
             )}
             
             {!isLoading && userShifts && company && (
+                <>
                 <Card 
-                    title={`Open Shifts ${userShifts?.length}`}
+                    title={`Open Shifts (${userShifts?.length})`}
                     isOpen={isCardOpen}
                     setIsOpen={setIsCardOpen}
                 >
                     <ShiftsTable shifts={userShifts ? userShifts : null} isOpenShift={false}/>
                 </Card>
+                </>
             )}
             {isLoading && (
                 <Card title={'Loading Open Shifts ...'} isOpen={false} className={'blink'}/>

@@ -1,5 +1,5 @@
 .message-card {
-    background: var(--color-secondary-light);
+    background: var(--color-main);
     margin-bottom: 1rem;
     border-radius: var(--border-radius);
     padding: 1rem;

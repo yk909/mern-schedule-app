@@ -94,7 +94,7 @@ const Navbar = () => {
             </div>
             <div className="nav-burger h-100">
                 <div className="flex align-between h-100 px-1">
-                    {user && company && employee && (
+                    {user && company && (
                         <Notification />
                     )}
                     <div className="btn btn-outline" onClick={() => {setSidenav(true)}}>

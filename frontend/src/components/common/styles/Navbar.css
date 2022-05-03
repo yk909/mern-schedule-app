@@ -142,6 +142,10 @@ nav .nav-menu-links a {
     display: none;
 }
 
+.nav-burger .notification a {
+    position: relative;
+}
+
 @media (max-width: 768px) {
     nav .nav-wrapper {
         display: none;

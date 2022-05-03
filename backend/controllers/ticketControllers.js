@@ -14,9 +14,14 @@ const getAllManagerTickets = async (req, res) => {
             return res.status(400).json({ msg: 'No employee found' });
         }
 
-        const to = await Ticket.find({ business: {
-            $in: employee.map(employee => employee.business)
-        } }).sort({ createdAt: -1 }).limit(10)
+        const to = await Ticket.find(
+            { business: {
+                $in: employee.map(employee => employee.business)
+            },
+            to: {
+                $exists: false
+            }
+        }).sort({ createdAt: -1 }).limit(10)
         .populate('from')
         .populate('to')
         .populate('business').exec();
@@ -130,7 +135,10 @@ const updateTicket = async (req, res) => {
             return res.status(404).json({ msg: 'Ticket not found' });
         }
 
-        if(ticket.from._id.toString() !== req.user._id.toString() || (ticket.to && ticket.to._id.toString() !== req.user._id.toString())) {
+        if(
+            ticket.from._id.toString() !== req.user._id.toString() &&
+            (ticket.to && ticket.to._id.toString() !== req.user._id.toString())
+        ) {
             return res.status(401).json({ msg: 'User not authorized' });
         }
         

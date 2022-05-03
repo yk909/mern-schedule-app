@@ -5,8 +5,8 @@
   --info: #add8e6;
   --dark: #313536;
   --danger-hover: #DE350B;
-  --warning-hover: #c9c16b;
-  --success-hover: #77bb8e;
+  --warning-hover: #817709;
+  --success-hover: #38754c;
   --info-hover: #91c4d4;
   --dark-hover: #272a2b;
   --color-primary-hover: #2459a0;
@@ -119,17 +119,17 @@ main {
 
 .bg-danger {
   background-color: var(--danger);
-  color: var(--text-light);
+  color: var(--danger-hover);
 }
 
 .bg-warning {
   background-color: var(--warning)!important;
-  color: var(--text-dark);
+  color: var(--warning-hover);
 }
 
 .bg-success {
   background-color: var(--success)!important;
-  color: var(--text-dark);
+  color: var(--success-hover);
 }
 
 .bg-info {
@@ -422,20 +422,19 @@ main {
 .btn.btn-outline-warning:hover {
   background-color: var(--warning);
   box-shadow: var(--box-shadow);
-  color: var(--text-light);
+  color: var(--warning-hover);
 }
 
 .btn.btn-outline-success {
   background-color: transparent;
   border: 2px solid var(--success);
-  color: var(--text-dark);
+  color: var(--success-hover);
   box-shadow: none;
 }
 
 .btn.btn-outline-success:hover {
   background-color: var(--success);
   box-shadow: var(--box-shadow);
-  color: var(--text-dark);
 }
 
 .btn.btn-outline-light {
@@ -493,6 +492,31 @@ main {
   text-transform: capitalize;
 }
 
+.table thead {
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
+
+.table thead tr th:first-of-type {
+  border-top-left-radius: var(--border-radius);
+}
+
+.table thead tr th:last-of-type {
+  border-top-right-radius: var(--border-radius);
+}
+
+.table body {
+  border-radius: var(--border-radius);
+}
+
+.table tbody tr:last-of-type td:first-of-type {
+  border-bottom-left-radius: var(--border-radius);
+}
+
+.table tbody tr:last-of-type td:last-of-type {
+  border-bottom-right-radius: var(--border-radius);
+}
+
 .table table {
   /* border-collapse: collapse; */
   overflow-x: scroll;
@@ -505,7 +529,7 @@ table thead {
 }
 
 table tbody {
-  background: var(--color-main);
+  background: var(--color-secondary-light);
   border-radius: var(--border-radius);
 }
 
@@ -514,7 +538,7 @@ tr {
 }
 
 tr:hover  {
-  background-color: var(--color-secondary-light);
+  background-color: var(--color-main);
 }
 
 th, 
@@ -627,6 +651,15 @@ textarea:hover {
 .mr-1 {
   margin-right: 1rem;
 }
+
+.mr-2 {
+  margin-right: 0.75rem;
+}
+
+.mr-3 {
+  margin-right: 0.50rem;
+}
+
 
 .ml-1 {
   margin-left: 1rem;

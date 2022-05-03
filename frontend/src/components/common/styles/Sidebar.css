@@ -89,17 +89,13 @@
 }
 
 @media (max-width: 576px) {
+    .page {
+        display: block;
+    }
+
     .page section {
         padding: 0;
         overflow: unset;
-    }
-
-    .page.sidebar-open {
-        grid-template-columns: 1fr;
-    }
-
-    .page.sidebar-closed {
-        grid-template-columns: 1fr;
     }
 
     .sidebar-header svg {
@@ -120,8 +116,7 @@
         display: none;
     }
 
-    .page section,
     .sidebar-container {
-        /* padding: 1rem; */
+        padding: 1rem 0;
     }
 }
