@@ -55,8 +55,8 @@ const getAllUserTaskLists = async (req, res) => {
     try {
         const userEmployee = await Employee.find({ user: req.user._id});
 
-        if (!userEmployee) {
-            return res.status(400).json({msg: 'No employee found'});
+        if (!userEmployee || userEmployee.length === 0) {
+            return res.status(200).json(null);
         }
 
         const taskLists = await TaskList
