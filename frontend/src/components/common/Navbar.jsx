@@ -3,7 +3,7 @@ import { Link, useNavigate, NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import './styles/Navbar.css';
 import { logout, reset } from '../../features/auth/authSlice';
-import { Notification, Sidenav } from '../';
+import { Notification, Sidenav, ManagerProtect } from '../';
 import { burgerIcon, dashboardIcon, companyIcon, userIcon, loginIcon, logoutIcon, registerIcon, calenderRangeIcon } from '../../constance/icons';
 
 const Navbar = () => {
@@ -25,13 +25,15 @@ const Navbar = () => {
             <div className="nav-wrapper">
                 <div className="nav-left">
                     <ul className="nav-links">
-                        {user && company && employee && (
+                        {user && company && (
+                        <ManagerProtect>
                             <li>
                                 <NavLink to="/dashboard">
                                     {dashboardIcon}
                                     Dashboad
                                 </NavLink>
                             </li>
+                        </ManagerProtect>
                         )}
                         { user && (
                         <li>
@@ -107,13 +109,15 @@ const Navbar = () => {
                     title="Menu"
                 >
                     <ul className="nav-burger-links">
-                        {user && company && employee && (
+                        {user && company && (
+                        <ManagerProtect>
                             <li>
                                 <NavLink onClick={() => setSidenav(false)} to="/dashboard">
                                     {dashboardIcon}
                                     Dashboad
                                 </NavLink>
                             </li>
+                        </ManagerProtect>
                         )}
                         { user && (
                         <li>

@@ -157,7 +157,7 @@ const companySlice = createSlice({
             state.isSuccess = true;
             state.isError = false;
             state.msg = '';
-            state.company.push(action.payload)
+            state.company = action.payload;
         });
         builder.addCase(createCompany.rejected, (state, action) => {
             state.isLoading = false;

@@ -14,12 +14,12 @@ const Alerts = () => {
     const task = useSelector(state => state.task);
 
     useEffect(() => {
-        if(auth.isError) {
-            return toast.error(auth.msg);
-        }
-        if(company.isError) {
-            return toast.error(company.msg);
-        }
+        // if(auth.isError) {
+        //     return toast.error(auth.msg);
+        // }
+        // if(company.isError) {
+        //     return toast.error(company.msg);
+        // }
         if(business.isError) {
             return toast.error(business.msg);
         }
@@ -42,8 +42,8 @@ const Alerts = () => {
             return toast.error(task.msg);
         }
     }, [
-        auth.isError, 
-        company.isError, 
+        // auth.isError, 
+        // company.isError, 
         business.isError, 
         employee.isError, 
         shift.isError, 

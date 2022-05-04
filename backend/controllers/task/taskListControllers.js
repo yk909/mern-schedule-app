@@ -91,7 +91,10 @@ const getAllUserTaskLists = async (req, res) => {
 // @access  Private
 const searchTaskLists = async (req, res) => {
     try {
-        const taskLists = await TaskList.find(req.query).populate('businesses');
+        const { business } = req.query;
+        const taskLists = await TaskList.find({
+            businesses: business
+        }).populate('businesses');
 
         return res.status(200).json(taskLists);
     } catch (err) {

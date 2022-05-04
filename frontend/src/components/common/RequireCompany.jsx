@@ -17,6 +17,9 @@ const RequireCompany = ({children}) => {
         if(auth.user && !company) {
             dispatch(getCompany());
             dispatch(getUserEmployees());
+        }
+        
+        if(company) {
             dispatch(getAllGlobalMessages());
         }
 

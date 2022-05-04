@@ -26,8 +26,8 @@ const getAllGlobalMessages = async (req, res) => {
     try {
         const employees = await Employee.find({ user: req.user._id });
 
-        if(!employees) {
-            return res.status(400).json({ msg: 'You are not an employee' });
+        if(!employees || employees.length === 0) {
+            return res.status(200);
         }
 
         const businessGlobalMessage = await GlobalMessage.find(
