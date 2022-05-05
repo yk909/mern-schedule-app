@@ -9,6 +9,7 @@ import inviteReducer from '../features/invite/inviteSlice';
 import globalMessageReducer from '../features/globalMessage/globalMessageSlice';
 import taskReducer from '../features/task/taskSlice';
 import ticketReducer from '../features/ticket/ticketSlice';
+import trainingReducer from '../features/training/trainingSlice';
 
 export const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ export const store = configureStore({
     globalMessage: globalMessageReducer,
     task: taskReducer,
     ticket: ticketReducer,
+    training: trainingReducer,
   },
   // middleware: getDefaultMiddleware =>
   //   getDefaultMiddleware({

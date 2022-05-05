@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 import { Alerts, Navbar, RequireAuth, RequireCompany, Sidebar } from './components';
-import { Login, Register, Dashboard, Scheduler, Company, Businesses, Schedule, Profile, Main, Ticket, Task } from './pages';
+import { Login, Register, Dashboard, Scheduler, Company, Businesses, Schedule, Profile, Main, Ticket, Task, Training } from './pages';
 
 
 
@@ -74,6 +74,17 @@ function App() {
                 </RequireAuth>
               } 
             />
+            <Route path="/dashboard/training" 
+              element={
+                <RequireAuth>
+                  <RequireCompany>
+                    <Sidebar>
+                      <Training/>
+                    </Sidebar>
+                  </RequireCompany>
+                </RequireAuth>
+              } 
+            />
 
             {/* User path */}
             <Route path='/user'
@@ -113,6 +124,17 @@ function App() {
                   <RequireCompany>
                   <Sidebar>
                     <Task/>
+                  </Sidebar>
+                </RequireCompany>
+                </RequireAuth>
+              }
+            />
+            <Route path="/user/training" 
+              element={
+                <RequireAuth>
+                  <RequireCompany>
+                  <Sidebar>
+                    <Training/>
                   </Sidebar>
                 </RequireCompany>
                 </RequireAuth>

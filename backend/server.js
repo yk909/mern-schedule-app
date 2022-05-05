@@ -21,11 +21,10 @@ app.use('/api/businesses', require('./routes/businessRoutes'));
 app.use('/api/employees', require('./routes/employeeRoutes'));
 app.use('/api/shifts', require('./routes/shiftRoutes'));
 app.use('/api/invites', require('./routes/inviteRoutes'));
-
-// NEW UNTESTED ROUTE
 app.use('/api/globalMessages', require('./routes/globalMessageRoutes'));
 app.use('/api/tickets', require('./routes/ticketRoutes'));
 app.use('/api/tasks', require('./routes/taskRoutes'));
+app.use('/api/training', require('./routes/trainingRoutes'));
 
 // server connection
 app.listen(port, () => {

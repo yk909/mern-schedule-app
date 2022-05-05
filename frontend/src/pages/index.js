@@ -9,6 +9,7 @@ import Profile from "./Profile";
 import Main from "./Main";
 import Ticket from "./Ticket";
 import Task from "./Task";
+import Training from "./Training";
 
 export {
     Login,
@@ -21,5 +22,6 @@ export {
     Profile,
     Main,
     Ticket,
-    Task
+    Task,
+    Training
 }
