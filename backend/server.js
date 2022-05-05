@@ -24,7 +24,7 @@ app.use('/api/invites', require('./routes/inviteRoutes'));
 app.use('/api/globalMessages', require('./routes/globalMessageRoutes'));
 app.use('/api/tickets', require('./routes/ticketRoutes'));
 app.use('/api/tasks', require('./routes/taskRoutes'));
-app.use('/api/training', require('./routes/trainingRoutes'));
+app.use('/api/trainings', require('./routes/trainingRoutes'));
 
 // server connection
 app.listen(port, () => {

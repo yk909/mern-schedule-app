@@ -165,14 +165,14 @@ const userSideNavLinks = [
         icon: taskListIcon
     },
     {
-        link: '/user/training', 
-        label: 'Training',
-        icon: bookIcon
-    },
-    {
         link: '/user/profile', 
         label: 'Profile',
         icon: userIcon
+    },
+    {
+        link: '/user/training', 
+        label: 'Training',
+        icon: bookIcon
     },
 ];
 

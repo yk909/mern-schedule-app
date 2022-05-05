@@ -59,6 +59,9 @@ import CreateTaskList from "./task/CreateTaskList";
 import EditTaskList from "./task/EditTaskList";
 import AddTask from "./task/AddTask";
 
+import CreateTraining from "./training/CreateTraining";
+import TrainingCard from "./training/TrainingCard";
+
 
 export {
     Navbar,
@@ -121,4 +124,7 @@ export {
     CreateTaskList,
     EditTaskList,
     AddTask,
+
+    CreateTraining,
+    TrainingCard,
 }

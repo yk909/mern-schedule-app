@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 
 const trainingSchema = new mongoose.Schema({
-    name: {
+    title: {
         type: String,
         required: true
     },
@@ -24,6 +24,10 @@ const trainingSchema = new mongoose.Schema({
         title: {
             type: String,
             required: true
+        },
+        description: {
+            type: String,
+            required: false
         },
         items: [{
             title: {

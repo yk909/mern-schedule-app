@@ -14,10 +14,10 @@ const initialState = {
 // get trainings
 export const getTrainings = createAsyncThunk(
     'training/getTrainings',
-    async (_, thunkAPI) => {
+    async (query, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token;
-            return await trainingService.getTrainings(token);
+            return await trainingService.getTrainings(query, token);
         } catch (error) {
             const message =
                 (error.response &&
