@@ -26,7 +26,7 @@ const Training = () => {
 
     return (
         <section className="training-page">
-            {location === 'dashboard' && (
+            {location === 'dashboard' && company && (
                 <CreateTraining />
             )}
             {!isLoading ?

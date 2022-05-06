@@ -38,18 +38,14 @@ const trainingSchema = new mongoose.Schema({
                 type: String,
                 required: true
             },
-            images: [{
+            image: {
                 type: String,
                 required: false
-            }],
-            videos: [{
+            },
+            video: {
                 type: String,
                 required: false
-            }],
-            links: [{
-                type: String,
-                required: false
-            }],
+            },
         }]
     }],
 }, { timestamps: true });

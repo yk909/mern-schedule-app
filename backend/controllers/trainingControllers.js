@@ -34,8 +34,14 @@ const createTraining = async (req, res) => {
             return res.status(400).json({ msg: 'Company not found' });
         }
 
-        if(company.owners.includes(req.user._id)) {
-            const newTraining = new Training(req.body);
+        if(company.owners.includes(req.user._id.toString())) {
+            const newTraining = new Training({
+                title: req.body.title,
+                user: req.user._id,
+                company: req.body.company,
+                positions: req.body.positions,
+                sections: req.body.sections
+            });
 
             await newTraining.save();
 
