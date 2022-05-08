@@ -26,6 +26,15 @@ app.use('/api/tickets', require('./routes/ticketRoutes'));
 app.use('/api/tasks', require('./routes/taskRoutes'));
 app.use('/api/trainings', require('./routes/trainingRoutes'));
 
+// Serv frontend
+if(process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../frontend/build')))
+
+    app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../', 'frontend', 'build', 'index.html')))
+} else {
+    app.get('/', (req, res) => res.send('Please set to production'))
+}
+
 // server connection
 app.listen(port, () => {
     console.log(`Server is runnig on port ${port}`);
