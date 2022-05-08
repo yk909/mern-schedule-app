@@ -14,7 +14,7 @@
     background: var(--color-main);
     box-shadow: var(--box-shadow);
     border-radius: var(--border-radius);
-    padding: 0 15px;
+    padding: 0.5rem 1rem;
     border: 1px solid var(--color-secondary);
 }
 

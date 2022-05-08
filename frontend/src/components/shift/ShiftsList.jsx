@@ -8,9 +8,9 @@ const ShiftsList = ({i, employee, acceptedShifts}) => {
     const fromDate = new Date (useSelector(state => state.local.time.fromDate));
     const shiftsSelector = useSelector(state => state.shift.shifts).filter(shift => 
         ((employee && (
-            employee?._id === shift.employee || 
-            employee?._id === shift?.employee?._id ||
-            employee?.user === shift?.acceptedBy?._id
+            employee._id === shift.employee || 
+            employee._id === shift?.employee?._id ||
+            (employee.user && (employee.user === shift?.acceptedBy?._id))
             )) || // for employee from thee loop
         (!employee && shift.employee === null && !shift.acceptedBy)) // for open shift from the loop
     );

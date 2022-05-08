@@ -96,7 +96,7 @@ const Nav = () => {
         <div className="calender-header">
             <div className="flex align-between">
                 <div className="calender-header-left">
-                    <div className="date title-1 p-0">
+                    <div className="date title-2 p-0">
                         {dateControl === 'day' ?
                         
                             startDate?.toLocaleString("en-US", { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) 
